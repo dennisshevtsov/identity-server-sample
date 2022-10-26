@@ -4,7 +4,9 @@
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddIdentityServer();
+builder.Services.AddIdentityServer()
+                .AddInMemoryApiScopes(builder.Configuration.GetSection("Scopes"))
+                .AddInMemoryClients(builder.Configuration.GetSection("Clients"));
 
 var app = builder.Build();
 
