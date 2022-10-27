@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddAuthentication("Bearer")
-                .AddJwtBearer(options => options.Authority = "https://localhost:7214");
+                .AddJwtBearer(options => options.Authority = builder.Configuration.GetValue<string>("Authority"));
 
 var app = builder.Build();
 
