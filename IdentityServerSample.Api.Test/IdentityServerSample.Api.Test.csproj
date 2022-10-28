@@ -15,4 +15,12 @@
     <PackageReference Include="coverlet.collector" Version="3.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Integration\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IdentityServerSample.Api\IdentityServerSample.Api.csproj" />
+  </ItemGroup>
+
 </Project>
