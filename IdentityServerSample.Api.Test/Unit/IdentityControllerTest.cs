@@ -20,6 +20,7 @@ namespace IdentityServerSample.Api.Test.Unit
     private Mock<IIdentity> _identityMock;
     private Mock<ClaimsPrincipal> _userMock;
     private Mock<HttpContext> _httpContextMock;
+
     private IdentityController _controller;
 #pragma warning restore CS8618
 
@@ -43,17 +44,19 @@ namespace IdentityServerSample.Api.Test.Unit
         HttpContext = _httpContextMock.Object,
       };
 
-      _controller = new IdentityController();
-      _controller.ControllerContext = controllerContext;
+      _controller = new IdentityController
+      {
+        ControllerContext = controllerContext,
+      };
     }
 
     [TestMethod]
-    public void GetTest()
+    public void Get_Should_Return_Current_User()
     {
       var userName = Guid.NewGuid().ToString();
       _identityMock.SetupGet(identity => identity.Name)
-             .Returns(userName)
-             .Verifiable();
+                   .Returns(userName)
+                   .Verifiable();
 
       var claims = new[]
       {
@@ -72,6 +75,21 @@ namespace IdentityServerSample.Api.Test.Unit
       var actionResult = _controller.Get();
 
       Assert.IsNotNull(actionResult);
+
+      var objectResult = actionResult as OkObjectResult;
+
+      Assert.IsNotNull(objectResult);
+      Assert.IsNotNull(objectResult.Value);
+
+      var model = objectResult.Value as IdentityController.UserDto;
+
+      Assert.IsNotNull(model);
+      Assert.AreEqual(userName, model.Name);
+
+      Assert.IsNotNull(model.Claims);
+      Assert.AreEqual(2, model.Claims.Length);
+      Assert.AreEqual(claims[0], model.Claims[0]);
+      Assert.AreEqual(claims[1], model.Claims[1]);
     }
   }
 }

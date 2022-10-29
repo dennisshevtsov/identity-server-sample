@@ -12,11 +12,18 @@ namespace IdentityServerSample.Api.Controllers
     [HttpGet]
     public IActionResult Get()
     {
-      return Ok(new
+      return Ok(new UserDto
       {
-        name = User.Identity?.Name,
-        claims = User.Claims.Select(claim => claim.Value).ToArray(),
+        Name = User.Identity?.Name,
+        Claims = User.Claims.Select(claim => claim.Value).ToArray(),
       });
+    }
+
+    public sealed class UserDto
+    {
+      public string? Name { get; set; }
+
+      public string[]? Claims { get; set; }
     }
   }
 }
