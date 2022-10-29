@@ -90,6 +90,16 @@ namespace IdentityServerSample.Api.Test.Unit
       Assert.AreEqual(2, model.Claims.Length);
       Assert.AreEqual(claims[0], model.Claims[0]);
       Assert.AreEqual(claims[1], model.Claims[1]);
+
+      _identityMock.VerifyGet(identity => identity.Name);
+      _identityMock.VerifyNoOtherCalls();
+
+      _userMock.VerifyGet(user => user.Identity);
+      _userMock.VerifyGet(user => user.Claims);
+      _userMock.VerifyNoOtherCalls();
+
+      _httpContextMock.VerifyGet(context => context.User);
+      _httpContextMock.VerifyNoOtherCalls();
     }
   }
 }
