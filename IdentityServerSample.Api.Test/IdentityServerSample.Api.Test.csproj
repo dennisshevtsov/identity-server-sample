@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Integration\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\IdentityServerSample.Api\IdentityServerSample.Api.csproj" />
   </ItemGroup>
 
