@@ -11,6 +11,7 @@ namespace IdentityServerSample.Api.Test.Integration
   {
 #pragma warning disable CS8618
     private HttpClient _identityHttpClient;
+    private HttpClient _apiHttpClient;
 #pragma warning restore CS8618
 
     [TestInitialize]
@@ -25,9 +26,9 @@ namespace IdentityServerSample.Api.Test.Integration
     [TestMethod]
     public async Task Test()
     {
-      var discovery = await _identityHttpClient.GetDiscoveryDocumentAsync();
+      var discoveryResponse = await _identityHttpClient.GetDiscoveryDocumentAsync();
 
-      Assert.IsFalse(discovery.IsError);
+      Assert.IsFalse(discoveryResponse.IsError, discoveryResponse.Error);
     }
   }
 }
