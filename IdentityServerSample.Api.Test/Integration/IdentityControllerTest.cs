@@ -29,6 +29,17 @@ namespace IdentityServerSample.Api.Test.Integration
       var discoveryResponse = await _identityHttpClient.GetDiscoveryDocumentAsync();
 
       Assert.IsFalse(discoveryResponse.IsError, discoveryResponse.Error);
+
+      var tokenResponse = await _identityHttpClient.RequestClientCredentialsTokenAsync(
+        new ClientCredentialsTokenRequest
+        {
+          Address = discoveryResponse.TokenEndpoint,
+          ClientId = "testClient",
+          ClientSecret = "testSecret",
+          Scope = "testScope",
+        });
+
+      Assert.IsTrue(tokenResponse.IsError, tokenResponse.Error);
     }
   }
 }
