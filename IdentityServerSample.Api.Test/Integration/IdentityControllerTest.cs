@@ -24,7 +24,7 @@ namespace IdentityServerSample.Api.Test.Integration
 
       _apiHttpClient = new HttpClient
       {
-        BaseAddress = new Uri("http://localhost:5030/api"),
+        BaseAddress = new Uri("http://localhost:5030/api/"),
       };
     }
 
