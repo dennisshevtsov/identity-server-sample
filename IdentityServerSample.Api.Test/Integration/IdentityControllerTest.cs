@@ -21,6 +21,11 @@ namespace IdentityServerSample.Api.Test.Integration
       {
         BaseAddress = new Uri("http://localhost:5214"),
       };
+
+      _apiHttpClient = new HttpClient
+      {
+        BaseAddress = new Uri("http://localhost:5030/api"),
+      };
     }
 
     [TestMethod]
@@ -28,6 +33,7 @@ namespace IdentityServerSample.Api.Test.Integration
     {
       var discoveryResponse = await _identityHttpClient.GetDiscoveryDocumentAsync();
 
+      Assert.IsNotNull(discoveryResponse);
       Assert.IsFalse(discoveryResponse.IsError, discoveryResponse.Error);
 
       var tokenResponse = await _identityHttpClient.RequestClientCredentialsTokenAsync(
@@ -39,7 +45,14 @@ namespace IdentityServerSample.Api.Test.Integration
           Scope = "testScope",
         });
 
+      Assert.IsNotNull(tokenResponse);
       Assert.IsTrue(tokenResponse.IsError, tokenResponse.Error);
+
+      _apiHttpClient.SetBearerToken(tokenResponse.AccessToken);
+
+      var identityResponse = await _apiHttpClient.GetAsync("identity");
+
+      Assert.IsNotNull(identityResponse);
     }
   }
 }
