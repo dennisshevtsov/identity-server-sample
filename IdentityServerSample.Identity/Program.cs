@@ -24,7 +24,7 @@ builder.Services.AddIdentityServer()
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes =
                     {
-                      "identity-server-sample-api-client-scopes",
+                      "identity-server-sample-api-scope",
                     }
                   },
                 })

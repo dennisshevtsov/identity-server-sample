@@ -46,7 +46,7 @@ namespace IdentityServerSample.Api.Test.Integration
         });
 
       Assert.IsNotNull(tokenResponse);
-      Assert.IsTrue(tokenResponse.IsError, tokenResponse.Error);
+      Assert.IsFalse(tokenResponse.IsError, tokenResponse.Error);
 
       _apiHttpClient.SetBearerToken(tokenResponse.AccessToken);
 
