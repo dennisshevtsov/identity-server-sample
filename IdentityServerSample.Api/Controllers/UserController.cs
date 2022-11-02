@@ -6,10 +6,10 @@ namespace IdentityServerSample.Api.Controllers
 {
   using Microsoft.AspNetCore.Mvc;
 
-  [Route("api/identity")]
-  public sealed class IdentityController : ControllerBase
+  [Route("api/user")]
+  public sealed class UserController : ControllerBase
   {
-    [HttpGet]
+    [HttpGet("authenticated")]
     public IActionResult Get()
     {
       return Ok(new UserDto

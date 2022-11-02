@@ -7,7 +7,7 @@ namespace IdentityServerSample.Api.Test.Integration
   using IdentityModel.Client;
 
   [TestClass]
-  public sealed class IdentityControllerTest
+  public sealed class UserControllerTest
   {
 #pragma warning disable CS8618
     private HttpClient _identityHttpClient;
@@ -50,9 +50,9 @@ namespace IdentityServerSample.Api.Test.Integration
 
       _apiHttpClient.SetBearerToken(tokenResponse.AccessToken);
 
-      var identityResponse = await _apiHttpClient.GetAsync("identity");
+      var userResponse = await _apiHttpClient.GetAsync("user/current");
 
-      Assert.IsNotNull(identityResponse);
+      Assert.IsNotNull(userResponse);
     }
   }
 }

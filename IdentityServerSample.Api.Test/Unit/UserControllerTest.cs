@@ -14,14 +14,14 @@ namespace IdentityServerSample.Api.Test.Unit
   using Microsoft.AspNetCore.Mvc;
 
   [TestClass]
-  public sealed class IdentityControllerTest
+  public sealed class UserControllerTest
   {
 #pragma warning disable CS8618
     private Mock<IIdentity> _identityMock;
     private Mock<ClaimsPrincipal> _userMock;
     private Mock<HttpContext> _httpContextMock;
 
-    private IdentityController _controller;
+    private UserController _controller;
 #pragma warning restore CS8618
 
     [TestInitialize]
@@ -44,7 +44,7 @@ namespace IdentityServerSample.Api.Test.Unit
         HttpContext = _httpContextMock.Object,
       };
 
-      _controller = new IdentityController
+      _controller = new UserController
       {
         ControllerContext = controllerContext,
       };
@@ -81,7 +81,7 @@ namespace IdentityServerSample.Api.Test.Unit
       Assert.IsNotNull(objectResult);
       Assert.IsNotNull(objectResult.Value);
 
-      var model = objectResult.Value as IdentityController.UserDto;
+      var model = objectResult.Value as UserController.UserDto;
 
       Assert.IsNotNull(model);
       Assert.AreEqual(userName, model.Name);
