@@ -40,9 +40,9 @@ namespace IdentityServerSample.Api.Test.Integration
         new ClientCredentialsTokenRequest
         {
           Address = discoveryResponse.TokenEndpoint,
-          ClientId = "testClient",
-          ClientSecret = "testSecret",
-          Scope = "testScope",
+          ClientId = "identity-server-sample-api-client-id",
+          ClientSecret = "identity-server-sample-api-client-secret",
+          Scope = "identity-server-sample-api-scope",
         });
 
       Assert.IsNotNull(tokenResponse);
@@ -50,7 +50,7 @@ namespace IdentityServerSample.Api.Test.Integration
 
       _apiHttpClient.SetBearerToken(tokenResponse.AccessToken);
 
-      var userResponse = await _apiHttpClient.GetAsync("user/current");
+      var userResponse = await _apiHttpClient.GetAsync("user/authenticated");
 
       Assert.IsNotNull(userResponse);
     }

@@ -2,11 +2,32 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
+using IdentityServer4.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddIdentityServer()
-                .AddInMemoryApiScopes(builder.Configuration.GetSection("Scopes"))
-                .AddInMemoryClients(builder.Configuration.GetSection("Clients"))
+                .AddInMemoryApiScopes(new[]
+                {
+                  new ApiScope("identity-server-sample-api-scope", "Identity Sample API Scope"),
+                })
+                .AddInMemoryClients(new[]
+                {
+                  new Client
+                  {
+                    ClientId = "identity-server-sample-api-client-id",
+                    ClientName = "Identity Sample API Client ID",
+                    ClientSecrets =
+                    {
+                      new Secret("identity-server-sample-api-client-secret".Sha256()),
+                    },
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes =
+                    {
+                      "identity-server-sample-api-client-scopes",
+                    }
+                  },
+                })
                 .AddDeveloperSigningCredential();
 
 var app = builder.Build();
