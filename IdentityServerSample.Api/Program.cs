@@ -2,9 +2,19 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+                {
+                  var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
+                                                               .Build();
+                  var filter = new AuthorizeFilter(policy);
+
+                  options.Filters.Add(filter);
+                });
 builder.Services.AddAuthentication("Bearer")
                 .AddJwtBearer(options =>
                 {
@@ -14,6 +24,7 @@ builder.Services.AddAuthentication("Bearer")
 
 var app = builder.Build();
 
-app.UseAuthentication();
 app.MapControllers();
+app.UseAuthentication();
+app.UseAuthorization();
 app.Run();
