@@ -15,7 +15,12 @@ namespace IdentityServerSample.Api.Controllers
       return Ok(new UserDto
       {
         Name = User.Identity?.Name,
-        Claims = User.Claims.Select(claim => claim.Value).ToArray(),
+        Claims = User.Claims.Select(claim => new ClaimDto
+                            {
+                              Type = claim.Type,
+                              Value = claim.Value,
+                            })
+                            .ToArray(),
       });
     }
 
@@ -23,7 +28,14 @@ namespace IdentityServerSample.Api.Controllers
     {
       public string? Name { get; set; }
 
-      public string[]? Claims { get; set; }
+      public ClaimDto[]? Claims { get; set; }
+    }
+
+    public sealed class ClaimDto
+    {
+      public string? Type { get; set; }
+
+      public string? Value { get; set; }
     }
   }
 }
