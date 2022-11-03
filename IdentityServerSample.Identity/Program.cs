@@ -33,11 +33,11 @@ builder.Services.AddIdentityServer()
                   new ApiResource
                   {
                     Name = "identity-server-sample-api",
+                    DisplayName = "Identity Server Sample API",
                     Scopes =
                     {
                       "identity-server-sample-api-scope",
                     },
-                    
                   },
                 })
                 .AddDeveloperSigningCredential();
