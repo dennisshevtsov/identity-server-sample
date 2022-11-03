@@ -19,6 +19,8 @@ builder.Services.AddAuthentication("Bearer")
                 .AddJwtBearer(options =>
                 {
                   options.Authority = builder.Configuration.GetValue<string>("Authority");
+                  options.Audience = "identity-server-sample-api";
+                  //options.TokenValidationParameters.ValidateAudience = false;
                   options.RequireHttpsMetadata = false;
                 });
 

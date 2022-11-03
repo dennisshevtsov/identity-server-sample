@@ -25,7 +25,19 @@ builder.Services.AddIdentityServer()
                     AllowedScopes =
                     {
                       "identity-server-sample-api-scope",
-                    }
+                    },
+                  },
+                })
+                .AddInMemoryApiResources(new[]
+                {
+                  new ApiResource
+                  {
+                    Name = "identity-server-sample-api",
+                    Scopes =
+                    {
+                      "identity-server-sample-api-scope",
+                    },
+                    
                   },
                 })
                 .AddDeveloperSigningCredential();
