@@ -20,7 +20,6 @@ builder.Services.AddAuthentication("Bearer")
                 {
                   options.Authority = builder.Configuration.GetValue<string>("Authority");
                   options.Audience = "identity-server-sample-api";
-                  //options.TokenValidationParameters.ValidateAudience = false;
                   options.RequireHttpsMetadata = false;
                 });
 

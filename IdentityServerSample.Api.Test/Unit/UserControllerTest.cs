@@ -60,15 +60,15 @@ namespace IdentityServerSample.Api.Test.Unit
 
       var claims = new[]
       {
-        Guid.NewGuid().ToString(),
-        Guid.NewGuid().ToString(),
+        (Guid.NewGuid().ToString(), Guid.NewGuid().ToString()),
+        (Guid.NewGuid().ToString(), Guid.NewGuid().ToString()),
       };
 
       _userMock.SetupGet(user => user.Claims)
                .Returns(new[]
                {
-                 new Claim("test", claims[0]),
-                 new Claim("test", claims[1]),
+                 new Claim(claims[0].Item1, claims[0].Item2),
+                 new Claim(claims[1].Item1, claims[1].Item2),
                })
                .Verifiable();
 
@@ -88,8 +88,12 @@ namespace IdentityServerSample.Api.Test.Unit
 
       Assert.IsNotNull(model.Claims);
       Assert.AreEqual(2, model.Claims.Length);
-      Assert.AreEqual(claims[0], model.Claims[0]);
-      Assert.AreEqual(claims[1], model.Claims[1]);
+
+      Assert.AreEqual(claims[0].Item1, model.Claims[0].Type);
+      Assert.AreEqual(claims[0].Item1, model.Claims[0].Type);
+
+      Assert.AreEqual(claims[1].Item1, model.Claims[1].Type);
+      Assert.AreEqual(claims[1].Item1, model.Claims[1].Type);
 
       _identityMock.VerifyGet(identity => identity.Name);
       _identityMock.VerifyNoOtherCalls();
