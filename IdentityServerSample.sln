@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.Api", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.Identity", "IdentityServerSample.Identity\IdentityServerSample.Identity.csproj", "{C7B04470-98B4-4A37-879A-216F5EC3C9FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServerSample.Api.Test", "IdentityServerSample.Api.Test\IdentityServerSample.Api.Test.csproj", "{A7623FB5-4981-487B-97EB-8AE9073D350A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.Api.Test", "IdentityServerSample.Api.Test\IdentityServerSample.Api.Test.csproj", "{A7623FB5-4981-487B-97EB-8AE9073D350A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{58F51D66-1305-4436-8AD8-94904DBA6747}"
+	ProjectSection(SolutionItems) = preProject
+		appsettings.json = appsettings.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
