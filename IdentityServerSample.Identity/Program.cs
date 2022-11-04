@@ -9,22 +9,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddIdentityServer()
                 .AddInMemoryApiScopes(new[]
                 {
-                  new ApiScope("identity-server-sample-api-scope", "Identity Sample API Scope"),
+                  new ApiScope(
+                    builder.Configuration["ApiScope_Name"],
+                    builder.Configuration["ApiScope_DisplayName"]),
                 })
                 .AddInMemoryClients(new[]
                 {
                   new Client
                   {
-                    ClientId = "identity-server-sample-api-client-id",
-                    ClientName = "Identity Sample API Client ID",
+                    ClientId = builder.Configuration["Client_Id"],
+                    ClientName = builder.Configuration["Client_Name"],
                     ClientSecrets =
                     {
-                      new Secret("identity-server-sample-api-client-secret".Sha256()),
+                      new Secret(builder.Configuration["Client_Secret"].Sha256()),
                     },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowedScopes =
                     {
-                      "identity-server-sample-api-scope",
+                      builder.Configuration["ApiScope_Name"],
                     },
                   },
                 })
@@ -32,11 +34,11 @@ builder.Services.AddIdentityServer()
                 {
                   new ApiResource
                   {
-                    Name = "identity-server-sample-api",
-                    DisplayName = "Identity Server Sample API",
+                    Name = builder.Configuration["ApiResource_Name"],
+                    DisplayName = builder.Configuration["ApiResource_DisplayName"],
                     Scopes =
                     {
-                      "identity-server-sample-api-scope",
+                      builder.Configuration["ApiScope_Name"],
                     },
                   },
                 })

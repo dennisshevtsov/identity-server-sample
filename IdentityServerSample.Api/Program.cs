@@ -18,8 +18,8 @@ builder.Services.AddControllers(options =>
 builder.Services.AddAuthentication("Bearer")
                 .AddJwtBearer(options =>
                 {
-                  options.Authority = builder.Configuration.GetValue<string>("Authority");
-                  options.Audience = "identity-server-sample-api";
+                  options.Authority = builder.Configuration["IdentityApi_Url"];
+                  options.Audience = builder.Configuration["ApiResource_Name"];
                   options.RequireHttpsMetadata = false;
                 });
 
