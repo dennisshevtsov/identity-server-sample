@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IdentityServerSample.Api\IdentityServerSample.Api.csproj" />
+    <ProjectReference Include="..\IdentityServerSample.WebApi\IdentityServerSample.WebApi.csproj" />
   </ItemGroup>
 
 </Project>
