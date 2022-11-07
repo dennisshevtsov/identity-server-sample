@@ -3,8 +3,22 @@
 // See LICENSE in the project root for license information.
 
 using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.ConfigureAppConfiguration((context, builder) =>
+            {
+              var sourceStartIndex =
+                context.HostingEnvironment.ContentRootPath.Length -
+                context.HostingEnvironment.ApplicationName.Length -
+                "src\\".Length - 1;
+              var rootPath = context.HostingEnvironment.ContentRootPath.Remove(sourceStartIndex)
+                                                                         .ToString();
+              var contentRootPath = rootPath + "common\\appsettings.json";
+
+              builder.AddJsonFile(contentRootPath);
+            });
 
 builder.Services.AddIdentityServer()
                 .AddInMemoryApiScopes(new[]

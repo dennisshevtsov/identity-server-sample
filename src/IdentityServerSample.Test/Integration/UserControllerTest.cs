@@ -5,6 +5,7 @@
 namespace IdentityServerSample.Api.Test.Integration
 {
   using IdentityModel.Client;
+  using Newtonsoft.Json.Linq;
 
   [TestClass]
   public sealed class UserControllerTest
@@ -29,7 +30,29 @@ namespace IdentityServerSample.Api.Test.Integration
     }
 
     [TestMethod]
-    public async Task Test()
+    public async Task RequestClientCredentialsTokenAsync_Should_Return_Error()
+    {
+      var discoveryResponse = await _identityHttpClient.GetDiscoveryDocumentAsync();
+
+      Assert.IsNotNull(discoveryResponse);
+      Assert.IsFalse(discoveryResponse.IsError, discoveryResponse.Error);
+
+      var tokenResponse = await _identityHttpClient.RequestClientCredentialsTokenAsync(
+        new ClientCredentialsTokenRequest
+        {
+          Address = discoveryResponse.TokenEndpoint,
+          ClientId = Guid.NewGuid().ToString(),
+          ClientSecret = Guid.NewGuid().ToString(),
+          Scope = Guid.NewGuid().ToString(),
+        });
+
+      Assert.IsNotNull(tokenResponse);
+      Assert.IsTrue(tokenResponse.IsError);
+      Assert.AreEqual("invalid_client", tokenResponse.Json["error"]);
+    }
+
+    [TestMethod]
+    public async Task Get_User_Authenticated_Should_Return_User()
     {
       var discoveryResponse = await _identityHttpClient.GetDiscoveryDocumentAsync();
 

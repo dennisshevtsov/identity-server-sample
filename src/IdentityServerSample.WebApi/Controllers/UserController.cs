@@ -6,6 +6,8 @@ namespace IdentityServerSample.Api.Controllers
 {
   using Microsoft.AspNetCore.Mvc;
 
+  using IdentityServerSample.WebApi.Dtos;
+
   [Route("api/user")]
   public sealed class UserController : ControllerBase
   {
@@ -22,20 +24,6 @@ namespace IdentityServerSample.Api.Controllers
                             })
                             .ToArray(),
       });
-    }
-
-    public sealed class UserDto
-    {
-      public string? Name { get; set; }
-
-      public ClaimDto[]? Claims { get; set; }
-    }
-
-    public sealed class ClaimDto
-    {
-      public string? Type { get; set; }
-
-      public string? Value { get; set; }
     }
   }
 }

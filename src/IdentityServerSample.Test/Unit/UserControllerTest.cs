@@ -7,11 +7,12 @@ namespace IdentityServerSample.Api.Test.Unit
   using System.Security.Claims;
   using System.Security.Principal;
 
+  using Microsoft.AspNetCore.Http;
+  using Microsoft.AspNetCore.Mvc;
   using Moq;
 
   using IdentityServerSample.Api.Controllers;
-  using Microsoft.AspNetCore.Http;
-  using Microsoft.AspNetCore.Mvc;
+  using IdentityServerSample.WebApi.Dtos;
 
   [TestClass]
   public sealed class UserControllerTest
@@ -81,7 +82,7 @@ namespace IdentityServerSample.Api.Test.Unit
       Assert.IsNotNull(objectResult);
       Assert.IsNotNull(objectResult.Value);
 
-      var model = objectResult.Value as UserController.UserDto;
+      var model = objectResult.Value as UserDto;
 
       Assert.IsNotNull(model);
       Assert.AreEqual(userName, model.Name);
