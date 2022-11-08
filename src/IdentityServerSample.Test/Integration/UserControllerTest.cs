@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.Api.Test.Integration
+namespace IdentityServerSample.WebApi.Test.Integration
 {
   using IdentityModel.Client;
-  using Newtonsoft.Json.Linq;
 
   [TestClass]
   public sealed class UserControllerTest

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.Api.Controllers
+namespace IdentityServerSample.WebApi.Controllers
 {
   using Microsoft.AspNetCore.Mvc;
 

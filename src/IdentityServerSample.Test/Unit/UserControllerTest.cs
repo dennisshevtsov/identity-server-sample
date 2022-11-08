@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.Api.Test.Unit
+namespace IdentityServerSample.WebApi.Test.Unit
 {
   using System.Security.Claims;
   using System.Security.Principal;
@@ -11,7 +11,7 @@ namespace IdentityServerSample.Api.Test.Unit
   using Microsoft.AspNetCore.Mvc;
   using Moq;
 
-  using IdentityServerSample.Api.Controllers;
+  using IdentityServerSample.WebApi.Controllers;
   using IdentityServerSample.WebApi.Dtos;
 
   [TestClass]
