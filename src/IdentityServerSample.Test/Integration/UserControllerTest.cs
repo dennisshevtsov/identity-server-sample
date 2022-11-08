@@ -7,6 +7,7 @@ namespace IdentityServerSample.WebApi.Test.Integration
   using Microsoft.Extensions.Configuration;
 
   using IdentityModel.Client;
+  using System.Net;
 
   [TestClass]
   public sealed class UserControllerTest
@@ -58,6 +59,15 @@ namespace IdentityServerSample.WebApi.Test.Integration
     }
 
     [TestMethod]
+    public async Task Get_User_Authenticated_Should_Return_Unauthorized()
+    {
+      var userResponse = await _apiHttpClient.GetAsync("api/user/authenticated");
+
+      Assert.IsNotNull(userResponse);
+      Assert.AreEqual(HttpStatusCode.Unauthorized, userResponse.StatusCode);
+    }
+
+    [TestMethod]
     public async Task Get_User_Authenticated_Should_Return_User()
     {
       var discoveryResponse = await _identityHttpClient.GetDiscoveryDocumentAsync();
@@ -79,9 +89,10 @@ namespace IdentityServerSample.WebApi.Test.Integration
 
       _apiHttpClient.SetBearerToken(tokenResponse.AccessToken);
 
-      var userResponse = await _apiHttpClient.GetAsync("user/authenticated");
+      var userResponse = await _apiHttpClient.GetAsync("api/user/authenticated");
 
       Assert.IsNotNull(userResponse);
+      Assert.AreEqual(HttpStatusCode.OK, userResponse.StatusCode);
     }
   }
 }
