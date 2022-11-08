@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\..\common\appsettings.json" Link="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
   </ItemGroup>
 

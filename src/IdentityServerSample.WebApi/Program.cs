@@ -7,19 +7,6 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Host.ConfigureAppConfiguration((context, builder) =>
-            {
-              var sourceStartIndex =
-                context.HostingEnvironment.ContentRootPath.Length -
-                context.HostingEnvironment.ApplicationName.Length -
-                "src\\".Length - 1;
-              var rootPath = context.HostingEnvironment.ContentRootPath.Remove(sourceStartIndex)
-                                                                         .ToString();
-              var contentRootPath = rootPath + "common\\appsettings.json";
-
-              builder.AddJsonFile(contentRootPath);
-            });
-
 builder.Services.AddControllers(options =>
                 {
                   var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()

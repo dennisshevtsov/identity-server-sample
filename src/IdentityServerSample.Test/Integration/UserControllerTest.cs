@@ -4,12 +4,16 @@
 
 namespace IdentityServerSample.WebApi.Test.Integration
 {
+  using Microsoft.Extensions.Configuration;
+
   using IdentityModel.Client;
 
   [TestClass]
   public sealed class UserControllerTest
   {
 #pragma warning disable CS8618
+    private IConfiguration _configuration;
+
     private HttpClient _identityHttpClient;
     private HttpClient _apiHttpClient;
 #pragma warning restore CS8618
@@ -17,14 +21,17 @@ namespace IdentityServerSample.WebApi.Test.Integration
     [TestInitialize]
     public void Initialize()
     {
+      _configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json")
+                                                 .Build();
+
       _identityHttpClient = new HttpClient
       {
-        BaseAddress = new Uri("http://localhost:5214"),
+        BaseAddress = new Uri(_configuration["IdentityApi_Url"]!),
       };
 
       _apiHttpClient = new HttpClient
       {
-        BaseAddress = new Uri("http://localhost:5030/api/"),
+        BaseAddress = new Uri(_configuration["WebApi_Url"]!),
       };
     }
 
@@ -62,9 +69,9 @@ namespace IdentityServerSample.WebApi.Test.Integration
         new ClientCredentialsTokenRequest
         {
           Address = discoveryResponse.TokenEndpoint,
-          ClientId = "identity-server-sample-api-client-id",
-          ClientSecret = "identity-server-sample-api-client-secret",
-          Scope = "identity-server-sample-api-scope",
+          ClientId = _configuration["Client_Id"]!,
+          ClientSecret = _configuration["Client_Secret"]!,
+          Scope = _configuration["ApiScope_Name"]!,
         });
 
       Assert.IsNotNull(tokenResponse);

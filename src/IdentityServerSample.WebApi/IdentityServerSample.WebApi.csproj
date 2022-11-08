@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\..\common\appsettings.json" Link="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.10" />
   </ItemGroup>
