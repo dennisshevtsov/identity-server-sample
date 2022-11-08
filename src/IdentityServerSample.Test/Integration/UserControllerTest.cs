@@ -4,15 +4,21 @@
 
 namespace IdentityServerSample.WebApi.Test.Integration
 {
-  using Microsoft.Extensions.Configuration;
+  using System.Net;
+  using System.Net.Http.Json;
+  using System.Text.Json;
 
   using IdentityModel.Client;
-  using System.Net;
+  using Microsoft.Extensions.Configuration;
+
+  using IdentityServerSample.WebApi.Dtos;
 
   [TestClass]
   public sealed class UserControllerTest
   {
 #pragma warning disable CS8618
+    private CancellationToken _cancellationToken;
+
     private IConfiguration _configuration;
 
     private HttpClient _identityHttpClient;
@@ -22,6 +28,8 @@ namespace IdentityServerSample.WebApi.Test.Integration
     [TestInitialize]
     public void Initialize()
     {
+      _cancellationToken = CancellationToken.None;
+
       _configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json")
                                                  .Build();
 
@@ -93,6 +101,19 @@ namespace IdentityServerSample.WebApi.Test.Integration
 
       Assert.IsNotNull(userResponse);
       Assert.AreEqual(HttpStatusCode.OK, userResponse.StatusCode);
+
+      var userDto = await userResponse.Content.ReadFromJsonAsync<UserDto>(
+        new JsonSerializerOptions
+        {
+          PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        },
+        _cancellationToken);
+
+      Assert.IsNotNull(userDto);
+      Assert.IsNull(userDto.Name);
+
+      Assert.IsNotNull(userDto.Claims);
+      Assert.IsTrue(userDto.Claims.Length > 0);
     }
   }
 }
