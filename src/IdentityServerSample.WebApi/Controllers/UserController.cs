@@ -6,12 +6,19 @@ namespace IdentityServerSample.WebApi.Controllers
 {
   using Microsoft.AspNetCore.Mvc;
 
+  using IdentityServerSample.WebApi.Defaults;
   using IdentityServerSample.WebApi.Dtos;
 
-  [Route("api/user")]
+  /// <summary>Provides a simple API to handle HTTP requests.</summary>
+  [ApiController]
+  [Route(Routes.UserRoute)]
+  [Produces(ContentType.Json)]
   public sealed class UserController : ControllerBase
   {
-    [HttpGet("authenticated")]
+    /// <summary>Handles the get authenticated user request.</summary>
+    /// <returns>An object that defines a contract that represents the result of an action method.</returns>
+    [HttpGet(Routes.GetAuthenticatedUserRoute, Name = nameof(UserController.Get))]
+    [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     public IActionResult Get()
     {
       return Ok(new UserDto
