@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.WebApi.Test.Integration
+namespace IdentityServerSample.WebApi.Test.Functional
 {
   using System.Net;
   using System.Net.Http.Json;
@@ -15,7 +15,7 @@ namespace IdentityServerSample.WebApi.Test.Integration
   using IdentityServerSample.WebApi.Dtos;
 
   [TestClass]
-  public sealed class UserControllerTest
+  public sealed class WebApiTest
   {
 #pragma warning disable CS8618
     private CancellationToken _cancellationToken;
@@ -43,28 +43,6 @@ namespace IdentityServerSample.WebApi.Test.Integration
       {
         BaseAddress = new Uri(_configuration["WebApi_Url"]!),
       };
-    }
-
-    [TestMethod]
-    public async Task RequestClientCredentialsTokenAsync_Should_Return_Error()
-    {
-      var discoveryResponse = await _identityHttpClient.GetDiscoveryDocumentAsync();
-
-      Assert.IsNotNull(discoveryResponse);
-      Assert.IsFalse(discoveryResponse.IsError, discoveryResponse.Error);
-
-      var tokenResponse = await _identityHttpClient.RequestClientCredentialsTokenAsync(
-        new ClientCredentialsTokenRequest
-        {
-          Address = discoveryResponse.TokenEndpoint,
-          ClientId = Guid.NewGuid().ToString(),
-          ClientSecret = Guid.NewGuid().ToString(),
-          Scope = Guid.NewGuid().ToString(),
-        });
-
-      Assert.IsNotNull(tokenResponse);
-      Assert.IsTrue(tokenResponse.IsError);
-      Assert.AreEqual("invalid_client", tokenResponse.Json["error"]);
     }
 
     [TestMethod]
