@@ -51,5 +51,28 @@
       Assert.IsTrue(tokenResponse.IsError);
       Assert.AreEqual("invalid_client", tokenResponse.Json["error"]);
     }
+
+    [TestMethod]
+    public async Task RequestClientCredentialsTokenAsync_Should_Return_Token()
+    {
+      var discoveryResponse = await _identityHttpClient.GetDiscoveryDocumentAsync(
+        null, _cancellationToken);
+
+      Assert.IsNotNull(discoveryResponse);
+      Assert.IsFalse(discoveryResponse.IsError, discoveryResponse.Error);
+
+      var tokenResponse = await _identityHttpClient.RequestClientCredentialsTokenAsync(
+        new ClientCredentialsTokenRequest
+        {
+          Address = discoveryResponse.TokenEndpoint,
+          ClientId = _configuration["Client_Id"]!,
+          ClientSecret = _configuration["Client_Secret"]!,
+          Scope = _configuration["ApiScope_Name"]!,
+        });
+
+      Assert.IsNotNull(tokenResponse);
+      Assert.IsFalse(tokenResponse.IsError, tokenResponse.Error);
+      Assert.IsNotNull(tokenResponse.AccessToken);
+    }
   }
 }
