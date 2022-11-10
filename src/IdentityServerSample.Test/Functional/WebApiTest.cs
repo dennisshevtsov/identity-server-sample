@@ -66,8 +66,8 @@ namespace IdentityServerSample.WebApi.Test.Functional
         new ClientCredentialsTokenRequest
         {
           Address = discoveryResponse.TokenEndpoint,
-          ClientId = _configuration["Client_Id"]!,
-          ClientSecret = _configuration["Client_Secret"]!,
+          ClientId = _configuration["Client_Id_0"]!,
+          ClientSecret = _configuration["Client_Secret_0"]!,
           Scope = _configuration["ApiScope_Name"]!,
         });
 
