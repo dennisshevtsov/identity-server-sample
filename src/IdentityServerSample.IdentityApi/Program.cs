@@ -17,13 +17,27 @@ builder.Services.AddIdentityServer()
                 {
                   new Client
                   {
-                    ClientId = builder.Configuration["Client_Id"],
-                    ClientName = builder.Configuration["Client_Name"],
+                    ClientId = builder.Configuration["Client_Id_0"],
+                    ClientName = builder.Configuration["Client_Name_0"],
                     ClientSecrets =
                     {
-                      new Secret(builder.Configuration["Client_Secret"].Sha256()),
+                      new Secret(builder.Configuration["Client_Secret_0"].Sha256()),
                     },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    AllowedScopes =
+                    {
+                      builder.Configuration["ApiScope_Name"],
+                    },
+                  },
+                  new Client
+                  {
+                    ClientId = builder.Configuration["Client_Id_1"],
+                    ClientName = builder.Configuration["Client_Name_1"],
+                    ClientSecrets =
+                    {
+                      new Secret(builder.Configuration["Client_Secret_1"].Sha256()),
+                    },
+                    AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes =
                     {
                       builder.Configuration["ApiScope_Name"],
