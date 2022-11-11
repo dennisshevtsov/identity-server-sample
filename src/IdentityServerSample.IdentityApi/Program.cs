@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
+using System.Security.Claims;
+
 using IdentityServer4.Models;
+using IdentityServer4.Test;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +56,19 @@ builder.Services.AddIdentityServer()
                     Scopes =
                     {
                       builder.Configuration["ApiScope_Name"],
+                    },
+                  },
+                })
+                .AddTestUsers(new List<TestUser>
+                {
+                  new TestUser
+                  {
+                    SubjectId = "test",
+                    Username = "test",
+                    Password = "test",
+                    IsActive = true,
+                    Claims = {
+                      new Claim("scope", builder.Configuration["ApiScope_Name"]),
                     },
                   },
                 })
