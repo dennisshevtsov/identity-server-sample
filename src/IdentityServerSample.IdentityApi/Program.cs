@@ -68,7 +68,7 @@ builder.Services.AddIdentityServer()
                     Password = "test",
                     IsActive = true,
                     Claims = {
-                      new Claim("scope", builder.Configuration["ApiScope_Name"]),
+                      new Claim("scope", builder.Configuration["ApiScope_Name"]!),
                     },
                   },
                 })
