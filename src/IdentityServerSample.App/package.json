@@ -21,6 +21,7 @@
     "@angular/router": "^14.2.10",
     "bootstrap": "^5.2.2",
     "jest-editor-support": "*",
+    "oidc-client-ts": "^2.1.0",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
