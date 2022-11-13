@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component,              } from '@angular/core';
+import { FormBuilder, FormGroup, } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,18 @@ import { Component } from '@angular/core';
   ],
 })
 export class AppComponent {
+  private formValue: undefined | FormGroup;
+
+  public constructor(private readonly fb: FormBuilder) { }
+
+  public get form(): FormGroup {
+    return this.formValue ?? this.buildForm();
+  }
+
+  private buildForm(): FormGroup {
+    return this.fb.group({
+      'email': '',
+      'password': '',
+    });
+  }
 }
