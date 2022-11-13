@@ -1,13 +1,14 @@
 <div class="w-100 mx-auto" style="max-width: 300px">
   <form class="form"
-        [formGroup]="form">
+        [formGroup]="form"
+        (ngSubmit)="onSignIn()">
     <h1 class="mt-3 mb-3 text-center"><span>Please sign in</span></h1>
     <div class="form-floating mb-3">
       <input id="txtEmail"
              class="form-control"
              type="email"
              placeholder=""
-             formControlName="title" />
+             formControlName="email" />
       <label for="txtEmail">Email</label>
     </div>
     <div class="form-floating mb-3">

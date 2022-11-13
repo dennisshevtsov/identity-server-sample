@@ -14,7 +14,11 @@ export class AppComponent {
   public constructor(private readonly fb: FormBuilder) { }
 
   public get form(): FormGroup {
-    return this.formValue ?? this.buildForm();
+    return this.formValue ?? (this.formValue = this.buildForm());
+  }
+
+  public onSignIn(): void {
+    console.log(JSON.stringify(this.form.value));
   }
 
   private buildForm(): FormGroup {
