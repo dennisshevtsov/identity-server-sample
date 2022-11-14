@@ -45,6 +45,10 @@ builder.Services.AddIdentityServer()
                     {
                       builder.Configuration["ApiScope_Name"],
                     },
+                    AllowedCorsOrigins =
+                    {
+                      "http://localhost:4200/",
+                    },
                   },
                 })
                 .AddInMemoryApiResources(new[]
