@@ -80,5 +80,6 @@ builder.Services.AddIdentityServer()
 
 var app = builder.Build();
 
+app.MapControllers();
 app.UseIdentityServer();
 app.Run();
