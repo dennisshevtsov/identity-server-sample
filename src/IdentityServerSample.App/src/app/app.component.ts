@@ -1,5 +1,4 @@
 import { Component,              } from '@angular/core';
-import { FormBuilder, FormGroup, } from '@angular/forms';
 import { UserManager,            } from 'oidc-client-ts';
 
 @Component({
@@ -12,34 +11,20 @@ import { UserManager,            } from 'oidc-client-ts';
     {
       provide: UserManager,
       useFactory: () => new UserManager({
-        authority: '',
-        client_id: '',
-        redirect_uri: '',
+        authority: 'http://localhost:5214',
+        client_id: 'identity-server-sample-api-client-id-1',
+        redirect_uri: 'http://localhost:4200/',
         response_type: 'code',
-        scope: '',
+        scope: 'identity-server-sample-api-scope',
       }),
     }
   ]
 })
 export class AppComponent {
-  private formValue: undefined | FormGroup;
-
   public constructor(
-    private readonly fb: FormBuilder,
     private readonly um: UserManager) { }
 
-  public get form(): FormGroup {
-    return this.formValue ?? (this.formValue = this.buildForm());
-  }
-
-  public onSignIn(): void {
+  public signIn(): void {
     this.um.signinRedirect();
-  }
-
-  private buildForm(): FormGroup {
-    return this.fb.group({
-      'email': '',
-      'password': '',
-    });
   }
 }

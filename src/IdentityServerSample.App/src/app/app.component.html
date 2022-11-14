@@ -1,26 +1,10 @@
-<div class="w-100 mx-auto" style="max-width: 300px">
-  <form class="form"
-        [formGroup]="form"
-        (ngSubmit)="onSignIn()">
-    <h1 class="mt-3 mb-3 text-center"><span>Please sign in</span></h1>
-    <div class="form-floating mb-3">
-      <input id="txtEmail"
-             class="form-control"
-             type="email"
-             placeholder=""
-             formControlName="email" />
-      <label for="txtEmail">Email</label>
-    </div>
-    <div class="form-floating mb-3">
-      <input id="txtPassword"
-             class="form-control"
-             type="password"
-             placeholder=""
-             formControlName="password" />
-      <label for="txtPassword">Password</label>
-    </div>
-    <button class="btn btn-lg btn-primary w-100" type="submit">
+<div class="container">
+  <div class="d-flex justify-content-center">
+    <button class="btn btn-primary mt-3"
+            style="width: 200px"
+            type="button"
+            (click)="signIn()">
       <span>Sing in</span>
     </button>
-  </form>
+  </div>
 </div>
