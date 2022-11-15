@@ -9,6 +9,7 @@ using IdentityServer4.Test;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers();
 builder.Services.AddIdentityServer()
                 .AddInMemoryApiScopes(new[]
                 {
@@ -80,6 +81,6 @@ builder.Services.AddIdentityServer()
 
 var app = builder.Build();
 
-app.MapControllers();
+app.MapDefaultControllerRoute();
 app.UseIdentityServer();
 app.Run();

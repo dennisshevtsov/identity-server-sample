@@ -19,9 +19,10 @@ namespace IdentityServerSample.IdentityApi.Controllers
         throw new ArgumentNullException(nameof(identityServerInteractionService));
     }
 
-    public async Task<IActionResult> Error(string errosId)
+    [HttpGet]
+    public async Task<IActionResult> Error(string errorId)
     {
-      return Ok(await _identityServerInteractionService.GetErrorContextAsync(errosId));
+      return Ok(await _identityServerInteractionService.GetErrorContextAsync(errorId));
     }
   }
 }
