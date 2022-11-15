@@ -13,7 +13,7 @@ import { UserManager,            } from 'oidc-client-ts';
       useFactory: () => new UserManager({
         authority: 'http://localhost:5214',
         client_id: 'identity-server-sample-api-client-id-1',
-        redirect_uri: 'http://localhost:4200/',
+        redirect_uri: 'http://localhost:4200',
         response_type: 'code',
         scope: 'identity-server-sample-api-scope',
       }),

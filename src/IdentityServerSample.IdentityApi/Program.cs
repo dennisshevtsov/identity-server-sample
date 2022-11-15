@@ -37,10 +37,11 @@ builder.Services.AddIdentityServer()
                   {
                     ClientId = builder.Configuration["Client_Id_1"],
                     ClientName = builder.Configuration["Client_Name_1"],
-                    ClientSecrets =
-                    {
-                      new Secret(builder.Configuration["Client_Secret_1"].Sha256()),
-                    },
+                    //ClientSecrets =
+                    //{
+                    //  new Secret(builder.Configuration["Client_Secret_1"].Sha256()),
+                    //},
+                    RequireClientSecret = false,
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes =
                     {
@@ -48,8 +49,12 @@ builder.Services.AddIdentityServer()
                     },
                     AllowedCorsOrigins =
                     {
-                      "http://localhost:4200/",
+                      "http://localhost:4200",
                     },
+                    RedirectUris =
+                    {
+                      "http://localhost:4200",
+                    }
                   },
                 })
                 .AddInMemoryApiResources(new[]
