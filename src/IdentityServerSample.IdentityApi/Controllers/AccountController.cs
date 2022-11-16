@@ -4,15 +4,21 @@
 
 namespace IdentityServerSample.WebApi.Controllers
 {
+  using IdentityServer4;
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc;
 
-  [AllowAnonymous]
+  //[AllowAnonymous]
   public sealed class AccountController : ControllerBase
   {
     [HttpGet]
-    public IActionResult Login(string returnUrl)
+    public async Task<IActionResult> Login(string returnUrl)
     {
+      await HttpContext.SignInAsync(new IdentityServerUser("test")
+      {
+        DisplayName = "test",
+      });
+
       return Redirect(returnUrl);
     }
   }
