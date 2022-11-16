@@ -5,10 +5,8 @@
 namespace IdentityServerSample.WebApi.Controllers
 {
   using IdentityServer4;
-  using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc;
 
-  //[AllowAnonymous]
   public sealed class AccountController : ControllerBase
   {
     [HttpGet]
