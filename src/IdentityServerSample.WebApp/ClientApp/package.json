@@ -23,6 +23,7 @@
     "bootstrap": "^5.2.0",
     "jquery": "^3.6.0",
     "oidc-client": "^1.11.5",
+    "oidc-client-ts": "^2.1.0",
     "popper.js": "^1.16.0",
     "run-script-os": "^1.1.6",
     "rxjs": "~7.5.6",
