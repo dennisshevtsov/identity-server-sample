@@ -45,11 +45,11 @@ builder.Services.AddIdentityServer()
                     },
                     AllowedCorsOrigins =
                     {
-                      "http://localhost:4200",
+                      "http://localhost:44480",
                     },
                     RedirectUris =
                     {
-                      "http://localhost:4200",
+                      "http://localhost:44480",
                     }
                   },
                 })
