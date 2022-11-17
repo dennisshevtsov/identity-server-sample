@@ -1,6 +1,6 @@
 import { Component, } from '@angular/core';
 
-import { UserManager, } from 'oidc-client-ts';
+import { UserManager, } from 'oidc-client';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +18,8 @@ import { UserManager, } from 'oidc-client-ts';
         response_type: 'code',
         scope: 'identity-server-sample-api-scope',
       }),
-    }
-  ]
+    },
+  ],
 })
 export class AppComponent {
   public constructor(
