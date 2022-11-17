@@ -37,10 +37,6 @@ builder.Services.AddIdentityServer()
                   {
                     ClientId = builder.Configuration["Client_Id_1"],
                     ClientName = builder.Configuration["Client_Name_1"],
-                    //ClientSecrets =
-                    //{
-                    //  new Secret(builder.Configuration["Client_Secret_1"].Sha256()),
-                    //},
                     RequireClientSecret = false,
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes =
@@ -86,6 +82,12 @@ builder.Services.AddIdentityServer()
 
 var app = builder.Build();
 
-app.MapDefaultControllerRoute();
+
+app.UseStaticFiles();
+app.UseRouting();
 app.UseIdentityServer();
+
+app.MapDefaultControllerRoute();
+app.MapFallbackToFile("index.html");
+
 app.Run();

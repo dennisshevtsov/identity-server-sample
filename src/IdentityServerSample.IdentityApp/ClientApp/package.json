@@ -1,11 +1,11 @@
 {
-  "name": "identityserversample.webapp",
+  "name": "identityserversample.identityapp",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 44480",
+    "start": "ng serve --port 44475",
     "build": "ng build",
-    "build:ssr": "ng run IdentityServerSampleWebApp:server:dev",
+    "build:ssr": "ng run IdentityServerSampleIdentityApp:server:dev",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -46,6 +46,5 @@
   },
   "overrides": {
     "autoprefixer": "10.4.5"
-  },
-  "optionalDependencies": {}
+  }
 }
