@@ -30,8 +30,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\IdentityServerSample.WebApi\IdentityServerSample.WebApi.csproj" />
-  </ItemGroup>
-
 </Project>
