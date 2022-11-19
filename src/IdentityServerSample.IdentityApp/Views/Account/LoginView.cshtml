@@ -1,0 +1,22 @@
+﻿@using IdentityServerSample.IdentityApp.ViewModels;
+@model LoginViewModel
+
+<form>
+  <h1><span>Please sign in</span></h1>
+  <div class="form-floating">
+    <input id="txtEmail" name="@(nameof(LoginViewModel.Email))" class="form-control" type="email" placeholder="" />
+    <label for="txtEmail">Email</label>
+  </div>
+  <div class="form-floating">
+    <input id="txtPassword" name="@(nameof(LoginViewModel.Password))" class="form-control" type="password" placeholder="" />
+    <label for="txtPassword">Password</label>
+  </div>
+  <div class="form-check-input">
+    <label>
+      <input name="@(nameof(LoginViewModel.RememberMe))" type="checkbox" /> Remember me
+    </label>
+  </div>
+  <button class="btn btn-primary" type="submit">
+    <span>Sign In</span>
+  </button>
+</form>

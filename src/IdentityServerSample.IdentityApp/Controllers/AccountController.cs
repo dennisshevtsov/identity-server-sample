@@ -5,19 +5,26 @@
 namespace IdentityServerSample.IdentityApp.Controllers
 {
   using IdentityServer4;
+  using IdentityServerSample.IdentityApp.ViewModels;
   using Microsoft.AspNetCore.Mvc;
 
-  public sealed class AccountController : ControllerBase
+  public sealed class AccountController : Controller
   {
     [HttpGet]
-    public async Task<IActionResult> Login(string returnUrl)
+    public IActionResult Login()
+    {
+      return View("LoginView", new LoginViewModel());
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginViewModel vm)
     {
       await HttpContext.SignInAsync(new IdentityServerUser("test")
       {
         DisplayName = "test",
       });
 
-      return Redirect(returnUrl);
+      return Redirect(vm.ReturnUrl!);
     }
   }
 }
