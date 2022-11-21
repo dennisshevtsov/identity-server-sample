@@ -9,9 +9,10 @@ using IdentityServer4.Test;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddMvc();
-builder.Services.AddRazorPages();
-//builder.Services.AddControllers();
+builder.Services.AddRazorPages(options =>
+                {
+                  options.Conventions.AddPageRoute("SignInPage", 'sign-in');
+                });
 builder.Services.AddIdentityServer()
                 .AddInMemoryApiScopes(new[]
                 {
@@ -89,7 +90,6 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseIdentityServer();
 
-//app.MapDefaultControllerRoute();
 app.MapRazorPages();
 app.MapFallbackToFile("index.html");
 
