@@ -11,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages(options =>
                 {
-                  options.Conventions.AddPageRoute("SignInPage", 'sign-in');
+                  options.Conventions.AddPageRoute("/SignInPage", "sign-in");
+                  options.Conventions.AddPageRoute("/ErrorPage", "error");
                 });
 builder.Services.AddIdentityServer()
                 .AddInMemoryApiScopes(new[]
