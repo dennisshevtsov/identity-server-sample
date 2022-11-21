@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.Test",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.WebApp", "src\IdentityServerSample.WebApp\IdentityServerSample.WebApp.csproj", "{905A8F00-0817-4E86-9059-A444C52D0A47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServerSample.IdentityApp", "src\IdentityServerSample.IdentityApp\IdentityServerSample.IdentityApp.csproj", "{108B9ABB-E20F-496A-8C85-FB2AF48E2BF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.IdentityApp", "src\IdentityServerSample.IdentityApp\IdentityServerSample.IdentityApp.csproj", "{108B9ABB-E20F-496A-8C85-FB2AF48E2BF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
