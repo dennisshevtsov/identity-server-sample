@@ -12,9 +12,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages(options =>
                 {
                   options.Conventions.AddPageRoute("/SignInPage", "account/sign-in");
+                  options.Conventions.AddPageRoute("/SignInPage", "account/sign-out");
                   options.Conventions.AddPageRoute("/ErrorPage", "error");
                 });
-builder.Services.AddIdentityServer()
+builder.Services.AddIdentityServer(options =>
+                {
+                  options.UserInteraction.ErrorUrl = "/error";
+                  options.UserInteraction.ErrorIdParameter = "errorId";
+
+                  options.UserInteraction.LoginUrl = "/account/sign-in";
+                  options.UserInteraction.LoginReturnUrlParameter = "returnUrl";
+
+                  options.UserInteraction.LogoutUrl = "/account/sign-out";
+                })
                 .AddInMemoryApiScopes(new[]
                 {
                   new ApiScope(
@@ -85,7 +95,6 @@ builder.Services.AddIdentityServer()
                 .AddDeveloperSigningCredential();
 
 var app = builder.Build();
-
 
 app.UseStaticFiles();
 app.UseRouting();
