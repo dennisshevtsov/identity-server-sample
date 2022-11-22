@@ -8,6 +8,7 @@ namespace IdentityServerSample.IdentityApp.Pages
   using Microsoft.AspNetCore.Mvc;
   using Microsoft.AspNetCore.Mvc.RazorPages;
 
+  [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
   public class ErrorPageModel : PageModel
   {
     private readonly IIdentityServerInteractionService _identityServerInteractionService;
