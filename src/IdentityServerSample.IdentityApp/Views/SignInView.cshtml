@@ -1,19 +1,18 @@
-﻿@page
-@model IdentityServerSample.IdentityApp.Pages.SignInPageModel
+﻿@model IdentityServerSample.IdentityApp.ViewModels.SignInViewModel
 
 <form>
   <h1><span>Please sign in</span></h1>
   <div class="form-floating">
-    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class="form-control", type="email", placeholder="", })
+        @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class="form-control", type="email", placeholder="", })
     <label for="txtEmail">Email</label>
   </div>
   <div class="form-floating">
-    @Html.PasswordFor(model => model.Password, new { id = "txtPassword", @class="form-control", placeholder="", })
+        @Html.PasswordFor(model => model.Password, new { id = "txtPassword", @class="form-control", placeholder="", })
     <label for="txtPassword">Password</label>
   </div>
   <div class="form-check-input">
     <label>
-      @Html.CheckBoxFor(model => model.RememberMe) Remember me
+            @Html.CheckBoxFor(model => model.RememberMe) Remember me
     </label>
   </div>
   <button class="btn btn-primary" type="submit">

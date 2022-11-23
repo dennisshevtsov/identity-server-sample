@@ -9,12 +9,7 @@ using IdentityServer4.Test;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddRazorPages(options =>
-                {
-                  options.Conventions.AddPageRoute("/SignInPage", "account/sign-in");
-                  options.Conventions.AddPageRoute("/SignInPage", "account/sign-out");
-                  options.Conventions.AddPageRoute("/ErrorPage", "error");
-                });
+builder.Services.AddControllers();
 builder.Services.AddIdentityServer(options =>
                 {
                   options.UserInteraction.ErrorUrl = "/error";
@@ -96,11 +91,7 @@ builder.Services.AddIdentityServer(options =>
 
 var app = builder.Build();
 
-app.UseStaticFiles();
 app.UseRouting();
 app.UseIdentityServer();
-
-app.MapRazorPages();
-app.MapFallbackToFile("index.html");
 
 app.Run();

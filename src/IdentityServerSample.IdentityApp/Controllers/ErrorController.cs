@@ -1,39 +1,38 @@
-// Copyright (c) Dennis Shevtsov. All rights reserved.
+﻿// Copyright (c) Dennis Shevtsov. All rights reserved.
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Pages
+namespace IdentityServerSample.IdentityApp.Controllers
 {
   using IdentityServer4.Services;
   using Microsoft.AspNetCore.Mvc;
-  using Microsoft.AspNetCore.Mvc.RazorPages;
 
-  [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-  public class ErrorPageModel : PageModel
+  using IdentityServerSample.IdentityApp.ViewModels;
+  
+  [Route("error")]
+  public sealed class ErrorController : Controller
   {
     private readonly IIdentityServerInteractionService _identityServerInteractionService;
 
-    public ErrorPageModel(
+    public ErrorController(
       IIdentityServerInteractionService identityServerInteractionService)
     {
       _identityServerInteractionService = identityServerInteractionService ??
         throw new ArgumentNullException(nameof(identityServerInteractionService));
     }
 
-    [BindProperty(SupportsGet = true)]
-    public string? ErrorId { get; set; }
-
-    public string? Message { get; private set; }
-
-    public async Task OnGet()
+    [HttpGet]
+    public async Task<IActionResult> Get(ErrorViewModel vm)
     {
       var errorMessage =
-        await _identityServerInteractionService.GetErrorContextAsync(ErrorId!);
+        await _identityServerInteractionService.GetErrorContextAsync(vm.ErrorId!);
 
       if (errorMessage != null)
       {
-        Message = errorMessage.ErrorDescription;
+        vm.Message = errorMessage.ErrorDescription;
       }
+
+      return View("ErrorView", vm);
     }
   }
 }
