@@ -23,7 +23,7 @@ namespace IdentityServerSample.IdentityApp.Pages
     [BindProperty(SupportsGet = false)]
     public bool RememberMe { get; set; }
 
-    public async Task<IActionResult> OnGet()
+    public async Task<IActionResult> OnPost()
     {
       await HttpContext.SignInAsync(new IdentityServerUser("test")
       {
