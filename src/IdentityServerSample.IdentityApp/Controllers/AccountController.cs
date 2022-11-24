@@ -16,7 +16,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
     [HttpGet("sign-in")]
     public IActionResult SignIn()
     {
-      return View("SignInView");
+      return View("SignInView", new SignInViewModel());
     }
 
     [HttpPost("sign-in")]

@@ -6,10 +6,16 @@ using System.Security.Claims;
 
 using IdentityServer4.Models;
 using IdentityServer4.Test;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
+builder.Services.Configure<RazorViewEngineOptions>(options =>
+                {
+                  options.ViewLocationFormats.Clear();
+                  options.ViewLocationFormats.Add("/Views/{0}" + RazorViewEngine.ViewExtension);
+                });
 builder.Services.AddIdentityServer(options =>
                 {
                   options.UserInteraction.ErrorUrl = "/error";
@@ -93,5 +99,6 @@ var app = builder.Build();
 
 app.UseRouting();
 app.UseIdentityServer();
+app.MapControllers();
 
 app.Run();
