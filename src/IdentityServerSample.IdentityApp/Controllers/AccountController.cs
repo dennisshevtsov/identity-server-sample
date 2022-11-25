@@ -22,6 +22,11 @@ namespace IdentityServerSample.IdentityApp.Controllers
     [HttpPost("sign-in")]
     public async Task<IActionResult> SignIn(SignInViewModel vm)
     {
+      if (!ModelState.IsValid)
+      {
+        return View("SignInView", vm);
+      }
+
       await HttpContext.SignInAsync(new IdentityServerUser("test")
       {
         DisplayName = "test",
