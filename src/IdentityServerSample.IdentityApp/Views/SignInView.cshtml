@@ -3,17 +3,19 @@
 <form method="post" class="form-sign-in m-auto text-center">
   <h1 class="mb-3"><span>Please sign in</span></h1>
   <div class="form-floating mb-3">
-    @Html.TextBoxFor(model => model.Email, new { id = "txtEmail", @class = "form-control", type = "email", placeholder = "", })
-    <label for="txtEmail">Email</label>
+    <label asp-for="Email">Email</label>
+    <input asp-for="Email" type="email" class="form-control" placeholder="" />
+    <span asp-validation-for="Email" class="invalid-feedback"></span>
   </div>
   <div class="form-floating mb-3">
-    @Html.PasswordFor(model => model.Password, new { id = "txtPassword", @class = "form-control", placeholder = "", })
-    <label for="txtPassword">Password</label>
+    <label asp-for="Password">Password</label>
+    <input asp-for="Password" type="password" class="form-control" placeholder="" />
+    <span asp-validation-for="Password" class="invalid-feedback"></span>
   </div>
   <div class="form-check mb-3">
     <label>
-      @Html.CheckBoxFor(model => model.RememberMe, new { id = "chbRememberMe", @class = "from-check-input"})
-      <label class="form-check-label" for="chbRememberMe">Remember me</label>
+      <input asp-for="RememberMe" type="checkbox" class="from-check-input" />
+      <label asp-for="RememberMe" class="form-check-label">Remember me</label>
     </label>
   </div>
   <button class="btn btn-lg btn-primary w-100" type="submit">

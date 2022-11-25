@@ -8,7 +8,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
   using Microsoft.AspNetCore.Mvc;
 
   using IdentityServerSample.IdentityApp.ViewModels;
-  
+
   [Route("error")]
   public sealed class ErrorController : Controller
   {

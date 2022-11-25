@@ -1,3 +1,7 @@
 ﻿.form-sign-in {
   width: 300px;
 }
+
+.input-validation-error + .field-validation-error {
+  display: block !important;
+}

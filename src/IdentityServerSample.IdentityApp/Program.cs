@@ -10,7 +10,11 @@ using Microsoft.AspNetCore.Mvc.Razor;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+                .AddViewOptions(options =>
+                {
+                  options.HtmlHelperOptions.ClientValidationEnabled = false;
+                });
 builder.Services.Configure<RazorViewEngineOptions>(options =>
                 {
                   options.ViewLocationFormats.Clear();
