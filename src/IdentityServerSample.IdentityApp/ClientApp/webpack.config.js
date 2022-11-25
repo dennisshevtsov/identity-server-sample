@@ -1,10 +1,27 @@
 ﻿const path = require('path');
 
 module.exports = {
-  entry: './src/site.js',
+  entry: './src/js/site.js',
   output: {
+    clean: true,
+    filename: '[name].entry.js',
     path: path.resolve(__dirname, '../', 'wwwroot', 'dist'),
-    filename: '[name].js',
   },
-  mode: 'development'
+  mode: 'development',
+  devtool: 'source-map',
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.(eot|woff(2)?|tff|otf|svg)$/i,
+        type: 'asset'
+      },
+    ],
+  },
 };
