@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <ClientAppDiractory>ClientApp\</ClientAppDiractory>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,5 +14,10 @@
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec WorkingDirectory="$(ClientAppDiractory)" Command="npm install" />
+    <Exec WorkingDirectory="$(ClientAppDiractory)" Command="npm run build" />
+  </Target>
 
 </Project>

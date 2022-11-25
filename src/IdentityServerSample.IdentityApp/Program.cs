@@ -97,6 +97,7 @@ builder.Services.AddIdentityServer(options =>
 
 var app = builder.Build();
 
+app.UseStaticFiles();
 app.UseRouting();
 app.UseIdentityServer();
 app.MapControllers();
