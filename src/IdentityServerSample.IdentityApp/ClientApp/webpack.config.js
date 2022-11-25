@@ -1,9 +1,9 @@
 ﻿const path = require('path');
 
 module.exports = {
-  entry: './wwwroot/src/main.js',
+  entry: './src/site.js',
   output: {
-    path: path.resolve(__dirname, 'wwwroot', 'dist'),
+    path: path.resolve(__dirname, '../', 'wwwroot', 'dist'),
     filename: '[name].js',
   },
   mode: 'development'
