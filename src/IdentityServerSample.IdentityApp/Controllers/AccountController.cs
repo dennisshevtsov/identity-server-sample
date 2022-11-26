@@ -9,10 +9,19 @@ namespace IdentityServerSample.IdentityApp.Controllers
   using Microsoft.AspNetCore.Mvc;
 
   using IdentityServerSample.IdentityApp.ViewModels;
+  using IdentityServer4.Test;
+  using System;
 
   [Route("account")]
   public class AccountController : Controller
   {
+    private readonly TestUserStore _userStore;
+
+    public AccountController(TestUserStore userStore)
+    {
+      _userStore = userStore ?? throw new ArgumentNullException(nameof(userStore));
+    }
+
     [HttpGet("sign-in")]
     public IActionResult GetSignIn(SignInViewModel vm)
     {
@@ -24,17 +33,25 @@ namespace IdentityServerSample.IdentityApp.Controllers
     [HttpPost("sign-in")]
     public async Task<IActionResult> PostSignIn(SignInViewModel vm)
     {
-      if (!ModelState.IsValid)
+      if (ModelState.IsValid)
       {
-        return View("SignInView", vm);
+        if (_userStore.ValidateCredentials(vm.Email, vm.Password))
+        {
+          var testUser = _userStore.FindByUsername(vm.Email);
+          var identityServerUser = new IdentityServerUser(testUser.SubjectId)
+          {
+            DisplayName = testUser.Username,
+          };
+
+          await HttpContext.SignInAsync(identityServerUser);
+
+          return Redirect(vm.ReturnUrl!);
+        }
+
+        ModelState.AddModelError(string.Empty, "The credentials is not valid.");
       }
 
-      await HttpContext.SignInAsync(new IdentityServerUser("test")
-      {
-        DisplayName = "test",
-      });
-
-      return Redirect(vm.ReturnUrl!);
+      return View("SignInView", vm);
     }
 
     [HttpGet("sign-out")]

@@ -89,7 +89,7 @@ builder.Services.AddIdentityServer(options =>
                   new TestUser
                   {
                     SubjectId = "test",
-                    Username = "test",
+                    Username = "test@test.test",
                     Password = "test",
                     IsActive = true,
                     Claims = {
