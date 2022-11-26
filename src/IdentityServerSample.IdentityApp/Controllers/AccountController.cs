@@ -48,7 +48,8 @@ namespace IdentityServerSample.IdentityApp.Controllers
           return Redirect(vm.ReturnUrl!);
         }
 
-        ModelState.AddModelError(string.Empty, "The credentials is not valid.");
+        ModelState.AddModelError(
+          nameof(SignInViewModel.Email), "The credentials is not valid.");
       }
 
       return View("SignInView", vm);
