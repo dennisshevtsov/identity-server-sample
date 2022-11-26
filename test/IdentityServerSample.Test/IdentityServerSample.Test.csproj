@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IdentityServerSample.WebApp\IdentityServerSample.WebApp.csproj" />
+    <ProjectReference Include="..\..\src\IdentityServerSample.WebApp\IdentityServerSample.WebApp.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.Test", "src\IdentityServerSample.Test\IdentityServerSample.Test.csproj", "{A7623FB5-4981-487B-97EB-8AE9073D350A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.Test", "test\IdentityServerSample.Test\IdentityServerSample.Test.csproj", "{A7623FB5-4981-487B-97EB-8AE9073D350A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.WebApp", "src\IdentityServerSample.WebApp\IdentityServerSample.WebApp.csproj", "{905A8F00-0817-4E86-9059-A444C52D0A47}"
 EndProject
