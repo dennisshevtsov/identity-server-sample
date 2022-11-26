@@ -14,13 +14,15 @@ namespace IdentityServerSample.IdentityApp.Controllers
   public class AccountController : Controller
   {
     [HttpGet("sign-in")]
-    public IActionResult SignIn()
+    public IActionResult GetSignIn(SignInViewModel vm)
     {
-      return View("SignInView", new SignInViewModel());
+      ModelState.Clear();
+
+      return View("SignInView", vm);
     }
 
     [HttpPost("sign-in")]
-    public async Task<IActionResult> SignIn(SignInViewModel vm)
+    public async Task<IActionResult> PostSignIn(SignInViewModel vm)
     {
       if (!ModelState.IsValid)
       {
@@ -36,13 +38,13 @@ namespace IdentityServerSample.IdentityApp.Controllers
     }
 
     [HttpGet("sign-out")]
-    public new IActionResult SignOut()
+    public IActionResult GetSignOut(SignOutViewModel vm)
     {
-      return View("SignOutView");
+      return View("SignOutView", vm);
     }
 
     [HttpPost("sign-out")]
-    public async Task<IActionResult> SignOut(SignOutViewModel vm)
+    public async Task<IActionResult> PostSignOut(SignOutViewModel vm)
     {
       await HttpContext.SignOutAsync();
 

@@ -1,1 +1,11 @@
-﻿
+﻿@model IdentityServerSample.IdentityApp.ViewModels.SignOutViewModel
+
+<form method="post" class="form-sign-in m-auto text-center">
+  <h3 class="my-3"><span>Are you sure you want to sing out?</span></h3>
+  <button class="btn btn-lg btn-primary w-100 mb-3" type="submit">
+    <span>Yes</span>
+  </button>
+  <a href="@Model.ReturnUrl" class="btn btn-lg btn-secondary w-100">
+    <span>Back</span>
+  </a>
+</form>
