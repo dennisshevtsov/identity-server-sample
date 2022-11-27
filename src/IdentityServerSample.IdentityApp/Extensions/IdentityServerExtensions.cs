@@ -69,14 +69,14 @@ namespace Microsoft.Extensions.DependencyInjection
           },
           AllowedCorsOrigins =
           {
-            "http://localhost:4201/",
-            "http://localhost:4202/",
+            "http://localhost:4201",
+            "http://localhost:4202",
           },
           RedirectUris =
           {
-            "http://localhost:4201/",
-            "http://localhost:4202/",
-          }
+            "http://localhost:4201",
+            "http://localhost:4202",
+          },
         },
       };
 
