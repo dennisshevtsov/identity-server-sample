@@ -4,13 +4,14 @@
 
 namespace IdentityServerSample.IdentityApp.Controllers
 {
+  using System;
+
   using IdentityServer4;
+  using IdentityServer4.Test;
   using Microsoft.AspNetCore.Authentication;
   using Microsoft.AspNetCore.Mvc;
 
   using IdentityServerSample.IdentityApp.ViewModels;
-  using IdentityServer4.Test;
-  using System;
 
   [Route("account")]
   public class AccountController : Controller
