@@ -22,7 +22,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get(ErrorViewModel vm)
+    public async Task<IActionResult> GetError(ErrorViewModel vm)
     {
       var errorMessage =
         await _identityServerInteractionService.GetErrorContextAsync(vm.ErrorId!);
