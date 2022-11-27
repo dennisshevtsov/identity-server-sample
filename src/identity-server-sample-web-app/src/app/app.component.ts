@@ -14,7 +14,7 @@ import { UserManager, } from 'oidc-client';
       useFactory: () => new UserManager({
         authority: 'http://localhost:5085',
         client_id: 'identity-server-sample-api-client-id-1',
-        redirect_uri: 'http://localhost:4202',
+        redirect_uri: 'http://localhost:4202/sign-in-callback',
         response_type: 'code',
         scope: 'identity-server-sample-api-scope',
       }),
@@ -22,10 +22,4 @@ import { UserManager, } from 'oidc-client';
   ],
 })
 export class AppComponent {
-  public constructor(
-    private readonly um: UserManager) { }
-
-  public signIn(): void {
-    this.um.signinRedirect();
-  }
 }
