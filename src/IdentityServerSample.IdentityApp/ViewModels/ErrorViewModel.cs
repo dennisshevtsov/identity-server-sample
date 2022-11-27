@@ -4,10 +4,13 @@
 
 namespace IdentityServerSample.IdentityApp.ViewModels
 {
+  /// <summary>Represents details of an error.</summary>
   public sealed class ErrorViewModel
   {
+    /// <summary>Gets/sets an object that represents an ID of an error.</summary>
     public string? ErrorId { get; set; }
 
+    /// <summary>Gets/sets an object that represents a message of an error.</summary>
     public string? Message { get; set; }
   }
 }

@@ -9,6 +9,8 @@ namespace Microsoft.Extensions.DependencyInjection
   using IdentityServer4.Models;
   using IdentityServer4.Test;
 
+  using IdentityServerSample.IdentityApp.Defaults;
+
   public static class IdentityServerExtensions
   {
     public static IServiceCollection AddConfiguredIdentityServer(
@@ -17,13 +19,13 @@ namespace Microsoft.Extensions.DependencyInjection
     {
       services.AddIdentityServer(options =>
               {
-                options.UserInteraction.ErrorUrl = "/error";
-                options.UserInteraction.ErrorIdParameter = "errorId";
+                options.UserInteraction.ErrorUrl = $"/{Routing.ErrorRoute}";
+                options.UserInteraction.ErrorIdParameter = Routing.ErrorIdRouteParameter;
 
-                options.UserInteraction.LoginUrl = "/account/sign-in";
-                options.UserInteraction.LoginReturnUrlParameter = "returnUrl";
+                options.UserInteraction.LoginUrl = $"/{Routing.AccountRoute}/{Routing.SignInRoute}";
+                options.UserInteraction.LoginReturnUrlParameter = Routing.ReturnUrlRouteParameter;
 
-                options.UserInteraction.LogoutUrl = "/account/sign-out";
+                options.UserInteraction.LogoutUrl = $"/{Routing.AccountRoute}/{Routing.SignOutRoute}";
               })
               .AddInMemoryApiScopes(IdentityServerExtensions.GetApiScopes(configuration))
               .AddInMemoryClients(IdentityServerExtensions.GetClients(configuration))
@@ -76,6 +78,7 @@ namespace Microsoft.Extensions.DependencyInjection
           {
             "http://localhost:4201",
             "http://localhost:4202",
+            "http://localhost:4202/sign-in-callback",
           },
         },
       };
