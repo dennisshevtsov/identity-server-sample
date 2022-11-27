@@ -11,6 +11,8 @@ Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "identity-server-sample-iden
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.IdentityApp", "src\IdentityServerSample.IdentityApp\IdentityServerSample.IdentityApp.csproj", "{B11EADD7-E3D7-499C-BDC7-D1004642CD2E}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "identity-server-sample-web-app", "src\identity-server-sample-web-app\identity-server-sample-web-app.esproj", "{23AE339B-5E9E-4D9D-B7C5-A58D037130F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,12 @@ Global
 		{B11EADD7-E3D7-499C-BDC7-D1004642CD2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B11EADD7-E3D7-499C-BDC7-D1004642CD2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B11EADD7-E3D7-499C-BDC7-D1004642CD2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23AE339B-5E9E-4D9D-B7C5-A58D037130F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23AE339B-5E9E-4D9D-B7C5-A58D037130F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23AE339B-5E9E-4D9D-B7C5-A58D037130F5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{23AE339B-5E9E-4D9D-B7C5-A58D037130F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23AE339B-5E9E-4D9D-B7C5-A58D037130F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23AE339B-5E9E-4D9D-B7C5-A58D037130F5}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

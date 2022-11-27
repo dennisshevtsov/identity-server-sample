@@ -8,14 +8,14 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
-{
-  var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
-                                               .RequireClaim("scope", builder.Configuration["ApiScope_Name"]!)
-                                               .Build();
-  var filter = new AuthorizeFilter(policy);
+                {
+                  var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
+                                                              .RequireClaim("scope", builder.Configuration["ApiScope_Name"]!)
+                                                              .Build();
+                  var filter = new AuthorizeFilter(policy);
 
-  options.Filters.Add(filter);
-});
+                  options.Filters.Add(filter);
+                });
 builder.Services.AddAuthentication("Bearer")
                 .AddJwtBearer(options =>
                 {
@@ -32,5 +32,4 @@ app.MapControllers();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapFallbackToFile("index.html");
 app.Run();
