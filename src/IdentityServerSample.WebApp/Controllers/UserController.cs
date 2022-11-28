@@ -25,10 +25,10 @@ namespace IdentityServerSample.WebApi.Controllers
       {
         Name = User.Identity?.Name,
         Claims = User.Claims.Select(claim => new ClaimDto
-        {
-          Type = claim.Type,
-          Value = claim.Value,
-        })
+                            {
+                              Type = claim.Type,
+                              Value = claim.Value,
+                            })
                             .ToArray(),
       });
     }
