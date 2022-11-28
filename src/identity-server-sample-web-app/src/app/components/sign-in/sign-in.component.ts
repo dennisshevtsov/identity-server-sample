@@ -1,6 +1,6 @@
-import { Component, } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { UserManager, } from 'oidc-client';
+import { UserManager } from 'oidc-client';
 
 @Component({
   templateUrl: './sign-in.component.html',

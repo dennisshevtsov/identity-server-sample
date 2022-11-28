@@ -18,8 +18,8 @@ export class SilentCallbackGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot)
-    : Promise<boolean | UrlTree> {
+    : Promise<UrlTree> {
     return this.userManager.signinSilentCallback()
-                           .then(() => this.router.navigate(['']));
+                           .then(() => this.router.createUrlTree(['']));
   }
 }

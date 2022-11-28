@@ -1,9 +1,9 @@
 import { NgModule             } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { SignInComponent,     } from './components';
-import { SignInCallbackGuard, } from './guards';
-import { SilentCallbackGuard, } from './guards';
+import { SignInComponent     } from './components';
+import { SignInCallbackGuard } from './guards';
+import { SilentCallbackGuard } from './guards';
 
 const routes: Routes = [
   {

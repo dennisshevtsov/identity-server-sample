@@ -18,8 +18,8 @@ export class SignInCallbackGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot)
-    : Promise<boolean | UrlTree> {
+    : Promise<UrlTree> {
     return this.userManager.signinRedirectCallback()
-                           .then(() => this.router.navigate(['']));
+                           .then(() => this.router.createUrlTree(['']));
   }
 }
