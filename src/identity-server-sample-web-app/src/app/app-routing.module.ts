@@ -1,12 +1,16 @@
 import { NgModule             } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 
-import { SignInCallbackComponent, SignInComponent, } from './components';
+import { SignInComponent,     } from './components';
+import { SignInCallbackGuard, } from "./guards";
 
 const routes: Routes = [
   {
     path: 'sign-in-callback',
-    component: SignInCallbackComponent,
+    canActivate: [
+      SignInCallbackGuard,
+    ],
+    children: [],
   },
   {
     path: '',
