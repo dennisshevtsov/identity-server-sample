@@ -78,7 +78,8 @@ namespace Microsoft.Extensions.DependencyInjection
           {
             "http://localhost:4201",
             "http://localhost:4202",
-            "http://localhost:4202/sign-in-callback",
+            "http://localhost:4202/signin-callback",
+            "http://localhost:4202/silent-callback",
           },
         },
       };

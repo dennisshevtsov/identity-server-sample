@@ -1,9 +1,9 @@
 import { Injectable,             } from '@angular/core';
-import { ActivatedRouteSnapshot,
-         CanActivate,
-         Router,
-         RouterStateSnapshot,
-         UrlTree,                } from '@angular/router';
+import { ActivatedRouteSnapshot, } from '@angular/router';
+import { CanActivate,            } from '@angular/router';
+import { Router,                 } from '@angular/router';
+import { RouterStateSnapshot,    } from '@angular/router';
+import { UrlTree,                } from '@angular/router';
 
 import { UserManager, } from 'oidc-client';
 
@@ -18,7 +18,7 @@ export class SignInCallbackGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot)
-    : Promise<boolean | UrlTree> | boolean | UrlTree {
+    : Promise<boolean | UrlTree> {
     return this.userManager.signinRedirectCallback()
                            .then(() => this.router.navigate(['']));
   }
