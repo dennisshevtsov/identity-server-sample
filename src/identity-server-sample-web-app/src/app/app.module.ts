@@ -24,8 +24,8 @@ import { SignInComponent  } from './components';
       useFactory: () => new UserManager({
         authority: 'http://localhost:5085',
         client_id: 'identity-server-sample-api-client-id-1',
-        redirect_uri: 'http://localhost:4202/signin-callback',
-        silent_redirect_uri: 'http://localhost:4202/silent-callback',
+        redirect_uri: 'http://localhost:4200/signin-callback',
+        silent_redirect_uri: 'http://localhost:4200/silent-callback',
         response_type: 'code',
         scope: 'identity-server-sample-api-scope',
       }),

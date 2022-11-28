@@ -71,15 +71,12 @@ namespace Microsoft.Extensions.DependencyInjection
           },
           AllowedCorsOrigins =
           {
-            "http://localhost:4201",
-            "http://localhost:4202",
+            "http://localhost:4200",
           },
           RedirectUris =
           {
-            "http://localhost:4201",
-            "http://localhost:4202",
-            "http://localhost:4202/signin-callback",
-            "http://localhost:4202/silent-callback",
+            "http://localhost:4200/signin-callback",
+            "http://localhost:4200/silent-callback",
           },
         },
       };
