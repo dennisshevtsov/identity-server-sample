@@ -1,9 +1,7 @@
-import { Injectable             } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
-import { CanActivate            } from '@angular/router';
-import { Router                 } from '@angular/router';
-import { RouterStateSnapshot    } from '@angular/router';
-import { UrlTree                } from '@angular/router';
+import { Injectable  } from '@angular/core';
+import { CanActivate } from '@angular/router';
+import { Router      } from '@angular/router';
+import { UrlTree     } from '@angular/router';
 
 import { UserManager } from 'oidc-client';
 
@@ -15,10 +13,7 @@ export class SilentCallbackGuard implements CanActivate {
     public userManager: UserManager,
     public router: Router) { }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot)
-    : Promise<UrlTree> {
+  public canActivate(): Promise<UrlTree> {
     return this.userManager.signinSilentCallback()
                            .then(() => this.router.createUrlTree(['']));
   }
