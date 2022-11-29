@@ -11,6 +11,22 @@
   </div>
 </header>
 
-<div class="container">
-  <router-outlet></router-outlet>
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-md-3 col-lg-2 d-md-block bg-light collapse"
+         style="position: fixed; top: 0; bottom: 0; left: 0; padding-top: 50px;">
+      <div class="position-sticky pt-3 sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a href="#" class="nav-link active">
+              <span>Users</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
 </div>
