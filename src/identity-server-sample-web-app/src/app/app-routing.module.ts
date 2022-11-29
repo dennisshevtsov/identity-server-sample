@@ -1,28 +1,34 @@
-import { NgModule             } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule     } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { Routes       } from '@angular/router';
 
-import { SignInComponent     } from './components';
+import { HomeComponent       } from './components';
+import { AuthorizeGuard      } from './guards';
 import { SignInCallbackGuard } from './guards';
 import { SilentCallbackGuard } from './guards';
 
 const routes: Routes = [
   {
     path: 'signin-callback',
+    children: [],
     canActivate: [
       SignInCallbackGuard,
     ],
-    children: [],
   },
   {
     path: 'silent-callback',
+    children: [],
     canActivate: [
       SilentCallbackGuard,
     ],
-    children: [],
   },
   {
     path: '',
-    component: SignInComponent,
+    pathMatch: 'full',
+    component: HomeComponent,
+    canActivate: [
+      AuthorizeGuard,
+    ],
   },
 ];
 
