@@ -6,6 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
   using System.Security.Claims;
 
+  using IdentityServer4;
   using IdentityServer4.Models;
   using IdentityServer4.Test;
 
@@ -26,10 +27,16 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.UserInteraction.LoginReturnUrlParameter = Routing.ReturnUrlRouteParameter;
 
                 options.UserInteraction.LogoutUrl = $"/{Routing.AccountRoute}/{Routing.SignOutRoute}";
+                options.UserInteraction.LogoutIdParameter = Routing.SignOutIdRouteParameter;
               })
-              .AddInMemoryApiScopes(IdentityServerExtensions.GetApiScopes(configuration))
               .AddInMemoryClients(IdentityServerExtensions.GetClients(configuration))
+              .AddInMemoryApiScopes(IdentityServerExtensions.GetApiScopes(configuration))
               .AddInMemoryApiResources(IdentityServerExtensions.GetApiResources(configuration))
+              .AddInMemoryIdentityResources(new IdentityResource[]
+              {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+              })
               .AddTestUsers(IdentityServerExtensions.GetTestUsers(configuration))
               .AddDeveloperSigningCredential();
 
@@ -67,6 +74,8 @@ namespace Microsoft.Extensions.DependencyInjection
           AllowedGrantTypes = GrantTypes.Code,
           AllowedScopes =
           {
+            IdentityServerConstants.StandardScopes.OpenId,
+            IdentityServerConstants.StandardScopes.Profile,
             configuration["ApiScope_Name"],
           },
           AllowedCorsOrigins =
@@ -77,6 +86,10 @@ namespace Microsoft.Extensions.DependencyInjection
           {
             "http://localhost:4200/signin-callback",
             "http://localhost:4200/silent-callback",
+          },
+          PostLogoutRedirectUris =
+          {
+            "http://localhost:4200",
           },
         },
       };

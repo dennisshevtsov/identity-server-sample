@@ -7,7 +7,7 @@ namespace IdentityServerSample.IdentityApp.ViewModels
   /// <summary>Represents details of a sing-out request.</summary>
   public sealed class SignOutViewModel
   {
-    /// <summary>Gets/sets an object that represents a return URL.</summary>
-    public string? ReturnUrl { get; set; }
+    /// <summary>Gets/sets an object that represents an ID of a sign-out.</summary>
+    public string? SignOutId { get; set; }
   }
 }

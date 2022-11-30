@@ -22,6 +22,9 @@ namespace IdentityServerSample.IdentityApp.Defaults
     /// <summary>A value that represents the name of the errorId route parameter.</summary>
     public const string ErrorIdRouteParameter = "errorId";
 
+    /// <summary>A value that represents the name of the errorId route parameter.</summary>
+    public const string SignOutIdRouteParameter = "signOutId";
+
     /// <summary>A value that represents the name of the returnUrl route parameter.</summary>
     public const string ReturnUrlRouteParameter = "returnUrl";
   }

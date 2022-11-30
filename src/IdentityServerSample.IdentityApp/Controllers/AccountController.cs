@@ -7,6 +7,8 @@ namespace IdentityServerSample.IdentityApp.Controllers
   using System;
 
   using IdentityServer4;
+  using IdentityServer4.Models;
+  using IdentityServer4.Services;
   using IdentityServer4.Test;
   using Microsoft.AspNetCore.Authentication;
   using Microsoft.AspNetCore.Mvc;
@@ -19,12 +21,18 @@ namespace IdentityServerSample.IdentityApp.Controllers
   public class AccountController : Controller
   {
     private readonly TestUserStore _userStore;
+    private readonly IIdentityServerInteractionService _identityServerInteractionService;
 
     /// <summary>Inititalizes a new instance of the <see cref="IdentityServerSample.IdentityApp.Controllers.AccountController"/> class.</summary>
     /// <param name="userStore">An object that represents a store for test users.</param>
-    public AccountController(TestUserStore userStore)
+    /// <param name="identityServerInteractionService">An object that provides a simple API to communicate with IdentityServer.</param>
+    public AccountController(
+      TestUserStore userStore,
+      IIdentityServerInteractionService identityServerInteractionService)
     {
       _userStore = userStore ?? throw new ArgumentNullException(nameof(userStore));
+      _identityServerInteractionService = identityServerInteractionService ??
+        throw new ArgumentNullException(nameof(identityServerInteractionService));
     }
 
     /// <summary>Handles the get sign-in page request.</summary>
@@ -70,9 +78,17 @@ namespace IdentityServerSample.IdentityApp.Controllers
     /// <param name="vm">An object that represents details of a sing-out request.</param>
     /// <returns>An object that defines a contract that represents the result of an action method.</returns>
     [HttpGet(Routing.SignOutRoute)]
-    public IActionResult GetSignOut(SignOutViewModel vm)
+    public async Task<IActionResult> GetSignOut(SignOutViewModel vm)
     {
-      return View("SignOutView", vm);
+      var logoutRequest =
+        await _identityServerInteractionService.GetLogoutContextAsync(vm.SignOutId)!;
+
+      if (logoutRequest.ShowSignoutPrompt)
+      {
+        return View("SignOutView", vm);
+      }
+
+      return await SignOut(logoutRequest);
     }
 
     /// <summary>Handles the post sign-out request.</summary>
@@ -81,9 +97,17 @@ namespace IdentityServerSample.IdentityApp.Controllers
     [HttpPost(Routing.SignOutRoute)]
     public async Task<IActionResult> PostSignOut(SignOutViewModel vm)
     {
+      var logoutRequest =
+        await _identityServerInteractionService.GetLogoutContextAsync(vm.SignOutId)!;
+
+      return await SignOut(logoutRequest);
+    }
+
+    private async Task<IActionResult> SignOut(LogoutRequest logoutRequest)
+    {
       await HttpContext.SignOutAsync();
 
-      return Redirect(vm.ReturnUrl!);
+      return Redirect(logoutRequest.PostLogoutRedirectUri);
     }
   }
 }
