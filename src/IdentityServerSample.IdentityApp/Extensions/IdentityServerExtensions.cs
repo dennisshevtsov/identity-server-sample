@@ -32,66 +32,62 @@ namespace Microsoft.Extensions.DependencyInjection
               .AddInMemoryClients(IdentityServerExtensions.GetClients(configuration))
               .AddInMemoryApiScopes(IdentityServerExtensions.GetApiScopes(configuration))
               .AddInMemoryApiResources(IdentityServerExtensions.GetApiResources(configuration))
-              .AddInMemoryIdentityResources(new IdentityResource[]
-              {
-                new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
-              })
+              .AddInMemoryIdentityResources(IdentityServerExtensions.GetIdentityResources())
               .AddTestUsers(IdentityServerExtensions.GetTestUsers(configuration))
               .AddDeveloperSigningCredential();
 
       return services;
     }
 
+    private static IEnumerable<Client> GetClients(IConfiguration configuration)
+      => new[]
+      {
+            new Client
+            {
+              ClientId = configuration["Client_Id_0"],
+              ClientName = configuration["Client_Name_0"],
+              ClientSecrets =
+              {
+                new Secret(configuration["Client_Secret_0"].Sha256()),
+              },
+              AllowedGrantTypes = GrantTypes.ClientCredentials,
+              AllowedScopes =
+              {
+                configuration["ApiScope_Name"],
+              },
+            },
+            new Client
+            {
+              ClientId = configuration["Client_Id_1"],
+              ClientName = configuration["Client_Name_1"],
+              RequireClientSecret = false,
+              AllowedGrantTypes = GrantTypes.Code,
+              AllowedScopes =
+              {
+                IdentityServerConstants.StandardScopes.OpenId,
+                IdentityServerConstants.StandardScopes.Profile,
+                configuration["ApiScope_Name"],
+              },
+              AllowedCorsOrigins =
+              {
+                "http://localhost:4200",
+              },
+              RedirectUris =
+              {
+                "http://localhost:4200/signin-callback",
+                "http://localhost:4200/silent-callback",
+              },
+              PostLogoutRedirectUris =
+              {
+                "http://localhost:4200",
+              },
+            },
+      };
+
     private static IEnumerable<ApiScope> GetApiScopes(IConfiguration configuration)
       => new[]
       {
         new ApiScope(configuration["ApiScope_Name"], configuration["ApiScope_DisplayName"]),
-      };
-
-    private static IEnumerable<Client> GetClients(IConfiguration configuration)
-      => new[]
-      {
-        new Client
-        {
-          ClientId = configuration["Client_Id_0"],
-          ClientName = configuration["Client_Name_0"],
-          ClientSecrets =
-          {
-            new Secret(configuration["Client_Secret_0"].Sha256()),
-          },
-          AllowedGrantTypes = GrantTypes.ClientCredentials,
-          AllowedScopes =
-          {
-            configuration["ApiScope_Name"],
-          },
-        },
-        new Client
-        {
-          ClientId = configuration["Client_Id_1"],
-          ClientName = configuration["Client_Name_1"],
-          RequireClientSecret = false,
-          AllowedGrantTypes = GrantTypes.Code,
-          AllowedScopes =
-          {
-            IdentityServerConstants.StandardScopes.OpenId,
-            IdentityServerConstants.StandardScopes.Profile,
-            configuration["ApiScope_Name"],
-          },
-          AllowedCorsOrigins =
-          {
-            "http://localhost:4200",
-          },
-          RedirectUris =
-          {
-            "http://localhost:4200/signin-callback",
-            "http://localhost:4200/silent-callback",
-          },
-          PostLogoutRedirectUris =
-          {
-            "http://localhost:4200",
-          },
-        },
       };
 
     private static IEnumerable<ApiResource> GetApiResources(IConfiguration configuration)
@@ -108,6 +104,13 @@ namespace Microsoft.Extensions.DependencyInjection
         },
       };
 
+    private static IEnumerable<IdentityResource> GetIdentityResources()
+      => new IdentityResource[]
+      {
+        new IdentityResources.OpenId(),
+        new IdentityResources.Profile(),
+      };
+
     private static List<TestUser> GetTestUsers(IConfiguration configuration)
       => new List<TestUser>
       {
@@ -117,7 +120,8 @@ namespace Microsoft.Extensions.DependencyInjection
           Username = "test@test.test",
           Password = "test",
           IsActive = true,
-          Claims = {
+          Claims =
+          {
             new Claim("scope", configuration["ApiScope_Name"]!),
           },
         },
