@@ -1,8 +1,13 @@
 ﻿@model IdentityServerSample.IdentityApp.ViewModels.SignOutViewModel
 
-<form method="post" class="form-sign-in m-auto text-center">
-  <h3 class="my-3"><span>Are you sure you want to sing out?</span></h3>
-  <button class="btn btn-lg btn-primary w-100 mb-3" type="submit">
-    <span>Yes</span>
-  </button>
-</form>
+<div class="card m-auto text-center form-card mt-3">
+  <div class="card-body">
+    <h3 class="card-title">Identity Server Sample</h3>
+    <p class="card-text">Are you sure you want to sing out?</p>
+    <form method="post">
+      <button class="btn btn-lg btn-primary w-100 mb-3" type="submit">
+        <span>Yes</span>
+      </button>
+    </form>
+  </div>
+</div>
