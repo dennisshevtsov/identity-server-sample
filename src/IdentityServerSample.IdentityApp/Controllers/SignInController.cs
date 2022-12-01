@@ -38,6 +38,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
     /// <summary>Handles the post sign-in credentials request.</summary>
     /// <param name="vm">An object that represents details of sign-in credentials.</param>
     /// <returns>An object that represents an asynchronous operation.</returns>
+    [ValidateAntiForgeryToken]
     [HttpPost(Routing.SignInRoute)]
     public async Task<IActionResult> Post(SignInViewModel vm)
     {

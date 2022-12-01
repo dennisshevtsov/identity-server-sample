@@ -48,6 +48,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
     /// <summary>Handles the post sign-out request.</summary>
     /// <param name="vm">An object that represents details of a sing-out request.</param>
     /// <returns>An object that represents an asynchronous operation.</returns>
+    [ValidateAntiForgeryToken]
     [HttpPost(Routing.SignOutRoute)]
     public async Task<IActionResult> Post(SignOutViewModel vm)
     {
