@@ -1,7 +1,7 @@
-<div class="page" style="width: 100%; min-height: 100%; overflow-x: hidden">
-  <header class="page-header header" style="position: fixed; top: 0; right: 0; left: 0; height: 4em; color: #ffffff; background: #000000; z-index: 1000">
-    <div class="header-bar" style="display: flex; width: 100%; height: 4em; align-items: stretch">
-      <div class="header-brand" style="padding: 0 1em 0 1em;">
+<div class="page">
+  <header class="page-header header">
+    <div class="header-bar">
+      <div class="header-brand">
         <a href="#">
           <span>Identity Server Sample</span>
         </a>
@@ -15,8 +15,8 @@
     </div>
   </header>
 
-  <aside class="page-aside aside" style="position: fixed; bottom: 0; left: 0; padding: 0; width: 16em; z-index: 1000">
-    <div class="aside-bar" style="display: flex; flex-direction: column; height: 100%">
+  <aside class="page-aside aside">
+    <div class="aside-bar">
       <nav class="aside-menu menu">
         <a class="menu-link"><span>Dashboard</span></a>
         <a class="menu-link"><span>Tasks</span></a>
@@ -24,7 +24,7 @@
     </div>
   </aside>
 
-  <main class="page-main main" style="position: relative; padding: 4em 0 0 16em">
+  <main class="page-main main">
     <router-outlet></router-outlet>
   </main>
 </div>
