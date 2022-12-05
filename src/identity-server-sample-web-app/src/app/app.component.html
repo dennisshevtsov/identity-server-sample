@@ -1,30 +1,27 @@
-<div class="page">
-  <header class="page-header header">
-    <div class="header-bar">
-      <div class="header-brand">
-        <a href="#">
-          <span>Identity Server Sample</span>
-        </a>
-      </div>
-      <div class="header-profile">
-        <a style="cursor: pointer"
-           (click)="signout()">
-          <span>Sign Out</span>
-        </a>
-      </div>
-    </div>
-  </header>
+<div class="app">
+  <div class="app__header header">
+    <nav class="header__content">
+      <a class="app__brand"><span>IdentityServer Sample</span></a>
 
-  <aside class="page-aside aside">
-    <div class="aside-bar">
-      <nav class="aside-menu menu">
-        <a class="menu-link"><span>Dashboard</span></a>
-        <a class="menu-link"><span>Tasks</span></a>
+      <nav class="header__menu app-menu">
+        <a class="app-menu__item"><span>Home</span></a>
+        <a class="app-menu__item app-menu__item_active"><span>Tasks</span></a>
       </nav>
-    </div>
-  </aside>
 
-  <main class="page-main main">
+      <div class="header__profile profile-menu">
+        <a class="profile-menu__toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <span>John Smith</span>
+        </a>
+        <nav class="profile-menu__nav dropdown-menu">
+          <a class="profile-menu__item"><span>Profile</span></a>
+          <a class="profile-menu__item"
+             (click)="signout()"><span>Sign out</span></a>
+        </nav>
+      </div>
+    </nav>
+  </div>
+
+  <main class="app__main main">
     <router-outlet></router-outlet>
   </main>
 </div>

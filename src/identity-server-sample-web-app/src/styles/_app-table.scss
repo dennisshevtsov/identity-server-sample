@@ -1,0 +1,16 @@
+.app-table {
+  @extend .table;
+  @extend .table-hover;
+
+  &__header {
+    @extend .table-light;
+  }
+
+  &__row {
+
+  }
+
+  &__cell {
+    
+  }
+}

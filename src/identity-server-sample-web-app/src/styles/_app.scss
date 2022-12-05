@@ -1,0 +1,21 @@
+.app {
+  &__header {
+    @extend .navbar;
+    @extend .navbar-expand-lg;
+    @extend .navbar-dark;
+    @extend .bg-dark;
+  }
+
+  &__brand {
+    @extend .navbar-brand;
+
+    cursor: pointer;
+  }
+
+  &__main {
+    @extend .container-xl;
+    @extend .pt-3;
+
+    width: 100%;
+  }
+}

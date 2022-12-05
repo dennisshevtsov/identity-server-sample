@@ -1,0 +1,6 @@
+.action-bar {
+  &__action {
+    @extend .btn;
+    @extend .btn-outline-primary;
+  }
+}
