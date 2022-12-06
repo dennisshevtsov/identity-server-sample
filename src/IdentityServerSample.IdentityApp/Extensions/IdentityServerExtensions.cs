@@ -7,10 +7,10 @@ namespace Microsoft.Extensions.DependencyInjection
   using System.Security.Claims;
 
   using IdentityServer4.Models;
-  using IdentityServer4.Services;
   using IdentityServer4.Test;
 
   using IdentityServerSample.IdentityApp.Defaults;
+  using IdentityServerSample.IdentityApp.Services;
   using IdentityServerSample.IdentityApp.Stores;
 
   public static class IdentityServerExtensions
@@ -19,15 +19,6 @@ namespace Microsoft.Extensions.DependencyInjection
       this IServiceCollection services,
       IConfiguration configuration)
     {
-      services.AddSingleton<ICorsPolicyService>(
-        provider => new DefaultCorsPolicyService(provider.GetRequiredService<ILogger<DefaultCorsPolicyService>>())
-        {
-          AllowedOrigins= new[]
-          {
-            "http://localhost:4200",
-          },
-        });
-
       services.AddIdentityServer(options =>
               {
                 options.UserInteraction.ErrorUrl = $"/{Routing.ErrorRoute}";
@@ -40,6 +31,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.UserInteraction.LogoutIdParameter = Routing.SignOutIdRouteParameter;
               })
               .AddClientStore<ClientStore>()
+              .AddCorsPolicyService<CorsPolicyService>()
               .AddInMemoryApiScopes(IdentityServerExtensions.GetApiScopes(configuration))
               .AddInMemoryApiResources(IdentityServerExtensions.GetApiResources(configuration))
               .AddInMemoryIdentityResources(IdentityServerExtensions.GetIdentityResources())

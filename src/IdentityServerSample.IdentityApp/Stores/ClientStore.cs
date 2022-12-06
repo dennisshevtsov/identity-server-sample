@@ -59,10 +59,6 @@ namespace IdentityServerSample.IdentityApp.Stores
                   IdentityServerConstants.StandardScopes.Profile,
                   _configuration["ApiScope_Name"],
                 },
-                AllowedCorsOrigins =
-                {
-                  "http://localhost:4200",
-                },
                 RedirectUris =
                 {
                   "http://localhost:4200/signin-callback",
