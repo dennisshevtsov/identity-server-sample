@@ -6,7 +6,6 @@ namespace Microsoft.Extensions.DependencyInjection
 {
   using System.Security.Claims;
 
-  using IdentityServer4.Models;
   using IdentityServer4.Test;
 
   using IdentityServerSample.IdentityApp.Defaults;
@@ -31,42 +30,13 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.UserInteraction.LogoutIdParameter = Routing.SignOutIdRouteParameter;
               })
               .AddClientStore<ClientStore>()
+              .AddResourceStore<ResourceStore>()
               .AddCorsPolicyService<CorsPolicyService>()
-              .AddInMemoryApiScopes(IdentityServerExtensions.GetApiScopes(configuration))
-              .AddInMemoryApiResources(IdentityServerExtensions.GetApiResources(configuration))
-              .AddInMemoryIdentityResources(IdentityServerExtensions.GetIdentityResources())
               .AddTestUsers(IdentityServerExtensions.GetTestUsers(configuration))
               .AddDeveloperSigningCredential();
 
       return services;
     }
-
-    private static IEnumerable<ApiScope> GetApiScopes(IConfiguration configuration)
-      => new[]
-      {
-        new ApiScope(configuration["ApiScope_Name"], configuration["ApiScope_DisplayName"]),
-      };
-
-    private static IEnumerable<ApiResource> GetApiResources(IConfiguration configuration)
-      => new[]
-      {
-        new ApiResource
-        {
-          Name = configuration["ApiResource_Name"],
-          DisplayName = configuration["ApiResource_DisplayName"],
-          Scopes =
-          {
-            configuration["ApiScope_Name"],
-          },
-        },
-      };
-
-    private static IEnumerable<IdentityResource> GetIdentityResources()
-      => new IdentityResource[]
-      {
-        new IdentityResources.OpenId(),
-        new IdentityResources.Profile(),
-      };
 
     private static List<TestUser> GetTestUsers(IConfiguration configuration)
       => new List<TestUser>
