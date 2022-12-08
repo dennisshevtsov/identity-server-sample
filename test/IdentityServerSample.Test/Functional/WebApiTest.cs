@@ -48,7 +48,7 @@ namespace IdentityServerSample.WebApi.Test.Functional
     [TestMethod]
     public async Task Get_User_Authenticated_Should_Return_Unauthorized()
     {
-      var userResponse = await _apiHttpClient.GetAsync($"{Routes.UserRoute}/{Routes.GetAuthenticatedUserRoute}");
+      var userResponse = await _apiHttpClient.GetAsync($"{Routing.UserRoute}/{Routing.GetAuthenticatedUserRoute}");
 
       Assert.IsNotNull(userResponse);
       Assert.AreEqual(HttpStatusCode.Unauthorized, userResponse.StatusCode);
@@ -76,7 +76,7 @@ namespace IdentityServerSample.WebApi.Test.Functional
 
       _apiHttpClient.SetBearerToken(tokenResponse.AccessToken);
 
-      var userResponse = await _apiHttpClient.GetAsync($"{Routes.UserRoute}/{Routes.GetAuthenticatedUserRoute}");
+      var userResponse = await _apiHttpClient.GetAsync($"{Routing.UserRoute}/{Routing.GetAuthenticatedUserRoute}");
 
       Assert.IsNotNull(userResponse);
       Assert.AreEqual(HttpStatusCode.OK, userResponse.StatusCode);

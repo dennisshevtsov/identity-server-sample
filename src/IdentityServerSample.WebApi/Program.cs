@@ -10,8 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options =>
                 {
                   var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
-                                                              .RequireClaim("scope", builder.Configuration["ApiScope_Name"]!)
-                                                              .Build();
+                                                               .RequireClaim("scope", builder.Configuration["ApiScope_Name"]!)
+                                                               .Build();
                   var filter = new AuthorizeFilter(policy);
 
                   options.Filters.Add(filter);

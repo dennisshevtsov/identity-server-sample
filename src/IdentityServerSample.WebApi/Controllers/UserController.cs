@@ -11,13 +11,13 @@ namespace IdentityServerSample.WebApi.Controllers
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
   [ApiController]
-  [Route(Routes.UserRoute)]
+  [Route(Routing.UserRoute)]
   [Produces(ContentType.Json)]
   public sealed class UserController : ControllerBase
   {
     /// <summary>Handles the get authenticated user request.</summary>
     /// <returns>An object that defines a contract that represents the result of an action method.</returns>
-    [HttpGet(Routes.GetAuthenticatedUserRoute, Name = nameof(UserController.Get))]
+    [HttpGet(Routing.GetAuthenticatedUserRoute, Name = nameof(UserController.Get))]
     [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
     public IActionResult Get()
     {
