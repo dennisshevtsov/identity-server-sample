@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Dtos
+namespace IdentityServerSample.IdentityApp.Identities
 {
-  using IdentityServerSample.IdentityApp.Identities;
-
-  /// <summary>Represents data to update a user.</summary>
-  public sealed class UpdateUserRequestDto : IUserIdentity
+  /// <summary>Represents an identity of a user.</summary>
+  public interface IUserIdentity
   {
     /// <summary>Gets/sets an object that reprsents an ID of a user.</summary>
     public Guid UserId { get; set; }

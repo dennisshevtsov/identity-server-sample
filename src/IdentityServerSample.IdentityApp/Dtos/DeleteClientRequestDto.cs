@@ -4,7 +4,12 @@
 
 namespace IdentityServerSample.IdentityApp.Dtos
 {
-  public sealed class DeleteClientRequestDto
+  using IdentityServerSample.IdentityApp.Identities;
+
+  /// <summary>Represents data to delete a client.</summary>
+  public sealed class DeleteClientRequestDto : IClientIdentity
   {
+    /// <summary>Gets/sets an object that reprsents an ID of a client.</summary>
+    public Guid ClientId { get; set; }
   }
 }

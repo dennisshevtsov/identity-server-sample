@@ -4,7 +4,12 @@
 
 namespace IdentityServerSample.IdentityApp.Dtos
 {
-  public sealed class DeleteUserRequestDto
+  using IdentityServerSample.IdentityApp.Identities;
+
+  /// <summary>Represents data to delete a user.</summary>
+  public sealed class DeleteUserRequestDto : IUserIdentity
   {
+    /// <summary>Gets/sets an object that reprsents an ID of a user.</summary>
+    public Guid UserId { get; set; }
   }
 }
