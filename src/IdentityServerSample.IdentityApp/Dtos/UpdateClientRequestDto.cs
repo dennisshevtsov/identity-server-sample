@@ -4,7 +4,7 @@
 
 namespace IdentityServerSample.IdentityApp.Dtos
 {
-  public sealed class CreateUserResponseDto
+  public sealed class UpdateClientRequestDto
   {
   }
 }

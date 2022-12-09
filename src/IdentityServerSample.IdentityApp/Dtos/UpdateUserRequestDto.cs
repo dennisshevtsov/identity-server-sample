@@ -1,6 +1,10 @@
-﻿namespace IdentityServerSample.IdentityApp.Dtos
+﻿// Copyright (c) Dennis Shevtsov. All rights reserved.
+// Licensed under the MIT License.
+// See LICENSE in the project root for license information.
+
+namespace IdentityServerSample.IdentityApp.Dtos
 {
-  public class UpdateUserRequestDto
+  public sealed class UpdateUserRequestDto
   {
   }
 }
