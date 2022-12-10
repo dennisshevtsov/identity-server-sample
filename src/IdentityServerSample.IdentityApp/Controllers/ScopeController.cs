@@ -6,8 +6,8 @@ namespace IdentityServerSample.IdentityApp.Controllers
 {
   using Microsoft.AspNetCore.Mvc;
 
+  using IdentityServerSample.ApplicationCore.Dtos;
   using IdentityServerSample.IdentityApp.Defaults;
-  using IdentityServerSample.IdentityApp.Dtos;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
   [ApiController]
