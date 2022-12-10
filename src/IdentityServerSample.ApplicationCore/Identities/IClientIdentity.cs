@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Identities
+namespace IdentityServerSample.ApplicationCore.Identities
 {
   /// <summary>Represents an identity of a client.</summary>
   public interface IClientIdentity

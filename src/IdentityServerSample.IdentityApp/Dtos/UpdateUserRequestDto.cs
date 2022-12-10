@@ -4,7 +4,7 @@
 
 namespace IdentityServerSample.IdentityApp.Dtos
 {
-  using IdentityServerSample.IdentityApp.Identities;
+  using IdentityServerSample.ApplicationCore.Identities;
 
   /// <summary>Represents data to update a user.</summary>
   public sealed class UpdateUserRequestDto : IUserIdentity
