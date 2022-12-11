@@ -10,6 +10,16 @@ namespace IdentityServerSample.ApplicationCore.Entities
     /// <summary>Gets/sets an object that represents an ID of a client.</summary>
     public string? ClientId { get; set; }
 
+    /// <summary>Gets/sets an object that represents a name of a client.</summary>
     public string? Name { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of allowed scopes.</summary>
+    public IEnumerable<string>? Scopes { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of redirect URIs.</summary>
+    public IEnumerable<string>? RedirectUris { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of post-redirect URIs.</summary>
+    public IEnumerable<string>? PostRedirectUris { get; set; }
   }
 }
