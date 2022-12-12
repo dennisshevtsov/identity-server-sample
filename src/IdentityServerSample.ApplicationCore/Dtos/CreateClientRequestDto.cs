@@ -4,7 +4,12 @@
 
 namespace IdentityServerSample.ApplicationCore.Dtos
 {
-  public sealed class CreateClientRequestDto
+  using IdentityServerSample.ApplicationCore.Identities;
+
+  /// <summary>Repreesents data to create a client.</summary>
+  public sealed class CreateClientRequestDto : IClientIdentity
   {
+    /// <summary>Gets/sets an object that reprsents an ID of a client.</summary>
+    public Guid ClientId { get; set; }
   }
 }
