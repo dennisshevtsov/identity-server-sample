@@ -13,6 +13,12 @@ namespace IdentityServerSample.ApplicationCore.Entities
     /// <summary>Gets/sets an object that represents a name of a client.</summary>
     public string? Name { get; set; }
 
+    /// <summary>Gets/sets an object that represents a display name of a client.</summary>
+    public string? DisplayName { get; set; }
+
+    /// <summary>Gets/sets an object that represents a description of a client.</summary>
+    public string? Description { get; set; }
+
     /// <summary>Gets/sets an object that represents a collection of allowed scopes.</summary>
     public IEnumerable<string>? Scopes { get; set; }
 

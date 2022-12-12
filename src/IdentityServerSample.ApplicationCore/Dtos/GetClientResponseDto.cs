@@ -4,7 +4,21 @@
 
 namespace IdentityServerSample.ApplicationCore.Dtos
 {
-  public sealed class GetClientResponseDto
+  using IdentityServerSample.ApplicationCore.Identities;
+
+  /// <summary>Represents details of a client.</summary>
+  public sealed class GetClientResponseDto : IClientIdentity
   {
+    /// <summary>Gets/sets an object that reprsents an ID of a client.</summary>
+    public string? ClientId { get; set; }
+
+    /// <summary>Gets/sets an object that reprsents a name of a client.</summary>
+    public string? Name { get; set; }
+
+    /// <summary>Gets/sets an object that reprsents a display name of a client.</summary>
+    public string? DisplayName { get; set; }
+
+    /// <summary>Gets/sets an object that reprsents a description of a client.</summary>
+    public string? Description { get; set; }
   }
 }

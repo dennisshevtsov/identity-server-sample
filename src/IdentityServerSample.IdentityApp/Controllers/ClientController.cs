@@ -40,7 +40,27 @@ namespace IdentityServerSample.IdentityApp.Controllers
     [ProducesResponseType(typeof(GetClientResponseDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetClient(GetClientRequestDto query, CancellationToken cancellationToken)
     {
-      return Ok(await _clientService.GetClientAsync(query, cancellationToken));
+      if (string.IsNullOrWhiteSpace(query.ClientId))
+      {
+        return NotFound();
+      }
+
+      var clientEntity = await _clientService.GetClientAsync(query, cancellationToken);
+
+      if (clientEntity == null)
+      {
+        return NotFound();
+      }
+
+      var getClientResponseDto = new GetClientResponseDto
+      {
+        ClientId = clientEntity.ClientId,
+        Name = clientEntity.Name,
+        DisplayName = clientEntity.DisplayName,
+        Description = clientEntity.Description,
+      };
+
+      return Ok(getClientResponseDto);
     }
 
     [HttpPost(Name = nameof(ClientController.CreateClient))]

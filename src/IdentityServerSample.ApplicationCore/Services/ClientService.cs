@@ -4,18 +4,31 @@
 
 namespace IdentityServerSample.ApplicationCore.Services
 {
+  using System;
+  
   using IdentityServerSample.ApplicationCore.Dtos;
+  using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.ApplicationCore.Repositories;
 
   /// <summary>Provides a simple API to execute queries and commands with clients.</summary>
   public sealed class ClientService : IClientService
   {
+    private readonly IClientRepository _clientRepository;
+
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.ApplicationCore.Services.ClientService"/> class.</summary>
+    /// <param name="clientRepository">An object provides a simple API to clients in a database.</param>
+    public ClientService(IClientRepository clientRepository)
+    {
+      _clientRepository = clientRepository ?? throw new ArgumentNullException(nameof(clientRepository));
+    }
+
     /// <summary>Gets a client that satisfies defined conditions.</summary>
     /// <param name="query">An object that represents conditions to query a client.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public Task<GetClientResponseDto> GetClientAsync(GetClientRequestDto query, CancellationToken cancellationToken)
+    public Task<ClientEntity?> GetClientAsync(GetClientRequestDto query, CancellationToken cancellationToken)
     {
-      return Task.FromResult(new GetClientResponseDto());
+      return _clientRepository.GetClientAsync(query.ClientId!, cancellationToken);
     }
 
     /// <summary>Gets clients that satisfied defined conditions.</summary>

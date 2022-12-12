@@ -10,6 +10,6 @@ namespace IdentityServerSample.ApplicationCore.Dtos
   public sealed class DeleteClientRequestDto : IClientIdentity
   {
     /// <summary>Gets/sets an object that reprsents an ID of a client.</summary>
-    public Guid ClientId { get; set; }
+    public string? ClientId { get; set; }
   }
 }

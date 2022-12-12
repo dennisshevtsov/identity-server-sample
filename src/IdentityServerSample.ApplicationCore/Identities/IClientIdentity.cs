@@ -8,6 +8,6 @@ namespace IdentityServerSample.ApplicationCore.Identities
   public interface IClientIdentity
   {
     /// <summary>Gets/sets an object that reprsents an ID of a client.</summary>
-    public Guid ClientId { get; set; }
+    public string? ClientId { get; set; }
   }
 }
