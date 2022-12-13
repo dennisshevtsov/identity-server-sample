@@ -5,7 +5,7 @@
 namespace IdentityServerSample.ApplicationCore.Entities
 {
   /// <summary>Represents details of an identity resource.</summary>
-  public sealed class IdentityRecourceEntity
+  public sealed class IdentityResourceEntity
   {
     /// <summary>Gets/sets an object that represents a name of an identity resource.</summary>
     public string? Name { get; set; }
