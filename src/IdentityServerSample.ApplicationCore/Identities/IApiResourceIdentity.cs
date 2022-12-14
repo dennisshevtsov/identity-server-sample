@@ -8,6 +8,6 @@ namespace IdentityServerSample.ApplicationCore.Identities
   public interface IApiResourceIdentity
   {
     /// <summary>Gets/sets an object that reprsents a name of an API resource.</summary>
-    public string Name? { get; set; }
+    public string? Name { get; set; }
   }
 }
