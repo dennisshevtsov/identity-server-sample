@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
+using IdentityServerSample.ApplicationCore.Identities;
+
 namespace IdentityServerSample.ApplicationCore.Entities
 {
   /// <summary>Represents details of an identity resource.</summary>
-  public sealed class IdentityResourceEntity
+  public sealed class IdentityResourceEntity : IIdentityResourceIdentity
   {
     /// <summary>Gets/sets an object that represents a name of an identity resource.</summary>
     public string? Name { get; set; }
