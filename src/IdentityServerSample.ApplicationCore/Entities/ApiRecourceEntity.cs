@@ -4,8 +4,10 @@
 
 namespace IdentityServerSample.ApplicationCore.Entities
 {
+  using IdentityServerSample.ApplicationCore.Identities;
+
   /// <summary>Represents details of an API resource.</summary>
-  public sealed class ApiRecourceEntity
+  public sealed class ApiRecourceEntity : IApiResourceIdentity
   {
     /// <summary>Gets/sets an object that represents a name of an API resource.</summary>
     public string? Name { get; set; }
