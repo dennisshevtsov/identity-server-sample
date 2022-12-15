@@ -15,5 +15,8 @@ namespace IdentityServerSample.ApplicationCore.Entities
 
     /// <summary>Gets/sets an object that represents a description of a scope.</summary>
     public string? Description { get; set; }
+
+    /// <summary>Gets/sets an object that indicates if a scope is standard.</summary>
+    public bool Standard { get; set; }
   }
 }
