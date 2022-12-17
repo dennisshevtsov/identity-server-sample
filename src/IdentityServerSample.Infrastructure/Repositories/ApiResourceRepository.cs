@@ -26,9 +26,9 @@ namespace IdentityServerSample.Infrastructure.Repositories
     /// <summary>Gets a collection of all API resources.</summary>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public Task<ApiRecourceEntity[]> GetApiResourcesAsync(CancellationToken cancellationToken)
+    public Task<AudienceEntity[]> GetApiResourcesAsync(CancellationToken cancellationToken)
     {
-      return _dbContext.Set<ApiRecourceEntity>()
+      return _dbContext.Set<AudienceEntity>()
                        .ToArrayAsync(cancellationToken);
     }
   }

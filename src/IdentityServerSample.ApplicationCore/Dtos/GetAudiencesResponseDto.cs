@@ -4,7 +4,7 @@
 
 namespace IdentityServerSample.ApplicationCore.Dtos
 {
-  public sealed class DeleteScopeRequestDto
+  public sealed class GetAudiencesResponseDto
   {
   }
 }

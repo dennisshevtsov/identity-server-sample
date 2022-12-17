@@ -10,7 +10,7 @@ namespace IdentityServerSample.Infrastructure.Configurations
   using IdentityServerSample.ApplicationCore.Entities;
 
   /// <summary>Allows configuration for an entity type.</summary>
-  public sealed class ApiRecourceEntityTypeConfiguration : IEntityTypeConfiguration<ApiRecourceEntity>
+  public sealed class ApiRecourceEntityTypeConfiguration : IEntityTypeConfiguration<AudienceEntity>
   {
     private readonly string _containerName;
 
@@ -21,9 +21,9 @@ namespace IdentityServerSample.Infrastructure.Configurations
       _containerName = containerName ?? throw new ArgumentNullException(nameof(containerName));
     }
 
-    /// <summary>Configures the entity of the <see cref="IdentityServerSample.ApplicationCore.Entities.ApiRecourceEntity"/> type.</summary>
+    /// <summary>Configures the entity of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceEntity"/> type.</summary>
     /// <param name="builder">An object that provides a simple API to configure the entity type.</param>
-    public void Configure(EntityTypeBuilder<ApiRecourceEntity> builder)
+    public void Configure(EntityTypeBuilder<AudienceEntity> builder)
     {
       builder.ToContainer(_containerName);
 

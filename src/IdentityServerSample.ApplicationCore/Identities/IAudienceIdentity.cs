@@ -4,10 +4,10 @@
 
 namespace IdentityServerSample.ApplicationCore.Identities
 {
-  /// <summary>Represents an identity of an API resource.</summary>
-  public interface IApiResourceIdentity
+  /// <summary>Represents an identity of an audience.</summary>
+  public interface IAudienceIdentity
   {
-    /// <summary>Gets/sets an object that reprsents a name of an API resource.</summary>
+    /// <summary>Gets/sets an object that reprsents a name of an audience.</summary>
     public string? Name { get; set; }
   }
 }
