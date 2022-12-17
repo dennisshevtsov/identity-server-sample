@@ -10,13 +10,13 @@ namespace IdentityServerSample.Infrastructure.Configurations
   using IdentityServerSample.ApplicationCore.Entities;
 
   /// <summary>Allows configuration for an entity type.</summary>
-  public sealed class ApiRecourceEntityTypeConfiguration : IEntityTypeConfiguration<AudienceEntity>
+  public sealed class AudienceEntityTypeConfiguration : IEntityTypeConfiguration<AudienceEntity>
   {
     private readonly string _containerName;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.Infrastructure.Configurations.ApiRecourceEntityTypeConfiguration"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.Infrastructure.Configurations.AudienceEntityTypeConfiguration"/> class.</summary>
     /// <param name="containerName">An object that represents a name of a container.</param>
-    public ApiRecourceEntityTypeConfiguration(string containerName)
+    public AudienceEntityTypeConfiguration(string containerName)
     {
       _containerName = containerName ?? throw new ArgumentNullException(nameof(containerName));
     }
