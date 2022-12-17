@@ -4,8 +4,10 @@
 
 namespace IdentityServerSample.ApplicationCore.Entities
 {
+  using IdentityServerSample.ApplicationCore.Identities;
+
   /// <summary>Represents details of a scope.</summary>
-  public sealed class ScopeEntity
+  public sealed class ScopeEntity : IScopeIdentity
   {
     /// <summary>Gets/sets an object that represents a name of a scope.</summary>
     public string? Name { get; set; }
