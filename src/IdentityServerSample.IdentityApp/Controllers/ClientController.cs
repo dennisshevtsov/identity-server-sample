@@ -28,39 +28,15 @@ namespace IdentityServerSample.IdentityApp.Controllers
       _clientService = clientService ?? throw new ArgumentNullException(nameof(clientService));
     }
 
+    /// <summary>Handles the get clients query request.</summary>
+    /// <param name="query">An oject that represents conditions to query clients.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     [HttpGet(Name = nameof(ClientController.GetClients))]
     [ProducesResponseType(typeof(GetClientsResponseDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetClients(GetClientsRequestDto query, CancellationToken cancellationToken)
     {
       return Ok(await _clientService.GetClientsAsync(query, cancellationToken));
-    }
-
-    [HttpGet(Name = nameof(ClientController.GetClient))]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(GetClientResponseDto), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetClient(GetClientRequestDto query, CancellationToken cancellationToken)
-    {
-      if (string.IsNullOrWhiteSpace(query.ClientId))
-      {
-        return NotFound();
-      }
-
-      var clientEntity = await _clientService.GetClientAsync(query, cancellationToken);
-
-      if (clientEntity == null)
-      {
-        return NotFound();
-      }
-
-      var getClientResponseDto = new GetClientResponseDto
-      {
-        ClientId = clientEntity.ClientId,
-        Name = clientEntity.Name,
-        DisplayName = clientEntity.DisplayName,
-        Description = clientEntity.Description,
-      };
-
-      return Ok(getClientResponseDto);
     }
   }
 }
