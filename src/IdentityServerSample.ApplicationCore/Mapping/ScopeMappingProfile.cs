@@ -20,7 +20,9 @@ namespace IdentityServerSample.ApplicationCore.Mapping
 
     private static void ConfigureGetScopesMapping(IProfileExpression expression)
     {
-      expression.CreateMap<IEnumerable<ScopeEntity>, GetScopesResponseDto>();
+      expression.CreateMap<ScopeEntity[], GetScopesResponseDto>()
+                .ForMember(dst => dst.Scopes, opt => opt.MapFrom(src => src));
+      expression.CreateMap<ScopeEntity, GetScopesResponseDto.ScopeDto>();
     }
   }
 }
