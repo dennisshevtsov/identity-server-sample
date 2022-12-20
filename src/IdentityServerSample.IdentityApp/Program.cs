@@ -13,6 +13,7 @@ var app = builder.Build();
 
 app.UseStaticFiles();
 app.UseRouting();
+app.InitializeDatabase();
 app.UseIdentityServer();
 
 app.MapControllers();

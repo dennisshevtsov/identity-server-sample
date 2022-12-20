@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IdentityServerSample.ApplicationCore\IdentityServerSample.ApplicationCore.csproj" />
+    <ProjectReference Include="..\IdentityServerSample.Infrastructure\IdentityServerSample.Infrastructure.csproj" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
