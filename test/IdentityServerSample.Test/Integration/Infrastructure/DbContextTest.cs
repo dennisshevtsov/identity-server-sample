@@ -8,9 +8,13 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
   using Microsoft.Extensions.Configuration;
   using Microsoft.Extensions.DependencyInjection;
 
+  using IdentityServerSample.ApplicationCore.Entities;
+
   [TestClass]
   public sealed class DbContextTest
   {
+    private CancellationToken _cancellationToken;
+
 #pragma warning disable CS8618
     private IDisposable _disposable;
 
@@ -20,6 +24,8 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
     [TestInitialize]
     public void Initialize()
     {
+      _cancellationToken = CancellationToken.None;
+
       var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json")
                                                     .Build();
 
@@ -38,6 +44,38 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
     {
       _dbContext?.Database?.EnsureDeleted();
       _disposable?.Dispose();
+    }
+
+    [TestMethod]
+    public async Task Add_Should_Create_Scope()
+    {
+      var scopeName = Guid.NewGuid().ToString();
+      var scopeDesciption = Guid.NewGuid().ToString();
+      var scopeDisplayName = Guid.NewGuid().ToString();
+
+      var scopeEntity = new ScopeEntity
+      {
+        Name = scopeName,
+        Description = scopeDesciption,
+        DisplayName = scopeDisplayName,
+      };
+
+      var scopeEntityEntry = _dbContext.Add(scopeEntity);
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      scopeEntityEntry.State = EntityState.Detached;
+
+      var dbScopeEntity =
+        await _dbContext.Set<ScopeEntity>()
+                        .Where(entity => entity.Name == scopeName)
+                        .FirstOrDefaultAsync(_cancellationToken);
+
+      Assert.IsNotNull(dbScopeEntity);
+
+      Assert.AreEqual(scopeName, dbScopeEntity!.Name);
+      Assert.AreEqual(scopeDesciption, dbScopeEntity!.Description);
+      Assert.AreEqual(scopeDisplayName, dbScopeEntity!.Description);
     }
   }
 }
