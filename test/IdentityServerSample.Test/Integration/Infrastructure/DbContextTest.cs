@@ -77,5 +77,55 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       Assert.AreEqual(scopeDesciption, dbScopeEntity!.Description);
       Assert.AreEqual(scopeDisplayName, dbScopeEntity!.DisplayName);
     }
+
+    [TestMethod]
+    public async Task Update_Should_Update_Scope()
+    {
+      var scopeName = Guid.NewGuid().ToString();
+      var creatingScopeDesciption = Guid.NewGuid().ToString();
+      var creatingScopeDisplayName = Guid.NewGuid().ToString();
+
+      var creatingScopeEntity = new ScopeEntity
+      {
+        Name = scopeName,
+        Description = creatingScopeDesciption,
+        DisplayName = creatingScopeDisplayName,
+      };
+
+      var creatingScopeEntityEntry = _dbContext.Add(creatingScopeEntity);
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      creatingScopeEntityEntry.State = EntityState.Detached;
+
+      var updatingScopeDesciption = Guid.NewGuid().ToString();
+      var updatingScopeDisplayName = Guid.NewGuid().ToString();
+
+      var updatingScopeEntity = new ScopeEntity
+      {
+        Name = scopeName,
+        Description = updatingScopeDesciption,
+        DisplayName = updatingScopeDisplayName,
+      };
+
+      var updatingScopeEntityEntry = _dbContext.Attach(updatingScopeEntity);
+
+      updatingScopeEntityEntry.State = EntityState.Modified;
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      updatingScopeEntityEntry.State = EntityState.Detached;
+
+      var dbScopeEntity =
+        await _dbContext.Set<ScopeEntity>()
+                        .Where(entity => entity.Name == scopeName)
+                        .FirstOrDefaultAsync(_cancellationToken);
+
+      Assert.IsNotNull(dbScopeEntity);
+
+      Assert.AreEqual(scopeName, dbScopeEntity!.Name);
+      Assert.AreEqual(updatingScopeDesciption, dbScopeEntity!.Description);
+      Assert.AreEqual(updatingScopeDisplayName, dbScopeEntity!.DisplayName);
+    }
   }
 }
