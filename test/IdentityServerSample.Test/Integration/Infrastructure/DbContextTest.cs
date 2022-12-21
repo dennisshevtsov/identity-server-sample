@@ -75,7 +75,7 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
 
       Assert.AreEqual(scopeName, dbScopeEntity!.Name);
       Assert.AreEqual(scopeDesciption, dbScopeEntity!.Description);
-      Assert.AreEqual(scopeDisplayName, dbScopeEntity!.Description);
+      Assert.AreEqual(scopeDisplayName, dbScopeEntity!.DisplayName);
     }
   }
 }
