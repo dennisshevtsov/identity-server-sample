@@ -6,6 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.Configuration;
+  using Microsoft.Extensions.Options;
 
   using IdentityServerSample.ApplicationCore.Repositories;
   using IdentityServerSample.Infrastructure;
@@ -25,7 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
       services.AddDbContext<DbContext, IdentityServerSampleDbContext>(
         (provider, builder) =>
         {
-          var options = provider.GetRequiredService<DatabaseOptions>();
+          var options = provider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
 
           if (string.IsNullOrWhiteSpace(options.AccountEndpoint))
           {
