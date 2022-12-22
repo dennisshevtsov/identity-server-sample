@@ -133,36 +133,36 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
     {
       var scopeName = Guid.NewGuid().ToString();
 
-      var scopeEntity = new ScopeEntity
+      var creatingScopeEntity = new ScopeEntity
       {
         Name = scopeName,
         Description = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
       };
 
-      var scopeEntityEntry = _dbContext.Add(scopeEntity);
+      var creatingScopeEntityEntry = _dbContext.Add(creatingScopeEntity);
 
       await _dbContext.SaveChangesAsync(_cancellationToken);
 
-      scopeEntityEntry.State = EntityState.Detached;
+      creatingScopeEntityEntry.State = EntityState.Detached;
 
-      var dbScopeEntity0 =
+      var createdScopeEntity =
         await _dbContext.Set<ScopeEntity>()
                         .Where(entity => entity.Name == scopeName)
                         .FirstOrDefaultAsync(_cancellationToken);
 
-      Assert.IsNotNull(dbScopeEntity0);
+      Assert.IsNotNull(createdScopeEntity);
 
-      _dbContext.Entry(dbScopeEntity0!).State = EntityState.Deleted;
+      _dbContext.Entry(createdScopeEntity!).State = EntityState.Deleted;
 
       await _dbContext.SaveChangesAsync(_cancellationToken);
 
-      var dbScopeEntity1 =
+      var deletedScopeEntity =
         await _dbContext.Set<ScopeEntity>()
                         .Where(entity => entity.Name == scopeName)
                         .FirstOrDefaultAsync(_cancellationToken);
 
-      Assert.IsNull(dbScopeEntity1);
+      Assert.IsNull(deletedScopeEntity);
     }
 
     [TestMethod]
@@ -245,6 +245,43 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       Assert.AreEqual(audienceName, updatedAudienceEntity!.Name);
       Assert.AreEqual(updatingAudienceDesciption, updatedAudienceEntity!.Description);
       Assert.AreEqual(updatingAudienceDisplayName, updatedAudienceEntity!.DisplayName);
+    }
+
+    [TestMethod]
+    public async Task SaveChangesAsync_Should_Delete_Audience()
+    {
+      var audienceName = Guid.NewGuid().ToString();
+
+      var creatingAudienceEntity = new AudienceEntity
+      {
+        Name = audienceName,
+        Description = Guid.NewGuid().ToString(),
+        DisplayName = Guid.NewGuid().ToString(),
+      };
+
+      var creatingAudienceEntityEntry = _dbContext.Add(creatingAudienceEntity);
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      creatingAudienceEntityEntry.State = EntityState.Detached;
+
+      var createdAudienceEntity =
+        await _dbContext.Set<AudienceEntity>()
+                        .Where(entity => entity.Name == audienceName)
+                        .FirstOrDefaultAsync(_cancellationToken);
+
+      Assert.IsNotNull(createdAudienceEntity);
+
+      _dbContext.Entry(createdAudienceEntity!).State = EntityState.Deleted;
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      var deletedAudienceEntity =
+        await _dbContext.Set<AudienceEntity>()
+                        .Where(entity => entity.Name == audienceName)
+                        .FirstOrDefaultAsync(_cancellationToken);
+
+      Assert.IsNull(deletedAudienceEntity);
     }
   }
 }
