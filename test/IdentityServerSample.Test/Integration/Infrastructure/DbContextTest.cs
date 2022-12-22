@@ -116,16 +116,16 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
 
       updatingScopeEntityEntry.State = EntityState.Detached;
 
-      var dbScopeEntity =
+      var updatedScopeEntity =
         await _dbContext.Set<ScopeEntity>()
                         .Where(entity => entity.Name == scopeName)
                         .FirstOrDefaultAsync(_cancellationToken);
 
-      Assert.IsNotNull(dbScopeEntity);
+      Assert.IsNotNull(updatedScopeEntity);
 
-      Assert.AreEqual(scopeName, dbScopeEntity!.Name);
-      Assert.AreEqual(updatingScopeDesciption, dbScopeEntity!.Description);
-      Assert.AreEqual(updatingScopeDisplayName, dbScopeEntity!.DisplayName);
+      Assert.AreEqual(scopeName, updatedScopeEntity!.Name);
+      Assert.AreEqual(updatingScopeDesciption, updatedScopeEntity!.Description);
+      Assert.AreEqual(updatingScopeDisplayName, updatedScopeEntity!.DisplayName);
     }
 
     [TestMethod]
@@ -195,6 +195,56 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       Assert.AreEqual(audienceName, createdAudienceEntity!.Name);
       Assert.AreEqual(creatingAudienceDesciption, createdAudienceEntity!.Description);
       Assert.AreEqual(creatingAudienceDisplayName, createdAudienceEntity!.DisplayName);
+    }
+
+    [TestMethod]
+    public async Task SaveChangesAsync_Should_Update_Audience()
+    {
+      var audienceName = Guid.NewGuid().ToString();
+      var creatingAudienceDesciption = Guid.NewGuid().ToString();
+      var creatingAudienceDisplayName = Guid.NewGuid().ToString();
+
+      var creatingAudienceEntity = new AudienceEntity
+      {
+        Name = audienceName,
+        Description = creatingAudienceDesciption,
+        DisplayName = creatingAudienceDisplayName,
+      };
+
+      var creatingAudienceEntityEntry = _dbContext.Add(creatingAudienceEntity);
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      creatingAudienceEntityEntry.State = EntityState.Detached;
+
+      var updatingAudienceDesciption = Guid.NewGuid().ToString();
+      var updatingAudienceDisplayName = Guid.NewGuid().ToString();
+
+      var updatingAudienceEntity = new AudienceEntity
+      {
+        Name = audienceName,
+        Description = updatingAudienceDesciption,
+        DisplayName = updatingAudienceDisplayName,
+      };
+
+      var updatingScopeEntityEntry = _dbContext.Attach(updatingAudienceEntity);
+
+      updatingScopeEntityEntry.State = EntityState.Modified;
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      updatingScopeEntityEntry.State = EntityState.Detached;
+
+      var updatedAudienceEntity =
+        await _dbContext.Set<AudienceEntity>()
+                        .Where(entity => entity.Name == audienceName)
+                        .FirstOrDefaultAsync(_cancellationToken);
+
+      Assert.IsNotNull(updatedAudienceEntity);
+
+      Assert.AreEqual(audienceName, updatedAudienceEntity!.Name);
+      Assert.AreEqual(updatingAudienceDesciption, updatedAudienceEntity!.Description);
+      Assert.AreEqual(updatingAudienceDisplayName, updatedAudienceEntity!.DisplayName);
     }
   }
 }
