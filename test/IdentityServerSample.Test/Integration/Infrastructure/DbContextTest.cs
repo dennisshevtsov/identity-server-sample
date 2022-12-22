@@ -47,7 +47,7 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
     }
 
     [TestMethod]
-    public async Task Add_Should_Create_Scope()
+    public async Task SaveChangesAsync_Should_Create_Scope()
     {
       var scopeName = Guid.NewGuid().ToString();
       var scopeDesciption = Guid.NewGuid().ToString();
@@ -79,7 +79,7 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
     }
 
     [TestMethod]
-    public async Task Update_Should_Update_Scope()
+    public async Task SaveChangesAsync_Should_Update_Scope()
     {
       var scopeName = Guid.NewGuid().ToString();
       var creatingScopeDesciption = Guid.NewGuid().ToString();
@@ -126,6 +126,43 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       Assert.AreEqual(scopeName, dbScopeEntity!.Name);
       Assert.AreEqual(updatingScopeDesciption, dbScopeEntity!.Description);
       Assert.AreEqual(updatingScopeDisplayName, dbScopeEntity!.DisplayName);
+    }
+
+    [TestMethod]
+    public async Task SaveChangesAsync_Should_Delete_Scope()
+    {
+      var scopeName = Guid.NewGuid().ToString();
+
+      var scopeEntity = new ScopeEntity
+      {
+        Name = scopeName,
+        Description = Guid.NewGuid().ToString(),
+        DisplayName = Guid.NewGuid().ToString(),
+      };
+
+      var scopeEntityEntry = _dbContext.Add(scopeEntity);
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      scopeEntityEntry.State = EntityState.Detached;
+
+      var dbScopeEntity0 =
+        await _dbContext.Set<ScopeEntity>()
+                        .Where(entity => entity.Name == scopeName)
+                        .FirstOrDefaultAsync(_cancellationToken);
+
+      Assert.IsNotNull(dbScopeEntity0);
+
+      _dbContext.Entry(dbScopeEntity0!).State = EntityState.Deleted;
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      var dbScopeEntity1 =
+        await _dbContext.Set<ScopeEntity>()
+                        .Where(entity => entity.Name == scopeName)
+                        .FirstOrDefaultAsync(_cancellationToken);
+
+      Assert.IsNull(dbScopeEntity1);
     }
   }
 }
