@@ -428,5 +428,45 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       Assert.AreEqual(postRedirectUri0, updatedPostRedirectUris[0].Value);
       Assert.AreEqual(postRedirectUri1, updatedPostRedirectUris[1].Value);
     }
+
+    [TestMethod]
+    public async Task SaveChangesAsync_Should_Delete_Client()
+    {
+      var clientName = Guid.NewGuid().ToString();
+
+      var creatingClientEntity = new ClientEntity
+      {
+        Name = clientName,
+        DisplayName = Guid.NewGuid().ToString(),
+        Description = Guid.NewGuid().ToString(),
+        Scopes = new LiteralEmbeddedEntity[] { Guid.NewGuid().ToString() },
+        RedirectUris = new LiteralEmbeddedEntity[] { Guid.NewGuid().ToString() },
+        PostRedirectUris = new LiteralEmbeddedEntity[] { Guid.NewGuid().ToString() },
+      };
+
+      var creatingClientEntityEntry = _dbContext.Add(creatingClientEntity);
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      creatingClientEntityEntry.State = EntityState.Detached;
+
+      var createdClientEntity =
+        await _dbContext.Set<ClientEntity>()
+                        .Where(entity => entity.Name == clientName)
+                        .FirstOrDefaultAsync(_cancellationToken);
+
+      Assert.IsNotNull(createdClientEntity);
+
+      _dbContext.Entry(createdClientEntity!).State = EntityState.Deleted;
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      var deletedClientEntity =
+        await _dbContext.Set<ClientEntity>()
+                        .Where(entity => entity.Name == clientName)
+                        .FirstOrDefaultAsync(_cancellationToken);
+
+      Assert.IsNull(deletedClientEntity);
+    }
   }
 }
