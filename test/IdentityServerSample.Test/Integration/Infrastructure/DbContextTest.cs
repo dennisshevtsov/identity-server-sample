@@ -50,14 +50,14 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
     public async Task SaveChangesAsync_Should_Create_Scope()
     {
       var scopeName = Guid.NewGuid().ToString();
-      var creatingScopeDesciption = Guid.NewGuid().ToString();
       var creatingScopeDisplayName = Guid.NewGuid().ToString();
+      var creatingScopeDescription = Guid.NewGuid().ToString();
 
       var creatingScopeEntity = new ScopeEntity
       {
         Name = scopeName,
-        Description = creatingScopeDesciption,
         DisplayName = creatingScopeDisplayName,
+        Description = creatingScopeDescription,
       };
 
       var creatingScopeEntityEntry = _dbContext.Add(creatingScopeEntity);
@@ -74,22 +74,22 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       Assert.IsNotNull(createdScopeEntity);
 
       Assert.AreEqual(scopeName, createdScopeEntity!.Name);
-      Assert.AreEqual(creatingScopeDesciption, createdScopeEntity!.Description);
       Assert.AreEqual(creatingScopeDisplayName, createdScopeEntity!.DisplayName);
+      Assert.AreEqual(creatingScopeDescription, createdScopeEntity!.Description);
     }
 
     [TestMethod]
     public async Task SaveChangesAsync_Should_Update_Scope()
     {
       var scopeName = Guid.NewGuid().ToString();
-      var creatingScopeDesciption = Guid.NewGuid().ToString();
       var creatingScopeDisplayName = Guid.NewGuid().ToString();
+      var creatingScopeDescription = Guid.NewGuid().ToString();
 
       var creatingScopeEntity = new ScopeEntity
       {
         Name = scopeName,
-        Description = creatingScopeDesciption,
         DisplayName = creatingScopeDisplayName,
+        Description = creatingScopeDescription,
       };
 
       var creatingScopeEntityEntry = _dbContext.Add(creatingScopeEntity);
@@ -98,14 +98,14 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
 
       creatingScopeEntityEntry.State = EntityState.Detached;
 
-      var updatingScopeDesciption = Guid.NewGuid().ToString();
       var updatingScopeDisplayName = Guid.NewGuid().ToString();
+      var updatingScopeDescription = Guid.NewGuid().ToString();
 
       var updatingScopeEntity = new ScopeEntity
       {
         Name = scopeName,
-        Description = updatingScopeDesciption,
         DisplayName = updatingScopeDisplayName,
+        Description = updatingScopeDescription,
       };
 
       var updatingScopeEntityEntry = _dbContext.Attach(updatingScopeEntity);
@@ -124,8 +124,8 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       Assert.IsNotNull(updatedScopeEntity);
 
       Assert.AreEqual(scopeName, updatedScopeEntity!.Name);
-      Assert.AreEqual(updatingScopeDesciption, updatedScopeEntity!.Description);
       Assert.AreEqual(updatingScopeDisplayName, updatedScopeEntity!.DisplayName);
+      Assert.AreEqual(updatingScopeDescription, updatedScopeEntity!.Description);
     }
 
     [TestMethod]
@@ -136,8 +136,8 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       var creatingScopeEntity = new ScopeEntity
       {
         Name = scopeName,
-        Description = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
+        Description = Guid.NewGuid().ToString(),
       };
 
       var creatingScopeEntityEntry = _dbContext.Add(creatingScopeEntity);
@@ -169,14 +169,14 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
     public async Task SaveChangesAsync_Should_Create_Audience()
     {
       var audienceName = Guid.NewGuid().ToString();
-      var creatingAudienceDesciption = Guid.NewGuid().ToString();
       var creatingAudienceDisplayName = Guid.NewGuid().ToString();
+      var creatingAudienceDescription = Guid.NewGuid().ToString();
 
       var creatingAudienceEntity = new AudienceEntity
       {
         Name = audienceName,
-        Description = creatingAudienceDesciption,
         DisplayName = creatingAudienceDisplayName,
+        Description = creatingAudienceDescription,
       };
 
       var creatingAudienceEntityEntry = _dbContext.Add(creatingAudienceEntity);
@@ -193,22 +193,22 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       Assert.IsNotNull(createdAudienceEntity);
 
       Assert.AreEqual(audienceName, createdAudienceEntity!.Name);
-      Assert.AreEqual(creatingAudienceDesciption, createdAudienceEntity!.Description);
       Assert.AreEqual(creatingAudienceDisplayName, createdAudienceEntity!.DisplayName);
+      Assert.AreEqual(creatingAudienceDescription, createdAudienceEntity!.Description);
     }
 
     [TestMethod]
     public async Task SaveChangesAsync_Should_Update_Audience()
     {
       var audienceName = Guid.NewGuid().ToString();
-      var creatingAudienceDesciption = Guid.NewGuid().ToString();
       var creatingAudienceDisplayName = Guid.NewGuid().ToString();
+      var creatingAudienceDesciption = Guid.NewGuid().ToString();
 
       var creatingAudienceEntity = new AudienceEntity
       {
         Name = audienceName,
-        Description = creatingAudienceDesciption,
         DisplayName = creatingAudienceDisplayName,
+        Description = creatingAudienceDesciption,
       };
 
       var creatingAudienceEntityEntry = _dbContext.Add(creatingAudienceEntity);
@@ -217,14 +217,14 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
 
       creatingAudienceEntityEntry.State = EntityState.Detached;
 
-      var updatingAudienceDesciption = Guid.NewGuid().ToString();
       var updatingAudienceDisplayName = Guid.NewGuid().ToString();
+      var updatingAudienceDescription = Guid.NewGuid().ToString();
 
       var updatingAudienceEntity = new AudienceEntity
       {
         Name = audienceName,
-        Description = updatingAudienceDesciption,
         DisplayName = updatingAudienceDisplayName,
+        Description = updatingAudienceDescription,
       };
 
       var updatingScopeEntityEntry = _dbContext.Attach(updatingAudienceEntity);
@@ -243,8 +243,8 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       Assert.IsNotNull(updatedAudienceEntity);
 
       Assert.AreEqual(audienceName, updatedAudienceEntity!.Name);
-      Assert.AreEqual(updatingAudienceDesciption, updatedAudienceEntity!.Description);
       Assert.AreEqual(updatingAudienceDisplayName, updatedAudienceEntity!.DisplayName);
+      Assert.AreEqual(updatingAudienceDescription, updatedAudienceEntity!.Description);
     }
 
     [TestMethod]
@@ -255,8 +255,8 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       var creatingAudienceEntity = new AudienceEntity
       {
         Name = audienceName,
-        Description = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
+        Description = Guid.NewGuid().ToString(),
       };
 
       var creatingAudienceEntityEntry = _dbContext.Add(creatingAudienceEntity);
@@ -282,6 +282,56 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
                         .FirstOrDefaultAsync(_cancellationToken);
 
       Assert.IsNull(deletedAudienceEntity);
+    }
+
+    [TestMethod]
+    public async Task SaveChangesAsync_Should_Create_Client()
+    {
+      var clientName = Guid.NewGuid().ToString();
+      var creatingCleintDisplayName = Guid.NewGuid().ToString();
+      var creatingClientDesciption = Guid.NewGuid().ToString();
+      var creatingScopeName = Guid.NewGuid().ToString();
+      var creatingRedirectUri = Guid.NewGuid().ToString();
+      var creatingPostRedirectUri = Guid.NewGuid().ToString();
+
+      var creatingAudienceEntity = new ClientEntity
+      {
+        Name = clientName,
+        DisplayName = creatingCleintDisplayName,
+        Description = creatingClientDesciption,
+        Scopes = new LiteralEmbeddedEntity[] { creatingScopeName },
+        RedirectUris = new LiteralEmbeddedEntity[] { creatingRedirectUri },
+        PostRedirectUris = new LiteralEmbeddedEntity[] { creatingPostRedirectUri },
+      };
+
+      var creatingClientEntityEntry = _dbContext.Add(creatingAudienceEntity);
+
+      await _dbContext.SaveChangesAsync(_cancellationToken);
+
+      creatingClientEntityEntry.State = EntityState.Detached;
+
+      var createdClientEntity =
+        await _dbContext.Set<ClientEntity>()
+                        .Where(entity => entity.Name == clientName)
+                        .FirstOrDefaultAsync(_cancellationToken);
+
+      Assert.IsNotNull(createdClientEntity);
+
+      Assert.AreEqual(clientName, createdClientEntity!.Name);
+      Assert.AreEqual(creatingCleintDisplayName, createdClientEntity!.DisplayName);
+      Assert.AreEqual(creatingClientDesciption, createdClientEntity!.Description);
+
+      Assert.IsNotNull(createdClientEntity!.Scopes);
+      Assert.AreEqual(1, createdClientEntity!.Scopes!.Count());
+      Assert.AreEqual(creatingScopeName, createdClientEntity!.Scopes!.First().Value);
+
+      Assert.IsNotNull(createdClientEntity!.RedirectUris);
+      Assert.AreEqual(1, createdClientEntity!.RedirectUris!.Count());
+      Assert.AreEqual(creatingRedirectUri, createdClientEntity!.RedirectUris!.First().Value);
+
+      Assert.IsNotNull(createdClientEntity!.PostRedirectUris);
+      Assert.AreEqual(1, createdClientEntity!.PostRedirectUris!.Count());
+      Assert.AreEqual(creatingPostRedirectUri, createdClientEntity!.PostRedirectUris!.First().Value);
     }
   }
 }

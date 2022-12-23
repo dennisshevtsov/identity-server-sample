@@ -9,5 +9,10 @@ namespace IdentityServerSample.ApplicationCore.Entities
   {
     /// <summary>Gets/sets an object that represents a value of a literal.</summary>
     public string? Value { get; set; }
+
+    /// <summary>Creates an instance of the <see cref="IdentityServerSample.ApplicationCore.Entities.LiteralEmbeddedEntity"/> from a string literal.</summary>
+    /// <param name="value">An object that represents a string literal.</param>
+    public static implicit operator LiteralEmbeddedEntity(string? value)
+      => new() { Value = value };
   }
 }
