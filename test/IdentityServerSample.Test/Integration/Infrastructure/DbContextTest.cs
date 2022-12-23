@@ -358,64 +358,75 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
 
       creatingClientEntityEntry.State = EntityState.Detached;
 
-      var createdClientEntity =
-        await _dbContext.Set<ClientEntity>()
-                        .Where(entity => entity.Name == clientName)
-                        .FirstOrDefaultAsync(_cancellationToken);
-
-      Assert.IsNotNull(createdClientEntity);
-
       var updatingCleintDisplayName = Guid.NewGuid().ToString();
       var updatingClientDesciption = Guid.NewGuid().ToString();
       var scopeName1 = Guid.NewGuid().ToString();
       var redirectUri1 = Guid.NewGuid().ToString();
       var postRedirectUri1 = Guid.NewGuid().ToString();
 
-      createdClientEntity!.DisplayName = updatingCleintDisplayName;
-      createdClientEntity!.Description = updatingClientDesciption;
-      createdClientEntity!.Scopes = new LiteralEmbeddedEntity[]
+      var updatingClientEntity = new ClientEntity
       {
-        scopeName0,
-        scopeName1,
+        Name = clientName,
+        DisplayName = updatingCleintDisplayName,
+        Description = updatingClientDesciption,
+        Scopes = new LiteralEmbeddedEntity[]
+        {
+          scopeName0,
+          scopeName1,
+        },
+        PostRedirectUris = new LiteralEmbeddedEntity[]
+        {
+          postRedirectUri0,
+          postRedirectUri1,
+        },
+        RedirectUris = new LiteralEmbeddedEntity[]
+        {
+          redirectUri0,
+          redirectUri1,
+        },
       };
-      createdClientEntity!.RedirectUris = new LiteralEmbeddedEntity[]
-      {
-        redirectUri0,
-        redirectUri1,
-      };
-      createdClientEntity!.PostRedirectUris = new LiteralEmbeddedEntity[]
-      {
-        postRedirectUri0,
-        postRedirectUri1,
-      };
 
-      Assert.AreEqual(clientName, createdClientEntity!.Name);
-      Assert.AreEqual(updatingCleintDisplayName, createdClientEntity!.DisplayName);
-      Assert.AreEqual(updatingClientDesciption, createdClientEntity!.Description);
+      var updatingClientEntityEntry = _dbContext.Attach(updatingClientEntity);
 
-      Assert.IsNotNull(createdClientEntity!.Scopes);
+      updatingClientEntityEntry.State = EntityState.Modified;
 
-      var updatingScopes = createdClientEntity!.Scopes.ToArray();
+      await _dbContext.SaveChangesAsync(_cancellationToken);
 
-      Assert.AreEqual(2, updatingScopes.Length);
-      Assert.AreEqual(scopeName0, updatingScopes[0].Value);
-      Assert.AreEqual(scopeName1, updatingScopes[1].Value);
+      updatingClientEntityEntry.State = EntityState.Detached;
 
-      Assert.IsNotNull(createdClientEntity!.Scopes);
+      var updatedClientEntity =
+        await _dbContext.Set<ClientEntity>()
+                        .Where(entity => entity.Name == clientName)
+                        .FirstOrDefaultAsync(_cancellationToken);
 
-      var updatingRedirectUris = createdClientEntity!.RedirectUris.ToArray();
+      Assert.IsNotNull(updatedClientEntity);
+      Assert.AreEqual(clientName, updatedClientEntity!.Name);
+      Assert.AreEqual(updatingCleintDisplayName, updatedClientEntity!.DisplayName);
+      Assert.AreEqual(updatingClientDesciption, updatedClientEntity!.Description);
 
-      Assert.AreEqual(2, updatingRedirectUris.Length);
-      Assert.AreEqual(redirectUri0, updatingRedirectUris[0].Value);
-      Assert.AreEqual(redirectUri1, updatingRedirectUris[1].Value);
+      Assert.IsNotNull(updatedClientEntity!.Scopes);
 
-      Assert.IsNotNull(createdClientEntity!.Scopes);
+      var updatedScopes = updatedClientEntity!.Scopes!.ToArray();
 
-      var updatingPostRedirectUris = createdClientEntity!.PostRedirectUris.ToArray();
+      Assert.AreEqual(2, updatedScopes.Length);
+      Assert.AreEqual(scopeName0, updatedScopes[0].Value);
+      Assert.AreEqual(scopeName1, updatedScopes[1].Value);
 
-      Assert.AreEqual(2, updatingPostRedirectUris.Length);
-      Assert.AreEqual(postRedirectUri0, updatingPostRedirectUris[0].Value);
-      Assert.AreEqual(postRedirectUri1, updatingPostRedirectUris[1].Value);
+      Assert.IsNotNull(updatedClientEntity!.Scopes);
+
+      var updatedRedirectUris = updatedClientEntity!.RedirectUris!.ToArray();
+
+      Assert.AreEqual(2, updatedRedirectUris.Length);
+      Assert.AreEqual(redirectUri0, updatedRedirectUris[0].Value);
+      Assert.AreEqual(redirectUri1, updatedRedirectUris[1].Value);
+
+      Assert.IsNotNull(updatedClientEntity!.Scopes);
+
+      var updatedPostRedirectUris = updatedClientEntity!.PostRedirectUris!.ToArray();
+
+      Assert.AreEqual(2, updatedPostRedirectUris.Length);
+      Assert.AreEqual(postRedirectUri0, updatedPostRedirectUris[0].Value);
+      Assert.AreEqual(postRedirectUri1, updatedPostRedirectUris[1].Value);
     }
   }
 }
