@@ -23,14 +23,14 @@ namespace IdentityServerSample.Infrastructure.Repositories
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
-    /// <summary>Gets a client by its ID.</summary>
-    /// <param name="clientId">An object that represents an ID of a client.</param>
+    /// <summary>Gets a client by its name.</summary>
+    /// <param name="name">An object that represents a name of a client.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public Task<ClientEntity?> GetClientAsync(string clientId, CancellationToken cancellationToken)
+    public Task<ClientEntity?> GetClientAsync(string name, CancellationToken cancellationToken)
     {
       return _dbContext.Set<ClientEntity>()
-                       .Where(entity => entity.ClientId == clientId)
+                       .Where(entity => entity.Name == name)
                        .FirstOrDefaultAsync(cancellationToken);
     }
 

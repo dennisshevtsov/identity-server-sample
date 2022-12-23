@@ -7,7 +7,7 @@ namespace IdentityServerSample.ApplicationCore.Identities
   /// <summary>Represents an identity of a client.</summary>
   public interface IClientIdentity
   {
-    /// <summary>Gets/sets an object that reprsents an ID of a client.</summary>
-    public string? ClientId { get; set; }
+    /// <summary>Gets/sets an object that reprsents a name of a client.</summary>
+    public string? Name { get; set; }
   }
 }

@@ -4,12 +4,11 @@
 
 namespace IdentityServerSample.ApplicationCore.Entities
 {
-  /// <summary>Represents details of a client.</summary>
-  public sealed class ClientEntity
-  {
-    /// <summary>Gets/sets an object that represents an ID of a client.</summary>
-    public string? ClientId { get; set; }
+  using IdentityServerSample.ApplicationCore.Identities;
 
+  /// <summary>Represents details of a client.</summary>
+  public sealed class ClientEntity : IClientIdentity
+  {
     /// <summary>Gets/sets an object that represents a name of a client.</summary>
     public string? Name { get; set; }
 

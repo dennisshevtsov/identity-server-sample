@@ -27,12 +27,11 @@ namespace IdentityServerSample.Infrastructure.Configurations
     {
       builder.ToContainer(_containerName);
 
-      builder.HasKey(entity => entity.ClientId);
-      builder.HasPartitionKey(entity => entity.ClientId);
+      builder.HasKey(entity => entity.Name);
+      builder.HasPartitionKey(entity => entity.Name);
 
       builder.HasNoDiscriminator();
 
-      builder.Property(entity => entity.ClientId).ToJsonProperty("id");
       builder.Property(entity => entity.Name).ToJsonProperty("name");
 
       builder.OwnsMany(entity => entity.Scopes).ToJsonProperty("scopes");
