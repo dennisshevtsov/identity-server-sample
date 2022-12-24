@@ -13,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
       services.AddAutoMapper(config =>
       {
+        config.AddProfile(new AudienceMappingProfile());
         config.AddProfile(new ClientMappingProfile());
         config.AddProfile(new ScopeMappingProfile());
       });
