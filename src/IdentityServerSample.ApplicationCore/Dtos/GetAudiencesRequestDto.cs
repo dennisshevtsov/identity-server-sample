@@ -4,6 +4,7 @@
 
 namespace IdentityServerSample.ApplicationCore.Dtos
 {
+  /// <summary>Represents conditions to query audiencies.</summary>
   public sealed class GetAudiencesRequestDto
   {
   }

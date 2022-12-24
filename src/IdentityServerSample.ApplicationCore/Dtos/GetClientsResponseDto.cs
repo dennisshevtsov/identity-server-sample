@@ -12,6 +12,7 @@ namespace IdentityServerSample.ApplicationCore.Dtos
     /// <summary>Gets/sets an object that represents a collection of clients.</summary>
     public ClientDto[]? Clients { get; set; }
 
+    /// <summary>Represents details of a client.</summary>
     public sealed class ClientDto : IClientIdentity
     {
       /// <summary>Gets/sets an object that reprsents a name of a client.</summary>

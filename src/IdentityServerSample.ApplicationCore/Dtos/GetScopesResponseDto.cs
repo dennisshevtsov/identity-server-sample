@@ -12,7 +12,7 @@ namespace IdentityServerSample.ApplicationCore.Dtos
     /// <summary>Gets/sets a collection of scopes.</summary>
     public ScopeDto[]? Scopes { get; set; }
 
-    /// <summary>Represents a scope.</summary>
+    /// <summary>Represents details of a scope.</summary>
     public sealed class ScopeDto : IScopeIdentity
     {
       /// <summary>Gets/sets an object that represents a name of a scope.</summary>
