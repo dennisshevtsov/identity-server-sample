@@ -7,17 +7,19 @@ namespace IdentityServerSample.Test.Unit.Services
   using AutoMapper;
   using Moq;
 
+  using IdentityServerSample.ApplicationCore.Dtos;
+  using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Repositories;
   using IdentityServerSample.ApplicationCore.Services;
-  
+
   [TestClass]
   public sealed class AudienceServiceTest
   {
     private CancellationToken _cancellationToken;
 
 #pragma warning disable CS8618
-    private IMock<IMapper> _mapperMock;
-    private IMock<IAudienceRepository> _audienceRepositoryMock;
+    private Mock<IMapper> _mapperMock;
+    private Mock<IAudienceRepository> _audienceRepositoryMock;
 
     private AudienceService _audienceService;
 #pragma warning restore CS8618
@@ -32,6 +34,35 @@ namespace IdentityServerSample.Test.Unit.Services
 
       _audienceService = new AudienceService(
         _mapperMock.Object, _audienceRepositoryMock.Object);
+    }
+
+    [TestMethod]
+    public async Task GetAudiencesAsync_Should_Return_Mapped_Dtos()
+    {
+      var audienceEntityCollection = new AudienceEntity[0];
+
+      _audienceRepositoryMock.Setup(repository => repository.GetAudiencesAsync(It.IsAny<CancellationToken>()))
+                             .ReturnsAsync(audienceEntityCollection)
+                             .Verifiable();
+
+      var getAudiencesResponseDto = new GetAudiencesResponseDto();
+
+      _mapperMock.Setup(mapper => mapper.Map<GetAudiencesResponseDto>(It.IsAny<AudienceEntity[]>()))
+                 .Returns(getAudiencesResponseDto);
+
+      var getAudiencesRequestDto = new GetAudiencesRequestDto();
+
+      var actualGetAudienceResponseDto = await _audienceService.GetAudiencesAsync(
+        getAudiencesRequestDto, _cancellationToken);
+
+      Assert.IsNotNull(actualGetAudienceResponseDto);
+      Assert.AreEqual(getAudiencesResponseDto, actualGetAudienceResponseDto);
+
+      _audienceRepositoryMock.Verify(repository => repository.GetAudiencesAsync(_cancellationToken));
+      _audienceRepositoryMock.VerifyNoOtherCalls();
+
+      _mapperMock.Verify(mapper => mapper.Map<GetAudiencesResponseDto>(audienceEntityCollection));
+      _mapperMock.VerifyNoOtherCalls();
     }
   }
 }
