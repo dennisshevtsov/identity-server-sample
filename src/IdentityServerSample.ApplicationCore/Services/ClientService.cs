@@ -18,12 +18,12 @@ namespace IdentityServerSample.ApplicationCore.Services
     private readonly IClientRepository _clientRepository;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.ApplicationCore.Services.ClientService"/> class.</summary>
-    /// <param name="clientRepository">An object provides a simple API to clients in a database.</param>
     /// <param name="mapper">An object that provides a simple API to map objects of different types.</param>
-    public ClientService(IClientRepository clientRepository, IMapper mapper)
+    /// <param name="clientRepository">An object provides a simple API to clients in a database.</param>
+    public ClientService(IMapper mapper, IClientRepository clientRepository)
     {
-      _clientRepository = clientRepository ?? throw new ArgumentNullException(nameof(clientRepository));
       _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+      _clientRepository = clientRepository ?? throw new ArgumentNullException(nameof(clientRepository));
     }
 
     /// <summary>Gets clients that satisfied defined conditions.</summary>

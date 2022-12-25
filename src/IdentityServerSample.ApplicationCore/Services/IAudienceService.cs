@@ -6,7 +6,7 @@ namespace IdentityServerSample.ApplicationCore.Services
 {
   using IdentityServerSample.ApplicationCore.Dtos;
 
-  /// <summary>Represents a simple API to execute audience queries and commands.</summary>
+  /// <summary>Provides a simple API to execute audience queries and commands.</summary>
   public interface IAudienceService
   {
     /// <summary>Gets a collection of audiences that satisfy defined conditions.</summary>
