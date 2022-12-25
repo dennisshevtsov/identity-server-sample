@@ -14,8 +14,8 @@ namespace IdentityServerSample.ApplicationCore.Services
   /// <summary>Provides a simple API to execute audience queries and commands.</summary>
   public sealed class AudienceService : IAudienceService
   {
-    private IMapper _mapper;
-    private IAudienceRepository _audienceRepository;
+    private readonly IMapper _mapper;
+    private readonly IAudienceRepository _audienceRepository;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.ApplicationCore.Services.AudienceService"/> class.</summary>
     /// <param name="mapper">An object that provides a simple API to map objects of different types.</param>
