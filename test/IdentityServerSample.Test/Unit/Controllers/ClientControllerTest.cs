@@ -39,8 +39,8 @@ namespace IdentityServerSample.Test.Unit.Controllers
       var getClientsResponseDto = new GetClientsResponseDto();
 
       _clientServiceMock.Setup(service => service.GetClientsAsync(It.IsAny<GetClientsRequestDto>(), It.IsAny<CancellationToken>()))
-                          .ReturnsAsync(getClientsResponseDto)
-                          .Verifiable();
+                        .ReturnsAsync(getClientsResponseDto)
+                        .Verifiable();
 
       var getClientsRequestDto = new GetClientsRequestDto();
       var actionResult = await _clientController.GetClients(getClientsRequestDto, _cancellationToken);
