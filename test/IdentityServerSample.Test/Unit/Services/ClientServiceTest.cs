@@ -37,7 +37,7 @@ namespace IdentityServerSample.Test.Unit.Services
     }
 
     [TestMethod]
-    public async Task GetAudiencesAsync_Should_Return_Mapped_Dtos()
+    public async Task GetClientsAsync_Should_Return_Mapped_Dtos()
     {
       var clientEntityCollection = new ClientEntity[0];
 
