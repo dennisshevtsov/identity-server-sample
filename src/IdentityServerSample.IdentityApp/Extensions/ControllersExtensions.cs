@@ -4,14 +4,25 @@
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+  using Microsoft.AspNetCore.Authorization;
+  using Microsoft.AspNetCore.Mvc.Authorization;
   using Microsoft.AspNetCore.Mvc.Razor;
 
   public static class ControllersExtensions
   {
     public static IServiceCollection AddConfiguredControllers(
-      this IServiceCollection services)
+      this IServiceCollection services,
+      IConfiguration configuration)
     {
-      services.AddControllersWithViews()
+      services.AddControllersWithViews(options =>
+              {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
+                                                             .RequireClaim("scope", configuration["ApiScope_Name"]!)
+                                                             .Build();
+                var filter = new AuthorizeFilter(policy);
+
+                options.Filters.Add(filter);
+              })
               .AddViewOptions(options =>
               {
                 options.HtmlHelperOptions.ClientValidationEnabled = false;

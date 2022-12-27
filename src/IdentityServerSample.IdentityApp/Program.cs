@@ -4,8 +4,15 @@
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddConfiguredControllers();
+builder.Services.AddConfiguredControllers(builder.Configuration);
 builder.Services.AddConfiguredIdentityServer(builder.Configuration);
+builder.Services.AddAuthentication("Bearer")
+                .AddJwtBearer(options =>
+                {
+                  options.Authority = builder.Configuration["IdentityApi_Url"];
+                  options.Audience = builder.Configuration["ApiResource_Name"];
+                  options.RequireHttpsMetadata = false;
+                });
 builder.Services.AddServices();
 builder.Services.AddMapping();
 builder.Services.AddDatabase(builder.Configuration);
