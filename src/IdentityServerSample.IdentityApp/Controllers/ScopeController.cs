@@ -33,7 +33,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
 
     [HttpGet(Name = nameof(ScopeController.GetScopes))]
     [ProducesResponseType(typeof(GetScopesResponseDto), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetScopes(GetScopesRequestDto query, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetScopes([FromRoute] GetScopesRequestDto query, CancellationToken cancellationToken)
     {
       var scopeEntityCollection = await _scopeService.GetScopesAsync(cancellationToken);
       var getScopesResponseDto = _mapper.Map<GetScopesResponseDto>(scopeEntityCollection);
