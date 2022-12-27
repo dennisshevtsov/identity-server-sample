@@ -11,8 +11,7 @@ namespace IdentityServerSample.WebApi.Test.Functional
   using IdentityModel.Client;
   using Microsoft.Extensions.Configuration;
 
-  using IdentityServerSample.WebApi.Defaults;
-  using IdentityServerSample.WebApi.Dtos;
+  using IdentityServerSample.ApplicationCore.Dtos;
 
   [TestClass]
   public sealed class WebApiTest
@@ -41,21 +40,21 @@ namespace IdentityServerSample.WebApi.Test.Functional
 
       _apiHttpClient = new HttpClient
       {
-        BaseAddress = new Uri(_configuration["WebApi_Url"]!),
+        BaseAddress = new Uri(_configuration["IdentityApi_Url"]!),
       };
     }
 
     [TestMethod]
-    public async Task Get_User_Authenticated_Should_Return_Unauthorized()
+    public async Task Get_Scopes_Should_Return_Unauthorized()
     {
-      var userResponse = await _apiHttpClient.GetAsync($"{Routing.UserRoute}/{Routing.GetAuthenticatedUserRoute}");
+      var userResponse = await _apiHttpClient.GetAsync($"api/scope");
 
       Assert.IsNotNull(userResponse);
       Assert.AreEqual(HttpStatusCode.Unauthorized, userResponse.StatusCode);
     }
 
     [TestMethod]
-    public async Task Get_User_Authenticated_Should_Return_User()
+    public async Task Get_Scopes_Should_Return_Scopes()
     {
       var discoveryResponse = await _identityHttpClient.GetDiscoveryDocumentAsync();
 
@@ -76,12 +75,12 @@ namespace IdentityServerSample.WebApi.Test.Functional
 
       _apiHttpClient.SetBearerToken(tokenResponse.AccessToken);
 
-      var userResponse = await _apiHttpClient.GetAsync($"{Routing.UserRoute}/{Routing.GetAuthenticatedUserRoute}");
+      var userResponse = await _apiHttpClient.GetAsync($"api/scope");
 
       Assert.IsNotNull(userResponse);
       Assert.AreEqual(HttpStatusCode.OK, userResponse.StatusCode);
 
-      var userDto = await userResponse.Content.ReadFromJsonAsync<UserDto>(
+      var userDto = await userResponse.Content.ReadFromJsonAsync<GetScopesResponseDto>(
         new JsonSerializerOptions
         {
           PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
@@ -89,10 +88,9 @@ namespace IdentityServerSample.WebApi.Test.Functional
         _cancellationToken);
 
       Assert.IsNotNull(userDto);
-      Assert.IsNull(userDto.Name);
 
-      Assert.IsNotNull(userDto.Claims);
-      Assert.IsTrue(userDto.Claims.Length > 0);
+      Assert.IsNotNull(userDto.Scopes);
+      Assert.IsTrue(userDto.Scopes.Length > 0);
     }
   }
 }
