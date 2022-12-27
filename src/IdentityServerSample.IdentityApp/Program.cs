@@ -9,12 +9,15 @@ builder.Services.AddConfiguredIdentityServer(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddMapping();
 builder.Services.AddDatabase(builder.Configuration);
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.InitializeDatabase();
+
+app.UseSwagger();
 app.UseStaticFiles();
 app.UseRouting();
-app.InitializeDatabase();
 app.UseIdentityServer();
 
 app.MapControllers();
