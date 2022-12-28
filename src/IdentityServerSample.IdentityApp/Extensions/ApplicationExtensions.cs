@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
   using Microsoft.EntityFrameworkCore;
 
-  /// <summary>Provides a simple API to configure an application.S</summary>
+  /// <summary>Provides a simple API to configure an application.</summary>
   public static class ApplicationExtensions
   {
     /// <summary>Initializes a database.</summary>
