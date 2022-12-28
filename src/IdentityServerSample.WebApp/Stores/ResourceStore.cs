@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Stores
+namespace IdentityServerSample.WebApp.Stores
 {
   using System.Linq;
 
@@ -16,7 +16,7 @@ namespace IdentityServerSample.IdentityApp.Stores
     private readonly IEnumerable<ApiResource> _apiResources;
     private readonly IEnumerable<ApiScope> _apiScopes;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApp.Stores.ResourceStore"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApp.Stores.ResourceStore"/> class.</summary>
     /// <param name="configuration">An object that represents a set of key/value application configuration properties.</param>
     public ResourceStore(IConfiguration configuration)
     {

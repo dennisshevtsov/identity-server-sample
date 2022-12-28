@@ -8,9 +8,9 @@ namespace Microsoft.Extensions.DependencyInjection
 
   using IdentityServer4.Test;
 
-  using IdentityServerSample.IdentityApp.Defaults;
-  using IdentityServerSample.IdentityApp.Services;
-  using IdentityServerSample.IdentityApp.Stores;
+  using IdentityServerSample.WebApp.Defaults;
+  using IdentityServerSample.WebApp.Services;
+  using IdentityServerSample.WebApp.Stores;
 
   /// <summary>Provides a simple API to configure a pipeline.</summary>
   public static class IdentityServerExtensions

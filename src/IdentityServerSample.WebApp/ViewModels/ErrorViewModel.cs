@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.ViewModels
+namespace IdentityServerSample.WebApp.ViewModels
 {
   /// <summary>Represents details of an error.</summary>
   public sealed class ErrorViewModel

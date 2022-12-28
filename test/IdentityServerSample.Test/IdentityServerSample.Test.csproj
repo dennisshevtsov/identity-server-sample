@@ -32,8 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\IdentityServerSample.IdentityApp\IdentityServerSample.IdentityApp.csproj" />
-    <ProjectReference Include="..\..\src\IdentityServerSample.Infrastructure\IdentityServerSample.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\IdentityServerSample.WebApp\IdentityServerSample.WebApp.csproj" />
   </ItemGroup>
 
 </Project>

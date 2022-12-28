@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Stores
+namespace IdentityServerSample.WebApp.Stores
 {
   using IdentityServer4;
   using IdentityServer4.Models;

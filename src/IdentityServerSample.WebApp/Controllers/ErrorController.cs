@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Controllers
+namespace IdentityServerSample.WebApp.Controllers
 {
   using IdentityServer4.Services;
   using Microsoft.AspNetCore.Mvc;
 
-  using IdentityServerSample.IdentityApp.ViewModels;
-  using IdentityServerSample.IdentityApp.Defaults;
+  using IdentityServerSample.WebApp.ViewModels;
+  using IdentityServerSample.WebApp.Defaults;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
   [Route(Routing.ErrorRoute)]
@@ -16,7 +16,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
   {
     private readonly IIdentityServerInteractionService _identityServerInteractionService;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApp.Controllers.ErrorController"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApp.Controllers.ErrorController"/> class.</summary>
     /// <param name="identityServerInteractionService">An object that provide services be used by the user interface to communicate with IdentityServer.</param>
     public ErrorController(
       IIdentityServerInteractionService identityServerInteractionService)

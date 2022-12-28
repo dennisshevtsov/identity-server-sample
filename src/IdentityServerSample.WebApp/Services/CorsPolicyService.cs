@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Services
+namespace IdentityServerSample.WebApp.Services
 {
   using System;
 
@@ -14,7 +14,7 @@ namespace IdentityServerSample.IdentityApp.Services
   {
     private IConfiguration _configuration;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApp.Services.CorsPolicyService"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApp.Services.CorsPolicyService"/> class.</summary>
     /// <param name="configuration">An object that represents a set of key/value application configuration properties.</param>
     public CorsPolicyService(IConfiguration configuration)
     {

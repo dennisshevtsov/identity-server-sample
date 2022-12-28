@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Controllers
+namespace IdentityServerSample.WebApp.Controllers
 {
   using IdentityServer4.Models;
   using IdentityServer4.Services;
   using Microsoft.AspNetCore.Authentication;
   using Microsoft.AspNetCore.Mvc;
 
-  using IdentityServerSample.IdentityApp.Defaults;
-  using IdentityServerSample.IdentityApp.ViewModels;
+  using IdentityServerSample.WebApp.Defaults;
+  using IdentityServerSample.WebApp.ViewModels;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
   [Route(Routing.AccountRoute)]
@@ -18,7 +18,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
   {
     private readonly IIdentityServerInteractionService _identityServerInteractionService;
 
-    /// <summary>Inititalizes a new instance of the <see cref="IdentityServerSample.IdentityApp.Controllers.SignOutController"/> class.</summary>
+    /// <summary>Inititalizes a new instance of the <see cref="IdentityServerSample.WebApp.Controllers.SignOutController"/> class.</summary>
     /// <param name="userStore">An object that represents a store for test users.</param>
     /// <param name="identityServerInteractionService">An object that provides a simple API to communicate with IdentityServer.</param>
     public SignOutController(

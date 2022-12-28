@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Controllers
+namespace IdentityServerSample.WebApp.Controllers
 {
   using IdentityServer4;
   using IdentityServer4.Test;
   using Microsoft.AspNetCore.Mvc;
 
-  using IdentityServerSample.IdentityApp.Defaults;
-  using IdentityServerSample.IdentityApp.ViewModels;
+  using IdentityServerSample.WebApp.Defaults;
+  using IdentityServerSample.WebApp.ViewModels;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
   [Route(Routing.AccountRoute)]
@@ -17,7 +17,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
   {
     private readonly TestUserStore _userStore;
 
-    /// <summary>Inititalizes a new instance of the <see cref="IdentityServerSample.IdentityApp.Controllers.SignInController"/> class.</summary>
+    /// <summary>Inititalizes a new instance of the <see cref="IdentityServerSample.WebApp.Controllers.SignInController"/> class.</summary>
     /// <param name="userStore">An object that represents a store for test users.</param>
     public SignInController(TestUserStore userStore)
     {

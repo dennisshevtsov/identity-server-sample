@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Controllers
+namespace IdentityServerSample.WebApp.Controllers
 {
   using Microsoft.AspNetCore.Mvc;
 
   using IdentityServerSample.ApplicationCore.Dtos;
-  using IdentityServerSample.IdentityApp.Defaults;
+  using IdentityServerSample.WebApp.Defaults;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
   [ApiController]

@@ -12,7 +12,7 @@ namespace IdentityServerSample.Test.Unit.Controllers
   using IdentityServerSample.ApplicationCore.Dtos;
   using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Services;
-  using IdentityServerSample.IdentityApp.Controllers;
+  using IdentityServerSample.WebApp.Controllers;
 
   [TestClass]
   public sealed class ScopeControllerTest
