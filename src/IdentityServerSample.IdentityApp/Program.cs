@@ -23,8 +23,10 @@ var app = builder.Build();
 app.InitializeDatabase();
 
 app.UseSwagger();
-app.UseStaticFiles();
 app.UseRouting();
+app.UseStaticFiles();
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseIdentityServer();
 
 app.MapControllers();
