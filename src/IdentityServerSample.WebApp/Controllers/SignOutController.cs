@@ -7,12 +7,14 @@ namespace IdentityServerSample.WebApp.Controllers
   using IdentityServer4.Models;
   using IdentityServer4.Services;
   using Microsoft.AspNetCore.Authentication;
+  using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc;
 
   using IdentityServerSample.WebApp.Defaults;
   using IdentityServerSample.WebApp.ViewModels;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
+  [AllowAnonymous]
   [Route(Routing.AccountRoute)]
   public sealed class SignOutController : Controller
   {

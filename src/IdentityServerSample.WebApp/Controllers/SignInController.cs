@@ -6,12 +6,14 @@ namespace IdentityServerSample.WebApp.Controllers
 {
   using IdentityServer4;
   using IdentityServer4.Test;
+  using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc;
 
   using IdentityServerSample.WebApp.Defaults;
   using IdentityServerSample.WebApp.ViewModels;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
+  [AllowAnonymous]
   [Route(Routing.AccountRoute)]
   public sealed class SignInController : Controller
   {
