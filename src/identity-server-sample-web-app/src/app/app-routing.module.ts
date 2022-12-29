@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { Routes       } from '@angular/router';
 
 import { HomeComponent       } from './components';
+import { SignInComponent     } from './components';
 import { AuthorizeGuard      } from './guards';
 import { SignInCallbackGuard } from './guards';
 import { SilentCallbackGuard } from './guards';
@@ -21,6 +22,10 @@ const routes: Routes = [
     canActivate: [
       SilentCallbackGuard,
     ],
+  },
+  {
+    path: 'signin',
+    component: SignInComponent,
   },
   {
     path: '',
