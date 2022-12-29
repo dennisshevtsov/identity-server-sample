@@ -2,19 +2,11 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-using IdentityServer4;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddConfiguredControllers(builder.Configuration);
 builder.Services.AddConfiguredIdentityServer(builder.Configuration);
-builder.Services.AddAuthentication(IdentityServerConstants.DefaultCookieAuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                  options.Authority = builder.Configuration["IdentityApi_Url"];
-                  options.Audience = builder.Configuration["ApiResource_Name"];
-                  options.RequireHttpsMetadata = false;
-                });
+builder.Services.AddConfiguredAuthentication(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddMapping();
 builder.Services.AddDatabase(builder.Configuration);
