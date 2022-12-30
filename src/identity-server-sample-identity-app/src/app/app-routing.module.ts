@@ -2,7 +2,14 @@ import { NgModule     } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Routes       } from '@angular/router';
 
-const routes: Routes = [];
+import { SigninComponent } from './components';
+
+const routes: Routes = [
+  {
+    path     : 'signin',
+    component: SigninComponent,
+  },
+];
 
 @NgModule({
   imports: [
