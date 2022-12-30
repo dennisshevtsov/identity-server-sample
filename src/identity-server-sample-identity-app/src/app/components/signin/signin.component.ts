@@ -28,7 +28,7 @@ export class SigninComponent implements OnInit {
     public readonly vm: SigninViewModel) {}
 
   public get form(): FormGroup<SinginForm> {
-    return this.formValue ?? this.buildForm();
+    return this.formValue ?? (this.formValue = this.buildForm());
   }
 
   public ngOnInit(): void {
