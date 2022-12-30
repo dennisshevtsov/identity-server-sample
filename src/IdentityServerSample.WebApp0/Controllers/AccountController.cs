@@ -4,6 +4,7 @@
 
 namespace IdentityServerSample.WebApp0.Controllers
 {
+  using IdentityServerSample.WebApp0.Dtos;
   using Microsoft.AspNetCore.Mvc;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
@@ -12,5 +13,16 @@ namespace IdentityServerSample.WebApp0.Controllers
   [Produces("application/json")]
   public sealed class AccountController : ControllerBase
   {
+    [HttpPost("signin", Name = nameof(AccountController.SingInAccount))]
+    public IActionResult SingInAccount([FromBody]SingInAccountRequestDto command)
+    {
+      return Ok();
+    }
+
+    [HttpPost("singout", Name = nameof(AccountController.SingOutAccount))]
+    public IActionResult SingOutAccount()
+    {
+      return Ok();
+    }
   }
 }
