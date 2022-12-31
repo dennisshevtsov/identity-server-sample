@@ -1,10 +1,15 @@
-import { Component   } from '@angular/core';
-import { OnInit      } from '@angular/core';
+import { DOCUMENT  } from '@angular/common';
+
+import { Component, OnDestroy } from '@angular/core';
+import { Inject    } from '@angular/core';
+import { OnInit    } from '@angular/core';
 
 import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormGroup   } from '@angular/forms';
 import { Validators  } from '@angular/forms';
+
+import { Subscription } from 'rxjs';
 
 import { SigninAccountViewModel } from './signin-account.view-mode';
 
@@ -17,13 +22,21 @@ interface SinginForm {
   templateUrl: './signin-account.component.html',
   providers: [
     SigninAccountViewModel,
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    },
   ],
 })
-export class SigninComponent implements OnInit {
+export class SigninComponent implements OnInit, OnDestroy {
   private formValue: undefined | FormGroup<SinginForm>;
 
   public constructor(
-    private readonly fb: FormBuilder,
+    @Inject(DOCUMENT)
+    private readonly document: Document,
+
+    private readonly fb : FormBuilder,
+    private readonly sub: Subscription,
 
     public readonly vm: SigninAccountViewModel) {}
 
@@ -38,9 +51,15 @@ export class SigninComponent implements OnInit {
     });
   }
 
+  public ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
+
   public signin(): void {
     if (this.form.valid) {
-      this.vm.signin();
+      this.sub.add(
+        this.vm.signin().subscribe(redirectUrl =>
+          this.document.defaultView?.open(redirectUrl)));
     }
   }
 

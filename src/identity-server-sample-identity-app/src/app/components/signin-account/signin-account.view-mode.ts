@@ -1,13 +1,17 @@
-import { map, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { map        } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { SignInAccountRequestDto } from '../../dtos';
 import { AccountService          } from '../../services';
 
+@Injectable()
 export class SigninAccountViewModel {
   private emailValue   : undefined | string;
   private passwordValue: undefined | string;
 
-  public constructor(private readonly service: AccountService) {}
+  public constructor(
+    private readonly service: AccountService) {}
 
   public get email(): string {
     return this.emailValue ?? '';
