@@ -21,7 +21,7 @@ export class SigninViewModel {
     this.passwordValue = value;
   }
 
-  public singin(): Observable<string> {
+  public signin(): Observable<string> {
     return of('');
   }
 }

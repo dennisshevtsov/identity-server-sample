@@ -38,6 +38,12 @@ export class SigninComponent implements OnInit {
     });
   }
 
+  public signin(): void {
+    if (this.form.valid) {
+      this.vm.signin();
+    }
+  }
+
   private buildForm(): FormGroup<SinginForm> {
     return this.fb.group({
       email   : this.fb.control('', Validators.required),
