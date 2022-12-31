@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { of         } from 'rxjs';
 
-export class SigninViewModel {
+export class SigninAccountViewModel {
   private emailValue   : undefined | string;
   private passwordValue: undefined | string;
 

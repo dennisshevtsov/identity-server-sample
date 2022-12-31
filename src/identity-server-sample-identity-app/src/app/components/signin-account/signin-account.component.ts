@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms';
 import { FormGroup   } from '@angular/forms';
 import { Validators  } from '@angular/forms';
 
-import { SigninViewModel } from './signin.view-mode';
+import { SigninAccountViewModel } from './signin-account.view-mode';
 
 interface SinginForm {
   email   : FormControl<string | null>;
@@ -14,9 +14,9 @@ interface SinginForm {
 }
 
 @Component({
-  templateUrl: './signin.component.html',
+  templateUrl: './signin-account.component.html',
   providers: [
-    SigninViewModel,
+    SigninAccountViewModel,
   ],
 })
 export class SigninComponent implements OnInit {
@@ -25,7 +25,7 @@ export class SigninComponent implements OnInit {
   public constructor(
     private readonly fb: FormBuilder,
 
-    public readonly vm: SigninViewModel) {}
+    public readonly vm: SigninAccountViewModel) {}
 
   public get form(): FormGroup<SinginForm> {
     return this.formValue ?? (this.formValue = this.buildForm());
