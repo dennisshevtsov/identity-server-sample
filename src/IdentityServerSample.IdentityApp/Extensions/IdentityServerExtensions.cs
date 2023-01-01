@@ -27,7 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.UserInteraction.ErrorUrl = "/error";
                 options.UserInteraction.ErrorIdParameter = "errorId";
 
-                options.UserInteraction.LoginUrl = "/account/signin";
+                options.UserInteraction.LoginUrl = "/signin";
                 options.UserInteraction.LoginReturnUrlParameter = "returnUrl";
 
                 options.UserInteraction.LogoutUrl = "/account/signout";

@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.Infras
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.WebApp", "src\IdentityServerSample.WebApp\IdentityServerSample.WebApp.csproj", "{91C23047-A457-40D3-A109-5DE4E4C8FACF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityServerSample.IdentityApp", "src\IdentityServerSample.IdentityApp\IdentityServerSample.IdentityApp.csproj", "{2E149276-D1E8-4DE3-B3DC-376EF828C1EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.IdentityApp", "src\IdentityServerSample.IdentityApp\IdentityServerSample.IdentityApp.csproj", "{2E149276-D1E8-4DE3-B3DC-376EF828C1EE}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "identity-server-sample-identity-app", "src\identity-server-sample-identity-app\identity-server-sample-identity-app.esproj", "{B876D850-F501-4F32-9620-5FC39BD27AD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,12 @@ Global
 		{2E149276-D1E8-4DE3-B3DC-376EF828C1EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E149276-D1E8-4DE3-B3DC-376EF828C1EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E149276-D1E8-4DE3-B3DC-376EF828C1EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B876D850-F501-4F32-9620-5FC39BD27AD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B876D850-F501-4F32-9620-5FC39BD27AD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B876D850-F501-4F32-9620-5FC39BD27AD8}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B876D850-F501-4F32-9620-5FC39BD27AD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B876D850-F501-4F32-9620-5FC39BD27AD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B876D850-F501-4F32-9620-5FC39BD27AD8}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

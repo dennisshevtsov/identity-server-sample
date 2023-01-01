@@ -6,13 +6,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddConfiguredIdentityServer(builder.Configuration);
 
 var app = builder.Build();
 
 app.UseSwagger();
+app.UseStaticFiles();
 app.UseRouting();
 app.UseIdentityServer();
 
 app.MapControllers();
+app.MapFallbackToFile("index.html");
 
 app.Run();
