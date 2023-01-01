@@ -7,8 +7,9 @@ import { AccountService          } from '../../services';
 
 @Injectable()
 export class SigninAccountViewModel {
-  private emailValue   : undefined | string;
-  private passwordValue: undefined | string;
+  private emailValue    : undefined | string;
+  private passwordValue : undefined | string;
+  private returnUrlValue: undefined | string;
 
   public constructor(
     private readonly service: AccountService) {}
@@ -29,9 +30,17 @@ export class SigninAccountViewModel {
     this.passwordValue = value;
   }
 
+  public get returnUrl(): string {
+    return this.returnUrlValue ?? '';
+  }
+
+  public set returnUrl(value: string) {
+    this.returnUrlValue = value;
+  }
+
   public signin(): Observable<string> {
     const requestDto = new SignInAccountRequestDto(
-      this.email, this.password);
+      this.email, this.password, this.returnUrl);
 
     return this.service.signin(requestDto).pipe(
       map(responseDto => responseDto.redirectUrl));

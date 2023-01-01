@@ -1,6 +1,7 @@
 import { DOCUMENT  } from '@angular/common';
 
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { Inject    } from '@angular/core';
 import { OnInit    } from '@angular/core';
 
@@ -8,6 +9,8 @@ import { FormBuilder } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormGroup   } from '@angular/forms';
 import { Validators  } from '@angular/forms';
+
+import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
@@ -35,8 +38,9 @@ export class SigninComponent implements OnInit, OnDestroy {
     @Inject(DOCUMENT)
     private readonly document: Document,
 
-    private readonly fb : FormBuilder,
-    private readonly sub: Subscription,
+    private readonly fb   : FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly sub  : Subscription,
 
     public readonly vm: SigninAccountViewModel) {}
 
@@ -45,10 +49,18 @@ export class SigninComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.form.valueChanges.subscribe(value => {
+    this.sub.add(this.route.queryParamMap.subscribe(params => {
+      const returnUrl = params.get('returnUrl');
+
+      if (returnUrl) {
+        this.vm.returnUrl = returnUrl;
+      }
+    }));
+
+    this.sub.add(this.form.valueChanges.subscribe(value => {
       this.vm.email    = value.email    ?? '';
       this.vm.password = value.password ?? '';
-    });
+    }));
   }
 
   public ngOnDestroy(): void {

@@ -19,7 +19,6 @@ export class AccountService {
       },
     };
 
-    return this.http.post<SignInAccountResponseDto>(
-      url, body, options);
+    return this.http.post(url, body, options);
   }
 }
