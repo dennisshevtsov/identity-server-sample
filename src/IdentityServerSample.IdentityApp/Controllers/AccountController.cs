@@ -33,6 +33,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
         throw new ArgumentNullException(nameof(identityServerInteractionService));
     }
 
+    [IdentityServerSample.IdentityApp.Filters.ValidateAntiForgeryToken]
     [HttpPost("signin", Name = nameof(AccountController.SingInAccount))]
     public async Task<IActionResult> SingInAccount([FromBody] SingInAccountRequestDto requestDto)
     {

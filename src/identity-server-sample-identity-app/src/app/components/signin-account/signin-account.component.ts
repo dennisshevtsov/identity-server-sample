@@ -62,6 +62,10 @@ export class SigninComponent implements OnInit, OnDestroy {
       this.vm.email    = value.email    ?? '';
       this.vm.password = value.password ?? '';
     }));
+
+    this.vm.xsrfToken = this.document.cookie.split('; ')
+                                            .find(cookie => cookie.startsWith('X-XSRF-TOKEN'))!
+                                            .split('=')[1];
   }
 
   public ngOnDestroy(): void {
