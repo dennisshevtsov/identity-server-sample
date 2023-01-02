@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map        } from 'rxjs';
+
 import { Observable } from 'rxjs';
 
 import { SignInAccountRequestDto } from '../../dtos';
@@ -9,7 +9,6 @@ import { AccountService          } from '../../services';
 export class SigninAccountViewModel {
   private emailValue    : undefined | string;
   private passwordValue : undefined | string;
-  private returnUrlValue: undefined | string;
 
   public constructor(
     private readonly service: AccountService) {}
@@ -30,19 +29,10 @@ export class SigninAccountViewModel {
     this.passwordValue = value;
   }
 
-  public get returnUrl(): string {
-    return this.returnUrlValue ?? '';
-  }
-
-  public set returnUrl(value: string) {
-    this.returnUrlValue = value;
-  }
-
-  public signin(): Observable<string> {
+  public signin(): Observable<void> {
     const requestDto = new SignInAccountRequestDto(
-      this.email, this.password, this.returnUrl);
+      this.email, this.password);
 
-    return this.service.signin(requestDto).pipe(
-      map(responseDto => responseDto.redirectUrl));
+    return this.service.signin(requestDto);
   }
 }

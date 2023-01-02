@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { SignInAccountRequestDto  } from '../dtos';
-import { SignInAccountResponseDto } from '../dtos';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +18,6 @@ export class AccountService {
       },
     };
 
-    return this.http.post(url, body, options);
+    return this.http.post<void>(url, body, options);
   }
 }

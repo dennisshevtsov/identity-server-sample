@@ -32,7 +32,8 @@ interface SinginForm {
   ],
 })
 export class SigninComponent implements OnInit, OnDestroy {
-  private formValue: undefined | FormGroup<SinginForm>;
+  private returnUrlValue: undefined | string;
+  private formValue     : undefined | FormGroup<SinginForm>;
 
   public constructor(
     @Inject(DOCUMENT)
@@ -53,7 +54,7 @@ export class SigninComponent implements OnInit, OnDestroy {
       const returnUrl = params.get('returnUrl');
 
       if (returnUrl) {
-        this.vm.returnUrl = returnUrl;
+        this.returnUrlValue = returnUrl;
       }
     }));
 
@@ -70,8 +71,13 @@ export class SigninComponent implements OnInit, OnDestroy {
   public signin(): void {
     if (this.form.valid) {
       this.sub.add(
-        this.vm.signin().subscribe(redirectUrl =>
-          this.document.defaultView?.open(redirectUrl)));
+        this.vm.signin().subscribe(() => this.redirectBack()));
+    }
+  }
+
+  private redirectBack(): void {
+    if (this.document.defaultView && this.returnUrlValue) {
+      this.document.defaultView.open(this.returnUrlValue, '_self');
     }
   }
 
