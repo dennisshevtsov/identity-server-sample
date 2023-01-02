@@ -63,9 +63,7 @@ export class SigninComponent implements OnInit, OnDestroy {
       this.vm.password = value.password ?? '';
     }));
 
-    this.vm.xsrfToken = this.document.cookie.split('; ')
-                                            .find(cookie => cookie.startsWith('X-XSRF-TOKEN'))!
-                                            .split('=')[1];
+    this.vm.xsrfToken = this.getXsrfToken();
   }
 
   public ngOnDestroy(): void {
@@ -83,6 +81,12 @@ export class SigninComponent implements OnInit, OnDestroy {
     if (this.document.defaultView && this.returnUrlValue) {
       this.document.defaultView.open(this.returnUrlValue, '_self');
     }
+  }
+
+  private getXsrfToken(): string {
+    return this.document.cookie.split('; ')
+                               .find(cookie => cookie.startsWith('XSRF-TOKEN'))!
+                               .split('=')[1];
   }
 
   private buildForm(): FormGroup<SinginForm> {
