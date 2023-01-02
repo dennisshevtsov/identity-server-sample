@@ -34,13 +34,13 @@ namespace IdentityServerSample.IdentityApp.Controllers
     }
 
     [HttpPost("signin", Name = nameof(AccountController.SingInAccount))]
-    public async Task<IActionResult> SingInAccount([FromBody] SingInAccountRequestDto command)
+    public async Task<IActionResult> SingInAccount([FromBody] SingInAccountRequestDto requestDto)
     {
       if (ModelState.IsValid)
       {
-        if (_userStore.ValidateCredentials(command.Email, command.Password))
+        if (_userStore.ValidateCredentials(requestDto.Email, requestDto.Password))
         {
-          var testUser = _userStore.FindByUsername(command.Email);
+          var testUser = _userStore.FindByUsername(requestDto.Email);
           var identityServerUser = new IdentityServerUser(testUser.SubjectId)
           {
             DisplayName = testUser.Username,
@@ -48,7 +48,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
 
           await HttpContext.SignInAsync(identityServerUser);
 
-          return Redirect(command.ReturnUrl!);
+          return NoContent();
         }
 
         ModelState.AddModelError(
