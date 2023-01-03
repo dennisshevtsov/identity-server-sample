@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-using IdentityServer4;
-
 namespace Microsoft.Extensions.DependencyInjection
 {
   /// <summary>Provides a simple API to configure a pipeline.</summary>
@@ -17,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
       this IServiceCollection services,
       IConfiguration configuration)
     {
-      services.AddAuthentication(IdentityServerConstants.DefaultCookieAuthenticationScheme)
+      services.AddAuthentication("Bearer")
               .AddJwtBearer(options =>
               {
                 options.Authority = configuration["IdentityApi_Url"];

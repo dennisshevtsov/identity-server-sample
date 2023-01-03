@@ -6,7 +6,6 @@ namespace Microsoft.Extensions.DependencyInjection
 {
   using Microsoft.AspNetCore.Authorization;
   using Microsoft.AspNetCore.Mvc.Authorization;
-  using Microsoft.AspNetCore.Mvc.Razor;
 
   /// <summary>Provides a simple API to configure a pipeline.</summary>
   public static class ControllersExtensions
@@ -19,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
       this IServiceCollection services,
       IConfiguration configuration)
     {
-      services.AddControllersWithViews(options =>
+      services.AddControllers(options =>
               {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser()
                                                              .RequireClaim("scope", configuration["ApiScope_Name"]!)
@@ -27,15 +26,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 var filter = new AuthorizeFilter(policy);
 
                 options.Filters.Add(filter);
-              })
-              .AddViewOptions(options =>
-              {
-                options.HtmlHelperOptions.ClientValidationEnabled = false;
-              });
-      services.Configure<RazorViewEngineOptions>(options =>
-              {
-                options.ViewLocationFormats.Clear();
-                options.ViewLocationFormats.Add("/Views/{0}" + RazorViewEngine.ViewExtension);
               });
 
       return services;

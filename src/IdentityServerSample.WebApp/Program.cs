@@ -5,7 +5,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddConfiguredControllers(builder.Configuration);
-builder.Services.AddConfiguredIdentityServer(builder.Configuration);
 builder.Services.AddConfiguredAuthentication(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddMapping();
@@ -21,7 +20,6 @@ app.UseRouting();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseIdentityServer();
 
 app.MapControllers();
 

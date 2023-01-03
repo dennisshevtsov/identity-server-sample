@@ -1,7 +1,0 @@
-﻿.form-card {
-  width: 350px;
-}
-
-.input-validation-error ~ .field-validation-error {
-  display: block !important;
-}
