@@ -11,11 +11,12 @@ namespace IdentityServerSample.IdentityApp.Controllers
   using Microsoft.AspNetCore.Mvc;
 
   using IdentityServerSample.IdentityApp.Dtos;
+  using IdentityServerSample.IdentityApp.Defaults;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
   [ApiController]
-  [Route("api/account")]
-  [Produces("application/json")]
+  [Route(Routing.AccountRoute)]
+  [Produces(ContentType.Json)]
   public sealed class AccountController : ControllerBase
   {
     private readonly TestUserStore _userStore;
@@ -36,7 +37,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
     /// <summary>Handles a request to sign in an account.</summary>
     /// <param name="requestDto">An object that represents data to sign in an account.</param>
     /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
-    [HttpPost("signin", Name = nameof(AccountController.SingInAccount))]
+    [HttpPost(Routing.SignInRoute, Name = nameof(AccountController.SingInAccount))]
     public async Task<IActionResult> SingInAccount([FromBody] SingInAccountRequestDto requestDto)
     {
       if (ModelState.IsValid)
@@ -55,7 +56,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
         }
 
         ModelState.AddModelError(
-          nameof(SingInAccountRequestDto.Email), "The credentials is not valid.");
+          nameof(SingInAccountRequestDto.Email), "Invalid credentions.");
       }
 
       return BadRequest();
@@ -64,7 +65,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
     /// <summary>Handles a request to sign out an account.</summary>
     /// <param name="requestDto">An object that represents data to sign out an account.</param>
     /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
-    [HttpGet("signout", Name = nameof(AccountController.SingOutAccount))]
+    [HttpGet(Routing.SignOutRoute, Name = nameof(AccountController.SingOutAccount))]
     [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<IActionResult> SingOutAccount([FromQuery] SignOutAccountRequestDto requestDto)
     {
