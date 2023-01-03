@@ -38,6 +38,7 @@ namespace Microsoft.Extensions.DependencyInjection
           new CookieOptions
           {
             HttpOnly = false,
+            SameSite = SameSiteMode.Strict,
           });
 
         return next.Invoke();
