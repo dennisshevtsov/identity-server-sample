@@ -15,5 +15,8 @@ namespace IdentityServerSample.IdentityApp.Defaults
 
     /// <summary>A value that represents a route to sign out an account.</summary>
     public const string SignOutRoute = "signout";
+
+    /// <summary>A value that represents the base of the error route.</summary>
+    public const string ErrorRoute = "api/error";
   }
 }
