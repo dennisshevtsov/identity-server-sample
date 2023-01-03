@@ -4,8 +4,10 @@
 
 namespace IdentityServerSample.IdentityApp.Dtos
 {
+  /// <summary>Represents data to sign out an account.</summary>
   public sealed class SignOutAccountRequestDto
   {
+    /// <summary>Gets/sets an object that represents a sign out ID.</summary>
     public string? SignOutId { get; set; }
   }
 }

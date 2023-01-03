@@ -12,6 +12,9 @@ namespace Microsoft.Extensions.DependencyInjection
     private const string XsrfTokenName = "XSRF-TOKEN";
     private const string XsrfTokenHeaderName = "X-" + AntiforgeryExtensions.XsrfTokenName;
 
+    /// <summary>Adds antiforgery services to a pipeline.</summary>
+    /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
+    /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
     public static IServiceCollection AddConfiguredAntiforgery(this IServiceCollection services)
     {
       services.AddAntiforgery(options => options.HeaderName = AntiforgeryExtensions.XsrfTokenHeaderName);
@@ -19,6 +22,9 @@ namespace Microsoft.Extensions.DependencyInjection
       return services;
     }
 
+    /// <summary>Adds antiforgery middleware to a pipeline.</summary>
+    /// <param name="app">An object that defines a class that provides the mechanisms to configure an application's request pipeline.</param>
+    /// <returns>An object that defines a class that provides the mechanisms to configure an application's request pipeline.</returns>
     public static IApplicationBuilder UseAntiforgery(this IApplicationBuilder app)
     {
       app.Use((context, next) =>

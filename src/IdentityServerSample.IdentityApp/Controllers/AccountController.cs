@@ -33,6 +33,9 @@ namespace IdentityServerSample.IdentityApp.Controllers
         throw new ArgumentNullException(nameof(identityServerInteractionService));
     }
 
+    /// <summary>Handles a request to sign in an account.</summary>
+    /// <param name="requestDto">An object that represents data to sign in an account.</param>
+    /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
     [HttpPost("signin", Name = nameof(AccountController.SingInAccount))]
     public async Task<IActionResult> SingInAccount([FromBody] SingInAccountRequestDto requestDto)
     {
@@ -58,6 +61,9 @@ namespace IdentityServerSample.IdentityApp.Controllers
       return BadRequest();
     }
 
+    /// <summary>Handles a request to sign out an account.</summary>
+    /// <param name="requestDto">An object that represents data to sign out an account.</param>
+    /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
     [HttpGet("singout", Name = nameof(AccountController.SingOutAccount))]
     [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
     public async Task<IActionResult> SingOutAccount(SignOutAccountRequestDto requestDto)
