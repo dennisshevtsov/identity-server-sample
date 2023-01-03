@@ -31,7 +31,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.UserInteraction.LoginUrl = "/signin";
                 options.UserInteraction.LoginReturnUrlParameter = "returnUrl";
 
-                options.UserInteraction.LogoutUrl = "/account/signout";
+                options.UserInteraction.LogoutUrl = "/api/account/signout";
                 options.UserInteraction.LogoutIdParameter = "signoutId";
               })
               .AddClientStore<ClientStore>()

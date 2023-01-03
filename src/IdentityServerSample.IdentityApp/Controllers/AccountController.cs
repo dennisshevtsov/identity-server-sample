@@ -64,9 +64,9 @@ namespace IdentityServerSample.IdentityApp.Controllers
     /// <summary>Handles a request to sign out an account.</summary>
     /// <param name="requestDto">An object that represents data to sign out an account.</param>
     /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
-    [HttpGet("singout", Name = nameof(AccountController.SingOutAccount))]
+    [HttpGet("signout", Name = nameof(AccountController.SingOutAccount))]
     [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-    public async Task<IActionResult> SingOutAccount(SignOutAccountRequestDto requestDto)
+    public async Task<IActionResult> SingOutAccount([FromQuery] SignOutAccountRequestDto requestDto)
     {
       var logoutRequest =
         await _identityServerInteractionService.GetLogoutContextAsync(requestDto.SignOutId)!;
