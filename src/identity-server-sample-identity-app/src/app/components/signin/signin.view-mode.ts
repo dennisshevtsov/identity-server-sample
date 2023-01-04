@@ -5,8 +5,13 @@ import { Observable } from 'rxjs';
 import { SignInAccountRequestDto } from '../../dtos';
 import { AccountService          } from '../../services';
 
+export interface SigninProps {
+  email   : string;
+  password: string;
+}
+
 @Injectable()
-export class SigninViewModel {
+export class SigninViewModel implements SigninProps {
   private emailValue    : undefined | string;
   private passwordValue : undefined | string;
   private xsrfTokenValue: undefined | string;

@@ -14,11 +14,11 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
+import { SigninProps     } from './signin.view-mode';
 import { SigninViewModel } from './signin.view-mode';
 
-interface SinginForm {
-  email   : FormControl<string | null>;
-  password: FormControl<string | null>;
+type SigninFormScheme = {
+  [K in keyof SigninProps]: FormControl<string | null>;
 }
 
 @Component({
@@ -33,7 +33,7 @@ interface SinginForm {
 })
 export class SigninComponent implements OnInit, OnDestroy {
   private returnUrlValue: undefined | string;
-  private formValue     : undefined | FormGroup<SinginForm>;
+  private formValue     : undefined | FormGroup<SigninFormScheme>;
 
   public constructor(
     @Inject(DOCUMENT)
@@ -45,7 +45,7 @@ export class SigninComponent implements OnInit, OnDestroy {
 
     public readonly vm: SigninViewModel) {}
 
-  public get form(): FormGroup<SinginForm> {
+  public get form(): FormGroup<SigninFormScheme> {
     return this.formValue ?? (this.formValue = this.buildForm());
   }
 
@@ -89,7 +89,7 @@ export class SigninComponent implements OnInit, OnDestroy {
                                .split('=')[1];
   }
 
-  private buildForm(): FormGroup<SinginForm> {
+  private buildForm(): FormGroup<SigninFormScheme> {
     return this.fb.group({
       email   : this.fb.control('', Validators.required),
       password: this.fb.control('', Validators.required),
