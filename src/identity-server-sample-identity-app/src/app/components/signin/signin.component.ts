@@ -14,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { Subscription } from 'rxjs';
 
-import { SigninAccountViewModel } from './signin-account.view-mode';
+import { SigninViewModel } from './signin.view-mode';
 
 interface SinginForm {
   email   : FormControl<string | null>;
@@ -22,9 +22,9 @@ interface SinginForm {
 }
 
 @Component({
-  templateUrl: './signin-account.component.html',
+  templateUrl: './signin.component.html',
   providers: [
-    SigninAccountViewModel,
+    SigninViewModel,
     {
       provide: Subscription,
       useFactory: () => new Subscription(),
@@ -43,7 +43,7 @@ export class SigninComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly sub  : Subscription,
 
-    public readonly vm: SigninAccountViewModel) {}
+    public readonly vm: SigninViewModel) {}
 
   public get form(): FormGroup<SinginForm> {
     return this.formValue ?? (this.formValue = this.buildForm());

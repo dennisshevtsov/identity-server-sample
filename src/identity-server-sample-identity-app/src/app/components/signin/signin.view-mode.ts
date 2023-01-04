@@ -6,7 +6,7 @@ import { SignInAccountRequestDto } from '../../dtos';
 import { AccountService          } from '../../services';
 
 @Injectable()
-export class SigninAccountViewModel {
+export class SigninViewModel {
   private emailValue    : undefined | string;
   private passwordValue : undefined | string;
   private xsrfTokenValue: undefined | string;
