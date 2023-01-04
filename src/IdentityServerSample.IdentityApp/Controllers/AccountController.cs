@@ -56,7 +56,7 @@ namespace IdentityServerSample.IdentityApp.Controllers
         }
 
         ModelState.AddModelError(
-          nameof(SingInAccountRequestDto.Email), "Invalid credentions.");
+          nameof(SingInAccountRequestDto.Email), "Invalid credentials.");
       }
 
       return BadRequest();

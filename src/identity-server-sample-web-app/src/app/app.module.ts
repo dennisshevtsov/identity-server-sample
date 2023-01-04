@@ -7,14 +7,12 @@ import { UserManager } from 'oidc-client';
 import { AppComponent     } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent    } from './components';
-import { SignInComponent  } from './components';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    SignInComponent,
   ],
   imports: [
     BrowserModule,

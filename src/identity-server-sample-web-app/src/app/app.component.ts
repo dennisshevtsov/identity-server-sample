@@ -10,8 +10,7 @@ import { UserManager } from 'oidc-client';
   ],
 })
 export class AppComponent {
-  public constructor(
-    private readonly userManager: UserManager) { }
+  public constructor(private readonly userManager: UserManager) { }
 
   public signout(): void {
     this.userManager.signoutRedirect();
