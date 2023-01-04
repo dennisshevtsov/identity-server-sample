@@ -2,9 +2,14 @@ import { NgModule     } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Routes       } from '@angular/router';
 
+import { ErrorComponent  } from './components';
 import { SigninComponent } from './components';
 
 const routes: Routes = [
+  {
+    path     : 'error',
+    component: ErrorComponent,
+  },
   {
     path     : 'signin',
     component: SigninComponent,
@@ -17,11 +22,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(routes),
-  ],
-  exports: [
-    RouterModule,
-  ],
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }
