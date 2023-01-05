@@ -61,12 +61,12 @@ namespace IdentityServerSample.IdentityApp.Stores
                 },
                 RedirectUris =
                 {
-                  "http://localhost:4200/signin-callback",
-                  "http://localhost:4200/silent-callback",
+                  $"{_configuration["WebApp_Url"]}/signin-callback",
+                  $"{_configuration["WebApp_Url"]}/silent-callback",
                 },
                 PostLogoutRedirectUris =
                 {
-                  "http://localhost:4200",
+                  _configuration["WebApp_Url"],
                 },
               }
             },

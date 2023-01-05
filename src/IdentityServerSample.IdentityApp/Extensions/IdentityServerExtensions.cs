@@ -25,10 +25,10 @@ namespace Microsoft.Extensions.DependencyInjection
     {
       services.AddIdentityServer(options =>
               {
-                options.UserInteraction.ErrorUrl = "/error";
+                options.UserInteraction.ErrorUrl = $"{configuration["IdentityApp_Url"]}/error";
                 options.UserInteraction.ErrorIdParameter = "errorId";
 
-                options.UserInteraction.LoginUrl = "/signin";
+                options.UserInteraction.LoginUrl = $"{configuration["IdentityApp_Url"]}/signin";
                 options.UserInteraction.LoginReturnUrlParameter = "returnUrl";
 
                 options.UserInteraction.LogoutUrl = "/api/account/signout";

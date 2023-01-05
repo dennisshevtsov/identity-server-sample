@@ -12,12 +12,12 @@ builder.Services.AddConfiguredAntiforgery();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseStaticFiles();
+//app.UseStaticFiles();
 app.UseAntiforgery();
 app.UseRouting();
 app.UseIdentityServer();
 
 app.MapControllers();
-app.MapFallbackToFile("index.html");
+//app.MapFallbackToFile("index.html");
 
 app.Run();
