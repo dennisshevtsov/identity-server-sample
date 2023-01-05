@@ -7,6 +7,6 @@
     <!-- Command to create an optimized build of the project that's ready for publishing -->
     <ProductionBuildCommand>npm run build</ProductionBuildCommand>
     <!-- Folder where production build objects will be placed -->
-    <BuildOutputFolder>$(MSBuildProjectDirectory)\..\IdentityServerSample.IdentityApp\wwwroot</BuildOutputFolder>
+    <BuildOutputFolder>$(MSBuildProjectDirectory)\..\IdentityServerSample.IdentityApi\wwwroot</BuildOutputFolder>
   </PropertyGroup>
 </Project>

@@ -11,9 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.Applic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.Infrastructure", "src\IdentityServerSample.Infrastructure\IdentityServerSample.Infrastructure.csproj", "{CFD97EB7-B5F0-4CF6-A047-3F50BE510E87}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.WebApp", "src\IdentityServerSample.WebApp\IdentityServerSample.WebApp.csproj", "{91C23047-A457-40D3-A109-5DE4E4C8FACF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.WebApi", "src\IdentityServerSample.WebApi\IdentityServerSample.WebApi.csproj", "{91C23047-A457-40D3-A109-5DE4E4C8FACF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.IdentityApp", "src\IdentityServerSample.IdentityApp\IdentityServerSample.IdentityApp.csproj", "{2E149276-D1E8-4DE3-B3DC-376EF828C1EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IdentityServerSample.IdentityApi", "src\IdentityServerSample.IdentityApi\IdentityServerSample.IdentityApi.csproj", "{2E149276-D1E8-4DE3-B3DC-376EF828C1EE}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "identity-server-sample-identity-app", "src\identity-server-sample-identity-app\identity-server-sample-identity-app.esproj", "{B876D850-F501-4F32-9620-5FC39BD27AD8}"
 EndProject
