@@ -16,11 +16,13 @@ var app = builder.Build();
 app.InitializeDatabase();
 
 app.UseSwagger();
+app.UseStaticFiles();
 app.UseRouting();
 app.UseStaticFiles();
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapFallbackToFile("index.html");
 
 app.Run();
