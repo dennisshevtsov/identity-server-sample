@@ -4,7 +4,6 @@
 
 namespace IdentityServerSample.IdentityApp.Stores
 {
-  using IdentityServer4;
   using IdentityServer4.Models;
   using IdentityServer4.Stores;
 
@@ -14,75 +13,14 @@ namespace IdentityServerSample.IdentityApp.Stores
   /// <summary>Provides a simple API to retrieve a client.</summary>
   public sealed class ClientStore : IClientStore
   {
-    private IDictionary<string, Client>? _clients;
-
-    private readonly IConfiguration _configuration;
     private readonly IClientRepository _clientRepository;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApp.Stores.ClientStore"/> class.</summary>
     /// <param name="configuration"></param>
     /// <param name="clientRepository">An object that provides a simple API to clients in a database.</param>
-    public ClientStore(IConfiguration configuration, IClientRepository clientRepository)
+    public ClientStore(IClientRepository clientRepository)
     {
-      _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-      _clientRepository = clientRepository ?? throw new ArgumentNullException(nameof(configuration));
-    }
-
-    private IDictionary<string, Client> Clients
-    {
-      get
-      {
-        if (_clients == null)
-        {
-          _clients = new Dictionary<string, Client>
-          {
-            {
-              _configuration["Client_Id_0"]!,
-              new Client
-              {
-                ClientId = _configuration["Client_Id_0"],
-                ClientName = _configuration["Client_Name_0"],
-                ClientSecrets =
-                {
-                  new Secret(_configuration["Client_Secret_0"].Sha256()),
-                },
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                AllowedScopes =
-                {
-                  _configuration["ApiScope_Name"],
-                },
-              }
-            },
-            {
-              _configuration["Client_Id_1"]!,
-              new Client
-              {
-                ClientId = _configuration["Client_Id_1"],
-                ClientName = _configuration["Client_Name_1"],
-                RequireClientSecret = false,
-                AllowedGrantTypes = GrantTypes.Code,
-                AllowedScopes =
-                {
-                  IdentityServerConstants.StandardScopes.OpenId,
-                  IdentityServerConstants.StandardScopes.Profile,
-                  _configuration["ApiScope_Name"],
-                },
-                RedirectUris =
-                {
-                  $"{_configuration["WebApp_Url"]}/signin-callback",
-                  $"{_configuration["WebApp_Url"]}/silent-callback",
-                },
-                PostLogoutRedirectUris =
-                {
-                  _configuration["WebApp_Url"],
-                },
-              }
-            },
-          };
-        }
-
-        return _clients;
-      }
+      _clientRepository = clientRepository ?? throw new ArgumentNullException(nameof(clientRepository));
     }
 
     /// <summary>Finds a client by a client ID.</summary>
@@ -112,8 +50,7 @@ namespace IdentityServerSample.IdentityApp.Stores
       return client;
     }
 
-    private static ICollection<string> ToCollection(
-      IEnumerable<LiteralEmbeddedEntity>? entities)
+    private static ICollection<string> ToCollection(IEnumerable<LiteralEmbeddedEntity>? entities)
     {
       if (entities == null)
       {
