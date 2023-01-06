@@ -34,6 +34,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
           Name = "identity-server-sample-api-client-id-1",
           DisplayName = "Identity Sample API Client ID for Code Flow",
+          Description = "Default client",
           Scopes = new List<LiteralEmbeddedEntity>
           {
             "openid",
@@ -52,6 +53,20 @@ namespace Microsoft.Extensions.DependencyInjection
         };
 
         clients.Add(clientEntity);
+      }
+
+      var scopes = dbContext.Set<ScopeEntity>();
+
+      if (scopes.FirstOrDefault(entity => entity.Name == "identity-server-sample-api-scope") == null)
+      {
+        var scopeEntity = new ScopeEntity
+        {
+          Name = "identity-server-sample-api-scope",
+          DisplayName = "Identity Sample API Scope",
+          Description = "Default scope"
+        };
+
+        scopes.Add(scopeEntity);
       }
 
       dbContext.SaveChanges();
