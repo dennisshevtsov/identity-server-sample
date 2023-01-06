@@ -6,8 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-builder.Services.AddConfiguredIdentityServer(builder.Configuration);
 builder.Services.AddConfiguredAntiforgery();
+builder.Services.AddConfiguredIdentityServer(builder.Configuration);
+builder.Services.AddDatabase(builder.Configuration);
 
 var app = builder.Build();
 

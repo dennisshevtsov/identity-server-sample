@@ -30,6 +30,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     public Task<ClientEntity?> GetClientAsync(string name, CancellationToken cancellationToken)
     {
       return _dbContext.Set<ClientEntity>()
+                       .AsNoTracking()
                        .Where(entity => entity.Name == name)
                        .FirstOrDefaultAsync(cancellationToken);
     }
