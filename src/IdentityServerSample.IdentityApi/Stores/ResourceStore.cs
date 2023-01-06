@@ -16,34 +16,30 @@ namespace IdentityServerSample.IdentityApp.Stores
   public sealed class ResourceStore : IResourceStore
   {
     private readonly IEnumerable<IdentityResource> _identityResources;
-    private readonly IEnumerable<ApiResource> _apiResources;
 
+    private readonly IAudienceRepository _audienceRepository;
     private readonly IScopeRepository _scopeRepository;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApp.Stores.ResourceStore"/> class.</summary>
-    /// <param name="configuration">An object that represents a set of key/value application configuration properties.</param>
-    public ResourceStore(IConfiguration configuration, IScopeRepository scopeRepository)
+    /// <param name="audienceRepository">An object that provides a simple API to query and save audiences.</param>
+    /// <param name="scopeRepository">An object that provides a simple API to query and save audiences.</param>
+    public ResourceStore(
+      IScopeRepository scopeRepository,
+      IAudienceRepository audienceRepository)
     {
       _identityResources = new IdentityResource[]
       {
         new IdentityResources.OpenId(),
         new IdentityResources.Profile(),
+        new IdentityResources.Email(),
+        new IdentityResources.Phone(),
+        new IdentityResources.Address(),
       };
 
-      _apiResources = new[]
-      {
-        new ApiResource
-        {
-          Name = configuration["ApiResource_Name"],
-          DisplayName = configuration["ApiResource_DisplayName"],
-          Scopes =
-          {
-            configuration["ApiScope_Name"],
-          },
-        },
-      };
-
-      _scopeRepository = scopeRepository ?? throw new ArgumentNullException(nameof(scopeRepository));
+      _scopeRepository = scopeRepository ??
+        throw new ArgumentNullException(nameof(scopeRepository));
+      _audienceRepository = audienceRepository ??
+        throw new ArgumentNullException(nameof(audienceRepository));
     }
 
     /// <summary>Gets identity resources by scope name.</summary>
@@ -75,28 +71,34 @@ namespace IdentityServerSample.IdentityApp.Stores
     /// <summary>Gets API resources by scope name.</summary>
     /// <param name="scopeNames">An object that represents a collection of scope names.</param>
     /// <returns>An object that represents an asynchronous operation.</returns>
-    public Task<IEnumerable<ApiResource>> FindApiResourcesByScopeNameAsync(
+    public async Task<IEnumerable<ApiResource>> FindApiResourcesByScopeNameAsync(
       IEnumerable<string> scopeNames)
     {
-      var apiRecources = _apiResources;
+      var audienceEntityCollection =
+        await _audienceRepository.GetAudiencesByScopesAsync(
+          scopeNames.ToArray(), CancellationToken.None);
 
-      if (scopeNames != null && scopeNames.Any())
-      {
-        apiRecources = apiRecources.Where(
-          resource => resource.Scopes != null &&
-                      resource.Scopes.Any(scope => scopeNames.Contains(scope)));
-      }
+      var apiResourceCollection =
+        audienceEntityCollection.Select(ResourceStore.ToApiResource)
+                                .ToArray();
 
-      return Task.FromResult(apiRecources);
+      return apiResourceCollection;
     }
 
     /// <summary>Gets API resources by API resource name.</summary>
     /// <param name="apiResourceNames">An object that represents a collection of API resource names.</param>
     /// <returns>An object that represents an asynchronous operation.</returns>
-    public Task<IEnumerable<ApiResource>> FindApiResourcesByNameAsync(
+    public async Task<IEnumerable<ApiResource>> FindApiResourcesByNameAsync(
       IEnumerable<string> apiResourceNames)
     {
-      return Task.FromResult(_apiResources.Where(resource => apiResourceNames.Contains(resource.Name)));
+      var audienceEntityCollection =
+        await _audienceRepository.GetAudiencesByNamesAsync(apiResourceNames.ToArray(), CancellationToken.None);
+
+      var apiResourceCollection =
+        audienceEntityCollection.Select(ResourceStore.ToApiResource)
+                                .ToArray();
+
+      return apiResourceCollection;
     }
 
     /// <summary>Gets all resources.</summary>
@@ -110,7 +112,14 @@ namespace IdentityServerSample.IdentityApp.Stores
         scopeEntityCollection.Select(ResourceStore.ToApiScope)
                              .ToArray();
 
-      return new Resources(_identityResources, _apiResources, apiScopeCollection);
+      var audienceEntityCollection =
+        await _audienceRepository.GetAudiencesAsync(CancellationToken.None);
+
+      var apiResourceCollection =
+        audienceEntityCollection.Select(ResourceStore.ToApiResource)
+                                .ToArray();
+
+      return new Resources(_identityResources, apiResourceCollection, apiScopeCollection);
     }
 
     private static ApiScope ToApiScope(ScopeEntity scopeEntity)
@@ -119,6 +128,16 @@ namespace IdentityServerSample.IdentityApp.Stores
       {
         Name = scopeEntity.Name,
         DisplayName = scopeEntity.DisplayName,
+      };
+    }
+
+    private static ApiResource ToApiResource(AudienceEntity audienceEntity)
+    {
+      return new ApiResource
+      {
+        Name = audienceEntity.Name,
+        DisplayName = audienceEntity.DisplayName,
+        Scopes = audienceEntity.Scopes?.Select(entity => entity.Value).ToArray(),
       };
     }
   }
