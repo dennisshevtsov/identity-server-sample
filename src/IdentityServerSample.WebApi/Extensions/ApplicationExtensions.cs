@@ -6,6 +6,8 @@ namespace Microsoft.Extensions.DependencyInjection
 {
   using Microsoft.EntityFrameworkCore;
 
+  using IdentityServerSample.ApplicationCore.Entities;
+
   /// <summary>Provides a simple API to configure an application.</summary>
   public static class ApplicationExtensions
   {
@@ -15,8 +17,44 @@ namespace Microsoft.Extensions.DependencyInjection
     {
       using (var scope = app.ApplicationServices.CreateScope())
       {
-        scope.ServiceProvider.GetRequiredService<DbContext>().Database.EnsureCreated();
+        ApplicationExtensions.InitializeDatabase(
+          scope.ServiceProvider.GetRequiredService<DbContext>());
       }
+    }
+
+    private static void InitializeDatabase(DbContext dbContext)
+    {
+      dbContext.Database.EnsureCreated();
+
+      var clients = dbContext.Set<ClientEntity>();
+
+      if (clients.FirstOrDefault(entity => entity.Name == "identity-server-sample-api-client-id-1") == null)
+      {
+        var clientEntity = new ClientEntity
+        {
+          Name = "identity-server-sample-api-client-id-1",
+          DisplayName = "Identity Sample API Client ID for Code Flow",
+          Scopes = new List<LiteralEmbeddedEntity>
+          {
+            "openid",
+            "profile",
+            "identity-server-sample-api-scope",
+          },
+          RedirectUris = new List<LiteralEmbeddedEntity>
+          {
+            "http://localhost:4202/signin-callback",
+            "http://localhost:4202/silent-callback",
+          },
+          PostRedirectUris = new List<LiteralEmbeddedEntity>
+          {
+            "http://localhost:4202",
+          },
+        };
+
+        clients.Add(clientEntity);
+      }
+
+      dbContext.SaveChanges();
     }
   }
 }
