@@ -34,7 +34,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
           Name = "identity-server-sample-api",
           DisplayName = "Identity Server Sample API",
-          Scopes = new List<LiteralEmbeddedEntity>
+          Scopes = new List<string>
           {
             "identity-server-sample-api-scope"
           },
@@ -52,18 +52,18 @@ namespace Microsoft.Extensions.DependencyInjection
           Name = "identity-server-sample-api-client-id-1",
           DisplayName = "Identity Sample API Client ID for Code Flow",
           Description = "Default client",
-          Scopes = new List<LiteralEmbeddedEntity>
+          Scopes = new List<string>
           {
             "openid",
             "profile",
             "identity-server-sample-api-scope",
           },
-          RedirectUris = new List<LiteralEmbeddedEntity>
+          RedirectUris = new List<string>
           {
             "http://localhost:4202/signin-callback",
             "http://localhost:4202/silent-callback",
           },
-          PostRedirectUris = new List<LiteralEmbeddedEntity>
+          PostRedirectUris = new List<string>
           {
             "http://localhost:4202",
           },

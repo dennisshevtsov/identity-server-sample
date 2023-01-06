@@ -299,9 +299,9 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Name = clientName,
         DisplayName = creatingCleintDisplayName,
         Description = creatingClientDesciption,
-        Scopes = new LiteralEmbeddedEntity[] { creatingScopeName },
-        RedirectUris = new LiteralEmbeddedEntity[] { creatingRedirectUri },
-        PostRedirectUris = new LiteralEmbeddedEntity[] { creatingPostRedirectUri },
+        Scopes = new[] { creatingScopeName },
+        RedirectUris = new[] { creatingRedirectUri },
+        PostRedirectUris = new[] { creatingPostRedirectUri },
       };
 
       var creatingClientEntityEntry = _dbContext.Add(creatingAudienceEntity);
@@ -323,15 +323,15 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
 
       Assert.IsNotNull(createdClientEntity!.Scopes);
       Assert.AreEqual(1, createdClientEntity!.Scopes!.Count());
-      Assert.AreEqual(creatingScopeName, createdClientEntity!.Scopes!.First().Value);
+      Assert.AreEqual(creatingScopeName, createdClientEntity!.Scopes!.First());
 
       Assert.IsNotNull(createdClientEntity!.RedirectUris);
       Assert.AreEqual(1, createdClientEntity!.RedirectUris!.Count());
-      Assert.AreEqual(creatingRedirectUri, createdClientEntity!.RedirectUris!.First().Value);
+      Assert.AreEqual(creatingRedirectUri, createdClientEntity!.RedirectUris!.First());
 
       Assert.IsNotNull(createdClientEntity!.PostRedirectUris);
       Assert.AreEqual(1, createdClientEntity!.PostRedirectUris!.Count());
-      Assert.AreEqual(creatingPostRedirectUri, createdClientEntity!.PostRedirectUris!.First().Value);
+      Assert.AreEqual(creatingPostRedirectUri, createdClientEntity!.PostRedirectUris!.First());
     }
 
     [TestMethod]
@@ -347,9 +347,9 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Name = clientName,
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
-        Scopes = new LiteralEmbeddedEntity[] { scopeName0 },
-        RedirectUris = new LiteralEmbeddedEntity[] { redirectUri0 },
-        PostRedirectUris = new LiteralEmbeddedEntity[] { postRedirectUri0 },
+        Scopes = new[] { scopeName0 },
+        RedirectUris = new[] { redirectUri0 },
+        PostRedirectUris = new[] { postRedirectUri0 },
       };
 
       var creatingClientEntityEntry = _dbContext.Add(creatingAudienceEntity);
@@ -369,21 +369,9 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Name = clientName,
         DisplayName = updatingCleintDisplayName,
         Description = updatingClientDesciption,
-        Scopes = new LiteralEmbeddedEntity[]
-        {
-          scopeName0,
-          scopeName1,
-        },
-        PostRedirectUris = new LiteralEmbeddedEntity[]
-        {
-          postRedirectUri0,
-          postRedirectUri1,
-        },
-        RedirectUris = new LiteralEmbeddedEntity[]
-        {
-          redirectUri0,
-          redirectUri1,
-        },
+        Scopes = new[] { scopeName0, scopeName1 },
+        PostRedirectUris = new[] { postRedirectUri0, postRedirectUri1 },
+        RedirectUris = new[] { redirectUri0, redirectUri1 },
       };
 
       var updatingClientEntityEntry = _dbContext.Attach(updatingClientEntity);
@@ -409,24 +397,24 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       var updatedScopes = updatedClientEntity!.Scopes!.ToArray();
 
       Assert.AreEqual(2, updatedScopes.Length);
-      Assert.AreEqual(scopeName0, updatedScopes[0].Value);
-      Assert.AreEqual(scopeName1, updatedScopes[1].Value);
+      Assert.AreEqual(scopeName0, updatedScopes[0]);
+      Assert.AreEqual(scopeName1, updatedScopes[1]);
 
       Assert.IsNotNull(updatedClientEntity!.Scopes);
 
       var updatedRedirectUris = updatedClientEntity!.RedirectUris!.ToArray();
 
       Assert.AreEqual(2, updatedRedirectUris.Length);
-      Assert.AreEqual(redirectUri0, updatedRedirectUris[0].Value);
-      Assert.AreEqual(redirectUri1, updatedRedirectUris[1].Value);
+      Assert.AreEqual(redirectUri0, updatedRedirectUris[0]);
+      Assert.AreEqual(redirectUri1, updatedRedirectUris[1]);
 
       Assert.IsNotNull(updatedClientEntity!.Scopes);
 
       var updatedPostRedirectUris = updatedClientEntity!.PostRedirectUris!.ToArray();
 
       Assert.AreEqual(2, updatedPostRedirectUris.Length);
-      Assert.AreEqual(postRedirectUri0, updatedPostRedirectUris[0].Value);
-      Assert.AreEqual(postRedirectUri1, updatedPostRedirectUris[1].Value);
+      Assert.AreEqual(postRedirectUri0, updatedPostRedirectUris[0]);
+      Assert.AreEqual(postRedirectUri1, updatedPostRedirectUris[1]);
     }
 
     [TestMethod]
@@ -439,9 +427,9 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Name = clientName,
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
-        Scopes = new LiteralEmbeddedEntity[] { Guid.NewGuid().ToString() },
-        RedirectUris = new LiteralEmbeddedEntity[] { Guid.NewGuid().ToString() },
-        PostRedirectUris = new LiteralEmbeddedEntity[] { Guid.NewGuid().ToString() },
+        Scopes = new string[] { Guid.NewGuid().ToString() },
+        RedirectUris = new string[] { Guid.NewGuid().ToString() },
+        PostRedirectUris = new string[] { Guid.NewGuid().ToString() },
       };
 
       var creatingClientEntityEntry = _dbContext.Add(creatingClientEntity);

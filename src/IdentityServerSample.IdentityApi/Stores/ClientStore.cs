@@ -7,7 +7,6 @@ namespace IdentityServerSample.IdentityApp.Stores
   using IdentityServer4.Models;
   using IdentityServer4.Stores;
 
-  using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Repositories;
 
   /// <summary>Provides a simple API to retrieve a client.</summary>
@@ -41,24 +40,13 @@ namespace IdentityServerSample.IdentityApp.Stores
           ClientName = clientEntity.DisplayName,
           RequireClientSecret = false,
           AllowedGrantTypes = GrantTypes.Code,
-          AllowedScopes = ClientStore.ToCollection(clientEntity.Scopes),
-          RedirectUris = ClientStore.ToCollection(clientEntity.RedirectUris),
-          PostLogoutRedirectUris = ClientStore.ToCollection(clientEntity.PostRedirectUris),
+          AllowedScopes = clientEntity.Scopes?.ToArray(),
+          RedirectUris = clientEntity.RedirectUris?.ToArray(),
+          PostLogoutRedirectUris = clientEntity.PostRedirectUris?.ToArray(),
         };
       }
 
       return client;
-    }
-
-    private static ICollection<string> ToCollection(IEnumerable<LiteralEmbeddedEntity>? entities)
-    {
-      if (entities == null)
-      {
-        return new List<string>();
-      }
-
-      return entities.Select(entity => entity.Value!)
-                     .ToList();
     }
   }
 }

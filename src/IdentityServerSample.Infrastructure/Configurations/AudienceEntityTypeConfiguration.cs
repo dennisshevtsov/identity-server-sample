@@ -35,17 +35,7 @@ namespace IdentityServerSample.Infrastructure.Configurations
       builder.Property(entity => entity.Name).ToJsonProperty("name");
       builder.Property(entity => entity.DisplayName).ToJsonProperty("displayName");
       builder.Property(entity => entity.Description).ToJsonProperty("description");
-
-      AudienceEntityTypeConfiguration.Configure(builder.OwnsMany(entity => entity.Scopes), "scopes");
-    }
-
-    private static void Configure(
-      OwnedNavigationBuilder<AudienceEntity, LiteralEmbeddedEntity> builder,
-      string propertyName)
-    {
-      builder.ToJsonProperty(propertyName);
-
-      builder.Property(entity => entity.Value).ToJsonProperty("value");
+      builder.Property(entity => entity.Scopes).ToJsonProperty("scopes");
     }
   }
 }

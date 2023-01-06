@@ -66,7 +66,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
       if (scopes != null && scopes.Length > 0)
       {
         audienceEntityCollection =
-          audienceEntityCollection.Where(entity => entity.Scopes != null && entity.Scopes.Any(scope => scopes.Contains(scope.Value)))
+          audienceEntityCollection.Where(entity => entity.Scopes != null && entity.Scopes.Any(scope => scopes.Contains(scope)))
                                   .ToArray();
       }
 

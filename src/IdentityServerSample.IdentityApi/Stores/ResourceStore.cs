@@ -137,7 +137,7 @@ namespace IdentityServerSample.IdentityApp.Stores
       {
         Name = audienceEntity.Name,
         DisplayName = audienceEntity.DisplayName,
-        Scopes = audienceEntity.Scopes?.Select(entity => entity.Value).ToArray(),
+        Scopes = audienceEntity.Scopes?.ToArray(),
       };
     }
   }

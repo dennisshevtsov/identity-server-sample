@@ -19,12 +19,12 @@ namespace IdentityServerSample.ApplicationCore.Entities
     public string? Description { get; set; }
 
     /// <summary>Gets/sets an object that represents a collection of allowed scopes.</summary>
-    public IEnumerable<LiteralEmbeddedEntity>? Scopes { get; set; }
+    public IReadOnlyList<string>? Scopes { get; set; }
 
     /// <summary>Gets/sets an object that represents a collection of redirect URIs.</summary>
-    public IEnumerable<LiteralEmbeddedEntity>? RedirectUris { get; set; }
+    public IReadOnlyList<string>? RedirectUris { get; set; }
 
     /// <summary>Gets/sets an object that represents a collection of post-redirect URIs.</summary>
-    public IEnumerable<LiteralEmbeddedEntity>? PostRedirectUris { get; set; }
+    public IReadOnlyList<string>? PostRedirectUris { get; set; }
   }
 }
