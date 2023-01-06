@@ -29,6 +29,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     public Task<List<ScopeEntity>> GetScopesAsync(CancellationToken cancellationToken)
     {
       return _dbContext.Set<ScopeEntity>()
+                       .AsNoTracking()
                        .ToListAsync(cancellationToken);
     }
 
@@ -40,6 +41,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     {
       return _dbContext.Set<ScopeEntity>()
                        .Where(entity => scopes.Contains(entity.Name))
+                       .AsNoTracking()
                        .ToListAsync(cancellationToken);
     }
   }

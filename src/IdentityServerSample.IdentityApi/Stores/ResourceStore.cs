@@ -9,16 +9,20 @@ namespace IdentityServerSample.IdentityApp.Stores
   using IdentityServer4.Models;
   using IdentityServer4.Stores;
 
+  using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.ApplicationCore.Repositories;
+
   /// <summary>Provides a simple API to query resources.</summary>
   public sealed class ResourceStore : IResourceStore
   {
     private readonly IEnumerable<IdentityResource> _identityResources;
     private readonly IEnumerable<ApiResource> _apiResources;
-    private readonly IEnumerable<ApiScope> _apiScopes;
+
+    private readonly IScopeRepository _scopeRepository;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApp.Stores.ResourceStore"/> class.</summary>
     /// <param name="configuration">An object that represents a set of key/value application configuration properties.</param>
-    public ResourceStore(IConfiguration configuration)
+    public ResourceStore(IConfiguration configuration, IScopeRepository scopeRepository)
     {
       _identityResources = new IdentityResource[]
       {
@@ -39,10 +43,7 @@ namespace IdentityServerSample.IdentityApp.Stores
         },
       };
 
-      _apiScopes = new[]
-      {
-        new ApiScope(configuration["ApiScope_Name"], configuration["ApiScope_DisplayName"]),
-      };
+      _scopeRepository = scopeRepository ?? throw new ArgumentNullException(nameof(scopeRepository));
     }
 
     /// <summary>Gets identity resources by scope name.</summary>
@@ -57,10 +58,18 @@ namespace IdentityServerSample.IdentityApp.Stores
     /// <summary>Gets API scopes by scope name.</summary>
     /// <param name="scopeNames">An object that represents a collection of scope names.</param>
     /// <returns>An object that represents an asynchronous operation.</returns>
-    public Task<IEnumerable<ApiScope>> FindApiScopesByNameAsync(
+    public async Task<IEnumerable<ApiScope>> FindApiScopesByNameAsync(
       IEnumerable<string> scopeNames)
     {
-      return Task.FromResult(_apiScopes.Where(scope => scopeNames.Contains(scope.Name)));
+      var scopeEntityCollection =
+        await _scopeRepository.GetScopesAsync(
+          scopeNames.ToArray(), CancellationToken.None);
+
+      var apiScopeCollection =
+        scopeEntityCollection.Select(ResourceStore.ToApiScope)
+                             .ToArray();
+
+      return apiScopeCollection;
     }
 
     /// <summary>Gets API resources by scope name.</summary>
@@ -92,9 +101,25 @@ namespace IdentityServerSample.IdentityApp.Stores
 
     /// <summary>Gets all resources.</summary>
     /// <returns>An object that represents an asynchronous operation.</returns>
-    public Task<Resources> GetAllResourcesAsync()
+    public async Task<Resources> GetAllResourcesAsync()
     {
-      return Task.FromResult(new Resources(_identityResources, _apiResources, _apiScopes));
+      var scopeEntityCollection =
+        await _scopeRepository.GetScopesAsync(CancellationToken.None);
+
+      var apiScopeCollection =
+        scopeEntityCollection.Select(ResourceStore.ToApiScope)
+                             .ToArray();
+
+      return new Resources(_identityResources, _apiResources, apiScopeCollection);
+    }
+
+    private static ApiScope ToApiScope(ScopeEntity scopeEntity)
+    {
+      return new ApiScope
+      {
+        Name = scopeEntity.Name,
+        DisplayName = scopeEntity.DisplayName,
+      };
     }
   }
 }
