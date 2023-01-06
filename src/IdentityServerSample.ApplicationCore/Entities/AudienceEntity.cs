@@ -17,5 +17,8 @@ namespace IdentityServerSample.ApplicationCore.Entities
 
     /// <summary>Gets/sets an object that represents a description of an audience.</summary>
     public string? Description { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of allowed scopes.</summary>
+    public IEnumerable<LiteralEmbeddedEntity>? Scopes { get; set; }
   }
 }

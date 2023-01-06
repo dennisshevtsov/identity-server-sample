@@ -26,6 +26,23 @@ namespace Microsoft.Extensions.DependencyInjection
     {
       dbContext.Database.EnsureCreated();
 
+      var audiences = dbContext.Set<AudienceEntity>();
+
+      if (audiences.FirstOrDefault(entity => entity.Name == "identity-server-sample-api") == null)
+      {
+        var audienceEntity = new AudienceEntity
+        {
+          Name = "identity-server-sample-api",
+          DisplayName = "Identity Server Sample API",
+          Scopes = new List<LiteralEmbeddedEntity>
+          {
+            "identity-server-sample-api-scope"
+          },
+        };
+
+        audiences.Add(audienceEntity);
+      }
+
       var clients = dbContext.Set<ClientEntity>();
 
       if (clients.FirstOrDefault(entity => entity.Name == "identity-server-sample-api-client-id-1") == null)
