@@ -18,7 +18,7 @@ import { SigninProps     } from './signin.view-mode';
 import { SigninViewModel } from './signin.view-mode';
 
 type SigninFormScheme = {
-  [K in keyof SigninProps]: FormControl<string | null>;
+  [K in keyof SigninProps]: FormControl<SigninProps[K] | null>;
 }
 
 @Component({
