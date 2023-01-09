@@ -4,12 +4,12 @@
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSwaggerGen();
 builder.Services.AddConfiguredControllers(builder.Configuration);
 builder.Services.AddConfiguredAuthentication(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddMapping();
 builder.Services.AddDatabase(builder.Configuration);
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
