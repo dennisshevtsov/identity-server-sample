@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 
+import { UpdateScopeViewModel } from './update-scope.vew-model';
+
 @Component({
-  selector: 'app-update-scope',
   templateUrl: './update-scope.component.html',
+  providers: [UpdateScopeViewModel],
 })
-export class UpdateScopeComponent { }
+export class UpdateScopeComponent { 
+  public constructor(public readonly vm: UpdateScopeViewModel) { }
+}
