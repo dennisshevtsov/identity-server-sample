@@ -23,7 +23,7 @@ export class ScopeService {
       const options = {
         headers: {
           'Content-Type' : 'application/json',
-          'Authorization': user!.access_token,
+          'Authorization': `Bearer ${user!.access_token}`,
         },
       };
 
