@@ -1,21 +1,18 @@
-import { NgModule } from '@angular/core';
+import { NgModule     } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SearchScopesComponent } from './search-scopes/search-scopes.component';
-import { AddScopeComponent } from './add-scope/add-scope.component';
-import { UpdateScopeComponent } from './update-scope/update-scope.component';
-import { ScopeComponent } from './scope/scope.component';
 
-
+import { SearchScopesComponent } from './componets';
+import { AddScopeComponent     } from './componets';
+import { UpdateScopeComponent  } from './componets';
+import { ScopeComponent        } from './componets';
 
 @NgModule({
   declarations: [
     SearchScopesComponent,
     AddScopeComponent,
     UpdateScopeComponent,
-    ScopeComponent
+    ScopeComponent,
   ],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule]
 })
 export class ScopeModule { }
