@@ -1,1 +1,14 @@
-<p>search-scopes works!</p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Display Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let scope of vm.scopes">
+      <td>{{scope.name}}</td>
+      <td>{{scope.displayName}}</td>
+    </tr>
+  </tbody>
+</table>
