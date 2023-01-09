@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SearchScopesComponent } from './search-scopes/search-scopes.component';
 import { AddScopeComponent } from './add-scope/add-scope.component';
 import { UpdateScopeComponent } from './update-scope/update-scope.component';
+import { ScopeComponent } from './scope/scope.component';
 
 
 
@@ -10,7 +11,8 @@ import { UpdateScopeComponent } from './update-scope/update-scope.component';
   declarations: [
     SearchScopesComponent,
     AddScopeComponent,
-    UpdateScopeComponent
+    UpdateScopeComponent,
+    ScopeComponent
   ],
   imports: [
     CommonModule
