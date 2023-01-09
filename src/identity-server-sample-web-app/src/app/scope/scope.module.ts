@@ -5,6 +5,7 @@ import { SearchScopesComponent } from './componets';
 import { AddScopeComponent     } from './componets';
 import { UpdateScopeComponent  } from './componets';
 import { ScopeComponent        } from './componets';
+import { ScopeRoutingModule } from './scope-routing.module';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,9 @@ import { ScopeComponent        } from './componets';
     UpdateScopeComponent,
     ScopeComponent,
   ],
-  imports: [CommonModule]
+  imports: [
+    CommonModule,
+    ScopeRoutingModule,
+  ],
 })
 export class ScopeModule { }

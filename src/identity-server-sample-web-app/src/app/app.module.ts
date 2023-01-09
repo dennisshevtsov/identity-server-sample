@@ -7,6 +7,7 @@ import { UserManager } from 'oidc-client';
 import { AppComponent     } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent    } from './components';
+import { ScopeModule      } from './scope';
 
 
 @NgModule({
@@ -17,6 +18,8 @@ import { HomeComponent    } from './components';
   imports: [
     BrowserModule,
     HttpClientModule,
+
+    ScopeModule,
     AppRoutingModule,
   ],
   providers: [
