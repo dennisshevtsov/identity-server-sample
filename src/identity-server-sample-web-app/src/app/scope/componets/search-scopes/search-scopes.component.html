@@ -1,14 +1,14 @@
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
+<table class="app-table">
+  <thead class="app-table__header">
+    <tr class="app-table__row">
+      <th class="app-table__cell" scope="col">Name</th>
       <th>Display Name</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let scope of vm.scopes">
-      <td>{{scope.name}}</td>
-      <td>{{scope.displayName}}</td>
+    <tr class="app-table__row" *ngFor="let scope of vm.scopes">
+      <td class="app-table__cell"><a href="#"><span>{{scope.name}}</span></a></td>
+      <td class="app-table__cell"><span>{{scope.displayName}}</span></td>
     </tr>
   </tbody>
 </table>
