@@ -4,11 +4,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { UserManager } from 'oidc-client';
 
+import { AudienceModule   } from './audience';
+import { ClientModule     } from './client';
+import { ScopeModule      } from './scope';
+
 import { AppComponent     } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent    } from './components';
-import { ScopeModule      } from './scope';
-
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { ScopeModule      } from './scope';
     BrowserModule,
     HttpClientModule,
 
+    AudienceModule,
+    ClientModule,
     ScopeModule,
     AppRoutingModule,
   ],
