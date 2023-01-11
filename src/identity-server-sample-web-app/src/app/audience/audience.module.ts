@@ -6,6 +6,8 @@ import { AddAudienceComponent     } from './componets';
 import { UpdateAudienceComponent  } from './componets';
 import { SearchAudiencesComponent } from './componets';
 
+import { AudienceRoutingModule } from './audience-routing.module';
+
 @NgModule({
   declarations: [
     AddAudienceComponent,
@@ -13,6 +15,9 @@ import { SearchAudiencesComponent } from './componets';
     SearchAudiencesComponent,
     UpdateAudienceComponent,
   ],
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    AudienceRoutingModule,
+  ],
 })
 export class AudienceModule { }
