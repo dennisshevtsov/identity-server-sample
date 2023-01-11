@@ -12,6 +12,10 @@ export class SearchClientsViewModel {
 
   public constructor(private readonly service: ClientService) { }
 
+  public get clients(): ClientDto[] {
+    return this.clientsValue ?? [];
+  }
+
   public initialize(): Observable<void> {
     return this.service.getClients().pipe(map(responseDto => {
       this.clientsValue = responseDto.clients;
