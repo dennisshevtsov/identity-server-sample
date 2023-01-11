@@ -1,21 +1,20 @@
-import { NgModule } from '@angular/core';
+import { NgModule     } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddClientComponent } from './components/add-client/add-client.component';
-import { UpdateClientComponent } from './components/update-client/update-client.component';
-import { SearchClientsComponent } from './components/search-clients/search-clients.component';
-import { ClientComponent } from './components/client/client.component';
 
-
+import { AddClientComponent     } from './components';
+import { UpdateClientComponent  } from './components';
+import { SearchClientsComponent } from './components';
+import { ClientComponent        } from './components';
 
 @NgModule({
   declarations: [
     AddClientComponent,
-    UpdateClientComponent,
+    ClientComponent,
     SearchClientsComponent,
-    ClientComponent
+    UpdateClientComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
   ]
 })
 export class ClientModule { }
