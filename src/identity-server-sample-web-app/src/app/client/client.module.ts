@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AddClientComponent } from './components/add-client/add-client.component';
 import { UpdateClientComponent } from './components/update-client/update-client.component';
 import { SearchClientsComponent } from './components/search-clients/search-clients.component';
+import { ClientComponent } from './components/client/client.component';
 
 
 
@@ -10,7 +11,8 @@ import { SearchClientsComponent } from './components/search-clients/search-clien
   declarations: [
     AddClientComponent,
     UpdateClientComponent,
-    SearchClientsComponent
+    SearchClientsComponent,
+    ClientComponent
   ],
   imports: [
     CommonModule
