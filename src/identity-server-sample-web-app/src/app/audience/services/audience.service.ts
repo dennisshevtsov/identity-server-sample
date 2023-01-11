@@ -7,20 +7,20 @@ import { from       } from 'rxjs';
 import { Observable } from 'rxjs';
 import { switchMap  } from 'rxjs';
 
-import { GetScopesResponseDto } from '../dtos/get-scopes-response.dto';
+import { GetAudiencesResponseDto } from '../dtos';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ScopeService {
-  constructor(
+export class AudienceService {
+  public constructor(
     private readonly um  : UserManager,
     private readonly http: HttpClient,
   ) { }
 
-  public getScopes(): Observable<GetScopesResponseDto> {
+  public getAudiences(): Observable<GetAudiencesResponseDto> {
     return from(this.um.getUser()).pipe(switchMap(user => {
-      const url = 'api/scope';
+      const url     = 'api/audience';
       const options = {
         headers: {
           'Content-Type' : 'application/json',
@@ -28,7 +28,7 @@ export class ScopeService {
         },
       };
 
-      return this.http.get<GetScopesResponseDto>(url, options)
-    }))
+      return this.http.get<GetAudiencesResponseDto>(url, options);
+    }));
   }
 }
