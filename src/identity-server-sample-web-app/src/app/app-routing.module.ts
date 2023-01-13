@@ -2,7 +2,7 @@ import { NgModule     } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Routes       } from '@angular/router';
 
-import { AuthorizeGuard } from './authorization/guards/authorize.guard';
+import { AuthorizeGuard } from './authorization';
 
 import { SigninCallbackGuard } from './guards';
 import { SilentCallbackGuard } from './guards';
