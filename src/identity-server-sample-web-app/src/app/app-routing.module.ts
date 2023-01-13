@@ -33,6 +33,11 @@ const routes: Routes = [
     canLoad: [AuthorizeGuard],
     loadChildren: () => import('./client/client.module').then(module => module.ClientModule),
   },
+  {
+    path: 'scope',
+    canLoad: [AuthorizeGuard],
+    loadChildren: () => import('./scope/scope.module').then(module => module.ScopeModule),
+  },
 ];
 
 @NgModule({

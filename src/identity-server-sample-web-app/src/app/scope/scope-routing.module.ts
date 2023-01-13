@@ -7,7 +7,7 @@ import { SearchScopesComponent } from './componets';
 
 const routes: Routes = [
   {
-    path: 'scope',
+    path: '',
     component: SearchScopesComponent,
   },
 ];
