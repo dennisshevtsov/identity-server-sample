@@ -28,6 +28,11 @@ const routes: Routes = [
     canLoad: [AuthorizeGuard],
     loadChildren: () => import('./audience/audience.module').then(module => module.AudienceModule),
   },
+  {
+    path: 'client',
+    canLoad: [AuthorizeGuard],
+    loadChildren: () => import('./client/client.module').then(module => module.ClientModule),
+  },
 ];
 
 @NgModule({

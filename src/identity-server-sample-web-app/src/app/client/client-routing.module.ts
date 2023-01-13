@@ -7,7 +7,7 @@ import { SearchClientsComponent } from './components';
 
 const routes: Routes = [
   {
-    path: 'client',
+    path: '',
     component: SearchClientsComponent,
   },
 ];

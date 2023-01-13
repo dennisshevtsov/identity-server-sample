@@ -5,7 +5,7 @@ import { Routes       } from '@angular/router';
 
 import { SearchAudiencesComponent } from './componets';
 
-const routers: Routes = [
+const routes: Routes = [
   {
     path: '',
     component: SearchAudiencesComponent,
@@ -13,7 +13,7 @@ const routers: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routers)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
 export class AudienceRoutingModule { }
