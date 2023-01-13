@@ -7,7 +7,7 @@ import { SearchAudiencesComponent } from './componets';
 
 const routers: Routes = [
   {
-    path: 'audience',
+    path: '',
     component: SearchAudiencesComponent,
   },
 ];
