@@ -4,8 +4,6 @@ import { Routes       } from '@angular/router';
 
 import { AuthorizeGuard } from './authorization/guards/authorize.guard';
 
-import { HomeComponent       } from './components';
-//import { AuthorizeGuard      } from './guards';
 import { SigninCallbackGuard } from './guards';
 import { SilentCallbackGuard } from './guards';
 
@@ -23,8 +21,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    //canActivate: [AuthorizeGuard],
-    component: HomeComponent,
+    redirectTo: 'audience',
   },
   {
     path: 'audience',
