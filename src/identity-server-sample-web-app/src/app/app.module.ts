@@ -4,8 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { UserManager } from 'oidc-client';
 
-import { AppComponent     } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { AuthorizationModule } from './authorization';
+import { AppComponent        } from './app.component';
+import { AppRoutingModule    } from './app-routing.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
     BrowserModule,
     HttpClientModule,
 
+    AuthorizationModule,
     AppRoutingModule,
   ],
   providers: [

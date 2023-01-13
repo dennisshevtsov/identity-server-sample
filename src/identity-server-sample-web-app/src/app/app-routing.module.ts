@@ -3,20 +3,8 @@ import { RouterModule } from '@angular/router';
 import { Routes       } from '@angular/router';
 
 import { AuthorizeGuard      } from './authorization';
-import { SigninCallbackGuard } from './authorization';
-import { SilentCallbackGuard } from './authorization';
 
 const routes: Routes = [
-  {
-    path: 'signin-callback',
-    children: [],
-    canActivate: [SigninCallbackGuard],
-  },
-  {
-    path: 'silent-callback',
-    children: [],
-    canActivate: [SilentCallbackGuard],
-  },
   {
     path: '',
     pathMatch: 'full',
