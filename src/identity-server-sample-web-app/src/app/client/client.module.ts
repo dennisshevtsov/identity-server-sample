@@ -6,6 +6,8 @@ import { UpdateClientComponent  } from './components';
 import { SearchClientsComponent } from './components';
 import { ClientComponent        } from './components';
 
+import { ClientRoutingModule } from './client-routing.module';
+
 @NgModule({
   declarations: [
     AddClientComponent,
@@ -15,6 +17,7 @@ import { ClientComponent        } from './components';
   ],
   imports: [
     CommonModule,
+    ClientRoutingModule,
   ]
 })
 export class ClientModule { }
