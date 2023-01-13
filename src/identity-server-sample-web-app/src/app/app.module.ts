@@ -21,7 +21,7 @@ import { HomeComponent    } from './components';
     BrowserModule,
     HttpClientModule,
 
-    AudienceModule,
+    //AudienceModule,
     ClientModule,
     ScopeModule,
     AppRoutingModule,

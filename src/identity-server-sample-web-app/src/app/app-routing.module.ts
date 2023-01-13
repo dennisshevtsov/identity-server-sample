@@ -2,8 +2,10 @@ import { NgModule     } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Routes       } from '@angular/router';
 
+import { AuthorizeGuard } from './authorization/guards/authorize.guard';
+
 import { HomeComponent       } from './components';
-import { AuthorizeGuard      } from './guards';
+//import { AuthorizeGuard      } from './guards';
 import { SigninCallbackGuard } from './guards';
 import { SilentCallbackGuard } from './guards';
 
@@ -21,8 +23,13 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    canActivate: [AuthorizeGuard],
+    //canActivate: [AuthorizeGuard],
     component: HomeComponent,
+  },
+  {
+    path: 'audience',
+    canLoad: [AuthorizeGuard],
+    loadChildren: () => import('./audience/audience.module').then(module => module.AudienceModule),
   },
 ];
 

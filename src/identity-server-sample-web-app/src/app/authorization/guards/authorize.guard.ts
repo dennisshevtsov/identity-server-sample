@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { CanActivate } from '@angular/router';
+import { CanLoad } from '@angular/router';
 
 import { User        } from 'oidc-client';
 import { UserManager } from 'oidc-client';
@@ -8,10 +8,10 @@ import { UserManager } from 'oidc-client';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthorizeGuard implements CanActivate {
+export class AuthorizeGuard implements CanLoad {
   public constructor(private readonly um: UserManager) { }
 
-  public canActivate(): Promise<boolean> {
+  public canLoad(): Promise<boolean> {
     return this.um.getUser().then(user => this.isAuthorized(user));
   }
 
