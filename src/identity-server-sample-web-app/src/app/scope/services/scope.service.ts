@@ -10,7 +10,7 @@ import { switchMap  } from 'rxjs';
 import { GetScopesResponseDto } from '../dtos/get-scopes-response.dto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScopeService {
   constructor(
