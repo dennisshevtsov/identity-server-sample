@@ -1,1 +1,19 @@
-<p>scope works!</p>
+<form class="app-form">
+  <fieldset>
+    <legend>New Scope</legend>
+    <div class="app-form__control-group">
+      <input id="txtName" class="app-form__control" type="text" placeholder="">
+      <label for="txtName">Name</label>
+    </div>
+    <div class="app-form__control-group">
+      <input id="txtDisplayName" class="app-form__control" type="text" placeholder="">
+      <label for="txtDisplayName">Display Name</label>
+    </div>
+    <div class="app-form__button-group button-group">
+      <button class="button-group__ok"
+              type="button"
+              (click)="save()"><span>Ok</span></button>
+      <a class="button-group__cancel" routerLink="../"><span>Cancel</span></a>
+    </div>
+  </fieldset>
+</form>
