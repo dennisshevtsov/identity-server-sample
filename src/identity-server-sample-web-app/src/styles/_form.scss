@@ -1,0 +1,17 @@
+.app-form {
+  &__control-group {
+    @extend .form-floating;
+    @extend .mb-3;
+  }
+
+  &__control {
+    @extend .form-control;
+  }
+
+  &__button-group {
+    @extend .d-grid;
+    @extend .gap-2;
+    @extend .d-md-flex;
+    @extend .justify-content-md-end;
+  }
+}

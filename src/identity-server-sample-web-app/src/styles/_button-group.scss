@@ -1,0 +1,15 @@
+.button-group {
+  &__ok, &__cancel {
+    @extend .btn;
+
+    width: 120px;
+  }
+
+  &__ok {
+    @extend .btn-primary;
+  }
+
+  &__cancel {
+    @extend .btn-secondary;
+  }
+}
