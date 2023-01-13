@@ -6,7 +6,7 @@ import { User        } from 'oidc-client';
 import { UserManager } from 'oidc-client';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthorizeGuard implements CanLoad {
   public constructor(private readonly um: UserManager) { }

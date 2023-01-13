@@ -7,7 +7,7 @@ import { UrlTree     } from '@angular/router';
 import { UserManager } from 'oidc-client';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SilentCallbackGuard implements CanActivate {
   public constructor(
