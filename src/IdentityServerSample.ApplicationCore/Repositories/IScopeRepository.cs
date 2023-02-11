@@ -6,7 +6,7 @@ namespace IdentityServerSample.ApplicationCore.Repositories
 {
   using IdentityServerSample.ApplicationCore.Entities;
 
-  /// <summary>Provides a simple API to query and save scopes in the database.</summary>
+  /// <summary>Provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.ScopeEntity"/> class.</summary>
   public interface IScopeRepository
   {
     /// <summary>Gets a collection of available scopes.</summary>

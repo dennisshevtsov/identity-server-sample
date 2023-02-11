@@ -6,7 +6,7 @@ namespace IdentityServerSample.ApplicationCore.Repositories
 {
   using IdentityServerSample.ApplicationCore.Entities;
 
-  /// <summary>Provides a simple API to query and save audiences.</summary>
+  /// <summary>Provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceEntity"/> class.</summary>
   public interface IAudienceRepository
   {
     /// <summary>Gets a collection of all audiences.</summary>

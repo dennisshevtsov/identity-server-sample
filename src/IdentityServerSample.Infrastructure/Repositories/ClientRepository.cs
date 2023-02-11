@@ -11,7 +11,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
   using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Repositories;
 
-  /// <summary>Provides a simple API to clients in a database.</summary>
+  /// <summary>Provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.ClientEntity"/> class.</summary>
   public sealed class ClientRepository : IClientRepository
   {
     private readonly DbContext _dbContext;
