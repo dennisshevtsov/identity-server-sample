@@ -4,10 +4,10 @@
 
 namespace IdentityServerSample.ApplicationCore.Identities
 {
-  /// <summary>Represents an identity of a user.</summary>
-  public interface IUserIdentity
+  /// <summary>Represents an identity of an account.</summary>
+  public interface IAccountIdentity
   {
-    /// <summary>Gets/sets an object that reprsents an ID of a user.</summary>
-    public Guid UserId { get; set; }
+    /// <summary>Gets/sets an object that reprsents a name of an account.</summary>
+    public Guid AccountId { get; set; }
   }
 }

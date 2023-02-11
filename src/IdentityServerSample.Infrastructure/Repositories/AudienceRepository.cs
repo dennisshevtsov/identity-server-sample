@@ -10,9 +10,8 @@ namespace IdentityServerSample.Infrastructure.Repositories
 
   using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Repositories;
-  using static System.Formats.Asn1.AsnWriter;
 
-  /// <summary>Provides a simple API to query and save audiences.</summary>
+  /// <summary>Provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceEntity"/> class.</summary>
   public sealed class AudienceRepository : IAudienceRepository
   {
     private readonly DbContext _dbContext;

@@ -11,7 +11,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
   using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Repositories;
 
-  /// <summary>Provides a simple API to query and save scopes in the database.</summary>
+  /// <summary>Provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.ScopeEntity"/> class.</summary>
   public sealed class ScopeRepository : IScopeRepository
   {
     private readonly DbContext _dbContext;
