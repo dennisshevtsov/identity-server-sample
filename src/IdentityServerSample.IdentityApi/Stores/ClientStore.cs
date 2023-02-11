@@ -15,7 +15,6 @@ namespace IdentityServerSample.IdentityApp.Stores
     private readonly IClientRepository _clientRepository;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApp.Stores.ClientStore"/> class.</summary>
-    /// <param name="configuration"></param>
     /// <param name="clientRepository">An object that provides a simple API to clients in a database.</param>
     public ClientStore(IClientRepository clientRepository)
     {
