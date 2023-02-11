@@ -7,7 +7,7 @@ namespace IdentityServerSample.ApplicationCore.Identities
   /// <summary>Represents an identity of an audience.</summary>
   public interface IAudienceIdentity
   {
-    /// <summary>Gets/sets an object that reprsents a name of an audience.</summary>
+    /// <summary>Gets/sets an object that represents an ID of an audience.</summary>
     public string? Name { get; set; }
   }
 }
