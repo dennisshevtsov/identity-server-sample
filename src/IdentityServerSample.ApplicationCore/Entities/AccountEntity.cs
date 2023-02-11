@@ -17,5 +17,8 @@ namespace IdentityServerSample.ApplicationCore.Entities
 
     /// <summary>Gets/sets an object that represents an email of an account.</summary>
     public string? Email { get; set; }
+
+    /// <summary>Gets/sets an object that represents a hash of a password.</summary>
+    public string? PasswordHash { get; set; }
   }
 }

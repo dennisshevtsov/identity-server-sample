@@ -16,13 +16,16 @@ namespace IdentityServerSample.Infrastructure
     /// <summary>Gets/sets an object that represents a name of a database.</summary>
     public string? DatabaseName { get; set; }
 
-    /// <summary>Gets/sets an object that represents a name of an audience container.</summary>
-    public string? AudienceContainerName { get; set; }
+    /// <summary>Gets/sets an object that represents a name of an account container.</summary>
+    public string AccountContainerName { get; set; } = "accounts";
 
     /// <summary>Gets/sets an object that represents a name of an audience container.</summary>
-    public string? ClientContainerName { get; set; }
+    public string AudienceContainerName { get; set; } = "audiences";
 
     /// <summary>Gets/sets an object that represents a name of an audience container.</summary>
-    public string? ScopeContainerName { get; set; }
+    public string ClientContainerName { get; set; } = "clients";
+
+    /// <summary>Gets/sets an object that represents a name of an audience container.</summary>
+    public string ScopeContainerName { get; set; } = "scopes";
   }
 }

@@ -11,10 +11,6 @@ namespace IdentityServerSample.Infrastructure
 
   public sealed class IdentityServerSampleDbContext : DbContext
   {
-    private const string DefaultAudienceContainerName = "audiences";
-    private const string DefaultClientContainerName = "clients";
-    private const string DefaultScopeContainerName = "scopes";
-
     private readonly IOptions<DatabaseOptions> _databaseOptions;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.Infrastructure.IdentityServerSampleDbContext"/> class.</summary>
@@ -30,9 +26,10 @@ namespace IdentityServerSample.Infrastructure
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-      modelBuilder.ApplyConfiguration(new AudienceEntityTypeConfiguration(_databaseOptions.Value.AudienceContainerName ?? IdentityServerSampleDbContext.DefaultAudienceContainerName));
-      modelBuilder.ApplyConfiguration(new ClientEntityTypeConfiguration(_databaseOptions.Value.ClientContainerName ?? IdentityServerSampleDbContext.DefaultClientContainerName));
-      modelBuilder.ApplyConfiguration(new ScopeEntityTypeConfiguration(_databaseOptions.Value.ScopeContainerName ?? IdentityServerSampleDbContext.DefaultScopeContainerName));
+      modelBuilder.ApplyConfiguration(new AccountEntityTypeConfiguration(_databaseOptions.Value.AccountContainerName));
+      modelBuilder.ApplyConfiguration(new AudienceEntityTypeConfiguration(_databaseOptions.Value.AudienceContainerName));
+      modelBuilder.ApplyConfiguration(new ClientEntityTypeConfiguration(_databaseOptions.Value.ClientContainerName));
+      modelBuilder.ApplyConfiguration(new ScopeEntityTypeConfiguration(_databaseOptions.Value.ScopeContainerName));
     }
   }
 }
