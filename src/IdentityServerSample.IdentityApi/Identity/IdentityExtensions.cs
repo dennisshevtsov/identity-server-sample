@@ -15,7 +15,8 @@ namespace IdentityServerSample.IdentityApi.Identity
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
     public static IServiceCollection SetUpIdentity(this IServiceCollection services)
     {
-      services.AddIdentity<UserEntity, RoleEntity>();
+      services.AddIdentity<UserEntity, RoleEntity>()
+              .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>();
 
       return services;
     }
