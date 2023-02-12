@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>Adds antiforgery services to a pipeline.</summary>
     /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
-    public static IServiceCollection AddConfiguredAntiforgery(this IServiceCollection services)
+    public static IServiceCollection SetUpAntiforgery(this IServiceCollection services)
     {
       services.AddAntiforgery(options => options.HeaderName = AntiforgeryExtensions.XsrfTokenHeaderName);
 

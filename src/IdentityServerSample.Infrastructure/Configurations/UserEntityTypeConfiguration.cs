@@ -10,20 +10,20 @@ namespace IdentityServerSample.Infrastructure.Configurations
   using IdentityServerSample.ApplicationCore.Entities;
 
   /// <summary>Allows configuration for an entity type.</summary>
-  public sealed class AccountEntityTypeConfiguration : IEntityTypeConfiguration<AccountEntity>
+  public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserEntity>
   {
     private readonly string _containerName;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.Infrastructure.Configurations.AccountEntityTypeConfiguration"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.Infrastructure.Configurations.UserEntityTypeConfiguration"/> class.</summary>
     /// <param name="containerName">An object that represents a name of a container.</param>
-    public AccountEntityTypeConfiguration(string containerName)
+    public UserEntityTypeConfiguration(string containerName)
     {
       _containerName = containerName ?? throw new ArgumentNullException(nameof(containerName));
     }
 
-    /// <summary>Configures the entity of the <see cref="IdentityServerSample.ApplicationCore.Entities.AccountEntity"/> type.</summary>
+    /// <summary>Configures the entity of the <see cref="IdentityServerSample.ApplicationCore.Entities.UserEntity"/> type.</summary>
     /// <param name="builder">An object that provides a simple API to configure the entity type.</param>
-    public void Configure(EntityTypeBuilder<AccountEntity> builder)
+    public void Configure(EntityTypeBuilder<UserEntity> builder)
     {
       builder.ToContainer(_containerName);
 
