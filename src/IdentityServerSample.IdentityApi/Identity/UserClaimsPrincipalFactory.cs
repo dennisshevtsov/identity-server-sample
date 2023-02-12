@@ -29,7 +29,7 @@ namespace IdentityServerSample.IdentityApi.Identity
         new Claim("scope", "identity-server-sample-api-scope"),
       };
 
-      var identity = new ClaimsIdentity(claims);
+      var identity = new ClaimsIdentity(claims, "Bearer");
       var principal = new ClaimsPrincipal(identity);
 
       return Task.FromResult(principal);
