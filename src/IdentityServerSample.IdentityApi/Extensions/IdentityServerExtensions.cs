@@ -7,10 +7,9 @@ namespace Microsoft.Extensions.DependencyInjection
   using System.Security.Claims;
 
   using IdentityServer4.Test;
-
+  using IdentityServerSample.IdentityApi.Identity;
   using IdentityServerSample.IdentityApp.Services;
   using IdentityServerSample.IdentityApp.Stores;
-
 
   /// <summary>Provides a simple API to configure a pipeline.</summary>
   public static class IdentityServerExtensions
@@ -37,7 +36,7 @@ namespace Microsoft.Extensions.DependencyInjection
               .AddClientStore<ClientStore>()
               .AddResourceStore<ResourceStore>()
               .AddCorsPolicyService<CorsPolicyService>()
-              .AddTestUsers(IdentityServerExtensions.GetTestUsers(configuration))
+              .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
               .AddDeveloperSigningCredential();
 
       return services;
