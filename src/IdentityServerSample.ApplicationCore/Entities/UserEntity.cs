@@ -7,7 +7,7 @@ namespace IdentityServerSample.ApplicationCore.Entities
   using IdentityServerSample.ApplicationCore.Identities;
 
   /// <summary>Represents details of an account.</summary>
-  public sealed class AccountEntity : IAccountIdentity
+  public sealed class UserEntity : IAccountIdentity
   {
     /// <summary>Gets/sets an object that represents an ID of an account.</summary>
     public Guid AccountId { get; set; }

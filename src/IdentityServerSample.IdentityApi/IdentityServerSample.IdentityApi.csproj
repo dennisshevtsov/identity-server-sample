@@ -22,4 +22,8 @@
     <ProjectReference Include="..\IdentityServerSample.Infrastructure\IdentityServerSample.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Identity\" />
+  </ItemGroup>
+
 </Project>
