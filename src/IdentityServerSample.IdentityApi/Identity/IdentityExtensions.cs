@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.Identity
+namespace Microsoft.Extensions.DependencyInjection
 {
   using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.IdentityApi.Identity;
 
   /// <summary>Provides a simple API to configure a pipeline.</summary>
   public static class IdentityExtensions
