@@ -16,7 +16,8 @@ namespace IdentityServerSample.IdentityApi.Identity
     public static IServiceCollection SetUpIdentity(this IServiceCollection services)
     {
       services.AddIdentity<UserEntity, RoleEntity>()
-              .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>();
+              .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>()
+              .AddUserStore<UserStore>();
 
       return services;
     }
