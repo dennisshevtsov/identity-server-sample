@@ -26,6 +26,7 @@ namespace IdentityServerSample.IdentityApi.Identity
         new Claim(JwtClaimTypes.Name, user.Name!),
         new Claim(JwtClaimTypes.Email, user.Email!),
         new Claim(JwtClaimTypes.EmailVerified, "true"),
+        new Claim("scope", "identity-server-sample-api-scope"),
       };
 
       var identity = new ClaimsIdentity(claims);

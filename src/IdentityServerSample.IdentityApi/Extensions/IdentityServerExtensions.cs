@@ -4,9 +4,6 @@
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-  using System.Security.Claims;
-
-  using IdentityServer4.Test;
   using IdentityServerSample.IdentityApi.Identity;
   using IdentityServerSample.IdentityApp.Services;
   using IdentityServerSample.IdentityApp.Stores;
@@ -37,25 +34,10 @@ namespace Microsoft.Extensions.DependencyInjection
               .AddResourceStore<ResourceStore>()
               .AddCorsPolicyService<CorsPolicyService>()
               .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+              .AddProfileService<ProfileService>()
               .AddDeveloperSigningCredential();
 
       return services;
     }
-
-    private static List<TestUser> GetTestUsers(IConfiguration configuration)
-      => new List<TestUser>
-      {
-        new TestUser
-        {
-          SubjectId = "test",
-          Username = "test@test.test",
-          Password = "test",
-          IsActive = true,
-          Claims =
-          {
-            new Claim("scope", configuration["ApiScope_Name"]!),
-          },
-        },
-      };
   }
 }
