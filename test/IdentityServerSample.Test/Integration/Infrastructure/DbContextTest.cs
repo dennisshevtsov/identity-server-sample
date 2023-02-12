@@ -29,7 +29,7 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
       var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json")
                                                     .Build();
 
-      var scope = new ServiceCollection().AddDatabase(configuration)
+      var scope = new ServiceCollection().SetUpDatabase(configuration)
                                          .BuildServiceProvider()
                                          .CreateScope();
 

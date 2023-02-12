@@ -9,7 +9,7 @@ builder.Services.AddConfiguredControllers(builder.Configuration);
 builder.Services.AddConfiguredAuthentication(builder.Configuration);
 builder.Services.AddServices();
 builder.Services.AddMapping();
-builder.Services.AddDatabase(builder.Configuration);
+builder.Services.SetUpDatabase(builder.Configuration);
 
 var app = builder.Build();
 

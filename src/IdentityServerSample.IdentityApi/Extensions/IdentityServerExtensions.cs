@@ -15,11 +15,11 @@ namespace Microsoft.Extensions.DependencyInjection
   /// <summary>Provides a simple API to configure a pipeline.</summary>
   public static class IdentityServerExtensions
   {
-    /// <summary>Adds the Identity Server middleware to a pipeline.</summary>
+    /// <summary>Sets up the Identity Server.</summary>
     /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
     /// <param name="configuration">An object that represents a set of key/value application configuration properties.</param>
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
-    public static IServiceCollection AddConfiguredIdentityServer(
+    public static IServiceCollection SetUpIdentityServer(
       this IServiceCollection services,
       IConfiguration configuration)
     {

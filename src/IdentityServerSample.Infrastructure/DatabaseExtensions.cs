@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
     /// <param name="configuration">An object that represents a set of key/value application configuration properties.</param>
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
-    public static IServiceCollection AddDatabase(
+    public static IServiceCollection SetUpDatabase(
       this IServiceCollection services, IConfiguration configuration)
     {
       services.Configure<DatabaseOptions>(configuration);
