@@ -17,7 +17,8 @@ namespace IdentityServerSample.IdentityApi.Identity
     {
       services.AddIdentity<UserEntity, RoleEntity>()
               .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>()
-              .AddUserStore<UserStore>();
+              .AddUserStore<UserStore>()
+              .AddRoleStore<RoleStore>();
 
       return services;
     }
