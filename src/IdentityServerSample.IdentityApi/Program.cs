@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.SetUpAntiforgery();
+builder.Services.SetUpAspNetIdentity();
 builder.Services.SetUpIdentityServer(builder.Configuration);
 builder.Services.SetUpDatabase(builder.Configuration);
 
