@@ -46,7 +46,7 @@ namespace Microsoft.Extensions.DependencyInjection
           builder.UseCosmos(options.AccountEndpoint, options.AccountKey, options.DatabaseName);
         });
 
-      services.AddScoped<IAccountRepository, AccountRepository>();
+      services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IAudienceRepository, AudienceRepository>();
       services.AddScoped<IClientRepository, ClientRepository>();
       services.AddScoped<IScopeRepository, ScopeRepository>();
