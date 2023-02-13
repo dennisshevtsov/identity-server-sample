@@ -13,7 +13,7 @@ namespace IdentityServerSample.Infrastructure.Test
     private CancellationToken _cancellationToken;
 
 #pragma warning disable CS8618
-    private IDisposable _disposable;
+    private IServiceScope _scope;
 
     private DbContext _dbContext;
 #pragma warning restore CS8618
@@ -26,13 +26,11 @@ namespace IdentityServerSample.Infrastructure.Test
       var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json")
                                                     .Build();
 
-      var scope = new ServiceCollection().SetUpDatabase(configuration)
-                                         .BuildServiceProvider()
-                                         .CreateScope();
+      _scope = new ServiceCollection().SetUpDatabase(configuration)
+                                      .BuildServiceProvider()
+                                      .CreateScope();
 
-      _disposable = scope;
-
-      _dbContext = scope.ServiceProvider.GetRequiredService<DbContext>();
+      _dbContext = _scope.ServiceProvider.GetRequiredService<DbContext>();
       _dbContext.Database.EnsureCreated();
 
       InitializeInternal();
@@ -42,10 +40,12 @@ namespace IdentityServerSample.Infrastructure.Test
     public void Cleanup()
     {
       _dbContext?.Database?.EnsureDeleted();
-      _disposable?.Dispose();
+      _scope?.Dispose();
     }
 
     protected CancellationToken CancellationToken { get { return _cancellationToken; } }
+
+    protected IServiceProvider ServiceProvider { get { return _scope.ServiceProvider; } }
 
     protected DbContext DbContext { get { return _dbContext; } }
 
