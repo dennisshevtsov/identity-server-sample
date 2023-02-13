@@ -62,6 +62,22 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       }
     }
 
+    [TestMethod]
+    public async Task GetAudiencesByNamesAsync_Should_Get_All_Audiences()
+    {
+      var controlAudienceEntityCollection = await CreateNewAudienciesAsync(10);
+
+      var testAudienceEntityCollection =
+        await _audienceRepository.GetAudiencesByNamesAsync(null, CancellationToken);
+
+      Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Length);
+
+      for (int i = 0; i < controlAudienceEntityCollection.Length; i++)
+      {
+        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
+      }
+    }
+
     private async Task<AudienceEntity> CreateNewAudienceAsync()
     {
       var audienceEntity = new AudienceEntity
