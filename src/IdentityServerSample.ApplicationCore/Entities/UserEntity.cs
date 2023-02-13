@@ -7,10 +7,10 @@ namespace IdentityServerSample.ApplicationCore.Entities
   using IdentityServerSample.ApplicationCore.Identities;
 
   /// <summary>Represents details of a user.</summary>
-  public sealed class UserEntity : IAccountIdentity
+  public sealed class UserEntity : IUserIdentity
   {
-    /// <summary>Gets/sets an object that represents an ID of an account.</summary>
-    public Guid AccountId { get; set; }
+    /// <summary>Gets/sets an object that represents an ID of a user.</summary>
+    public Guid UserId { get; set; }
 
     /// <summary>Gets/sets an object that represents a name of a user.</summary>
     public string? Name { get; set; }

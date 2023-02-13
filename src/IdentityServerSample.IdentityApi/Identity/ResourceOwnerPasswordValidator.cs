@@ -37,7 +37,7 @@ namespace IdentityServerSample.IdentityApi.Identity
           signInResult.Succeeded)
       {
         context.Result = new GrantValidationResult(
-          userEntity.AccountId.ToString(),
+          userEntity.UserId.ToString(),
           OidcConstants.AuthenticationMethods.Password);
       }
       else

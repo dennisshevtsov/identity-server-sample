@@ -21,7 +21,7 @@ namespace IdentityServerSample.IdentityApi.Identity
     {
       var claims = new[]
       {
-        new Claim(JwtClaimTypes.Subject, user.AccountId.ToString()),
+        new Claim(JwtClaimTypes.Subject, user.UserId.ToString()),
         new Claim(JwtClaimTypes.PreferredUserName, user.Name!),
         new Claim(JwtClaimTypes.Name, user.Name!),
         new Claim(JwtClaimTypes.Email, user.Email!),

@@ -27,12 +27,12 @@ namespace IdentityServerSample.Infrastructure.Configurations
     {
       builder.ToContainer(_containerName);
 
-      builder.HasKey(entity => entity.AccountId);
-      builder.HasPartitionKey(entity => entity.AccountId);
+      builder.HasKey(entity => entity.UserId);
+      builder.HasPartitionKey(entity => entity.UserId);
 
       builder.HasNoDiscriminator();
 
-      builder.Property(entity => entity.AccountId).ToJsonProperty("accountId");
+      builder.Property(entity => entity.UserId).ToJsonProperty("userId");
       builder.Property(entity => entity.Name).ToJsonProperty("name");
       builder.Property(entity => entity.Email).ToJsonProperty("email");
       builder.Property(entity => entity.PasswordHash).ToJsonProperty("passwordHash");
