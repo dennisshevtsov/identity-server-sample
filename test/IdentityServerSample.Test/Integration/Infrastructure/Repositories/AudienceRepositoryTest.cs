@@ -26,7 +26,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetAudiencesAsync_Should_Get_All_Audiences()
     {
-      var controlAudienceEntityCollection = await CreateNewAudienciesAsync();
+      var controlAudienceEntityCollection = await CreateNewAudienciesAsync(10);
 
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesAsync(CancellationToken);
@@ -42,13 +42,10 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetAudiencesByNamesAsync_Should_Get_Audiences_With_Defined_Names()
     {
-      var allAudienceEntityCollection = await CreateNewAudienciesAsync();
-      var controlAudienceEntityCollection = new[]
-      {
-        allAudienceEntityCollection[0],
-        allAudienceEntityCollection[2],
-        allAudienceEntityCollection[4],
-      };
+      var allAudienceEntityCollection = await CreateNewAudienciesAsync(10);
+      var controlAudienceEntityCollection =
+        allAudienceEntityCollection.Where((entity, index) => index % 2 == 0)
+                                   .ToArray();
 
       var audienceNameCollection =
         controlAudienceEntityCollection.Select(entity => entity.Name!)
@@ -88,22 +85,17 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       return audienceEntity;
     }
 
-    private async Task<AudienceEntity[]> CreateNewAudienciesAsync()
+    private async Task<AudienceEntity[]> CreateNewAudienciesAsync(int audiences)
     {
-      var audienceEntityCollection = new[]
+      var audienceEntityCollection = new List<AudienceEntity>();
+
+      for (int i = 0; i < audiences; i++)
       {
-        await CreateNewAudienceAsync(),
-        await CreateNewAudienceAsync(),
-        await CreateNewAudienceAsync(),
-        await CreateNewAudienceAsync(),
-        await CreateNewAudienceAsync(),
-      };
+        audienceEntityCollection.Add(await CreateNewAudienceAsync());
+      }
 
-      audienceEntityCollection =
-        audienceEntityCollection.OrderBy(entity => entity.Name)
-                                .ToArray();
-
-      return audienceEntityCollection;
+      return audienceEntityCollection.OrderBy(entity => entity.Name)
+                                     .ToArray();
     }
 
     private void AreEqual(AudienceEntity control, AudienceEntity test)
