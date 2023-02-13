@@ -17,7 +17,7 @@ namespace IdentityServerSample.Infrastructure
     public string? DatabaseName { get; set; }
 
     /// <summary>Gets/sets an object that represents a name of an account container.</summary>
-    public string AccountContainerName { get; set; } = "accounts";
+    public string UserContainerName { get; set; } = "accounts";
 
     /// <summary>Gets/sets an object that represents a name of an audience container.</summary>
     public string AudienceContainerName { get; set; } = "audiences";

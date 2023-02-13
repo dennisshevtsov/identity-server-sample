@@ -20,7 +20,7 @@ namespace IdentityServerSample.IdentityApi.Identity
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the identifier for the specified <paramref name="user"/>.</returns>
     public Task<string> GetUserIdAsync(UserEntity user, CancellationToken cancellationToken)
-      => Task.FromResult(user.AccountId.ToString());
+      => Task.FromResult(user.UserId.ToString());
 
     /// <summary>
     /// Gets the user name for the specified <paramref name="user"/>.
@@ -109,7 +109,7 @@ namespace IdentityServerSample.IdentityApi.Identity
     {
       return Task.FromResult<UserEntity?>(new UserEntity
       {
-        AccountId = Guid.Parse(userId),
+        UserId = Guid.Parse(userId),
         Email = "test@test.test",
         Name = "Test User",
         PasswordHash = "AQAAAAIAAYagAAAAEK1J2OGSiw1GPjwtTfNlKBOTGZg0ktpqEd7YkwbfMRWOw35KYVpsAQzpC2qwjtN0wg==",
@@ -128,7 +128,7 @@ namespace IdentityServerSample.IdentityApi.Identity
     {
       return Task.FromResult<UserEntity?>(new UserEntity
       {
-        AccountId = Guid.NewGuid(),
+        UserId = Guid.NewGuid(),
         Email = "test@test.test",
         Name = "Test User",
         PasswordHash = "AQAAAAIAAYagAAAAEK1J2OGSiw1GPjwtTfNlKBOTGZg0ktpqEd7YkwbfMRWOw35KYVpsAQzpC2qwjtN0wg==",

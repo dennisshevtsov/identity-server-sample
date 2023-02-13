@@ -30,6 +30,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     {
       return _dbContext.Set<AudienceEntity>()
                        .AsNoTracking()
+                       .OrderBy(entity => entity.Name)
                        .ToArrayAsync(cancellationToken);
     }
 
@@ -37,7 +38,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     /// <param name="audiences">An object that represents a collection of audience names.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public Task<AudienceEntity[]> GetAudiencesByNamesAsync(string[] audiences, CancellationToken cancellationToken)
+    public Task<AudienceEntity[]> GetAudiencesByNamesAsync(string[]? audiences, CancellationToken cancellationToken)
     {
       var query = _dbContext.Set<AudienceEntity>()
                             .AsNoTracking();
@@ -47,18 +48,20 @@ namespace IdentityServerSample.Infrastructure.Repositories
         query = query.Where(entity => audiences.Contains(entity.Name));
       }
 
-      return query.ToArrayAsync(cancellationToken);
+      return query.OrderBy(entity => entity.Name)
+                  .ToArrayAsync(cancellationToken);
     }
 
     /// <summary>Gets a collection of all audiences by scope names.</summary>
     /// <param name="scopes">An object that represents a collection of scope names that relate to audiencies.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public async Task<AudienceEntity[]> GetAudiencesByScopesAsync(string[] scopes, CancellationToken cancellationToken)
+    public async Task<AudienceEntity[]> GetAudiencesByScopesAsync(string[]? scopes, CancellationToken cancellationToken)
     {
       var audienceEntityCollection =
         await _dbContext.Set<AudienceEntity>()
                         .AsNoTracking()
+                        .OrderBy(entity => entity.Name)
                         .ToArrayAsync();
 
 
