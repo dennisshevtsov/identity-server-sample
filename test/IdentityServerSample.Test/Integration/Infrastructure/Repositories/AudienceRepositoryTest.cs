@@ -24,7 +24,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
-    public async Task GetAudiencesAsync_Should_Get_All_Audiences()
+    public async Task GetAudiencesAsync_Should_Return_All_Audiences()
     {
       var controlAudienceEntityCollection = await CreateNewAudienciesAsync(10);
 
@@ -40,7 +40,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
-    public async Task GetAudiencesByNamesAsync_Should_Get_Audiences_With_Defined_Names()
+    public async Task GetAudiencesByNamesAsync_Should_Return_Audiences_With_Defined_Names()
     {
       var allAudienceEntityCollection = await CreateNewAudienciesAsync(10);
       var controlAudienceEntityCollection =
@@ -63,12 +63,35 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
-    public async Task GetAudiencesByNamesAsync_Should_Get_All_Audiences()
+    public async Task GetAudiencesByNamesAsync_Should_Return_All_Audiences()
     {
       var controlAudienceEntityCollection = await CreateNewAudienciesAsync(10);
 
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesByNamesAsync(null, CancellationToken);
+
+      Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Length);
+
+      for (int i = 0; i < controlAudienceEntityCollection.Length; i++)
+      {
+        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
+      }
+    }
+
+    [TestMethod]
+    public async Task GetAudiencesByScopesAsync_Should_Return_Audiences_That_Relate_To_At_Least_One_Defined_Scope()
+    {
+      var allAudienceEntityCollection = await CreateNewAudienciesAsync(10);
+      var controlAudienceEntityCollection =
+        allAudienceEntityCollection.Where((entity, index) => index % 2 == 0)
+                                   .ToArray();
+
+      var scopeNameCollection =
+        controlAudienceEntityCollection.Select(entity => entity.Scopes!.First())
+                                       .ToArray();
+
+      var testAudienceEntityCollection =
+        await _audienceRepository.GetAudiencesByScopesAsync(scopeNameCollection, CancellationToken);
 
       Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Length);
 
