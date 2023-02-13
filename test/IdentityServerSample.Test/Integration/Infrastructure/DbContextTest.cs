@@ -2,50 +2,15 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.Test.Integration.Infrastructure
+namespace IdentityServerSample.Infrastructure.Test
 {
   using Microsoft.EntityFrameworkCore;
-  using Microsoft.Extensions.Configuration;
-  using Microsoft.Extensions.DependencyInjection;
 
   using IdentityServerSample.ApplicationCore.Entities;
 
   [TestClass]
-  public sealed class DbContextTest
+  public sealed class DbContextTest : DbIntegrationTestBase
   {
-    private CancellationToken _cancellationToken;
-
-#pragma warning disable CS8618
-    private IDisposable _disposable;
-
-    private DbContext _dbContext;
-#pragma warning restore CS8618
-
-    [TestInitialize]
-    public void Initialize()
-    {
-      _cancellationToken = CancellationToken.None;
-
-      var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json")
-                                                    .Build();
-
-      var scope = new ServiceCollection().SetUpDatabase(configuration)
-                                         .BuildServiceProvider()
-                                         .CreateScope();
-
-      _disposable = scope;
-
-      _dbContext = scope.ServiceProvider.GetRequiredService<DbContext>();
-      _dbContext.Database.EnsureCreated();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-      _dbContext?.Database?.EnsureDeleted();
-      _disposable?.Dispose();
-    }
-
     [TestMethod]
     public async Task SaveChangesAsync_Should_Create_Scope()
     {
@@ -60,16 +25,16 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Description = creatingScopeDescription,
       };
 
-      var creatingScopeEntityEntry = _dbContext.Add(creatingScopeEntity);
+      var creatingScopeEntityEntry = DbContext.Add(creatingScopeEntity);
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       creatingScopeEntityEntry.State = EntityState.Detached;
 
       var createdScopeEntity =
-        await _dbContext.Set<ScopeEntity>()
+        await DbContext.Set<ScopeEntity>()
                         .Where(entity => entity.Name == scopeName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdScopeEntity);
 
@@ -92,9 +57,9 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Description = creatingScopeDescription,
       };
 
-      var creatingScopeEntityEntry = _dbContext.Add(creatingScopeEntity);
+      var creatingScopeEntityEntry = DbContext.Add(creatingScopeEntity);
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       creatingScopeEntityEntry.State = EntityState.Detached;
 
@@ -108,18 +73,18 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Description = updatingScopeDescription,
       };
 
-      var updatingScopeEntityEntry = _dbContext.Attach(updatingScopeEntity);
+      var updatingScopeEntityEntry = DbContext.Attach(updatingScopeEntity);
 
       updatingScopeEntityEntry.State = EntityState.Modified;
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       updatingScopeEntityEntry.State = EntityState.Detached;
 
       var updatedScopeEntity =
-        await _dbContext.Set<ScopeEntity>()
+        await DbContext.Set<ScopeEntity>()
                         .Where(entity => entity.Name == scopeName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(updatedScopeEntity);
 
@@ -140,27 +105,27 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Description = Guid.NewGuid().ToString(),
       };
 
-      var creatingScopeEntityEntry = _dbContext.Add(creatingScopeEntity);
+      var creatingScopeEntityEntry = DbContext.Add(creatingScopeEntity);
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       creatingScopeEntityEntry.State = EntityState.Detached;
 
       var createdScopeEntity =
-        await _dbContext.Set<ScopeEntity>()
+        await DbContext.Set<ScopeEntity>()
                         .Where(entity => entity.Name == scopeName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdScopeEntity);
 
-      _dbContext.Entry(createdScopeEntity!).State = EntityState.Deleted;
+      DbContext.Entry(createdScopeEntity!).State = EntityState.Deleted;
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       var deletedScopeEntity =
-        await _dbContext.Set<ScopeEntity>()
+        await DbContext.Set<ScopeEntity>()
                         .Where(entity => entity.Name == scopeName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNull(deletedScopeEntity);
     }
@@ -179,16 +144,16 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Description = creatingAudienceDescription,
       };
 
-      var creatingAudienceEntityEntry = _dbContext.Add(creatingAudienceEntity);
+      var creatingAudienceEntityEntry = DbContext.Add(creatingAudienceEntity);
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       creatingAudienceEntityEntry.State = EntityState.Detached;
 
       var createdAudienceEntity =
-        await _dbContext.Set<AudienceEntity>()
+        await DbContext.Set<AudienceEntity>()
                         .Where(entity => entity.Name == audienceName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdAudienceEntity);
 
@@ -211,9 +176,9 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Description = creatingAudienceDesciption,
       };
 
-      var creatingAudienceEntityEntry = _dbContext.Add(creatingAudienceEntity);
+      var creatingAudienceEntityEntry = DbContext.Add(creatingAudienceEntity);
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       creatingAudienceEntityEntry.State = EntityState.Detached;
 
@@ -227,18 +192,18 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Description = updatingAudienceDescription,
       };
 
-      var updatingScopeEntityEntry = _dbContext.Attach(updatingAudienceEntity);
+      var updatingScopeEntityEntry = DbContext.Attach(updatingAudienceEntity);
 
       updatingScopeEntityEntry.State = EntityState.Modified;
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       updatingScopeEntityEntry.State = EntityState.Detached;
 
       var updatedAudienceEntity =
-        await _dbContext.Set<AudienceEntity>()
+        await DbContext.Set<AudienceEntity>()
                         .Where(entity => entity.Name == audienceName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(updatedAudienceEntity);
 
@@ -259,27 +224,27 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         Description = Guid.NewGuid().ToString(),
       };
 
-      var creatingAudienceEntityEntry = _dbContext.Add(creatingAudienceEntity);
+      var creatingAudienceEntityEntry = DbContext.Add(creatingAudienceEntity);
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       creatingAudienceEntityEntry.State = EntityState.Detached;
 
       var createdAudienceEntity =
-        await _dbContext.Set<AudienceEntity>()
+        await DbContext.Set<AudienceEntity>()
                         .Where(entity => entity.Name == audienceName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdAudienceEntity);
 
-      _dbContext.Entry(createdAudienceEntity!).State = EntityState.Deleted;
+      DbContext.Entry(createdAudienceEntity!).State = EntityState.Deleted;
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       var deletedAudienceEntity =
-        await _dbContext.Set<AudienceEntity>()
+        await DbContext.Set<AudienceEntity>()
                         .Where(entity => entity.Name == audienceName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNull(deletedAudienceEntity);
     }
@@ -304,16 +269,16 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         PostRedirectUris = new[] { creatingPostRedirectUri },
       };
 
-      var creatingClientEntityEntry = _dbContext.Add(creatingAudienceEntity);
+      var creatingClientEntityEntry = DbContext.Add(creatingAudienceEntity);
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       creatingClientEntityEntry.State = EntityState.Detached;
 
       var createdClientEntity =
-        await _dbContext.Set<ClientEntity>()
+        await DbContext.Set<ClientEntity>()
                         .Where(entity => entity.Name == clientName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdClientEntity);
 
@@ -352,9 +317,9 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         PostRedirectUris = new[] { postRedirectUri0 },
       };
 
-      var creatingClientEntityEntry = _dbContext.Add(creatingAudienceEntity);
+      var creatingClientEntityEntry = DbContext.Add(creatingAudienceEntity);
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       creatingClientEntityEntry.State = EntityState.Detached;
 
@@ -374,18 +339,18 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         RedirectUris = new[] { redirectUri0, redirectUri1 },
       };
 
-      var updatingClientEntityEntry = _dbContext.Attach(updatingClientEntity);
+      var updatingClientEntityEntry = DbContext.Attach(updatingClientEntity);
 
       updatingClientEntityEntry.State = EntityState.Modified;
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       updatingClientEntityEntry.State = EntityState.Detached;
 
       var updatedClientEntity =
-        await _dbContext.Set<ClientEntity>()
+        await DbContext.Set<ClientEntity>()
                         .Where(entity => entity.Name == clientName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(updatedClientEntity);
       Assert.AreEqual(clientName, updatedClientEntity!.Name);
@@ -432,27 +397,27 @@ namespace IdentityServerSample.Test.Integration.Infrastructure
         PostRedirectUris = new string[] { Guid.NewGuid().ToString() },
       };
 
-      var creatingClientEntityEntry = _dbContext.Add(creatingClientEntity);
+      var creatingClientEntityEntry = DbContext.Add(creatingClientEntity);
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       creatingClientEntityEntry.State = EntityState.Detached;
 
       var createdClientEntity =
-        await _dbContext.Set<ClientEntity>()
+        await DbContext.Set<ClientEntity>()
                         .Where(entity => entity.Name == clientName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdClientEntity);
 
-      _dbContext.Entry(createdClientEntity!).State = EntityState.Deleted;
+      DbContext.Entry(createdClientEntity!).State = EntityState.Deleted;
 
-      await _dbContext.SaveChangesAsync(_cancellationToken);
+      await DbContext.SaveChangesAsync(CancellationToken);
 
       var deletedClientEntity =
-        await _dbContext.Set<ClientEntity>()
+        await DbContext.Set<ClientEntity>()
                         .Where(entity => entity.Name == clientName)
-                        .FirstOrDefaultAsync(_cancellationToken);
+                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNull(deletedClientEntity);
     }
