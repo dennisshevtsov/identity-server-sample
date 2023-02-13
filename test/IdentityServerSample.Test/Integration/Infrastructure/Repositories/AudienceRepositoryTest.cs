@@ -24,12 +24,38 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
-    public async Task GetAudiencesAsync()
+    public async Task GetAudiencesAsync_Should_Get_All_Audiences()
     {
       var controlAudienceEntityCollection = await CreateNewAudienciesAsync();
 
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesAsync(CancellationToken);
+
+      Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Length);
+
+      for (int i = 0; i < controlAudienceEntityCollection.Length; i++)
+      {
+        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
+      }
+    }
+
+    [TestMethod]
+    public async Task GetAudiencesByNamesAsync_Should_Get_Audiences_With_Defined_Names()
+    {
+      var allAudienceEntityCollection = await CreateNewAudienciesAsync();
+      var controlAudienceEntityCollection = new[]
+      {
+        allAudienceEntityCollection[0],
+        allAudienceEntityCollection[2],
+        allAudienceEntityCollection[4],
+      };
+
+      var audienceNameCollection =
+        controlAudienceEntityCollection.Select(entity => entity.Name!)
+                                       .ToArray();
+
+      var testAudienceEntityCollection =
+        await _audienceRepository.GetAudiencesByNamesAsync(audienceNameCollection, CancellationToken);
 
       Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Length);
 
