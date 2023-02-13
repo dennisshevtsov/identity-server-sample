@@ -9,7 +9,7 @@ namespace IdentityServerSample.Infrastructure.Test
   using IdentityServerSample.ApplicationCore.Entities;
 
   [TestClass]
-  public sealed class DbContextTest : DbIntegrationTestBase
+  public sealed class ClientDbContextTest : DbIntegrationTestBase
   {
     [TestMethod]
     public async Task SaveChangesAsync_Should_Create_Client()
