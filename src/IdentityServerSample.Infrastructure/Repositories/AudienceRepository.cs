@@ -61,6 +61,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
       var audienceEntityCollection =
         await _dbContext.Set<AudienceEntity>()
                         .AsNoTracking()
+                        .OrderBy(entity => entity.Name)
                         .ToArrayAsync();
 
 
