@@ -30,6 +30,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     {
       return _dbContext.Set<AudienceEntity>()
                        .AsNoTracking()
+                       .OrderBy(entity => entity.Name)
                        .ToArrayAsync(cancellationToken);
     }
 
