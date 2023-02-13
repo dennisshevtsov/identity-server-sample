@@ -48,7 +48,8 @@ namespace IdentityServerSample.Infrastructure.Repositories
         query = query.Where(entity => audiences.Contains(entity.Name));
       }
 
-      return query.ToArrayAsync(cancellationToken);
+      return query.OrderBy(entity => entity.Name)
+                  .ToArrayAsync(cancellationToken);
     }
 
     /// <summary>Gets a collection of all audiences by scope names.</summary>
