@@ -30,6 +30,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     {
       return _dbContext.Set<ScopeEntity>()
                        .AsNoTracking()
+                       .OrderBy(entity => entity.Name)
                        .ToListAsync(cancellationToken);
     }
 
@@ -37,11 +38,17 @@ namespace IdentityServerSample.Infrastructure.Repositories
     /// <param name="scopes">An object that represents a collection of scope names.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public Task<List<ScopeEntity>> GetScopesAsync(string[] scopes, CancellationToken cancellationToken)
+    public Task<List<ScopeEntity>> GetScopesAsync(string[]? scopes, CancellationToken cancellationToken)
     {
-      return _dbContext.Set<ScopeEntity>()
-                       .Where(entity => scopes.Contains(entity.Name))
-                       .AsNoTracking()
+      var dbScopeSet = _dbContext.Set<ScopeEntity>()
+                                 .AsNoTracking();
+
+      if (scopes != null && scopes.Length != 0)
+      {
+        dbScopeSet = dbScopeSet.Where(entity => scopes.Contains(entity.Name));
+      }
+
+      return dbScopeSet.OrderBy(entity => entity.Name)
                        .ToListAsync(cancellationToken);
     }
   }

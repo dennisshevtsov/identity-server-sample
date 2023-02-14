@@ -129,5 +129,40 @@ namespace IdentityServerSample.Infrastructure.Test
 
       Assert.IsNull(deletedScopeEntity);
     }
+
+    [TestMethod]
+    public async Task SaveChangesAsync_Should_Ignore_Standard()
+    {
+      var scopeName = Guid.NewGuid().ToString();
+      var creatingScopeDisplayName = Guid.NewGuid().ToString();
+      var creatingScopeDescription = Guid.NewGuid().ToString();
+      var creatingScopeStandard = true;
+
+      var creatingScopeEntity = new ScopeEntity
+      {
+        Name = scopeName,
+        DisplayName = creatingScopeDisplayName,
+        Description = creatingScopeDescription,
+        Standard = creatingScopeStandard,
+      };
+
+      var creatingScopeEntityEntry = DbContext.Add(creatingScopeEntity);
+
+      await DbContext.SaveChangesAsync(CancellationToken);
+
+      creatingScopeEntityEntry.State = EntityState.Detached;
+
+      var createdScopeEntity =
+        await DbContext.Set<ScopeEntity>()
+                        .Where(entity => entity.Name == scopeName)
+                        .FirstOrDefaultAsync(CancellationToken);
+
+      Assert.IsNotNull(createdScopeEntity);
+
+      Assert.AreEqual(scopeName, createdScopeEntity!.Name);
+      Assert.AreEqual(creatingScopeDisplayName, createdScopeEntity!.DisplayName);
+      Assert.AreEqual(creatingScopeDescription, createdScopeEntity!.Description);
+      Assert.AreNotEqual(creatingScopeStandard, createdScopeEntity.Standard);
+    }
   }
 }

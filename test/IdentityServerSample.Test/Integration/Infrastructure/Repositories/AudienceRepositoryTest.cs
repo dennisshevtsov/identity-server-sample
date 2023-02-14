@@ -37,6 +37,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       {
         AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
+
+      AreDetached(testAudienceEntityCollection);
     }
 
     [TestMethod]
@@ -60,6 +62,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       {
         AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
+
+      AreDetached(testAudienceEntityCollection);
     }
 
     [TestMethod]
@@ -76,6 +80,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       {
         AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
+
+      AreDetached(testAudienceEntityCollection);
     }
 
     [TestMethod]
@@ -99,6 +105,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       {
         AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
+
+      AreDetached(testAudienceEntityCollection);
     }
 
     [TestMethod]
@@ -115,6 +123,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       {
         AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
+
+      AreDetached(testAudienceEntityCollection);
     }
 
     private async Task<AudienceEntity> CreateNewAudienceAsync()
@@ -161,8 +171,22 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       Assert.IsNotNull(test.Scopes);
       Assert.AreEqual(control.Scopes!.Count, test.Scopes.Count);
-      Assert.AreEqual(control.Scopes![0], test.Scopes[0]);
-      Assert.AreEqual(control.Scopes![1], test.Scopes[1]);
+
+      for (int i = 0; i < control.Scopes.Count; i++)
+      {
+        Assert.AreEqual(control.Scopes[i], test.Scopes[i]);
+      }
+    }
+
+    private void IsDetached(AudienceEntity audienceEntity)
+      => Assert.AreEqual(EntityState.Detached, DbContext.Entry(audienceEntity).State);
+
+    private void AreDetached(AudienceEntity[] audienceEntityCollection)
+    {
+      foreach (var audienceEntity in audienceEntityCollection)
+      {
+        IsDetached(audienceEntity);
+      }
     }
   }
 }
