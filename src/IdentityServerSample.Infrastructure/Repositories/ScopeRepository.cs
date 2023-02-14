@@ -40,10 +40,15 @@ namespace IdentityServerSample.Infrastructure.Repositories
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     public Task<List<ScopeEntity>> GetScopesAsync(string[]? scopes, CancellationToken cancellationToken)
     {
-      return _dbContext.Set<ScopeEntity>()
-                       .AsNoTracking()
-                       .Where(entity => scopes.Contains(entity.Name))
-                       .OrderBy(entity => entity.Name)
+      var dbScopeSet = _dbContext.Set<ScopeEntity>()
+                                 .AsNoTracking();
+
+      if (scopes != null && scopes.Length != 0)
+      {
+        dbScopeSet = dbScopeSet.Where(entity => scopes.Contains(entity.Name));
+      }
+
+      return dbScopeSet.OrderBy(entity => entity.Name)
                        .ToListAsync(cancellationToken);
     }
   }
