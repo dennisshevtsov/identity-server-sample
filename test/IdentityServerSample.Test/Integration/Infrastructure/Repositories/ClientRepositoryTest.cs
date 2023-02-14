@@ -23,6 +23,17 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       _clientRepository = ServiceProvider.GetRequiredService<IClientRepository>();
     }
 
+    [TestMethod]
+    public async Task GetClientsAsync_Should_Return_All_Clients()
+    {
+      var controlClientEntityCollection = await CreateNewClientsAsync(10);
+
+      var testClientEntityCollection =
+        await _clientRepository.GetClientsAsync(CancellationToken);
+
+      Assert.AreEqual(controlClientEntityCollection.Length, testClientEntityCollection.Length);
+    }
+
     private async Task<ClientEntity> CreateNewClientAsync()
     {
       var clientEntity = new ClientEntity
