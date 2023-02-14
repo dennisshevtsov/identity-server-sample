@@ -68,7 +68,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         AreEqual(controlClientEntityCollection[i], testClientEntityCollection[i]);
       }
 
-      IsDetached(testClientEntityCollection);
+      AreDetached(testClientEntityCollection);
     }
 
     private async Task<ClientEntity> CreateNewClientAsync()
@@ -151,7 +151,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     private void IsDetached(ClientEntity clientEntity)
       => Assert.AreEqual(EntityState.Detached, DbContext.Entry(clientEntity).State);
 
-    private void IsDetached(ClientEntity[] clientEntityCollection)
+    private void AreDetached(ClientEntity[] clientEntityCollection)
     {
       foreach (var clientEntity in clientEntityCollection)
       {
