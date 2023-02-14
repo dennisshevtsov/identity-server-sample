@@ -32,6 +32,11 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         await _clientRepository.GetClientsAsync(CancellationToken);
 
       Assert.AreEqual(controlClientEntityCollection.Length, testClientEntityCollection.Length);
+
+      for (int i = 0; i < controlClientEntityCollection.Length; i++)
+      {
+        AreEqual(controlClientEntityCollection[i], testClientEntityCollection[i]);
+      }
     }
 
     private async Task<ClientEntity> CreateNewClientAsync()
@@ -78,6 +83,37 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       return clientEntityCollection.OrderBy(entity => entity.Name)
                                    .ToArray();
+    }
+
+    private void AreEqual(ClientEntity control, ClientEntity test)
+    {
+      Assert.AreEqual(control.Name, test.Name);
+      Assert.AreEqual(control.DisplayName, test.DisplayName);
+      Assert.AreEqual(control.Description, test.Description);
+
+      Assert.IsNotNull(test.Scopes);
+      Assert.AreEqual(control.Scopes!.Count, test.Scopes.Count);
+
+      for (int i = 0; i < control.Scopes.Count; i++)
+      {
+        Assert.AreEqual(control.Scopes[i], test.Scopes[i]);
+      }
+
+      Assert.IsNotNull(test.RedirectUris);
+      Assert.AreEqual(control.RedirectUris!.Count, test.RedirectUris.Count);
+
+      for (int i = 0; i < control.RedirectUris.Count; i++)
+      {
+        Assert.AreEqual(control.RedirectUris[i], test.RedirectUris[i]);
+      }
+
+      Assert.IsNotNull(test.PostRedirectUris);
+      Assert.AreEqual(control.PostRedirectUris!.Count, test.PostRedirectUris.Count);
+
+      for (int i = 0; i < control.PostRedirectUris.Count; i++)
+      {
+        Assert.AreEqual(control.PostRedirectUris[i], test.PostRedirectUris[i]);
+      }
     }
   }
 }
