@@ -66,6 +66,24 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       AreDetached(testScopeEntityCollection);
     }
 
+    [TestMethod]
+    public async Task GetScopesAsync_Should_Return_All_Scopes_For_Empty_Scope_Name_Collection()
+    {
+      var controlScopeEntityCollection = await CreateNewScopesAsync(10);
+
+      var testScopeEntityCollection =
+        await _scopeRepository.GetScopesAsync(null, CancellationToken);
+
+      Assert.AreEqual(controlScopeEntityCollection.Length, testScopeEntityCollection.Count);
+
+      for (int i = 0; i < controlScopeEntityCollection.Length; i++)
+      {
+        AreEqual(controlScopeEntityCollection[i], testScopeEntityCollection[i]);
+      }
+
+      AreDetached(testScopeEntityCollection);
+    }
+
     private async Task<ScopeEntity> CreateNewScopeAsync()
     {
       var scopeEntity = new ScopeEntity
