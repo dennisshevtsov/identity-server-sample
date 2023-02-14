@@ -41,8 +41,9 @@ namespace IdentityServerSample.Infrastructure.Repositories
     public Task<List<ScopeEntity>> GetScopesAsync(string[] scopes, CancellationToken cancellationToken)
     {
       return _dbContext.Set<ScopeEntity>()
-                       .Where(entity => scopes.Contains(entity.Name))
                        .AsNoTracking()
+                       .Where(entity => scopes.Contains(entity.Name))
+                       .OrderBy(entity => entity.Name)
                        .ToListAsync(cancellationToken);
     }
   }
