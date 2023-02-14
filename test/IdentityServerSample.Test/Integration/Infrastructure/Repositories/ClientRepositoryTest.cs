@@ -37,6 +37,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       {
         AreEqual(controlClientEntityCollection[i], testClientEntityCollection[i]);
       }
+
+      IsDetached(testClientEntityCollection);
     }
 
     private async Task<ClientEntity> CreateNewClientAsync()
@@ -113,6 +115,17 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       for (int i = 0; i < control.PostRedirectUris.Count; i++)
       {
         Assert.AreEqual(control.PostRedirectUris[i], test.PostRedirectUris[i]);
+      }
+    }
+
+    private void IsDetached(ClientEntity clientEntity)
+      => Assert.AreEqual(EntityState.Detached, DbContext.Entry(clientEntity).State);
+
+    private void IsDetached(ClientEntity[] clientEntityCollection)
+    {
+      foreach (var clientEntity in clientEntityCollection)
+      {
+        IsDetached(clientEntity);
       }
     }
   }
