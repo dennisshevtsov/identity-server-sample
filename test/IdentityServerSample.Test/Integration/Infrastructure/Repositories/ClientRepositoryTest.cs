@@ -24,6 +24,23 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
+    public async Task GetClientAsync_Should_Return_With_Defined_Name()
+    {
+      var allClientEntityCollection = await CreateNewClientsAsync(10);
+      var controlClientEntity = allClientEntityCollection[2];
+
+      var clientName = controlClientEntity.Name!;
+
+      var clientEntity =
+        await _clientRepository.GetClientAsync(clientName, CancellationToken);
+
+      Assert.IsNotNull(clientEntity);
+
+      AreEqual(controlClientEntity, clientEntity);
+      IsDetached(clientEntity);
+    }
+
+    [TestMethod]
     public async Task GetClientsAsync_Should_Return_All_Clients()
     {
       var controlClientEntityCollection = await CreateNewClientsAsync(10);
