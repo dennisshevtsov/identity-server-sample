@@ -39,6 +39,18 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       IsDetached(testUserEntity);
     }
 
+    [TestMethod]
+    public async Task GetUserAsync_Should_Return_Null()
+    {
+      await CreateNewUsersAsync(10);
+
+      var userName = Guid.NewGuid().ToString();
+
+      var testUserEntity = await _userRepository.GetUserAsync(userName, CancellationToken);
+
+      Assert.IsNull(testUserEntity);
+    }
+
     private async Task<UserEntity> CreateNewUserAsync()
     {
       var userEntity = new UserEntity
