@@ -23,6 +23,22 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       _userRepository = ServiceProvider.GetRequiredService<IUserRepository>();
     }
 
+    [TestMethod]
+    public async Task GetUserAsync_Should_Return_User_With_Defined_Email()
+    {
+      var allUserEntityCollection = await CreateNewUsersAsync(10);
+      var controlUserEntity = allUserEntityCollection[2];
+
+      var userName = controlUserEntity.Email!;
+
+      var testUserEntity = await _userRepository.GetUserAsync(userName, CancellationToken);
+
+      Assert.IsNotNull(testUserEntity);
+
+      AreEqual(controlUserEntity, testUserEntity);
+      IsDetached(testUserEntity);
+    }
+
     private async Task<UserEntity> CreateNewUserAsync()
     {
       var userEntity = new UserEntity
@@ -63,13 +79,5 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
     private void IsDetached(UserEntity userEntity)
       => Assert.AreEqual(EntityState.Detached, DbContext.Entry(userEntity).State);
-
-    private void AreDetached(List<UserEntity> userEntityCollection)
-    {
-      foreach (var userEntity in userEntityCollection)
-      {
-        IsDetached(userEntity);
-      }
-    }
   }
 }
