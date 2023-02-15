@@ -34,7 +34,11 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
                                            .ReturnsAsync(default(ErrorMessage))
                                            .Verifiable();
 
-      var requestDto = new GetErrorRequestDto();
+      var errorId = Guid.NewGuid().ToString();
+      var requestDto = new GetErrorRequestDto
+      {
+        ErrorId = errorId,
+      };
 
       var actionResult = await _errorController.GetError(requestDto);
 
@@ -43,6 +47,9 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
       var badRequestResult = actionResult as BadRequestResult;
 
       Assert.IsNotNull(badRequestResult);
+
+      _identityServerInteractionServiceMock.Verify(service => service.GetErrorContextAsync(errorId));
+      _identityServerInteractionServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -58,7 +65,11 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
                                            .ReturnsAsync(errorMessage)
                                            .Verifiable();
 
-      var requestDto = new GetErrorRequestDto();
+      var errorId = Guid.NewGuid().ToString();
+      var requestDto = new GetErrorRequestDto
+      {
+        ErrorId = errorId,
+      };
 
       var actionResult = await _errorController.GetError(requestDto);
 
@@ -73,6 +84,9 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
       Assert.IsNotNull(responseDto);
       Assert.AreEqual(errorMessage.Error, responseDto.ErrorId);
       Assert.AreEqual(errorMessage.ErrorDescription, responseDto.Message);
+
+      _identityServerInteractionServiceMock.Verify(service => service.GetErrorContextAsync(errorId));
+      _identityServerInteractionServiceMock.VerifyNoOtherCalls();
     }
   }
 }
