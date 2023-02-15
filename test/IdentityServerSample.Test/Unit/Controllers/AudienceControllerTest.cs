@@ -2,15 +2,9 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.Test.Unit.Controllers
+namespace IdentityServerSample.WebApp.Controllers.Test
 {
   using Microsoft.AspNetCore.Mvc;
-  using Microsoft.VisualStudio.TestTools.UnitTesting;
-  using Moq;
-
-  using IdentityServerSample.ApplicationCore.Dtos;
-  using IdentityServerSample.ApplicationCore.Services;
-  using IdentityServerSample.WebApp.Controllers;
 
   [TestClass]
   public sealed class AudienceControllerTest

@@ -18,6 +18,8 @@ namespace IdentityServerSample.IdentityApp.Controllers
   [Produces(ContentType.Json)]
   public sealed class AccountController : ControllerBase
   {
+    public const string InvalidCredentialsErrorMessage = "Invalid credentials.";
+
     private readonly SignInManager<UserEntity> _signInManager;
     private readonly IIdentityServerInteractionService _identityServerInteractionService;
 
@@ -51,7 +53,8 @@ namespace IdentityServerSample.IdentityApp.Controllers
         }
 
         ModelState.AddModelError(
-          nameof(SingInAccountRequestDto.Email), "Invalid credentials.");
+          nameof(SingInAccountRequestDto.Email),
+          AccountController.InvalidCredentialsErrorMessage);
       }
 
       return BadRequest();

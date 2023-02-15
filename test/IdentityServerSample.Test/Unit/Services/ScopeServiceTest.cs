@@ -4,12 +4,6 @@
 
 namespace IdentityServerSample.Test.Unit.Services
 {
-  using Moq;
-
-  using IdentityServerSample.ApplicationCore.Entities;
-  using IdentityServerSample.ApplicationCore.Repositories;
-  using IdentityServerSample.ApplicationCore.Services;
-
   [TestClass]
   public sealed class ScopeServiceTest
   {
