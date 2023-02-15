@@ -8,6 +8,7 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
   using Microsoft.AspNetCore.Identity;
 
   using IdentityServerSample.IdentityApp.Dtos;
+  using IdentityServer4.Models;
 
   [TestClass]
   public sealed class AccountControllerTest : IdentityControllerTestBase
@@ -59,7 +60,35 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
 
       Assert.IsNotNull(badRequestResult);
       Assert.IsTrue(_accountController.ControllerContext.ModelState.Any(
-  error => error.Value!.Errors[0].ErrorMessage == AccountController.InvalidCredentialsErrorMessage));
+        error => error.Value!.Errors[0].ErrorMessage == AccountController.InvalidCredentialsErrorMessage));
+    }
+
+    [TestMethod]
+    public async Task SingOutAccount_Should_Return_Redirect_Result()
+    {
+      SignInManagerMock.Setup(manager => manager.SignOutAsync())
+                       .Returns(Task.CompletedTask)
+                       .Verifiable();
+
+      var logoutRequest = new LogoutRequest(null, null)
+      {
+        PostLogoutRedirectUri = Guid.NewGuid().ToString(),
+      };
+
+      _identityServerInteractionServiceMock.Setup(service => service.GetLogoutContextAsync(It.IsAny<string>()))
+                                           .ReturnsAsync(logoutRequest)
+                                           .Verifiable();
+
+      var requestDto = new SignOutAccountRequestDto();
+
+      var actionResult = await _accountController.SingOutAccount(requestDto);
+
+      Assert.IsNotNull(actionResult);
+
+      var redirectResult = actionResult as Microsoft.AspNetCore.Mvc.RedirectResult;
+
+      Assert.IsNotNull(redirectResult);
+      Assert.AreEqual(logoutRequest.PostLogoutRedirectUri, redirectResult.Url);
     }
   }
 }
