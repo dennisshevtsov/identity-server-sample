@@ -32,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\IdentityServerSample.IdentityApi\IdentityServerSample.IdentityApi.csproj" />
     <ProjectReference Include="..\..\src\IdentityServerSample.WebApi\IdentityServerSample.WebApi.csproj" />
   </ItemGroup>
 
