@@ -4,11 +4,7 @@
 
 namespace IdentityServerSample.Test.Unit.Mapping
 {
-  using AutoMapper;
   using Microsoft.Extensions.DependencyInjection;
-
-  using IdentityServerSample.ApplicationCore.Dtos;
-  using IdentityServerSample.ApplicationCore.Entities;
 
   [TestClass]
   public sealed class ClientMappingTest

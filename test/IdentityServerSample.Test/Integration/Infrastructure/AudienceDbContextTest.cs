@@ -6,8 +6,6 @@ namespace IdentityServerSample.Infrastructure.Test
 {
   using Microsoft.EntityFrameworkCore;
 
-  using IdentityServerSample.ApplicationCore.Entities;
-
   [TestClass]
   public sealed class AudienceDbContextTest : DbIntegrationTestBase
   {

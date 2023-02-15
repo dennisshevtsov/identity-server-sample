@@ -4,14 +4,8 @@
 
 namespace IdentityServerSample.Test.Unit.Controllers
 {
-  using AutoMapper;
   using Microsoft.AspNetCore.Mvc;
-  using Microsoft.VisualStudio.TestTools.UnitTesting;
-  using Moq;
 
-  using IdentityServerSample.ApplicationCore.Dtos;
-  using IdentityServerSample.ApplicationCore.Entities;
-  using IdentityServerSample.ApplicationCore.Services;
   using IdentityServerSample.WebApp.Controllers;
 
   [TestClass]

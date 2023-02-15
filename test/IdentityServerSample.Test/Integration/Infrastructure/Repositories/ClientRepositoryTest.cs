@@ -7,8 +7,6 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.DependencyInjection;
 
-  using IdentityServerSample.ApplicationCore.Entities;
-  using IdentityServerSample.ApplicationCore.Repositories;
   using IdentityServerSample.Infrastructure.Test;
 
   [TestClass]
