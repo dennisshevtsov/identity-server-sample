@@ -44,5 +44,35 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
 
       Assert.IsNotNull(badRequestResult);
     }
+
+    [TestMethod]
+    public async Task GetError_Should_Return_Ok()
+    {
+      var errorMessage = new ErrorMessage
+      {
+        Error = Guid.NewGuid().ToString(),
+        ErrorDescription = Guid.NewGuid().ToString(),
+      };
+
+      _identityServerInteractionServiceMock.Setup(service => service.GetErrorContextAsync(It.IsAny<string>()))
+                                           .ReturnsAsync(errorMessage)
+                                           .Verifiable();
+
+      var requestDto = new GetErrorRequestDto();
+
+      var actionResult = await _errorController.GetError(requestDto);
+
+      Assert.IsNotNull(actionResult);
+
+      var okObjectResult = actionResult as OkObjectResult;
+
+      Assert.IsNotNull(okObjectResult);
+
+      var responseDto = okObjectResult.Value as GetErrorResponseDto;
+
+      Assert.IsNotNull(responseDto);
+      Assert.AreEqual(errorMessage.Error, responseDto.ErrorId);
+      Assert.AreEqual(errorMessage.ErrorDescription, responseDto.Message);
+    }
   }
 }
