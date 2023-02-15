@@ -2,11 +2,9 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.Test.Unit.Controllers
+namespace IdentityServerSample.WebApp.Controllers.Test
 {
   using Microsoft.AspNetCore.Mvc;
-
-  using IdentityServerSample.WebApp.Controllers;
 
   [TestClass]
   public sealed class ScopeControllerTest
