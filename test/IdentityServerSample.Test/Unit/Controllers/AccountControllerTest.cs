@@ -5,6 +5,8 @@
 namespace IdentityServerSample.IdentityApp.Controllers.Test
 {
   using IdentityServer4.Services;
+  using IdentityServerSample.IdentityApp.Dtos;
+  using Microsoft.AspNetCore.Mvc;
 
   [TestClass]
   public sealed class AccountControllerTest : IdentityControllerTestBase
@@ -21,6 +23,22 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
 
       _accountController = new AccountController(
         SignInManagerMock.Object, _identityServerInteractionServiceMock.Object);
+    }
+
+    [TestMethod]
+    public async Task SingInAccount_Should_Return_Bad_Request()
+    {
+      _accountController.ControllerContext.ModelState.AddModelError("test", "test");
+
+      var requestDto = new SingInAccountRequestDto();
+
+      var actionResult = await _accountController.SingInAccount(requestDto);
+
+      Assert.IsNotNull(actionResult);
+
+      var badRequestResult = actionResult as BadRequestResult;
+
+      Assert.IsNotNull(badRequestResult);
     }
   }
 }
