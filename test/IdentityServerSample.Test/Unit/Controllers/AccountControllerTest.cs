@@ -13,6 +13,7 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
   using Microsoft.Extensions.Options;
 
   using IdentityServerSample.IdentityApp.Dtos;
+  using static IdentityServer4.Models.IdentityResources;
 
   [TestClass]
   public sealed class AccountControllerTest
@@ -66,13 +67,13 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
         schemesMock.Object,
         confirmationMock.Object);
 
-      _userManagerMock.Reset();
-      _signInManagerMock.Reset();
-
       _identityServerInteractionServiceMock = new Mock<IIdentityServerInteractionService>();
 
       _accountController = new AccountController(
         _signInManagerMock.Object, _identityServerInteractionServiceMock.Object);
+
+      _userManagerMock.Reset();
+      _signInManagerMock.Reset();
     }
 
     [TestMethod]
@@ -89,6 +90,9 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
       var badRequestResult = actionResult as Microsoft.AspNetCore.Mvc.BadRequestResult;
 
       Assert.IsNotNull(badRequestResult);
+
+      _signInManagerMock.VerifyNoOtherCalls();
+      _identityServerInteractionServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -98,7 +102,14 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
                         .ReturnsAsync(SignInResult.Failed)
                         .Verifiable();
 
-      var requestDto = new SingInAccountRequestDto();
+      var email = Guid.NewGuid().ToString();
+      var password = Guid.NewGuid().ToString();
+
+      var requestDto = new SingInAccountRequestDto
+      {
+        Email = email,
+        Password = password,
+      };
 
       var actionResult = await _accountController.SingInAccount(requestDto);
 
@@ -109,6 +120,11 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
       Assert.IsNotNull(badRequestResult);
       Assert.IsTrue(_accountController.ControllerContext.ModelState.Any(
         error => error.Value!.Errors[0].ErrorMessage == AccountController.InvalidCredentialsErrorMessage));
+
+      _signInManagerMock.Verify(manager => manager.PasswordSignInAsync(email, password, false, false));
+      _signInManagerMock.VerifyNoOtherCalls();
+
+      _identityServerInteractionServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -127,7 +143,11 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
                                            .ReturnsAsync(logoutRequest)
                                            .Verifiable();
 
-      var requestDto = new SignOutAccountRequestDto();
+      var signOutId = Guid.NewGuid().ToString();
+      var requestDto = new SignOutAccountRequestDto
+      {
+        SignOutId = signOutId,
+      };
 
       var actionResult = await _accountController.SingOutAccount(requestDto);
 
@@ -137,6 +157,12 @@ namespace IdentityServerSample.IdentityApp.Controllers.Test
 
       Assert.IsNotNull(redirectResult);
       Assert.AreEqual(logoutRequest.PostLogoutRedirectUri, redirectResult.Url);
+
+      _signInManagerMock.Verify(manager => manager.SignOutAsync());
+      _signInManagerMock.VerifyNoOtherCalls();
+
+      _identityServerInteractionServiceMock.Verify(service => service.GetLogoutContextAsync(signOutId));
+      _identityServerInteractionServiceMock.VerifyNoOtherCalls();
     }
   }
 }
