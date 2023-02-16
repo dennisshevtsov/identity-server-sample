@@ -4,12 +4,15 @@
 
 namespace IdentityServerSample.IdentityApi.Identity
 {
+  using System.Security.Claims;
+
+  using IdentityModel;
   using Microsoft.AspNetCore.Identity;
 
   using IdentityServerSample.ApplicationCore.Entities;
 
   /// <summary>Provides an abstraction for a store which manages user accounts.</summary>
-  public sealed class UserStore : IUserStore<UserEntity>, IUserPasswordStore<UserEntity>, IUserRoleStore<UserEntity>, IUserEmailStore<UserEntity>
+  public sealed class UserStore : IUserStore<UserEntity>, IUserPasswordStore<UserEntity>, IUserRoleStore<UserEntity>, IUserEmailStore<UserEntity>, IUserClaimStore<UserEntity>
   {
     #region Members of IUserStore
 
@@ -205,9 +208,7 @@ namespace IdentityServerSample.IdentityApi.Identity
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing a list of role names.</returns>
     public Task<IList<string>> GetRolesAsync(UserEntity user, CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
+      => Task.FromResult<IList<string>>(new List<string>());
 
     /// <summary>
     /// Returns a flag indicating whether the specified <paramref name="user"/> is a member of the given named role.
@@ -309,6 +310,72 @@ namespace IdentityServerSample.IdentityApi.Identity
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     public Task SetNormalizedEmailAsync(UserEntity user, string? normalizedEmail, CancellationToken cancellationToken)
+      => throw new NotImplementedException();
+
+    #endregion
+
+    #region Member of UserClaimStore
+
+    /// <summary>
+    /// Gets a list of <see cref="Claim"/>s to be belonging to the specified <paramref name="user"/> as an asynchronous operation.
+    /// </summary>
+    /// <param name="user">The role whose claims to retrieve.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> that represents the result of the asynchronous query, a list of <see cref="Claim"/>s.
+    /// </returns>
+    public Task<IList<Claim>> GetClaimsAsync(UserEntity user, CancellationToken cancellationToken)
+    {
+      IList<Claim> claims = new List<Claim>();
+
+      claims.Add(new Claim(JwtClaimTypes.PreferredUserName, user.Name!));
+      claims.Add(new Claim(JwtClaimTypes.EmailVerified, "true"));
+      claims.Add(new Claim("scope", "identity-server-sample-api-scope"));
+
+      return Task.FromResult(claims);
+    }
+
+    /// <summary>
+    /// Add claims to a user as an asynchronous operation.
+    /// </summary>
+    /// <param name="user">The user to add the claim to.</param>
+    /// <param name="claims">The collection of <see cref="Claim"/>s to add.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>The task object representing the asynchronous operation.</returns>
+    public Task AddClaimsAsync(UserEntity user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+      => throw new NotImplementedException();
+
+    /// <summary>
+    /// Replaces the given <paramref name="claim"/> on the specified <paramref name="user"/> with the <paramref name="newClaim"/>
+    /// </summary>
+    /// <param name="user">The user to replace the claim on.</param>
+    /// <param name="claim">The claim to replace.</param>
+    /// <param name="newClaim">The new claim to replace the existing <paramref name="claim"/> with.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>The task object representing the asynchronous operation.</returns>
+    public Task ReplaceClaimAsync(UserEntity user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
+      => throw new NotImplementedException();
+
+    /// <summary>
+    /// Removes the specified <paramref name="claims"/> from the given <paramref name="user"/>.
+    /// </summary>
+    /// <param name="user">The user to remove the specified <paramref name="claims"/> from.</param>
+    /// <param name="claims">A collection of <see cref="Claim"/>s to remove.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>The task object representing the asynchronous operation.</returns>
+    public Task RemoveClaimsAsync(UserEntity user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+      => throw new NotImplementedException();
+
+    /// <summary>
+    /// Returns a list of users who contain the specified <see cref="Claim"/>.
+    /// </summary>
+    /// <param name="claim">The claim to look for.</param>
+    /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
+    /// <returns>
+    /// A <see cref="Task{TResult}"/> that represents the result of the asynchronous query, a list of <typeparamref name="TUser"/> who
+    /// contain the specified claim.
+    /// </returns>
+    public Task<IList<UserEntity>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
       => throw new NotImplementedException();
 
     #endregion
