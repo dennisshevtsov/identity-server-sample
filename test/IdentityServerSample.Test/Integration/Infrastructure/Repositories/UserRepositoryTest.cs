@@ -8,6 +8,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
   using Microsoft.Extensions.DependencyInjection;
 
   using IdentityServerSample.Infrastructure.Test;
+  using IdentityServerSample.ApplicationCore.Identities;
 
   [TestClass]
   public sealed class UserRepositoryTest : DbIntegrationTestBase
@@ -19,6 +20,23 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     protected override void InitializeInternal()
     {
       _userRepository = ServiceProvider.GetRequiredService<IUserRepository>();
+    }
+
+    [TestMethod]
+    public async Task GetUserAsync_Should_Return_User_With_Defined_User_Id()
+    {
+      var allUserEntityCollection  = await CreateNewUsersAsync(10);
+
+      var controlUserEntity = allUserEntityCollection[2];
+
+      IUserIdentity userId = controlUserEntity;
+
+      var testUserEntity = await _userRepository.GetUserAsync(userId, CancellationToken);
+
+      Assert.IsNotNull(testUserEntity);
+
+      AreEqual(controlUserEntity, testUserEntity);
+      IsDetached(testUserEntity);
     }
 
     [TestMethod]
