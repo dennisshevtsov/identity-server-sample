@@ -26,5 +26,14 @@ namespace IdentityServerSample.ApplicationCore.Extensions.Test
       Assert.IsNotNull(test);
       Assert.AreEqual(control, test.UserId);
     }
+
+    [TestMethod]
+    public void ToUserIdentity_Should_Return_Null()
+    {
+      var control = "test";
+      var test = control.ToUserIdentity();
+
+      Assert.IsNull(test);
+    }
   }
 }
