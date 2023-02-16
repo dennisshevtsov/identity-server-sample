@@ -33,7 +33,6 @@ namespace Microsoft.Extensions.DependencyInjection
               .AddClientStore<ClientStore>()
               .AddResourceStore<ResourceStore>()
               .AddCorsPolicyService<CorsPolicyService>()
-              .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
               .AddProfileService<ProfileService>()
               .AddDeveloperSigningCredential();
 
