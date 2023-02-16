@@ -10,10 +10,21 @@ namespace IdentityServerSample.IdentityApi.Identity
   using Microsoft.AspNetCore.Identity;
 
   using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.ApplicationCore.Repositories;
+  using IdentityServerSample.ApplicationCore.Extensions;
 
   /// <summary>Provides an abstraction for a store which manages user accounts.</summary>
   public sealed class UserStore : IUserStore<UserEntity>, IUserPasswordStore<UserEntity>, IUserRoleStore<UserEntity>, IUserEmailStore<UserEntity>, IUserClaimStore<UserEntity>
   {
+    private readonly IUserRepository _userRepository;
+
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApi.Identity.UserStore"/> class.</summary>
+    /// <param name="userRepository">An object that provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.UserEntity"/> class.</param>
+    public UserStore(IUserRepository userRepository)
+    {
+      _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+    }
+
     #region Members of IUserStore
 
     /// <summary>
@@ -108,15 +119,16 @@ namespace IdentityServerSample.IdentityApi.Identity
     /// <returns>
     /// The <see cref="Task"/> that represents the asynchronous operation, containing the user matching the specified <paramref name="userId"/> if it exists.
     /// </returns>
-    public Task<UserEntity?> FindByIdAsync(string userId, CancellationToken cancellationToken)
+    public async Task<UserEntity?> FindByIdAsync(string userId, CancellationToken cancellationToken)
     {
-      return Task.FromResult<UserEntity?>(new UserEntity
+      var identity = userId.ToUserIdentity();
+
+      if (identity == null)
       {
-        UserId = Guid.Parse(userId),
-        Email = "test@test.test",
-        Name = "Test User",
-        PasswordHash = "AQAAAAIAAYagAAAAEK1J2OGSiw1GPjwtTfNlKBOTGZg0ktpqEd7YkwbfMRWOw35KYVpsAQzpC2qwjtN0wg==",
-      });
+        return null;
+      }
+
+      return await _userRepository.GetUserAsync(identity, cancellationToken);
     }
 
     /// <summary>
@@ -127,15 +139,12 @@ namespace IdentityServerSample.IdentityApi.Identity
     /// <returns>
     /// The <see cref="Task"/> that represents the asynchronous operation, containing the user matching the specified <paramref name="normalizedUserName"/> if it exists.
     /// </returns>
-    public Task<UserEntity?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+    public async Task<UserEntity?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
     {
-      return Task.FromResult<UserEntity?>(new UserEntity
-      {
-        UserId = Guid.NewGuid(),
-        Email = "test@test.test",
-        Name = "Test User",
-        PasswordHash = "AQAAAAIAAYagAAAAEK1J2OGSiw1GPjwtTfNlKBOTGZg0ktpqEd7YkwbfMRWOw35KYVpsAQzpC2qwjtN0wg==",
-      });
+      var userEntity = await _userRepository.GetUserAsync(
+        normalizedUserName, cancellationToken);
+
+      return userEntity;
     }
 
     #endregion
