@@ -12,7 +12,7 @@ namespace IdentityServerSample.ApplicationCore.Extensions
     /// <summary>Converts an instance of <see cref="System.Guid"/> to an instance of the <see cref="IdentityServerSample.ApplicationCore.Identities.IUserIdentity"/>.</summary>
     /// <param name="userId">An object that represents a user ID.</param>
     /// <returns>An object that represents an identity of a user.</returns>
-    public static IUserIdentity? ToUserIdentity(this Guid userId)
+    public static IUserIdentity ToUserIdentity(this Guid userId)
       => new UserIdentity(userId);
 
     /// <summary>Converts an instance of <see cref="System.String"/> to an instance of the <see cref="IdentityServerSample.ApplicationCore.Identities.IUserIdentity"/>.</summary>
