@@ -4,6 +4,8 @@
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+  using global::IdentityModel;
+
   using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.IdentityApi.Identity;
 
@@ -12,12 +14,16 @@ namespace Microsoft.Extensions.DependencyInjection
   {
     /// <summary>Sets up the Identity.</summary>
     /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
-    /// <param name="configuration">An object that represents a set of key/value application configuration properties.</param>
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
     public static IServiceCollection SetUpAspNetIdentity(this IServiceCollection services)
     {
-      services.AddIdentity<UserEntity, RoleEntity>()
-              .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>()
+      services.AddIdentity<UserEntity, RoleEntity>(options =>
+              {
+                options.ClaimsIdentity.UserIdClaimType = JwtClaimTypes.Subject;
+                options.ClaimsIdentity.UserNameClaimType = JwtClaimTypes.Name;
+                options.ClaimsIdentity.EmailClaimType = JwtClaimTypes.Email;
+                options.ClaimsIdentity.RoleClaimType = JwtClaimTypes.Role;
+              })
               .AddUserStore<UserStore>()
               .AddRoleStore<RoleStore>();
 

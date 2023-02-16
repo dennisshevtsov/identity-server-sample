@@ -8,6 +8,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
   using Microsoft.Extensions.DependencyInjection;
 
   using IdentityServerSample.Infrastructure.Test;
+  using IdentityServerSample.ApplicationCore.Identities;
+  using IdentityServerSample.ApplicationCore.Extensions;
 
   [TestClass]
   public sealed class UserRepositoryTest : DbIntegrationTestBase
@@ -19,6 +21,35 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     protected override void InitializeInternal()
     {
       _userRepository = ServiceProvider.GetRequiredService<IUserRepository>();
+    }
+
+    [TestMethod]
+    public async Task GetUserAsync_Should_Return_User_With_Defined_User_Id()
+    {
+      var allUserEntityCollection  = await CreateNewUsersAsync(10);
+
+      var controlUserEntity = allUserEntityCollection[2];
+
+      IUserIdentity identity = controlUserEntity;
+
+      var testUserEntity = await _userRepository.GetUserAsync(identity, CancellationToken);
+
+      Assert.IsNotNull(testUserEntity);
+
+      AreEqual(controlUserEntity, testUserEntity);
+      IsDetached(testUserEntity);
+    }
+
+    [TestMethod]
+    public async Task GetUserAsync_Should_Return_Null_For_Unknown_Id()
+    {
+      await CreateNewUsersAsync(10);
+
+      var identity = Guid.NewGuid().ToUserIdentity();
+
+      var testUserEntity = await _userRepository.GetUserAsync(identity, CancellationToken);
+
+      Assert.IsNull(testUserEntity);
     }
 
     [TestMethod]
@@ -38,7 +69,23 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
-    public async Task GetUserAsync_Should_Return_Null()
+    public async Task GetUserAsync_Should_Return_User_With_Defined_Case_Insensitive_Email()
+    {
+      var allUserEntityCollection = await CreateNewUsersAsync(10);
+      var controlUserEntity = allUserEntityCollection[2];
+
+      var userName = controlUserEntity.Email!.ToUpper();
+
+      var testUserEntity = await _userRepository.GetUserAsync(userName, CancellationToken);
+
+      Assert.IsNotNull(testUserEntity);
+
+      AreEqual(controlUserEntity, testUserEntity);
+      IsDetached(testUserEntity);
+    }
+
+    [TestMethod]
+    public async Task GetUserAsync_Should_Return_Null_Unknown_Email()
     {
       await CreateNewUsersAsync(10);
 
@@ -54,7 +101,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var userEntity = new UserEntity
       {
         Name = Guid.NewGuid().ToString(),
-        Email = Guid.NewGuid().ToString(),
+        Email = $"{Guid.NewGuid()}@test.test",
         PasswordHash = Guid.NewGuid().ToString(),
       };
 
