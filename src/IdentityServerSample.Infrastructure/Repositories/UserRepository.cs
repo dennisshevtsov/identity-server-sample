@@ -49,7 +49,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
       var userEntity =
         await _dbContext.Set<UserEntity>()
                         .AsNoTracking()
-                        .Where(entity => entity.Email == email)
+                        .Where(entity => string.Equals(entity.Email, email, StringComparison.OrdinalIgnoreCase))
                         .FirstOrDefaultAsync(cancellationToken);
 
       return userEntity;
