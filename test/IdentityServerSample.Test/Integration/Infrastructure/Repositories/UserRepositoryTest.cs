@@ -38,6 +38,22 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
+    public async Task GetUserAsync_Should_Return_User_With_Defined_Case_Insensitive_Email()
+    {
+      var allUserEntityCollection = await CreateNewUsersAsync(10);
+      var controlUserEntity = allUserEntityCollection[2];
+
+      var userName = controlUserEntity.Email!.ToUpper();
+
+      var testUserEntity = await _userRepository.GetUserAsync(userName, CancellationToken);
+
+      Assert.IsNotNull(testUserEntity);
+
+      AreEqual(controlUserEntity, testUserEntity);
+      IsDetached(testUserEntity);
+    }
+
+    [TestMethod]
     public async Task GetUserAsync_Should_Return_Null()
     {
       await CreateNewUsersAsync(10);
@@ -54,7 +70,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var userEntity = new UserEntity
       {
         Name = Guid.NewGuid().ToString(),
-        Email = Guid.NewGuid().ToString(),
+        Email = $"{Guid.NewGuid()}@test.test",
         PasswordHash = Guid.NewGuid().ToString(),
       };
 
