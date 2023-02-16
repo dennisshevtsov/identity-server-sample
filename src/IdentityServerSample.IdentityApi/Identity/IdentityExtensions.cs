@@ -5,6 +5,7 @@
 namespace Microsoft.Extensions.DependencyInjection
 {
   using global::IdentityModel;
+
   using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.IdentityApi.Identity;
 
