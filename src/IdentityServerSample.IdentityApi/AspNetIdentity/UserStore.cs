@@ -339,7 +339,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity
 
       claims.Add(new Claim(JwtClaimTypes.PreferredUserName, user.Name!));
       claims.Add(new Claim(JwtClaimTypes.EmailVerified, "true"));
-      claims.Add(new Claim("scope", "identity-server-sample-api-scope"));
+      claims.Add(new Claim(JwtClaimTypes.Scope, "identity-server-sample-api-scope"));
 
       return Task.FromResult(claims);
     }
