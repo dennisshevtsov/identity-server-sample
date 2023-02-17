@@ -24,5 +24,20 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       _userStore = new UserStore(_userRepositoryMock.Object);
     }
+
+    [TestMethod]
+    public async Task GetUserIdAsync_Should_Get_User_Id()
+    {
+      var controlUserId = Guid.NewGuid();
+      var userEntity = new UserEntity
+      {
+        UserId = controlUserId,
+      };
+
+      var testUserId = await _userStore.GetUserIdAsync(userEntity, _cancellationToken);
+
+      Assert.IsNotNull(testUserId);
+      Assert.AreEqual(controlUserId.ToString(), testUserId);
+    }
   }
 }
