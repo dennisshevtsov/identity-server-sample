@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.Identity
+namespace IdentityServerSample.IdentityApi.AspNetIdentity
 {
   using Microsoft.AspNetCore.Identity;
 
