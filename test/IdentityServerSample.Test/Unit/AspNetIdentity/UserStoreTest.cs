@@ -111,5 +111,25 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       _userRepositoryMock.Verify(repository => repository.GetUserAsync(controlUserId.ToUserIdentity(), _cancellationToken));
       _userRepositoryMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task FindByNameAsyncc_Should_Return_User()
+    {
+      var controlUserEntity = new UserEntity();
+
+      _userRepositoryMock.Setup(repository => repository.GetUserAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(controlUserEntity)
+                         .Verifiable();
+
+      var userName = Guid.NewGuid().ToString();
+
+      var testUserEntity = await _userStore.FindByNameAsync(userName, _cancellationToken);
+
+      Assert.IsNotNull(testUserEntity);
+      Assert.AreEqual(controlUserEntity, testUserEntity);
+
+      _userRepositoryMock.Verify(repository => repository.GetUserAsync(userName, _cancellationToken));
+      _userRepositoryMock.VerifyNoOtherCalls();
+    }
   }
 }
