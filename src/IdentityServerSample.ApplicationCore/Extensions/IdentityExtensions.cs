@@ -5,7 +5,6 @@
 namespace IdentityServerSample.ApplicationCore.Extensions
 {
   using IdentityServerSample.ApplicationCore.Identities;
-  using System.Diagnostics.CodeAnalysis;
 
   /// <summary>Extends identities with additional methods.</summary>
   public static class IdentityExtensions
