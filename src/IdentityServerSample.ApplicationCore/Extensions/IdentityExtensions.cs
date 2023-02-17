@@ -28,7 +28,7 @@ namespace IdentityServerSample.ApplicationCore.Extensions
       return null;
     }
 
-    private sealed class UserIdentity : IUserIdentity
+    private struct UserIdentity : IUserIdentity
     {
       public UserIdentity(Guid userId) => UserId = userId;
 

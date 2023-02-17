@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApp.Stores
+namespace IdentityServerSample.IdentityApi.IdenittyServer
 {
   using System.Linq;
 
@@ -62,7 +62,7 @@ namespace IdentityServerSample.IdentityApp.Stores
           scopeNames.ToArray(), CancellationToken.None);
 
       var apiScopeCollection =
-        scopeEntityCollection.Select(ResourceStore.ToApiScope)
+        scopeEntityCollection.Select(ToApiScope)
                              .ToArray();
 
       return apiScopeCollection;
@@ -79,7 +79,7 @@ namespace IdentityServerSample.IdentityApp.Stores
           scopeNames.ToArray(), CancellationToken.None);
 
       var apiResourceCollection =
-        audienceEntityCollection.Select(ResourceStore.ToApiResource)
+        audienceEntityCollection.Select(ToApiResource)
                                 .ToArray();
 
       return apiResourceCollection;
@@ -95,7 +95,7 @@ namespace IdentityServerSample.IdentityApp.Stores
         await _audienceRepository.GetAudiencesByNamesAsync(apiResourceNames.ToArray(), CancellationToken.None);
 
       var apiResourceCollection =
-        audienceEntityCollection.Select(ResourceStore.ToApiResource)
+        audienceEntityCollection.Select(ToApiResource)
                                 .ToArray();
 
       return apiResourceCollection;
@@ -109,14 +109,14 @@ namespace IdentityServerSample.IdentityApp.Stores
         await _scopeRepository.GetScopesAsync(CancellationToken.None);
 
       var apiScopeCollection =
-        scopeEntityCollection.Select(ResourceStore.ToApiScope)
+        scopeEntityCollection.Select(ToApiScope)
                              .ToArray();
 
       var audienceEntityCollection =
         await _audienceRepository.GetAudiencesAsync(CancellationToken.None);
 
       var apiResourceCollection =
-        audienceEntityCollection.Select(ResourceStore.ToApiResource)
+        audienceEntityCollection.Select(ToApiResource)
                                 .ToArray();
 
       return new Resources(_identityResources, apiResourceCollection, apiScopeCollection);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.Identity
+namespace IdentityServerSample.IdentityApi.IdenittyServer
 {
   using System;
 
@@ -19,7 +19,7 @@ namespace IdentityServerSample.IdentityApi.Identity
     private readonly UserManager<UserEntity> _userManager;
     private readonly IUserClaimsPrincipalFactory<UserEntity> _userClaimsPrincipalFactory;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApi.Identity.ProfileService"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="ProfileService"/> class.</summary>
     /// <param name="userManager">An object provides the APIs for managing user in a persistence store.</param>
     /// <param name="userClaimsPrincipalFactory">An object that provides an abstraction for a factory to create a <see cref="System.Security.Claims.ClaimsPrincipal"/> from a user.</param>
     public ProfileService(

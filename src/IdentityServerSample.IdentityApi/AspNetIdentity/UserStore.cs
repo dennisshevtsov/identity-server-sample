@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.Identity
+namespace IdentityServerSample.IdentityApi.AspNetIdentity
 {
   using System.Security.Claims;
 
@@ -18,8 +18,8 @@ namespace IdentityServerSample.IdentityApi.Identity
   {
     private readonly IUserRepository _userRepository;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApi.Identity.UserStore"/> class.</summary>
-    /// <param name="userRepository">An object that provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.UserEntity"/> class.</param>
+    /// <summary>Initializes a new instance of the <see cref="UserStore"/> class.</summary>
+    /// <param name="userRepository">An object that provides a simple API to query and save instances of the <see cref="UserEntity"/> class.</param>
     public UserStore(IUserRepository userRepository)
     {
       _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
@@ -339,7 +339,7 @@ namespace IdentityServerSample.IdentityApi.Identity
 
       claims.Add(new Claim(JwtClaimTypes.PreferredUserName, user.Name!));
       claims.Add(new Claim(JwtClaimTypes.EmailVerified, "true"));
-      claims.Add(new Claim("scope", "identity-server-sample-api-scope"));
+      claims.Add(new Claim(JwtClaimTypes.Scope, "identity-server-sample-api-scope"));
 
       return Task.FromResult(claims);
     }
