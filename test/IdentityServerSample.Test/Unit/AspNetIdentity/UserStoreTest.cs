@@ -165,5 +165,18 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       _userRepositoryMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task GetRolesAsync_Should_Return_Empty_List()
+    {
+      var userEntity = new UserEntity();
+
+      var testRoleList = await _userStore.GetRolesAsync(userEntity, _cancellationToken);
+
+      Assert.IsNotNull(testRoleList);
+      Assert.AreEqual(0, testRoleList.Count);
+
+      _userRepositoryMock.VerifyNoOtherCalls();
+    }
   }
 }
