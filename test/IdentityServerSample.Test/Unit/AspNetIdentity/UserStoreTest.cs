@@ -26,7 +26,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
     }
 
     [TestMethod]
-    public async Task GetUserIdAsync_Should_Get_User_Id()
+    public async Task GetUserIdAsync_Should_Return_Id()
     {
       var controlUserId = Guid.NewGuid();
       var userEntity = new UserEntity
@@ -38,6 +38,21 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       Assert.IsNotNull(testUserId);
       Assert.AreEqual(controlUserId.ToString(), testUserId);
+    }
+
+    [TestMethod]
+    public async Task GetUserNameAsync_Should_Return_Email()
+    {
+      var controlEmail = Guid.NewGuid().ToString();
+      var userEntity = new UserEntity
+      {
+        Email = controlEmail,
+      };
+
+      var testUserName = await _userStore.GetUserNameAsync(userEntity, _cancellationToken);
+
+      Assert.IsNotNull(testUserName);
+      Assert.AreEqual(controlEmail, testUserName);
     }
   }
 }
