@@ -2,11 +2,14 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-using IdentityServerSample.ApplicationCore.Extensions;
-using IdentityServerSample.ApplicationCore.Identities;
 
 namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 {
+  using IdentityModel;
+
+  using IdentityServerSample.ApplicationCore.Extensions;
+  using IdentityServerSample.ApplicationCore.Identities;
+
   [TestClass]
   public sealed class UserStoreTest
   {
@@ -171,10 +174,11 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
     {
       var userEntity = new UserEntity();
 
-      var testRoleList = await _userStore.GetRolesAsync(userEntity, _cancellationToken);
+      var testUserRoleCollection =
+        await _userStore.GetRolesAsync(userEntity, _cancellationToken);
 
-      Assert.IsNotNull(testRoleList);
-      Assert.AreEqual(0, testRoleList.Count);
+      Assert.IsNotNull(testUserRoleCollection);
+      Assert.AreEqual(0, testUserRoleCollection.Count);
 
       _userRepositoryMock.VerifyNoOtherCalls();
     }
@@ -192,6 +196,33 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       Assert.IsNotNull(testUserName);
       Assert.AreEqual(controlEmail, testUserName);
+
+      _userRepositoryMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task GetClaimsAsync_Should_Return_Claim_List()
+    {
+      var controlName = Guid.NewGuid().ToString();
+      var userEntity = new UserEntity
+      {
+        Name = controlName,
+      };
+
+      var claimCollection = await _userStore.GetClaimsAsync(userEntity, _cancellationToken);
+
+      Assert.IsNotNull(claimCollection);
+
+      Assert.AreEqual(3, claimCollection.Count);
+
+      Assert.AreEqual(JwtClaimTypes.PreferredUserName, claimCollection[0].Type);
+      Assert.AreEqual(controlName, claimCollection[0].Value);
+
+      Assert.AreEqual(JwtClaimTypes.EmailVerified, claimCollection[1].Type);
+      Assert.AreEqual("true", claimCollection[1].Value);
+
+      Assert.AreEqual(JwtClaimTypes.Scope, claimCollection[2].Type);
+      Assert.AreEqual("identity-server-sample-api-scope", claimCollection[2].Value);
 
       _userRepositoryMock.VerifyNoOtherCalls();
     }
