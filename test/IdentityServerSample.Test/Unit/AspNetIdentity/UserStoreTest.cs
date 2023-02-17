@@ -54,5 +54,20 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       Assert.IsNotNull(testUserName);
       Assert.AreEqual(controlEmail, testUserName);
     }
+
+    [TestMethod]
+    public async Task SetNormalizedUserNameAsync_Should_Update_Email()
+    {
+      var userName = Guid.NewGuid().ToString();
+
+      var userEntity = new UserEntity
+      {
+        Email = Guid.NewGuid().ToString(),
+      };
+
+      await _userStore.SetNormalizedUserNameAsync(userEntity, userName, _cancellationToken);
+
+      Assert.AreEqual(userName, userEntity.Email);
+    }
   }
 }
