@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
+using IdentityServerSample.ApplicationCore.Extensions;
 using IdentityServerSample.ApplicationCore.Identities;
 
 namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
@@ -40,6 +41,8 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       Assert.IsNotNull(testUserId);
       Assert.AreEqual(controlUserId.ToString(), testUserId);
+
+      _userRepositoryMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -55,6 +58,8 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       Assert.IsNotNull(testUserName);
       Assert.AreEqual(controlEmail, testUserName);
+
+      _userRepositoryMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -70,6 +75,8 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       await _userStore.SetNormalizedUserNameAsync(userEntity, userName, _cancellationToken);
 
       Assert.AreEqual(userName, userEntity.Email);
+
+      _userRepositoryMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -80,23 +87,29 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       var userEntity = await _userStore.FindByIdAsync(userId, _cancellationToken);
 
       Assert.IsNull(userEntity);
+
+      _userRepositoryMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
     public async Task FindByIdAsync_Should_Return_User()
     {
+      var controlUserId = Guid.NewGuid();
       var controlUserEntity = new UserEntity();
 
       _userRepositoryMock.Setup(repository => repository.GetUserAsync(It.IsAny<IUserIdentity>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(controlUserEntity)
                          .Verifiable();
 
-      var userId = Guid.NewGuid().ToString();
+      var userId = controlUserId.ToString();
 
       var testUserEntity = await _userStore.FindByIdAsync(userId, _cancellationToken);
 
       Assert.IsNotNull(testUserEntity);
       Assert.AreEqual(controlUserEntity, testUserEntity);
+
+      _userRepositoryMock.Verify(repository => repository.GetUserAsync(controlUserId.ToUserIdentity(), _cancellationToken));
+      _userRepositoryMock.VerifyNoOtherCalls();
     }
   }
 }

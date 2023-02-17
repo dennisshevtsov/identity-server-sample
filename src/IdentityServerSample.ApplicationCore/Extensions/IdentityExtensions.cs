@@ -5,6 +5,7 @@
 namespace IdentityServerSample.ApplicationCore.Extensions
 {
   using IdentityServerSample.ApplicationCore.Identities;
+  using System.Diagnostics.CodeAnalysis;
 
   /// <summary>Extends identities with additional methods.</summary>
   public static class IdentityExtensions
@@ -28,7 +29,7 @@ namespace IdentityServerSample.ApplicationCore.Extensions
       return null;
     }
 
-    private sealed class UserIdentity : IUserIdentity
+    private struct UserIdentity : IUserIdentity
     {
       public UserIdentity(Guid userId) => UserId = userId;
 
