@@ -69,5 +69,15 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       Assert.AreEqual(userName, userEntity.Email);
     }
+
+    [TestMethod]
+    public async Task FindByIdAsync_Should_Return_Null()
+    {
+      var userId = "test";
+
+      var userEntity = await _userStore.FindByIdAsync(userId, _cancellationToken);
+
+      Assert.IsNull(userEntity);
+    }
   }
 }
