@@ -178,5 +178,22 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       _userRepositoryMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task GetEmailAsync_Should_Return_Email()
+    {
+      var controlEmail = Guid.NewGuid().ToString();
+      var userEntity = new UserEntity
+      {
+        Email = controlEmail,
+      };
+
+      var testUserName = await _userStore.GetEmailAsync(userEntity, _cancellationToken);
+
+      Assert.IsNotNull(testUserName);
+      Assert.AreEqual(controlEmail, testUserName);
+
+      _userRepositoryMock.VerifyNoOtherCalls();
+    }
   }
 }
