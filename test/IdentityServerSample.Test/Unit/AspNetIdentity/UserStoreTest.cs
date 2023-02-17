@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
+using IdentityServerSample.ApplicationCore.Identities;
+
 namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 {
   [TestClass]
@@ -78,6 +80,23 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       var userEntity = await _userStore.FindByIdAsync(userId, _cancellationToken);
 
       Assert.IsNull(userEntity);
+    }
+
+    [TestMethod]
+    public async Task FindByIdAsync_Should_Return_User()
+    {
+      var controlUserEntity = new UserEntity();
+
+      _userRepositoryMock.Setup(repository => repository.GetUserAsync(It.IsAny<IUserIdentity>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(controlUserEntity)
+                         .Verifiable();
+
+      var userId = Guid.NewGuid().ToString();
+
+      var testUserEntity = await _userStore.FindByIdAsync(userId, _cancellationToken);
+
+      Assert.IsNotNull(testUserEntity);
+      Assert.AreEqual(controlUserEntity, testUserEntity);
     }
   }
 }
