@@ -148,5 +148,22 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       _userRepositoryMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task GetPasswordHashAsync_Should_Return_Password_Hash()
+    {
+      var controlPasswordHash = Guid.NewGuid().ToString();
+      var userEntity = new UserEntity
+      {
+        PasswordHash = controlPasswordHash,
+      };
+
+      var testPasswordHash = await _userStore.GetPasswordHashAsync(userEntity, _cancellationToken);
+
+      Assert.IsNotNull(testPasswordHash);
+      Assert.AreEqual(controlPasswordHash, testPasswordHash);
+
+      _userRepositoryMock.VerifyNoOtherCalls();
+    }
   }
 }
