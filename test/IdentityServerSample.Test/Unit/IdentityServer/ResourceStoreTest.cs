@@ -7,6 +7,7 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
   using IdentityServer4;
   using IdentityServer4.Models;
   using Moq;
+  using System.Linq;
 
   [TestClass]
   public sealed class ResourceStoreTest
@@ -157,6 +158,111 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
       _audienceRepositoryMock.VerifyNoOtherCalls();
 
       _scopeRepositoryMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task GetAllResourcesAsync_Should_Return_Resources()
+    {
+      var controlScopeEntityCollection = new List<ScopeEntity>();
+
+      _scopeRepositoryMock.Setup(repository => repository.GetScopesAsync(It.IsAny<CancellationToken>()))
+                          .ReturnsAsync(controlScopeEntityCollection)
+                          .Verifiable();
+
+      var controlScopeCollection = new List<ApiScope>
+      {
+        new ApiScope { Name = Guid.NewGuid().ToString(), },
+        new ApiScope { Name = Guid.NewGuid().ToString(), },
+      };
+
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiScope>>(It.IsAny<List<ScopeEntity>>()))
+                 .Returns(controlScopeCollection)
+                 .Verifiable();
+
+      var controlAudienceEntityCollection = new AudienceEntity[0];
+
+      _audienceRepositoryMock.Setup(repository => repository.GetAudiencesAsync(It.IsAny<CancellationToken>()))
+                             .ReturnsAsync(controlAudienceEntityCollection)
+                             .Verifiable();
+
+      var controlResourceCollection = new[]
+      {
+        new ApiResource { Name = Guid.NewGuid().ToString(), },
+        new ApiResource { Name = Guid.NewGuid().ToString(), },
+      };
+
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<AudienceEntity[]>()))
+                 .Returns(controlResourceCollection)
+                 .Verifiable();
+
+      var scopeNames = new string[0];
+
+      var testResources = await _resourceStore.GetAllResourcesAsync();
+
+      Assert.IsNotNull(testResources);
+
+      AreEqual(controlScopeCollection, testResources.ApiScopes);
+      AreEqual(controlResourceCollection, testResources.ApiResources);
+      AreEqual(testResources.IdentityResources);
+
+      _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiScope>>(controlAudienceEntityCollection));
+      _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiResource>>(controlAudienceEntityCollection));
+      _mapperMock.VerifyNoOtherCalls();
+
+      _audienceRepositoryMock.Verify(repository => repository.GetAudiencesAsync(CancellationToken.None));
+      _audienceRepositoryMock.VerifyNoOtherCalls();
+
+      _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(CancellationToken.None));
+      _scopeRepositoryMock.VerifyNoOtherCalls();
+    }
+
+    private static void AreEqual(
+      List<ApiScope> controlScopeCollection, ICollection<ApiScope> testApiScopes)
+    {
+      Assert.IsNotNull(testApiScopes);
+
+      var scopeSet = testApiScopes.Select(scope => scope.Name)
+                                  .ToHashSet();
+
+      Assert.AreEqual(controlScopeCollection.Count, scopeSet.Count);
+
+      for (int i = 0; i < controlScopeCollection.Count; i++)
+      {
+        Assert.IsTrue(scopeSet.Contains(controlScopeCollection[i].Name));
+      }
+    }
+
+    private void AreEqual(
+      ApiResource[] controlResourceCollection, ICollection<ApiResource> testApiResources)
+    {
+      Assert.IsNotNull(testApiResources);
+
+      var resourceSet = testApiResources.Select(scope => scope.Name)
+                                        .ToHashSet();
+
+      Assert.AreEqual(controlResourceCollection.Length, resourceSet.Count);
+
+      for (int i = 0; i < controlResourceCollection.Length; i++)
+      {
+        Assert.IsTrue(resourceSet.Contains(controlResourceCollection[i].Name));
+      }
+    }
+
+    private void AreEqual(ICollection<IdentityResource> testIdentityResources)
+    {
+      Assert.IsNotNull(testIdentityResources);
+
+      var identityResourceSet =
+        testIdentityResources.Select(resource => resource.Name)
+                             .ToHashSet();
+
+      Assert.AreEqual(5, identityResourceSet.Count);
+
+      Assert.IsTrue(identityResourceSet.Contains(IdentityServerConstants.StandardScopes.OpenId));
+      Assert.IsTrue(identityResourceSet.Contains(IdentityServerConstants.StandardScopes.Profile));
+      Assert.IsTrue(identityResourceSet.Contains(IdentityServerConstants.StandardScopes.Email));
+      Assert.IsTrue(identityResourceSet.Contains(IdentityServerConstants.StandardScopes.Phone));
+      Assert.IsTrue(identityResourceSet.Contains(IdentityServerConstants.StandardScopes.Address));
     }
   }
 }
