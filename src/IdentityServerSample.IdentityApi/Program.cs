@@ -10,6 +10,7 @@ builder.Services.SetUpAntiforgery();
 builder.Services.SetUpAspNetIdentity();
 builder.Services.SetUpIdentityServer(builder.Configuration);
 builder.Services.SetUpDatabase(builder.Configuration);
+builder.Services.SetUpMapping();
 
 var app = builder.Build();
 
