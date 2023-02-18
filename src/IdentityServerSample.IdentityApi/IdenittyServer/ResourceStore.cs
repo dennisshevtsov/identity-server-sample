@@ -6,10 +6,10 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
 {
   using System.Linq;
 
+  using AutoMapper;
   using IdentityServer4.Models;
   using IdentityServer4.Stores;
 
-  using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Repositories;
 
   /// <summary>Provides a simple API to query resources.</summary>
@@ -17,13 +17,17 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
   {
     private readonly IEnumerable<IdentityResource> _identityResources;
 
+    private readonly IMapper _mapper;
+
     private readonly IAudienceRepository _audienceRepository;
     private readonly IScopeRepository _scopeRepository;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApp.Stores.ResourceStore"/> class.</summary>
+    /// <param name="mapper">An object that provides a simple API to map objects of different types.</param>
     /// <param name="audienceRepository">An object that provides a simple API to query and save audiences.</param>
     /// <param name="scopeRepository">An object that provides a simple API to query and save audiences.</param>
     public ResourceStore(
+      IMapper mapper,
       IScopeRepository scopeRepository,
       IAudienceRepository audienceRepository)
     {
@@ -36,6 +40,7 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
         new IdentityResources.Address(),
       };
 
+      _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
       _scopeRepository = scopeRepository ??
         throw new ArgumentNullException(nameof(scopeRepository));
       _audienceRepository = audienceRepository ??
@@ -62,8 +67,7 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
           scopeNames.ToArray(), CancellationToken.None);
 
       var apiScopeCollection =
-        scopeEntityCollection.Select(ToApiScope)
-                             .ToArray();
+        _mapper.Map<IEnumerable<ApiScope>>(scopeEntityCollection);
 
       return apiScopeCollection;
     }
@@ -79,8 +83,7 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
           scopeNames.ToArray(), CancellationToken.None);
 
       var apiResourceCollection =
-        audienceEntityCollection.Select(ToApiResource)
-                                .ToArray();
+        _mapper.Map<IEnumerable<ApiResource>>(audienceEntityCollection);
 
       return apiResourceCollection;
     }
@@ -95,8 +98,7 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
         await _audienceRepository.GetAudiencesByNamesAsync(apiResourceNames.ToArray(), CancellationToken.None);
 
       var apiResourceCollection =
-        audienceEntityCollection.Select(ToApiResource)
-                                .ToArray();
+        _mapper.Map<IEnumerable<ApiResource>>(audienceEntityCollection);
 
       return apiResourceCollection;
     }
@@ -109,36 +111,15 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
         await _scopeRepository.GetScopesAsync(CancellationToken.None);
 
       var apiScopeCollection =
-        scopeEntityCollection.Select(ToApiScope)
-                             .ToArray();
+        _mapper.Map<IEnumerable<ApiScope>>(scopeEntityCollection);
 
       var audienceEntityCollection =
         await _audienceRepository.GetAudiencesAsync(CancellationToken.None);
 
       var apiResourceCollection =
-        audienceEntityCollection.Select(ToApiResource)
-                                .ToArray();
+        _mapper.Map<IEnumerable<ApiResource>>(audienceEntityCollection);
 
       return new Resources(_identityResources, apiResourceCollection, apiScopeCollection);
-    }
-
-    private static ApiScope ToApiScope(ScopeEntity scopeEntity)
-    {
-      return new ApiScope
-      {
-        Name = scopeEntity.Name,
-        DisplayName = scopeEntity.DisplayName,
-      };
-    }
-
-    private static ApiResource ToApiResource(AudienceEntity audienceEntity)
-    {
-      return new ApiResource
-      {
-        Name = audienceEntity.Name,
-        DisplayName = audienceEntity.DisplayName,
-        Scopes = audienceEntity.Scopes?.ToArray(),
-      };
     }
   }
 }

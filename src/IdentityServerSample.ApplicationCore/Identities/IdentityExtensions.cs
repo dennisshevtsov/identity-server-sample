@@ -2,20 +2,18 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.ApplicationCore.Extensions
+namespace IdentityServerSample.ApplicationCore.Identities
 {
-  using IdentityServerSample.ApplicationCore.Identities;
-
   /// <summary>Extends identities with additional methods.</summary>
   public static class IdentityExtensions
   {
-    /// <summary>Converts an instance of <see cref="System.Guid"/> to an instance of the <see cref="IdentityServerSample.ApplicationCore.Identities.IUserIdentity"/>.</summary>
+    /// <summary>Converts an instance of <see cref="Guid"/> to an instance of the <see cref="IUserIdentity"/>.</summary>
     /// <param name="userId">An object that represents a user ID.</param>
     /// <returns>An object that represents an identity of a user.</returns>
     public static IUserIdentity ToUserIdentity(this Guid userId)
       => new UserIdentity(userId);
 
-    /// <summary>Converts an instance of <see cref="System.String"/> to an instance of the <see cref="IdentityServerSample.ApplicationCore.Identities.IUserIdentity"/>.</summary>
+    /// <summary>Converts an instance of <see cref="string"/> to an instance of the <see cref="IUserIdentity"/>.</summary>
     /// <param name="userId">An object that represents a user ID.</param>
     /// <returns>An object that represents an identity of a user.</returns>
     public static IUserIdentity? ToUserIdentity(this string userId)

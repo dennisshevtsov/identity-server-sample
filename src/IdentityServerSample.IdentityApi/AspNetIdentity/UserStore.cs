@@ -10,8 +10,8 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity
   using Microsoft.AspNetCore.Identity;
 
   using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.ApplicationCore.Identities;
   using IdentityServerSample.ApplicationCore.Repositories;
-  using IdentityServerSample.ApplicationCore.Extensions;
 
   /// <summary>Provides an abstraction for a store which manages user accounts.</summary>
   public sealed class UserStore : IUserStore<UserEntity>, IUserPasswordStore<UserEntity>, IUserRoleStore<UserEntity>, IUserEmailStore<UserEntity>, IUserClaimStore<UserEntity>

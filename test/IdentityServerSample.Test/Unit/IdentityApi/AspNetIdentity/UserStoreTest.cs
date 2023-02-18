@@ -5,8 +5,6 @@
 namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 {
   using IdentityModel;
-
-  using IdentityServerSample.ApplicationCore.Extensions;
   using IdentityServerSample.ApplicationCore.Identities;
 
   [TestClass]

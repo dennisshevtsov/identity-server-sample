@@ -4,15 +4,15 @@
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-  using IdentityServerSample.ApplicationCore.Mapping;
+  using IdentityServerSample.IdentityApi.Mapping;
 
-  /// <summary>Provides a simple API to register application services.</summary>
+  /// <summary>Provides methods to extend the API of the <see cref="Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</summary>
   public static class MappingExtensions
   {
     /// <summary>Registers the mapping profiles int the DI container.</summary>
     /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
-    public static IServiceCollection AddMapping(this IServiceCollection services)
+    public static IServiceCollection SetUpMapping(this IServiceCollection services)
     {
       services.AddAutoMapper(config =>
       {

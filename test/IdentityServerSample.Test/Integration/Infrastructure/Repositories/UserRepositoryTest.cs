@@ -9,7 +9,6 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
   using IdentityServerSample.Infrastructure.Test;
   using IdentityServerSample.ApplicationCore.Identities;
-  using IdentityServerSample.ApplicationCore.Extensions;
 
   [TestClass]
   public sealed class UserRepositoryTest : DbIntegrationTestBase
@@ -26,7 +25,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetUserAsync_Should_Return_User_With_Defined_User_Id()
     {
-      var allUserEntityCollection  = await CreateNewUsersAsync(10);
+      var allUserEntityCollection = await CreateNewUsersAsync(10);
 
       var controlUserEntity = allUserEntityCollection[2];
 

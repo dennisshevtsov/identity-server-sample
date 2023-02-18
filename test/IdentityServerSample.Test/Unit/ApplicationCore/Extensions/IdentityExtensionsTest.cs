@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.ApplicationCore.Extensions.Test
+namespace IdentityServerSample.ApplicationCore.Identities.Test
 {
   [TestClass]
   public sealed class IdentityExtensionsTest

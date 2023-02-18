@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.Test.Unit.Services
+namespace IdentityServerSample.ApplicationCore.Services.Test
 {
   [TestClass]
   public sealed class ClientServiceTest

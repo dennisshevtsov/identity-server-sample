@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { GetErrorRequestDto, GetErrorResponseDto } from '../dtos';
+import { GetErrorRequestDto  } from '../dtos';
+import { GetErrorResponseDto } from '../dtos';
 
 @Injectable({
   providedIn: 'root',
