@@ -5,11 +5,11 @@
 namespace IdentityServerSample.IdentityApi.IdenittyServer
 {
   using System.Linq;
+
   using AutoMapper;
   using IdentityServer4.Models;
   using IdentityServer4.Stores;
 
-  using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Repositories;
 
   /// <summary>Provides a simple API to query resources.</summary>
@@ -83,8 +83,7 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
           scopeNames.ToArray(), CancellationToken.None);
 
       var apiResourceCollection =
-        audienceEntityCollection.Select(ToApiResource)
-                                .ToArray();
+        _mapper.Map<IEnumerable<ApiResource>>(audienceEntityCollection);
 
       return apiResourceCollection;
     }
@@ -99,8 +98,7 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
         await _audienceRepository.GetAudiencesByNamesAsync(apiResourceNames.ToArray(), CancellationToken.None);
 
       var apiResourceCollection =
-        audienceEntityCollection.Select(ToApiResource)
-                                .ToArray();
+        _mapper.Map<IEnumerable<ApiResource>>(audienceEntityCollection);
 
       return apiResourceCollection;
     }
@@ -119,20 +117,9 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
         await _audienceRepository.GetAudiencesAsync(CancellationToken.None);
 
       var apiResourceCollection =
-        audienceEntityCollection.Select(ToApiResource)
-                                .ToArray();
+        _mapper.Map<IEnumerable<ApiResource>>(audienceEntityCollection);
 
       return new Resources(_identityResources, apiResourceCollection, apiScopeCollection);
-    }
-
-    private static ApiResource ToApiResource(AudienceEntity audienceEntity)
-    {
-      return new ApiResource
-      {
-        Name = audienceEntity.Name,
-        DisplayName = audienceEntity.DisplayName,
-        Scopes = audienceEntity.Scopes?.ToArray(),
-      };
     }
   }
 }
