@@ -17,6 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
       services.AddAutoMapper(config =>
       {
         config.AddProfile(new ClientMappingProfile());
+        config.AddProfile(new ScopeMappingProfile());
       });
 
       return services;
