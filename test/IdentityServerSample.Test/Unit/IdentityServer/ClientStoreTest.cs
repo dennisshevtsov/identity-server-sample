@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
+namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
 {
-  using IdentityServerSample.IdentityApi.IdenittyServer;
+  using System.Threading;
 
   [TestClass]
   public sealed class ClientStoreTest
@@ -24,6 +24,24 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       _clientStore = new ClientStore(
         _mapperMock.Object, _clientRepositoryMock.Object);
+    }
+
+    [TestMethod]
+    public async Task FindClientByIdAsync_Should_Return_Null()
+    {
+      _clientRepositoryMock.Setup(repository => repository.GetClientAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                           .ReturnsAsync(default(ClientEntity))
+                           .Verifiable();
+
+      var clientId = Guid.NewGuid().ToString();
+      var testClientEntityd = await _clientStore.FindClientByIdAsync(clientId);
+
+      Assert.IsNull(testClientEntityd);
+
+      _clientRepositoryMock.Verify(repository => repository.GetClientAsync(clientId, CancellationToken.None));
+      _clientRepositoryMock.VerifyNoOtherCalls();
+
+      _mapperMock.VerifyNoOtherCalls();
     }
   }
 }
