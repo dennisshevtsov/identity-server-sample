@@ -4,6 +4,8 @@
 
 namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
 {
+  using IdentityServer4;
+
   [TestClass]
   public sealed class ResourceStoreTest
   {
@@ -28,6 +30,35 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
         _mapperMock.Object,
         _scopeRepositoryMock.Object,
         _audienceRepositoryMock.Object);
+    }
+
+    [TestMethod]
+    public async Task FindIdentityResourcesByScopeNameAsync_Should_Return_Resources()
+    {
+      var scopeNames = new[]
+      {
+        IdentityServerConstants.StandardScopes.OpenId,
+        IdentityServerConstants.StandardScopes.Profile,
+      };
+
+      var identityResourceCollection =
+        await _resourceStore.FindIdentityResourcesByScopeNameAsync(scopeNames);
+
+      Assert.IsNotNull(identityResourceCollection);
+
+      var identityResourceArray = identityResourceCollection.ToArray();
+
+      Assert.AreEqual(scopeNames.Length, identityResourceArray.Length);
+
+      for (int i = 0; i < identityResourceArray.Length; i++)
+      {
+        Assert.IsTrue(scopeNames.Contains(identityResourceArray[i].Name));
+      }
+
+      _mapperMock.VerifyNoOtherCalls();
+
+      _audienceRepositoryMock.VerifyNoOtherCalls();
+      _scopeRepositoryMock.VerifyNoOtherCalls();
     }
   }
 }
