@@ -5,6 +5,7 @@
 namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
 {
   using IdentityServer4;
+  using IdentityServer4.Models;
 
   [TestClass]
   public sealed class ResourceStoreTest
@@ -59,6 +60,38 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
 
       _audienceRepositoryMock.VerifyNoOtherCalls();
       _scopeRepositoryMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task FindApiScopesByNameAsync_Should_Return_Scopes()
+    {
+      var controlScopeEntityCollection = new List<ScopeEntity>();
+
+      _scopeRepositoryMock.Setup(repository => repository.GetScopesAsync(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
+                          .ReturnsAsync(controlScopeEntityCollection)
+                          .Verifiable();
+
+      var controlScopeCollection = new List<ApiScope>();
+
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiScope>>(It.IsAny<List<ScopeEntity>>()))
+                 .Returns(controlScopeCollection)
+                 .Verifiable();
+
+      var scopeNames = new string[0];
+
+      var testScopeCollection =
+        await _resourceStore.FindApiScopesByNameAsync(scopeNames);
+
+      Assert.IsNotNull(testScopeCollection);
+      Assert.AreEqual(controlScopeCollection, testScopeCollection);
+
+      _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiScope>>(controlScopeEntityCollection));
+      _mapperMock.VerifyNoOtherCalls();
+
+      _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(scopeNames, CancellationToken.None));
+      _scopeRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceRepositoryMock.VerifyNoOtherCalls();
     }
   }
 }
