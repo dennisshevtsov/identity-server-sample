@@ -23,7 +23,7 @@ namespace IdentityServerSample.IdentityApi.Mapping
       expression.CreateMap<ClientEntity, Client>()
                 .ForMember(model => model.ClientId, options => options.MapFrom(entity => entity.Name))
                 .ForMember(model => model.ClientName, options => options.MapFrom(entity => entity.DisplayName))
-                .ForMember(model => model.RequireClientSecret, options => options.MapFrom(entity => true))
+                .ForMember(model => model.RequireClientSecret, options => options.MapFrom(entity => false))
                 .ForMember(model => model.AllowedGrantTypes, options => options.MapFrom(entity => GrantTypes.Code))
                 .ForMember(model => model.AllowedScopes, options => options.MapFrom(entity => entity.Scopes))
                 .ForMember(model => model.RedirectUris, options => options.MapFrom(entity => entity.RedirectUris))
