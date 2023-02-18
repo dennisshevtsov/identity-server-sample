@@ -4,13 +4,13 @@
 
 namespace IdentityServerSample.Infrastructure.Repositories.Test
 {
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.DependencyInjection;
+  using Microsoft.EntityFrameworkCore;
+  using Microsoft.Extensions.DependencyInjection;
 
-    using IdentityServerSample.Infrastructure.Test;
-    using IdentityServerSample.ApplicationCore.Identities;
+  using IdentityServerSample.Infrastructure.Test;
+  using IdentityServerSample.ApplicationCore.Identities;
 
-    [TestClass]
+  [TestClass]
   public sealed class UserRepositoryTest : DbIntegrationTestBase
   {
 #pragma warning disable CS8618
@@ -25,7 +25,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetUserAsync_Should_Return_User_With_Defined_User_Id()
     {
-      var allUserEntityCollection  = await CreateNewUsersAsync(10);
+      var allUserEntityCollection = await CreateNewUsersAsync(10);
 
       var controlUserEntity = allUserEntityCollection[2];
 
