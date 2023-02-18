@@ -36,8 +36,4 @@
     <ProjectReference Include="..\..\src\IdentityServerSample.WebApi\IdentityServerSample.WebApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Unit\Mapping\" />
-  </ItemGroup>
-
 </Project>
