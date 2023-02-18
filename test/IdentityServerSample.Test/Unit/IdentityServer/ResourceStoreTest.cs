@@ -126,5 +126,37 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
 
       _scopeRepositoryMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task FindApiResourcesByNameAsync_Should_Return_Resources()
+    {
+      var controlAudienceEntityCollection = new AudienceEntity[0];
+
+      _audienceRepositoryMock.Setup(repository => repository.GetAudiencesByNamesAsync(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
+                             .ReturnsAsync(controlAudienceEntityCollection)
+                             .Verifiable();
+
+      var controlResourceCollection = new ApiResource[0];
+
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<AudienceEntity[]>()))
+                 .Returns(controlResourceCollection)
+                 .Verifiable();
+
+      var scopeNames = new string[0];
+
+      var testResourceCollection =
+        await _resourceStore.FindApiResourcesByNameAsync(scopeNames);
+
+      Assert.IsNotNull(testResourceCollection);
+      Assert.AreEqual(controlResourceCollection, testResourceCollection);
+
+      _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiResource>>(controlAudienceEntityCollection));
+      _mapperMock.VerifyNoOtherCalls();
+
+      _audienceRepositoryMock.Verify(repository => repository.GetAudiencesByNamesAsync(scopeNames, CancellationToken.None));
+      _audienceRepositoryMock.VerifyNoOtherCalls();
+
+      _scopeRepositoryMock.VerifyNoOtherCalls();
+    }
   }
 }
