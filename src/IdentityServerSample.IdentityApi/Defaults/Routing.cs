@@ -10,13 +10,16 @@ namespace IdentityServerSample.IdentityApp.Defaults
     /// <summary>A value that represents the base of the account route.</summary>
     public const string AccountRoute = "api/account";
 
-    /// <summary>A value that represents a route to sign in an account.</summary>
+    /// <summary>A value that represents the route to sign in an account.</summary>
     public const string SignInRoute = "signin";
 
-    /// <summary>A value that represents a route to sign out an account.</summary>
+    /// <summary>A value that represents the route to sign out an account.</summary>
     public const string SignOutRoute = "signout";
 
     /// <summary>A value that represents the base of the error route.</summary>
     public const string ErrorRoute = "api/error";
+
+    /// <summary>A value that represents the roate to get an error.</summary>
+    public const string GetErrorRoute = "{errorId}";
   }
 }

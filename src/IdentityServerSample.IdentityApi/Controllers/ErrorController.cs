@@ -30,8 +30,8 @@ namespace IdentityServerSample.IdentityApp.Controllers
     /// <summary>Handles the get error request.</summary>
     /// <param name="vm">An object that represents details of an error.</param>
     /// <returns>An object that represents an asynchronous operation.</returns>
-    [HttpGet(Name = nameof(ErrorController.GetError))]
-    public async Task<IActionResult> GetError([FromQuery] GetErrorRequestDto requestDto)
+    [HttpGet(Routing.GetErrorRoute, Name = nameof(ErrorController.GetError))]
+    public async Task<IActionResult> GetError([FromRoute] GetErrorRequestDto requestDto)
     {
       var errorMessage =
         await _identityServerInteractionService.GetErrorContextAsync(requestDto.ErrorId!);
