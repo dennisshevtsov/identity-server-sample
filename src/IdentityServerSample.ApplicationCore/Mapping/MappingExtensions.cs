@@ -10,8 +10,8 @@ namespace Microsoft.Extensions.DependencyInjection
   public static class MappingExtensions
   {
     /// <summary>Registers the mapping profiles int the DI container.</summary>
-    /// <param name="services"></param>
-    /// <returns></returns>
+    /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
+    /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
     public static IServiceCollection AddMapping(this IServiceCollection services)
     {
       services.AddAutoMapper(config =>
