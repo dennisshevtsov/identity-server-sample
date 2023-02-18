@@ -21,7 +21,7 @@ namespace IdentityServerSample.ApplicationCore.Mapping
     private static void ConfigureGetClientsMapping(IProfileExpression expression)
     {
       expression.CreateMap<IEnumerable<ClientEntity>, GetClientsResponseDto>()
-                .ForMember(dst => dst.Clients, opt => opt.MapFrom(src => src));
+                .ForMember(dto => dto.Clients, options => options.MapFrom(entities => entities));
       expression.CreateMap<ClientEntity, GetClientsResponseDto.ClientDto>();
     }
   }
