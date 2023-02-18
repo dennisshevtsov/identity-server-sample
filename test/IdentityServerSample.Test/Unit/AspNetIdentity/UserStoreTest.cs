@@ -4,12 +4,10 @@
 
 namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 {
-  using IdentityModel;
+    using IdentityModel;
+    using IdentityServerSample.ApplicationCore.Identities;
 
-  using IdentityServerSample.ApplicationCore.Extensions;
-  using IdentityServerSample.ApplicationCore.Identities;
-
-  [TestClass]
+    [TestClass]
   public sealed class UserStoreTest
   {
     private CancellationToken _cancellationToken;

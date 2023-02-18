@@ -4,14 +4,13 @@
 
 namespace IdentityServerSample.Infrastructure.Repositories.Test
 {
-  using Microsoft.EntityFrameworkCore;
-  using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
 
-  using IdentityServerSample.Infrastructure.Test;
-  using IdentityServerSample.ApplicationCore.Identities;
-  using IdentityServerSample.ApplicationCore.Extensions;
+    using IdentityServerSample.Infrastructure.Test;
+    using IdentityServerSample.ApplicationCore.Identities;
 
-  [TestClass]
+    [TestClass]
   public sealed class UserRepositoryTest : DbIntegrationTestBase
   {
 #pragma warning disable CS8618
