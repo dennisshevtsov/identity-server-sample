@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.Test.Unit.Mapping
+namespace IdentityServerSample.ApplicationCore.Mapping.Test
 {
   using Microsoft.Extensions.DependencyInjection;
 
   [TestClass]
-  public sealed class AudienceMappingTest
+  public sealed class ScopeMappingTest
   {
 #pragma warning disable CS8618
     private IDisposable _disposable;
@@ -32,44 +32,44 @@ namespace IdentityServerSample.Test.Unit.Mapping
     }
 
     [TestMethod]
-    public void Map_Should_Create_GetClientsResponseDto()
+    public void Map_Should_Create_GetScopesResponseDto()
     {
-      var audienceEntityCollection = new[]
+      var scopeEntityCollection = new[]
       {
-        new AudienceEntity
+        new ScopeEntity
         {
           Name = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
-        new AudienceEntity
+        new ScopeEntity
         {
           Name = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
-        new AudienceEntity
+        new ScopeEntity
         {
           Name = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
       };
 
-      var getAudiencesResponseDto = _mapper.Map<GetAudiencesResponseDto>(audienceEntityCollection);
+      var getScopesResponseDto = _mapper.Map<GetScopesResponseDto>(scopeEntityCollection);
 
-      Assert.IsNotNull(getAudiencesResponseDto);
+      Assert.IsNotNull(getScopesResponseDto);
 
-      Assert.IsNotNull(getAudiencesResponseDto.Audiences);
-      Assert.AreEqual(audienceEntityCollection.Length, getAudiencesResponseDto.Audiences!.Length);
+      Assert.IsNotNull(getScopesResponseDto.Scopes);
+      Assert.AreEqual(scopeEntityCollection.Length, getScopesResponseDto.Scopes!.Length);
 
-      var audienceDtoCollection = getAudiencesResponseDto.Audiences.ToArray();
+      var scopeDtoCollection = getScopesResponseDto.Scopes.ToArray();
 
-      Assert.AreEqual(audienceEntityCollection[0].Name, audienceDtoCollection[0].Name);
-      Assert.AreEqual(audienceEntityCollection[0].DisplayName, audienceDtoCollection[0].DisplayName);
+      Assert.AreEqual(scopeEntityCollection[0].Name, scopeDtoCollection[0].Name);
+      Assert.AreEqual(scopeEntityCollection[0].DisplayName, scopeDtoCollection[0].DisplayName);
 
-      Assert.AreEqual(audienceEntityCollection[1].Name, audienceDtoCollection[1].Name);
-      Assert.AreEqual(audienceEntityCollection[1].DisplayName, audienceDtoCollection[1].DisplayName);
+      Assert.AreEqual(scopeEntityCollection[1].Name, scopeDtoCollection[1].Name);
+      Assert.AreEqual(scopeEntityCollection[1].DisplayName, scopeDtoCollection[1].DisplayName);
 
-      Assert.AreEqual(audienceEntityCollection[2].Name, audienceDtoCollection[2].Name);
-      Assert.AreEqual(audienceEntityCollection[2].DisplayName, audienceDtoCollection[2].DisplayName);
+      Assert.AreEqual(scopeEntityCollection[2].Name, scopeDtoCollection[2].Name);
+      Assert.AreEqual(scopeEntityCollection[2].DisplayName, scopeDtoCollection[2].DisplayName);
     }
   }
 }

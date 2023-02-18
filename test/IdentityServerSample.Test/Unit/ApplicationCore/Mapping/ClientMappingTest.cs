@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.Test.Unit.Mapping
+namespace IdentityServerSample.ApplicationCore.Mapping.Test
 {
   using Microsoft.Extensions.DependencyInjection;
 
