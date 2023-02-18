@@ -6,24 +6,26 @@ namespace IdentityServerSample.IdentityApi.Mapping.Test
 {
   using IdentityServer4.Models;
 
+  using IdentityServerSample.ApplicationCore.Entities;
+
   [TestClass]
-  public sealed class AudienceMappingTest : MappingTestBase
+  public sealed class ScopeMappingTest : MappingTestBase
   {
     [TestMethod]
-    public void Map_Should_Create_Api_Resource()
+    public void Map_Should_Create_Api_Scope()
     {
-      var audienceEntity = new AudienceEntity
+      var scopeEntity = new ScopeEntity
       {
         Name = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
       };
 
-      var apiResource = Mapper.Map<ApiResource>(audienceEntity);
+      var scope = Mapper.Map<ApiScope>(scopeEntity);
 
-      Assert.IsNotNull(apiResource);
+      Assert.IsNotNull(scope);
 
-      Assert.AreEqual(audienceEntity.Name, apiResource.Name);
-      Assert.AreEqual(audienceEntity.DisplayName, apiResource.DisplayName);
+      Assert.AreEqual(scopeEntity.Name, scope.Name);
+      Assert.AreEqual(scopeEntity.DisplayName, scope.DisplayName);
     }
   }
 }
