@@ -9,6 +9,9 @@ namespace Microsoft.Extensions.DependencyInjection
   /// <summary>Provides a simple API to register application services.</summary>
   public static class MappingExtensions
   {
+    /// <summary>Registers the mapping profiles int the DI container.</summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IServiceCollection AddMapping(this IServiceCollection services)
     {
       services.AddAutoMapper(config =>
