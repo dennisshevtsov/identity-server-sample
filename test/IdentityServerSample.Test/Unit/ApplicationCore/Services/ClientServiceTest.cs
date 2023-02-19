@@ -76,5 +76,25 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
 
       _mapperMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task CheckIfOriginIsAllowedAsync_Should_Return_False()
+    {
+      _clientRepositoryMock.Setup(repository => repository.GetFirstClientWithOriginAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                           .ReturnsAsync(default(ClientEntity))
+                           .Verifiable();
+
+      var origin = Guid.NewGuid().ToString();
+
+      var flag = await _clientService.CheckIfOriginIsAllowedAsync(
+        origin, _cancellationToken);
+
+      Assert.IsFalse(flag);
+
+      _clientRepositoryMock.Verify(repository => repository.GetFirstClientWithOriginAsync(origin, _cancellationToken));
+      _clientRepositoryMock.VerifyNoOtherCalls();
+
+      _mapperMock.VerifyNoOtherCalls();
+    }
   }
 }
