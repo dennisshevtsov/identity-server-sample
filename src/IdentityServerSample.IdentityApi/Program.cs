@@ -11,7 +11,7 @@ builder.Services.SetUpAspNetIdentity();
 builder.Services.SetUpIdentityServer(builder.Configuration);
 builder.Services.SetUpDatabase(builder.Configuration);
 builder.Services.SetUpMapping();
-builder.Services.AddServices();
+builder.Services.SetUpServices();
 
 var app = builder.Build();
 
