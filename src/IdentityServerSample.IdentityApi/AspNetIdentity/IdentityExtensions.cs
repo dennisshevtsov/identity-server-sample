@@ -5,6 +5,7 @@
 namespace Microsoft.Extensions.DependencyInjection
 {
   using global::IdentityModel;
+  using Microsoft.AspNetCore.Identity;
 
   using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.IdentityApi.AspNetIdentity;
@@ -26,6 +27,32 @@ namespace Microsoft.Extensions.DependencyInjection
               })
               .AddUserStore<UserStore>()
               .AddRoleStore<RoleStore>();
+
+      services.Configure<SecurityStampValidatorOptions>(options =>
+      {
+        options.OnRefreshingPrincipal = context =>
+        {
+          if (context.NewPrincipal != null && context.CurrentPrincipal != null)
+          {
+            var claimsInNewPrincipal =
+              context.NewPrincipal.Claims.Select(claim => claim.Type)
+                                         .ToHashSet();
+
+            var claimsNotInNewPrincipal =
+              context.CurrentPrincipal.Claims.Where(claim => !claimsInNewPrincipal.Contains(claim.Type))
+                                             .ToArray();
+
+            var identity = context.NewPrincipal.Identities.FirstOrDefault();
+
+            if (identity != null)
+            {
+              identity.AddClaims(claimsNotInNewPrincipal);
+            }
+          }
+
+          return Task.CompletedTask;
+        };
+      });
 
       return services;
     }
