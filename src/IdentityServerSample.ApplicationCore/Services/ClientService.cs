@@ -39,5 +39,10 @@ namespace IdentityServerSample.ApplicationCore.Services
 
       return getClientsResponseDtoCollection;
     }
+
+    public async Task<bool> CheckIfOriginIsAllowedAsync(string origin, CancellationToken cancellationToken)
+    {
+      return await _clientRepository.GetFirstClientWithOriginAsync(origin, cancellationToken) != null;
+    }
   }
 }

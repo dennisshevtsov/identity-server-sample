@@ -14,5 +14,7 @@ namespace IdentityServerSample.ApplicationCore.Services
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     public Task<GetClientsResponseDto> GetClientsAsync(GetClientsRequestDto query, CancellationToken cancellationToken);
+
+    public Task<bool> CheckIfOriginIsAllowedAsync(string origin, CancellationToken cancellationToken);
   }
 }
