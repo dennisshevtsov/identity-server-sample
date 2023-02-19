@@ -70,6 +70,19 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
+    public async Task GetFirstClientWithOriginAsync_Should_Return_Null()
+    {
+      var allClientEntityCollection = await CreateNewClientsAsync(10);
+
+      var origin = Guid.NewGuid().ToString();
+
+      var testClientEntityCollection =
+        await _clientRepository.GetFirstClientWithOriginAsync(origin, CancellationToken);
+
+      Assert.IsNull(testClientEntityCollection);
+    }
+
+    [TestMethod]
     public async Task GetFirstClientWithOriginAsync_Should_Return_Client()
     {
       var allClientEntityCollection = await CreateNewClientsAsync(10);
