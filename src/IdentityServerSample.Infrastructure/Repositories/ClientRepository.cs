@@ -45,5 +45,14 @@ namespace IdentityServerSample.Infrastructure.Repositories
                        .OrderBy(entity => entity.Name)
                        .ToArrayAsync(cancellationToken);
     }
+
+    /// <summary>Gets a first client with a defined origin.</summary>
+    /// <param name="origin">An object that represents an origin.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task<ClientEntity?> GetFirstClientWithOriginAsync(string origin, CancellationToken cancellationToken)
+      => _dbContext.Set<ClientEntity>()
+                   .FromSqlRaw("SELECT * FROM c WHERE IS_DEFINED(c.corsOrigins) AND ARRAY_CONTAINS(c.corsOrigins, {0})", origin)
+                   .FirstOrDefaultAsync(cancellationToken);
   }
 }
