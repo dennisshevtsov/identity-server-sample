@@ -38,5 +38,21 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
       _clientServiceMock.Verify(service => service.CheckIfOriginIsAllowedAsync(origin, CancellationToken.None));
       _clientServiceMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task IsOriginAllowedAsync_Should_Return_False()
+    {
+      _clientServiceMock.Setup(service => service.CheckIfOriginIsAllowedAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                        .ReturnsAsync(false)
+                        .Verifiable();
+
+      var origin = Guid.NewGuid().ToString();
+      var isAllowed = await _corsPolicyService.IsOriginAllowedAsync(origin);
+
+      Assert.IsFalse(isAllowed);
+
+      _clientServiceMock.Verify(service => service.CheckIfOriginIsAllowedAsync(origin, CancellationToken.None));
+      _clientServiceMock.VerifyNoOtherCalls();
+    }
   }
 }
