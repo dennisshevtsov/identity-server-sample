@@ -38,6 +38,7 @@ namespace IdentityServerSample.Infrastructure.Configurations
       builder.Property(entity => entity.Scopes).ToJsonProperty("scopes");
       builder.Property(entity => entity.RedirectUris).ToJsonProperty("redirectUris");
       builder.Property(entity => entity.PostRedirectUris).ToJsonProperty("postRedirectUris");
+      builder.Property(entity => entity.CorsOrigins).ToJsonProperty("corsOrigins");
     }
   }
 }

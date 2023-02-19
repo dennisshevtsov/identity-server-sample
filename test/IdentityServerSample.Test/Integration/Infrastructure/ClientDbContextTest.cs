@@ -18,6 +18,7 @@ namespace IdentityServerSample.Infrastructure.Test
       var creatingScopeName = Guid.NewGuid().ToString();
       var creatingRedirectUri = Guid.NewGuid().ToString();
       var creatingPostRedirectUri = Guid.NewGuid().ToString();
+      var creatingCorsOriginUri = Guid.NewGuid().ToString();
 
       var creatingAudienceEntity = new ClientEntity
       {
@@ -27,6 +28,7 @@ namespace IdentityServerSample.Infrastructure.Test
         Scopes = new[] { creatingScopeName },
         RedirectUris = new[] { creatingRedirectUri },
         PostRedirectUris = new[] { creatingPostRedirectUri },
+        CorsOrigins = new[] { creatingCorsOriginUri },
       };
 
       var creatingClientEntityEntry = DbContext.Add(creatingAudienceEntity);
@@ -57,6 +59,10 @@ namespace IdentityServerSample.Infrastructure.Test
       Assert.IsNotNull(createdClientEntity!.PostRedirectUris);
       Assert.AreEqual(1, createdClientEntity!.PostRedirectUris!.Count());
       Assert.AreEqual(creatingPostRedirectUri, createdClientEntity!.PostRedirectUris!.First());
+
+      Assert.IsNotNull(createdClientEntity!.CorsOrigins);
+      Assert.AreEqual(1, createdClientEntity!.CorsOrigins!.Count());
+      Assert.AreEqual(creatingCorsOriginUri, createdClientEntity!.CorsOrigins!.First());
     }
 
     [TestMethod]
@@ -66,6 +72,7 @@ namespace IdentityServerSample.Infrastructure.Test
       var scopeName0 = Guid.NewGuid().ToString();
       var redirectUri0 = Guid.NewGuid().ToString();
       var postRedirectUri0 = Guid.NewGuid().ToString();
+      var corsOriginUri0 = Guid.NewGuid().ToString();
 
       var creatingAudienceEntity = new ClientEntity
       {
@@ -75,6 +82,7 @@ namespace IdentityServerSample.Infrastructure.Test
         Scopes = new[] { scopeName0 },
         RedirectUris = new[] { redirectUri0 },
         PostRedirectUris = new[] { postRedirectUri0 },
+        CorsOrigins = new[] { corsOriginUri0 },
       };
 
       var creatingClientEntityEntry = DbContext.Add(creatingAudienceEntity);
@@ -88,6 +96,7 @@ namespace IdentityServerSample.Infrastructure.Test
       var scopeName1 = Guid.NewGuid().ToString();
       var redirectUri1 = Guid.NewGuid().ToString();
       var postRedirectUri1 = Guid.NewGuid().ToString();
+      var corsOriginUri1 = Guid.NewGuid().ToString();
 
       var updatingClientEntity = new ClientEntity
       {
@@ -97,6 +106,7 @@ namespace IdentityServerSample.Infrastructure.Test
         Scopes = new[] { scopeName0, scopeName1 },
         PostRedirectUris = new[] { postRedirectUri0, postRedirectUri1 },
         RedirectUris = new[] { redirectUri0, redirectUri1 },
+        CorsOrigins = new[] { corsOriginUri0, corsOriginUri1 },
       };
 
       var updatingClientEntityEntry = DbContext.Attach(updatingClientEntity);
@@ -140,6 +150,12 @@ namespace IdentityServerSample.Infrastructure.Test
       Assert.AreEqual(2, updatedPostRedirectUris.Length);
       Assert.AreEqual(postRedirectUri0, updatedPostRedirectUris[0]);
       Assert.AreEqual(postRedirectUri1, updatedPostRedirectUris[1]);
+
+      var updatedCorsOrigins = updatedClientEntity!.CorsOrigins!.ToArray();
+
+      Assert.AreEqual(2, updatedCorsOrigins.Length);
+      Assert.AreEqual(corsOriginUri0, updatedCorsOrigins[0]);
+      Assert.AreEqual(corsOriginUri1, updatedCorsOrigins[1]);
     }
 
     [TestMethod]

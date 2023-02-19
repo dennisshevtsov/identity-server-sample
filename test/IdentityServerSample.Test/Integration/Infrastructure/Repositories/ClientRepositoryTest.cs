@@ -69,6 +69,36 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       AreDetached(testClientEntityCollection);
     }
 
+    [TestMethod]
+    public async Task GetFirstClientWithOriginAsync_Should_Return_Null()
+    {
+      var allClientEntityCollection = await CreateNewClientsAsync(10);
+
+      var origin = Guid.NewGuid().ToString();
+
+      var testClientEntityCollection =
+        await _clientRepository.GetFirstClientWithOriginAsync(origin, CancellationToken);
+
+      Assert.IsNull(testClientEntityCollection);
+    }
+
+    [TestMethod]
+    public async Task GetFirstClientWithOriginAsync_Should_Return_Client()
+    {
+      var allClientEntityCollection = await CreateNewClientsAsync(10);
+      var controlClientEntity = allClientEntityCollection[4];
+
+      var origin = controlClientEntity.CorsOrigins![1];
+
+      var testClientEntityCollection =
+        await _clientRepository.GetFirstClientWithOriginAsync(origin, CancellationToken);
+
+      Assert.IsNotNull(testClientEntityCollection);
+
+      AreEqual(controlClientEntity, testClientEntityCollection);
+      IsDetached(testClientEntityCollection);
+    }
+
     private async Task<ClientEntity> CreateNewClientAsync()
     {
       var clientEntity = new ClientEntity
@@ -87,6 +117,11 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
           Guid.NewGuid().ToString(),
         },
         PostRedirectUris = new[]
+        {
+          Guid.NewGuid().ToString(),
+          Guid.NewGuid().ToString(),
+        },
+        CorsOrigins = new[]
         {
           Guid.NewGuid().ToString(),
           Guid.NewGuid().ToString(),

@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>Registers application services.</summary>
     /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    public static IServiceCollection SetUpServices(this IServiceCollection services)
     {
       services.AddScoped<IAudienceService, AudienceService>();
       services.AddScoped<IClientService, ClientService>();

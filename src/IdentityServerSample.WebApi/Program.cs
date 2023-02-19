@@ -5,9 +5,9 @@
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen();
-builder.Services.AddConfiguredControllers(builder.Configuration);
-builder.Services.AddConfiguredAuthentication(builder.Configuration);
-builder.Services.AddServices();
+builder.Services.SetUpControllers(builder.Configuration);
+builder.Services.SetUpAuthentication(builder.Configuration);
+builder.Services.SetUpServices();
 builder.Services.AddMapping();
 builder.Services.SetUpDatabase(builder.Configuration);
 

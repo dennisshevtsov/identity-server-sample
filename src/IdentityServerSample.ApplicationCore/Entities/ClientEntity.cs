@@ -26,5 +26,8 @@ namespace IdentityServerSample.ApplicationCore.Entities
 
     /// <summary>Gets/sets an object that represents a collection of post-redirect URIs.</summary>
     public IReadOnlyList<string>? PostRedirectUris { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of CORS origins.</summary>
+    public IReadOnlyList<string>? CorsOrigins { get; set; }
   }
 }
