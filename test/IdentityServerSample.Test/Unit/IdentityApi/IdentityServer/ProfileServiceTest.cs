@@ -4,6 +4,10 @@
 
 namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
 {
+  using System.Security.Claims;
+
+  using IdentityModel;
+  using IdentityServer4.Models;
   using Microsoft.AspNetCore.Identity;
   using Microsoft.Extensions.Logging;
   using Microsoft.Extensions.Options;
@@ -46,6 +50,42 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
 
       _profileService = new ProfileService(
         _userManagerMock.Object, _userClaimsPrincipalFactory.Object);
+
+      _userManagerMock.Reset();
+    }
+
+    [TestMethod]
+    public async Task GetProfileDataAsync_Should_Not_Add_Claims()
+    {
+      var subjectId = Guid.NewGuid().ToString();
+
+      var context = new ProfileDataRequestContext
+      {
+        Subject = ProfileServiceTest.CreateSubject(subjectId),
+      };
+
+      _userManagerMock.Setup(manager => manager.FindByIdAsync(It.IsAny<string>()))
+                      .ReturnsAsync(default(UserEntity))
+                      .Verifiable();
+
+      await _profileService.GetProfileDataAsync(context);
+
+      _userManagerMock.Verify(manager => manager.FindByIdAsync(subjectId));
+      _userManagerMock.VerifyNoOtherCalls();
+
+      _userClaimsPrincipalFactory.VerifyNoOtherCalls();
+    }
+
+    private static ClaimsPrincipal CreateSubject(string subjectId)
+    {
+      var claims = new[]
+      {
+        new Claim(JwtClaimTypes.Subject, subjectId),
+      };
+      var identity = new ClaimsIdentity(claims);
+      var principal = new ClaimsPrincipal(identity);
+
+      return principal;
     }
   }
 }
