@@ -112,6 +112,19 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
       _userClaimsPrincipalFactory.VerifyNoOtherCalls();
     }
 
+    [TestMethod]
+    public async Task IsActiveAsync_Should_Set_True()
+    {
+      var context = new IsActiveContext(
+        ProfileServiceTest.CreatePrincipal(Guid.NewGuid().ToString(), new string[0]),
+        new Client(),
+        Guid.NewGuid().ToString());
+
+      await _profileService.IsActiveAsync(context);
+
+      Assert.IsTrue(context.IsActive);
+    }
+
     private static ClaimsPrincipal CreatePrincipal(string subjectId, string[] claimTypeCollection)
     {
       var claimCollection =
