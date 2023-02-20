@@ -57,16 +57,12 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
     [TestMethod]
     public async Task GetProfileDataAsync_Should_Not_Add_Claims()
     {
-      var subjectId = Guid.NewGuid().ToString();
-
-      var context = new ProfileDataRequestContext
-      {
-        Subject = ProfileServiceTest.CreateSubject(subjectId),
-      };
-
       _userManagerMock.Setup(manager => manager.FindByIdAsync(It.IsAny<string>()))
                       .ReturnsAsync(default(UserEntity))
                       .Verifiable();
+
+      var subjectId = Guid.NewGuid().ToString();
+      var context = ProfileServiceTest.CreateContext(subjectId, new string[0]);
 
       await _profileService.GetProfileDataAsync(context);
 
@@ -76,16 +72,68 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
       _userClaimsPrincipalFactory.VerifyNoOtherCalls();
     }
 
-    private static ClaimsPrincipal CreateSubject(string subjectId)
+    [TestMethod]
+    public async Task GetProfileDataAsync_Should_Add_Claims()
     {
-      var claims = new[]
+      var subjectId = Guid.NewGuid().ToString();
+      var claimTypeCollection = new[]
       {
-        new Claim(JwtClaimTypes.Subject, subjectId),
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
       };
-      var identity = new ClaimsIdentity(claims);
+
+      var userEntity = new UserEntity();
+
+      _userManagerMock.Setup(manager => manager.FindByIdAsync(It.IsAny<string>()))
+                      .ReturnsAsync(userEntity)
+                      .Verifiable();
+
+      var principal = ProfileServiceTest.CreatePrincipal(subjectId, claimTypeCollection);
+
+      _userClaimsPrincipalFactory.Setup(factory => factory.CreateAsync(It.IsAny<UserEntity>()))
+                                 .ReturnsAsync(principal)
+                                 .Verifiable();
+
+      var context = ProfileServiceTest.CreateContext(subjectId, claimTypeCollection);
+
+      await _profileService.GetProfileDataAsync(context);
+
+      Assert.AreEqual(claimTypeCollection.Length, context.IssuedClaims.Count);
+
+      foreach (var type in claimTypeCollection)
+      {
+        Assert.IsTrue(context.IssuedClaims.Any(claim => claim.Type == type));
+      }
+
+      _userManagerMock.Verify(manager => manager.FindByIdAsync(subjectId));
+      _userManagerMock.VerifyNoOtherCalls();
+
+      _userClaimsPrincipalFactory.Verify(factory => factory.CreateAsync(userEntity));
+      _userClaimsPrincipalFactory.VerifyNoOtherCalls();
+    }
+
+    private static ClaimsPrincipal CreatePrincipal(string subjectId, string[] claimTypeCollection)
+    {
+      var claimCollection =
+        claimTypeCollection.Select(type => new Claim(type, Guid.NewGuid().ToString()))
+                           .ToList();
+
+      claimCollection.Add(new Claim(JwtClaimTypes.Subject, subjectId));
+
+      var identity = new ClaimsIdentity(claimCollection);
       var principal = new ClaimsPrincipal(identity);
 
       return principal;
+    }
+
+    private static ProfileDataRequestContext CreateContext(
+      string subjectId, string[] claimTypeCollection)
+    {
+      return new ProfileDataRequestContext
+      {
+        Subject = ProfileServiceTest.CreatePrincipal(subjectId, new string[0]),
+        RequestedClaimTypes = claimTypeCollection,
+      };
     }
   }
 }
