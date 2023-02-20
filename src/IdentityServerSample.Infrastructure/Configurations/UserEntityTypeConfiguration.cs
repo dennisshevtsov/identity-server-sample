@@ -36,6 +36,8 @@ namespace IdentityServerSample.Infrastructure.Configurations
       builder.Property(entity => entity.Name).ToJsonProperty("name");
       builder.Property(entity => entity.Email).ToJsonProperty("email");
       builder.Property(entity => entity.PasswordHash).ToJsonProperty("passwordHash");
+
+      builder.Ignore(entity => entity.Scopes);
     }
   }
 }
