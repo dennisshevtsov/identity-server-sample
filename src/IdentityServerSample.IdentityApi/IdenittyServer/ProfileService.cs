@@ -49,6 +49,6 @@ namespace IdentityServerSample.IdentityApi.IdenittyServer
     /// <summary>This method gets called whenever identity server needs to determine if the user is valid or active (e.g. if the user's account has been deactivated since they logged in). (e.g. during token issuance or validation).</summary>
     /// <param name="context">The context.</param>
     /// <returns></returns>
-    public Task IsActiveAsync(IsActiveContext context) => Task.FromResult(true);
+    public Task IsActiveAsync(IsActiveContext context) => Task.CompletedTask;
   }
 }
