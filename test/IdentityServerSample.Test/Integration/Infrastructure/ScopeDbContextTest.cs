@@ -12,16 +12,7 @@ namespace IdentityServerSample.Infrastructure.Test
     [TestMethod]
     public async Task SaveChangesAsync_Should_Create_Scope()
     {
-      var scopeName = Guid.NewGuid().ToString();
-      var creatingScopeDisplayName = Guid.NewGuid().ToString();
-      var creatingScopeDescription = Guid.NewGuid().ToString();
-
-      var creatingScopeEntity = new ScopeEntity
-      {
-        Name = scopeName,
-        DisplayName = creatingScopeDisplayName,
-        Description = creatingScopeDescription,
-      };
+      var creatingScopeEntity = ScopeDbContextTest.GenerateTestScope();
 
       var creatingScopeEntityEntry = DbContext.Add(creatingScopeEntity);
 
@@ -31,29 +22,20 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var createdScopeEntity =
         await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.Name == scopeName)
+                        .Where(entity => entity.Name == creatingScopeEntity.Name)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdScopeEntity);
 
-      Assert.AreEqual(scopeName, createdScopeEntity!.Name);
-      Assert.AreEqual(creatingScopeDisplayName, createdScopeEntity!.DisplayName);
-      Assert.AreEqual(creatingScopeDescription, createdScopeEntity!.Description);
+      Assert.AreEqual(creatingScopeEntity.Name, createdScopeEntity.Name);
+      Assert.AreEqual(creatingScopeEntity.DisplayName, createdScopeEntity.DisplayName);
+      Assert.AreEqual(creatingScopeEntity.Description, createdScopeEntity.Description);
     }
 
     [TestMethod]
     public async Task SaveChangesAsync_Should_Update_Scope()
     {
-      var scopeName = Guid.NewGuid().ToString();
-      var creatingScopeDisplayName = Guid.NewGuid().ToString();
-      var creatingScopeDescription = Guid.NewGuid().ToString();
-
-      var creatingScopeEntity = new ScopeEntity
-      {
-        Name = scopeName,
-        DisplayName = creatingScopeDisplayName,
-        Description = creatingScopeDescription,
-      };
+      var creatingScopeEntity = ScopeDbContextTest.GenerateTestScope();
 
       var creatingScopeEntityEntry = DbContext.Add(creatingScopeEntity);
 
@@ -66,7 +48,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var updatingScopeEntity = new ScopeEntity
       {
-        Name = scopeName,
+        Name = creatingScopeEntity.Name,
         DisplayName = updatingScopeDisplayName,
         Description = updatingScopeDescription,
       };
@@ -81,27 +63,20 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var updatedScopeEntity =
         await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.Name == scopeName)
+                        .Where(entity => entity.Name == creatingScopeEntity.Name)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(updatedScopeEntity);
 
-      Assert.AreEqual(scopeName, updatedScopeEntity!.Name);
-      Assert.AreEqual(updatingScopeDisplayName, updatedScopeEntity!.DisplayName);
-      Assert.AreEqual(updatingScopeDescription, updatedScopeEntity!.Description);
+      Assert.AreEqual(creatingScopeEntity.Name, updatedScopeEntity.Name);
+      Assert.AreEqual(updatingScopeDisplayName, updatedScopeEntity.DisplayName);
+      Assert.AreEqual(updatingScopeDescription, updatedScopeEntity.Description);
     }
 
     [TestMethod]
     public async Task SaveChangesAsync_Should_Delete_Scope()
     {
-      var scopeName = Guid.NewGuid().ToString();
-
-      var creatingScopeEntity = new ScopeEntity
-      {
-        Name = scopeName,
-        DisplayName = Guid.NewGuid().ToString(),
-        Description = Guid.NewGuid().ToString(),
-      };
+      var creatingScopeEntity = ScopeDbContextTest.GenerateTestScope();
 
       var creatingScopeEntityEntry = DbContext.Add(creatingScopeEntity);
 
@@ -111,7 +86,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var createdScopeEntity =
         await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.Name == scopeName)
+                        .Where(entity => entity.Name == creatingScopeEntity.Name)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdScopeEntity);
@@ -122,7 +97,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var deletedScopeEntity =
         await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.Name == scopeName)
+                        .Where(entity => entity.Name == creatingScopeEntity.Name)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNull(deletedScopeEntity);
@@ -131,18 +106,10 @@ namespace IdentityServerSample.Infrastructure.Test
     [TestMethod]
     public async Task SaveChangesAsync_Should_Ignore_Standard()
     {
-      var scopeName = Guid.NewGuid().ToString();
-      var creatingScopeDisplayName = Guid.NewGuid().ToString();
-      var creatingScopeDescription = Guid.NewGuid().ToString();
       var creatingScopeStandard = true;
 
-      var creatingScopeEntity = new ScopeEntity
-      {
-        Name = scopeName,
-        DisplayName = creatingScopeDisplayName,
-        Description = creatingScopeDescription,
-        Standard = creatingScopeStandard,
-      };
+      var creatingScopeEntity = ScopeDbContextTest.GenerateTestScope();
+      creatingScopeEntity.Standard = creatingScopeStandard;
 
       var creatingScopeEntityEntry = DbContext.Add(creatingScopeEntity);
 
@@ -152,15 +119,22 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var createdScopeEntity =
         await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.Name == scopeName)
+                        .Where(entity => entity.Name == creatingScopeEntity.Name)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdScopeEntity);
 
-      Assert.AreEqual(scopeName, createdScopeEntity!.Name);
-      Assert.AreEqual(creatingScopeDisplayName, createdScopeEntity!.DisplayName);
-      Assert.AreEqual(creatingScopeDescription, createdScopeEntity!.Description);
+      Assert.AreEqual(creatingScopeEntity.Name, createdScopeEntity!.Name);
+      Assert.AreEqual(creatingScopeEntity.DisplayName, createdScopeEntity.DisplayName);
+      Assert.AreEqual(creatingScopeEntity.Description, createdScopeEntity.Description);
       Assert.AreNotEqual(creatingScopeStandard, createdScopeEntity.Standard);
     }
+
+    private static ScopeEntity GenerateTestScope() => new ScopeEntity
+    {
+      Name = Guid.NewGuid().ToString(),
+      DisplayName = Guid.NewGuid().ToString(),
+      Description = Guid.NewGuid().ToString(),
+    };
   }
 }
