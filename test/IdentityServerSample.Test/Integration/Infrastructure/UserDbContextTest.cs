@@ -28,9 +28,9 @@ namespace IdentityServerSample.Infrastructure.Test
 
       Assert.IsNotNull(createdUserEntity);
 
-      Assert.AreEqual(creatingUserEntity.Name, createdUserEntity!.Name);
-      Assert.AreEqual(creatingUserEntity.Email, createdUserEntity!.Email);
-      Assert.AreEqual(creatingUserEntity.PasswordHash, createdUserEntity!.PasswordHash);
+      Assert.AreEqual(creatingUserEntity.Name, createdUserEntity.Name);
+      Assert.AreEqual(creatingUserEntity.Email, createdUserEntity.Email);
+      Assert.AreEqual(creatingUserEntity.PasswordHash, createdUserEntity.PasswordHash);
     }
 
     [TestMethod]
@@ -63,9 +63,9 @@ namespace IdentityServerSample.Infrastructure.Test
 
       Assert.IsNotNull(updatedUserEntity);
 
-      Assert.AreEqual(updatingUserEntity.Name, updatedUserEntity!.Name);
-      Assert.AreEqual(updatingUserEntity.Email, updatedUserEntity!.Email);
-      Assert.AreEqual(updatingUserEntity.PasswordHash, updatedUserEntity!.PasswordHash);
+      Assert.AreEqual(updatingUserEntity.Name, updatedUserEntity.Name);
+      Assert.AreEqual(updatingUserEntity.Email, updatedUserEntity.Email);
+      Assert.AreEqual(updatingUserEntity.PasswordHash, updatedUserEntity.PasswordHash);
     }
 
     [TestMethod]
@@ -98,6 +98,40 @@ namespace IdentityServerSample.Infrastructure.Test
                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNull(deletedUserEntity);
+    }
+
+    [TestMethod]
+    public async Task SaveChangesAsync_Should_Ignore_Scopes()
+    {
+      var creatingUserEntity = UserDbContextTest.GenerateTestUser();
+      creatingUserEntity.Scopes = new List<UserScopeEntity>
+      {
+        new UserScopeEntity
+        {
+          Name = Guid.NewGuid().ToString(),
+          UserId = Guid.NewGuid(),
+        },
+      };
+
+      var creatingUserEntityEntry = DbContext.Add(creatingUserEntity);
+
+      await DbContext.SaveChangesAsync(CancellationToken);
+
+      creatingUserEntityEntry.State = EntityState.Detached;
+
+      var createdUserEntity =
+        await DbContext.Set<UserEntity>()
+                       .WithPartitionKey(creatingUserEntity.UserId.ToString())
+                       .Where(entity => entity.UserId == creatingUserEntity.UserId)
+                       .FirstOrDefaultAsync(CancellationToken);
+
+      Assert.IsNotNull(createdUserEntity);
+
+      Assert.AreEqual(creatingUserEntity.Name, createdUserEntity.Name);
+      Assert.AreEqual(creatingUserEntity.Email, createdUserEntity.Email);
+      Assert.AreEqual(creatingUserEntity.PasswordHash, createdUserEntity.PasswordHash);
+
+      Assert.AreEqual(0, createdUserEntity.Scopes.Count);
     }
 
     private static UserEntity GenerateTestUser() => new UserEntity
