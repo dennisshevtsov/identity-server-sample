@@ -13,7 +13,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
     private CancellationToken _cancellationToken;
 
 #pragma warning disable CS8618
-    private Mock<IUserRepository> _userRepositoryMock;
+    private Mock<IUserService> _userServiceMock;
 
     private UserStore _userStore;
 #pragma warning restore CS8618
@@ -23,9 +23,9 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
     {
       _cancellationToken = CancellationToken.None;
 
-      _userRepositoryMock = new Mock<IUserRepository>();
+      _userServiceMock = new Mock<IUserService>();
 
-      _userStore = new UserStore(_userRepositoryMock.Object);
+      _userStore = new UserStore(_userServiceMock.Object);
     }
 
     [TestMethod]
@@ -42,7 +42,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       Assert.IsNotNull(testUserId);
       Assert.AreEqual(controlUserId.ToString(), testUserId);
 
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       Assert.IsNotNull(testUserName);
       Assert.AreEqual(controlEmail, testUserName);
 
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       Assert.AreEqual(userName, userEntity.Email);
 
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -88,7 +88,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       Assert.IsNull(userEntity);
 
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -97,7 +97,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       var controlUserId = Guid.NewGuid();
       var controlUserEntity = new UserEntity();
 
-      _userRepositoryMock.Setup(repository => repository.GetUserAsync(It.IsAny<IUserIdentity>(), It.IsAny<CancellationToken>()))
+      _userServiceMock.Setup(repository => repository.GetUserAsync(It.IsAny<IUserIdentity>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(controlUserEntity)
                          .Verifiable();
 
@@ -108,8 +108,8 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       Assert.IsNotNull(testUserEntity);
       Assert.AreEqual(controlUserEntity, testUserEntity);
 
-      _userRepositoryMock.Verify(repository => repository.GetUserAsync(controlUserId.ToUserIdentity(), _cancellationToken));
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.Verify(repository => repository.GetUserAsync(controlUserId.ToUserIdentity(), _cancellationToken));
+      _userServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -117,7 +117,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
     {
       var controlUserEntity = new UserEntity();
 
-      _userRepositoryMock.Setup(repository => repository.GetUserAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+      _userServiceMock.Setup(repository => repository.GetUserAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                          .ReturnsAsync(controlUserEntity)
                          .Verifiable();
 
@@ -128,8 +128,8 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       Assert.IsNotNull(testUserEntity);
       Assert.AreEqual(controlUserEntity, testUserEntity);
 
-      _userRepositoryMock.Verify(repository => repository.GetUserAsync(userName, _cancellationToken));
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.Verify(repository => repository.GetUserAsync(userName, _cancellationToken));
+      _userServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -146,7 +146,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
 
       Assert.AreEqual(passwordHash, userEntity.PasswordHash);
 
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -163,7 +163,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       Assert.IsNotNull(testPasswordHash);
       Assert.AreEqual(controlPasswordHash, testPasswordHash);
 
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -177,7 +177,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       Assert.IsNotNull(testUserRoleCollection);
       Assert.AreEqual(0, testUserRoleCollection.Count);
 
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -194,16 +194,25 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       Assert.IsNotNull(testUserName);
       Assert.AreEqual(controlEmail, testUserName);
 
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
     public async Task GetClaimsAsync_Should_Return_Claim_List()
     {
-      var controlName = Guid.NewGuid().ToString();
+      var controlUserName = Guid.NewGuid().ToString();
+      var controlUserScopeName = Guid.NewGuid().ToString();
+
       var userEntity = new UserEntity
       {
-        Name = controlName,
+        Name = controlUserName,
+        Scopes = new List<UserScopeEntity>
+        {
+          new UserScopeEntity
+          {
+            Name = controlUserScopeName,
+          },
+        },
       };
 
       var claimCollection = await _userStore.GetClaimsAsync(userEntity, _cancellationToken);
@@ -213,15 +222,15 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       Assert.AreEqual(3, claimCollection.Count);
 
       Assert.AreEqual(JwtClaimTypes.PreferredUserName, claimCollection[0].Type);
-      Assert.AreEqual(controlName, claimCollection[0].Value);
+      Assert.AreEqual(controlUserName, claimCollection[0].Value);
 
       Assert.AreEqual(JwtClaimTypes.EmailVerified, claimCollection[1].Type);
       Assert.AreEqual("true", claimCollection[1].Value);
 
       Assert.AreEqual(JwtClaimTypes.Scope, claimCollection[2].Type);
-      Assert.AreEqual("identity-server-sample-api-scope", claimCollection[2].Value);
+      Assert.AreEqual(controlUserScopeName, claimCollection[2].Value);
 
-      _userRepositoryMock.VerifyNoOtherCalls();
+      _userServiceMock.VerifyNoOtherCalls();
     }
   }
 }

@@ -11,18 +11,18 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity
 
   using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Identities;
-  using IdentityServerSample.ApplicationCore.Repositories;
+  using IdentityServerSample.ApplicationCore.Services;
 
   /// <summary>Provides an abstraction for a store which manages user accounts.</summary>
   public sealed class UserStore : IUserStore<UserEntity>, IUserPasswordStore<UserEntity>, IUserRoleStore<UserEntity>, IUserEmailStore<UserEntity>, IUserClaimStore<UserEntity>
   {
-    private readonly IUserRepository _userRepository;
+    private readonly IUserService _userService;
 
-    /// <summary>Initializes a new instance of the <see cref="UserStore"/> class.</summary>
-    /// <param name="userRepository">An object that provides a simple API to query and save instances of the <see cref="UserEntity"/> class.</param>
-    public UserStore(IUserRepository userRepository)
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApi.AspNetIdentity.UserStore"/> class.</summary>
+    /// <param name="userService">An object that provides a simple API to modify/query instances of <see cref="IdentityServerSample.ApplicationCore.Entities.UserEntity"/> class.</param>
+    public UserStore(IUserService userService)
     {
-      _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
+      _userService = userService ?? throw new ArgumentNullException(nameof(userService));
     }
 
     #region Members of IUserStore
@@ -128,7 +128,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity
         return null;
       }
 
-      return await _userRepository.GetUserAsync(identity, cancellationToken);
+      return await _userService.GetUserAsync(identity, cancellationToken);
     }
 
     /// <summary>
@@ -141,7 +141,7 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity
     /// </returns>
     public async Task<UserEntity?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
     {
-      var userEntity = await _userRepository.GetUserAsync(
+      var userEntity = await _userService.GetUserAsync(
         normalizedUserName, cancellationToken);
 
       return userEntity;
@@ -335,13 +335,22 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity
     /// </returns>
     public Task<IList<Claim>> GetClaimsAsync(UserEntity user, CancellationToken cancellationToken)
     {
-      IList<Claim> claims = new List<Claim>();
+      var claimCollection = new List<Claim>
+      {
+        new Claim(JwtClaimTypes.PreferredUserName, user.Name!),
+        new Claim(JwtClaimTypes.EmailVerified, "true"),
+      };
 
-      claims.Add(new Claim(JwtClaimTypes.PreferredUserName, user.Name!));
-      claims.Add(new Claim(JwtClaimTypes.EmailVerified, "true"));
-      claims.Add(new Claim(JwtClaimTypes.Scope, "identity-server-sample-api-scope"));
+      if (user.Scopes != null)
+      {
+        var scopeClaimCollection =
+          user.Scopes.Select(entity => new Claim(JwtClaimTypes.Scope, entity.Name!))
+                     .ToList();
 
-      return Task.FromResult(claims);
+        claimCollection.AddRange(scopeClaimCollection);
+      }
+
+      return Task.FromResult<IList<Claim>>(claimCollection);
     }
 
     /// <summary>

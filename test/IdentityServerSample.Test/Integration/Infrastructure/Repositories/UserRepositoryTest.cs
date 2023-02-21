@@ -104,20 +104,20 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         PasswordHash = Guid.NewGuid().ToString(),
       };
 
-      var scopeEntityEntry = DbContext.Add(userEntity);
+      var userEntityEntry = DbContext.Add(userEntity);
 
       await DbContext.SaveChangesAsync(CancellationToken);
 
-      scopeEntityEntry.State = EntityState.Detached;
+      userEntityEntry.State = EntityState.Detached;
 
       return userEntity;
     }
 
-    private async Task<UserEntity[]> CreateNewUsersAsync(int audiences)
+    private async Task<UserEntity[]> CreateNewUsersAsync(int users)
     {
       var userEntityCollection = new List<UserEntity>();
 
-      for (int i = 0; i < audiences; i++)
+      for (int i = 0; i < users; i++)
       {
         userEntityCollection.Add(await CreateNewUserAsync());
       }

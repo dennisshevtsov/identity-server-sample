@@ -12,16 +12,7 @@ namespace IdentityServerSample.Infrastructure.Test
     [TestMethod]
     public async Task SaveChangesAsync_Should_Create_User()
     {
-      var creatingUserName = Guid.NewGuid().ToString();
-      var creatingUserEmail = Guid.NewGuid().ToString();
-      var creatingUserPasswordHash = Guid.NewGuid().ToString();
-
-      var creatingUserEntity = new UserEntity
-      {
-        Name = creatingUserName,
-        Email = creatingUserEmail,
-        PasswordHash = creatingUserPasswordHash,
-      };
+      var creatingUserEntity = UserDbContextTest.GenerateTestUser();
 
       var creatingUserEntityEntry = DbContext.Add(creatingUserEntity);
 
@@ -37,24 +28,15 @@ namespace IdentityServerSample.Infrastructure.Test
 
       Assert.IsNotNull(createdUserEntity);
 
-      Assert.AreEqual(creatingUserName, createdUserEntity!.Name);
-      Assert.AreEqual(creatingUserEmail, createdUserEntity!.Email);
-      Assert.AreEqual(creatingUserPasswordHash, createdUserEntity!.PasswordHash);
+      Assert.AreEqual(creatingUserEntity.Name, createdUserEntity.Name);
+      Assert.AreEqual(creatingUserEntity.Email, createdUserEntity.Email);
+      Assert.AreEqual(creatingUserEntity.PasswordHash, createdUserEntity.PasswordHash);
     }
 
     [TestMethod]
     public async Task SaveChangesAsync_Should_Update_User()
     {
-      var creatingUserName = Guid.NewGuid().ToString();
-      var creatingUserEmail = Guid.NewGuid().ToString();
-      var creatingUserPasswordHash = Guid.NewGuid().ToString();
-
-      var creatingUserEntity = new UserEntity
-      {
-        Name = creatingUserName,
-        Email = creatingUserEmail,
-        PasswordHash = creatingUserPasswordHash,
-      };
+      var creatingUserEntity = UserDbContextTest.GenerateTestUser();
 
       var creatingUserEntityEntry = DbContext.Add(creatingUserEntity);
 
@@ -62,17 +44,8 @@ namespace IdentityServerSample.Infrastructure.Test
 
       creatingUserEntityEntry.State = EntityState.Detached;
 
-      var updatingUserName = Guid.NewGuid().ToString();
-      var updatingUserEmail = Guid.NewGuid().ToString();
-      var updatingUserPasswordHash = Guid.NewGuid().ToString();
-
-      var updatingUserEntity = new UserEntity
-      {
-        UserId = creatingUserEntity.UserId,
-        Name = creatingUserName,
-        Email = updatingUserEmail,
-        PasswordHash = updatingUserPasswordHash,
-      };
+      var updatingUserEntity = UserDbContextTest.GenerateTestUser();
+      updatingUserEntity.UserId = creatingUserEntity.UserId;
 
       var updatingScopeEntityEntry = DbContext.Attach(updatingUserEntity);
 
@@ -90,20 +63,15 @@ namespace IdentityServerSample.Infrastructure.Test
 
       Assert.IsNotNull(updatedUserEntity);
 
-      Assert.AreEqual(creatingUserName, updatedUserEntity!.Name);
-      Assert.AreEqual(updatingUserEmail, updatedUserEntity!.Email);
-      Assert.AreEqual(updatingUserPasswordHash, updatedUserEntity!.PasswordHash);
+      Assert.AreEqual(updatingUserEntity.Name, updatedUserEntity.Name);
+      Assert.AreEqual(updatingUserEntity.Email, updatedUserEntity.Email);
+      Assert.AreEqual(updatingUserEntity.PasswordHash, updatedUserEntity.PasswordHash);
     }
 
     [TestMethod]
     public async Task SaveChangesAsync_Should_Delete_User()
     {
-      var creatingUserEntity = new UserEntity
-      {
-        Name = Guid.NewGuid().ToString(),
-        Email = Guid.NewGuid().ToString(),
-        PasswordHash = Guid.NewGuid().ToString(),
-      };
+      var creatingUserEntity = UserDbContextTest.GenerateTestUser();
 
       var creatingUserEntityEntry = DbContext.Add(creatingUserEntity);
 
@@ -131,5 +99,46 @@ namespace IdentityServerSample.Infrastructure.Test
 
       Assert.IsNull(deletedUserEntity);
     }
+
+    [TestMethod]
+    public async Task SaveChangesAsync_Should_Ignore_Scopes()
+    {
+      var creatingUserEntity = UserDbContextTest.GenerateTestUser();
+      creatingUserEntity.Scopes = new List<UserScopeEntity>
+      {
+        new UserScopeEntity
+        {
+          Name = Guid.NewGuid().ToString(),
+          UserId = Guid.NewGuid(),
+        },
+      };
+
+      var creatingUserEntityEntry = DbContext.Add(creatingUserEntity);
+
+      await DbContext.SaveChangesAsync(CancellationToken);
+
+      creatingUserEntityEntry.State = EntityState.Detached;
+
+      var createdUserEntity =
+        await DbContext.Set<UserEntity>()
+                       .WithPartitionKey(creatingUserEntity.UserId.ToString())
+                       .Where(entity => entity.UserId == creatingUserEntity.UserId)
+                       .FirstOrDefaultAsync(CancellationToken);
+
+      Assert.IsNotNull(createdUserEntity);
+
+      Assert.AreEqual(creatingUserEntity.Name, createdUserEntity.Name);
+      Assert.AreEqual(creatingUserEntity.Email, createdUserEntity.Email);
+      Assert.AreEqual(creatingUserEntity.PasswordHash, createdUserEntity.PasswordHash);
+
+      Assert.AreEqual(0, createdUserEntity.Scopes.Count);
+    }
+
+    private static UserEntity GenerateTestUser() => new UserEntity
+    {
+      Name = Guid.NewGuid().ToString(),
+      Email = Guid.NewGuid().ToString(),
+      PasswordHash = Guid.NewGuid().ToString(),
+    };
   }
 }

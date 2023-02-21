@@ -20,5 +20,8 @@ namespace IdentityServerSample.ApplicationCore.Entities
 
     /// <summary>Gets/sets an object that represents a password hash of a user.</summary>
     public string? PasswordHash { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of scopes for a user.</summary>
+    public IList<UserScopeEntity> Scopes { get; set; } = new List<UserScopeEntity>();
   }
 }

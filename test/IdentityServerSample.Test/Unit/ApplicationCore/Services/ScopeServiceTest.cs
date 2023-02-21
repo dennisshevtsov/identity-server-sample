@@ -26,7 +26,7 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
     }
 
     [TestMethod]
-    public async Task GetScopesAsync_Should_Collection_Thank_Contains_Standard_Scopes()
+    public async Task GetScopesAsync_Should_Return_Collection_That_Contains_Standard_Scopes()
     {
       var scopeEntityCollection = new List<ScopeEntity>();
 

@@ -13,15 +13,7 @@ namespace IdentityServerSample.Infrastructure.Test
     public async Task SaveChangesAsync_Should_Create_Audience()
     {
       var audienceName = Guid.NewGuid().ToString();
-      var creatingAudienceDisplayName = Guid.NewGuid().ToString();
-      var creatingAudienceDescription = Guid.NewGuid().ToString();
-
-      var creatingAudienceEntity = new AudienceEntity
-      {
-        Name = audienceName,
-        DisplayName = creatingAudienceDisplayName,
-        Description = creatingAudienceDescription,
-      };
+      var creatingAudienceEntity = AudienceDbContextTest.GenerateTestAudience(audienceName);
 
       var creatingAudienceEntityEntry = DbContext.Add(creatingAudienceEntity);
 
@@ -37,23 +29,15 @@ namespace IdentityServerSample.Infrastructure.Test
       Assert.IsNotNull(createdAudienceEntity);
 
       Assert.AreEqual(audienceName, createdAudienceEntity!.Name);
-      Assert.AreEqual(creatingAudienceDisplayName, createdAudienceEntity!.DisplayName);
-      Assert.AreEqual(creatingAudienceDescription, createdAudienceEntity!.Description);
+      Assert.AreEqual(creatingAudienceEntity.DisplayName, createdAudienceEntity!.DisplayName);
+      Assert.AreEqual(creatingAudienceEntity.Description, createdAudienceEntity!.Description);
     }
 
     [TestMethod]
     public async Task SaveChangesAsync_Should_Update_Audience()
     {
       var audienceName = Guid.NewGuid().ToString();
-      var creatingAudienceDisplayName = Guid.NewGuid().ToString();
-      var creatingAudienceDesciption = Guid.NewGuid().ToString();
-
-      var creatingAudienceEntity = new AudienceEntity
-      {
-        Name = audienceName,
-        DisplayName = creatingAudienceDisplayName,
-        Description = creatingAudienceDesciption,
-      };
+      var creatingAudienceEntity = AudienceDbContextTest.GenerateTestAudience(audienceName);
 
       var creatingAudienceEntityEntry = DbContext.Add(creatingAudienceEntity);
 
@@ -61,15 +45,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       creatingAudienceEntityEntry.State = EntityState.Detached;
 
-      var updatingAudienceDisplayName = Guid.NewGuid().ToString();
-      var updatingAudienceDescription = Guid.NewGuid().ToString();
-
-      var updatingAudienceEntity = new AudienceEntity
-      {
-        Name = audienceName,
-        DisplayName = updatingAudienceDisplayName,
-        Description = updatingAudienceDescription,
-      };
+      var updatingAudienceEntity = AudienceDbContextTest.GenerateTestAudience(audienceName);
 
       var updatingScopeEntityEntry = DbContext.Attach(updatingAudienceEntity);
 
@@ -87,21 +63,15 @@ namespace IdentityServerSample.Infrastructure.Test
       Assert.IsNotNull(updatedAudienceEntity);
 
       Assert.AreEqual(audienceName, updatedAudienceEntity!.Name);
-      Assert.AreEqual(updatingAudienceDisplayName, updatedAudienceEntity!.DisplayName);
-      Assert.AreEqual(updatingAudienceDescription, updatedAudienceEntity!.Description);
+      Assert.AreEqual(updatingAudienceEntity.DisplayName, updatedAudienceEntity!.DisplayName);
+      Assert.AreEqual(updatingAudienceEntity.Description, updatedAudienceEntity!.Description);
     }
 
     [TestMethod]
     public async Task SaveChangesAsync_Should_Delete_Audience()
     {
       var audienceName = Guid.NewGuid().ToString();
-
-      var creatingAudienceEntity = new AudienceEntity
-      {
-        Name = audienceName,
-        DisplayName = Guid.NewGuid().ToString(),
-        Description = Guid.NewGuid().ToString(),
-      };
+      var creatingAudienceEntity = AudienceDbContextTest.GenerateTestAudience(audienceName);
 
       var creatingAudienceEntityEntry = DbContext.Add(creatingAudienceEntity);
 
@@ -127,5 +97,12 @@ namespace IdentityServerSample.Infrastructure.Test
 
       Assert.IsNull(deletedAudienceEntity);
     }
+
+    private static AudienceEntity GenerateTestAudience(string audienceName) => new AudienceEntity
+    {
+      Name = audienceName,
+      DisplayName = Guid.NewGuid().ToString(),
+      Description = Guid.NewGuid().ToString(),
+    };
   }
 }
