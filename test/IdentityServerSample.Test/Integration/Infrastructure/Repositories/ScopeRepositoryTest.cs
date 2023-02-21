@@ -100,11 +100,11 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       return scopeEntity;
     }
 
-    private async Task<ScopeEntity[]> CreateNewScopesAsync(int audiences)
+    private async Task<ScopeEntity[]> CreateNewScopesAsync(int scopes)
     {
       var scopeEntityCollection = new List<ScopeEntity>();
 
-      for (int i = 0; i < audiences; i++)
+      for (int i = 0; i < scopes; i++)
       {
         scopeEntityCollection.Add(await CreateNewScopeAsync());
       }

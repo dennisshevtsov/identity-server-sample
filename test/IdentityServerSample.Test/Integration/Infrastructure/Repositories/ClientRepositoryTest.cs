@@ -137,11 +137,11 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       return clientEntity;
     }
 
-    private async Task<ClientEntity[]> CreateNewClientsAsync(int audiences)
+    private async Task<ClientEntity[]> CreateNewClientsAsync(int scopes)
     {
       var clientEntityCollection = new List<ClientEntity>();
 
-      for (int i = 0; i < audiences; i++)
+      for (int i = 0; i < scopes; i++)
       {
         clientEntityCollection.Add(await CreateNewClientAsync());
       }
