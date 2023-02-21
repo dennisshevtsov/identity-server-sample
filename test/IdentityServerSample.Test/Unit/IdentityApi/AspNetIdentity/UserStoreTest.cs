@@ -200,10 +200,19 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
     [TestMethod]
     public async Task GetClaimsAsync_Should_Return_Claim_List()
     {
-      var controlName = Guid.NewGuid().ToString();
+      var controlUserName = Guid.NewGuid().ToString();
+      var controlUserScopeName = Guid.NewGuid().ToString();
+
       var userEntity = new UserEntity
       {
-        Name = controlName,
+        Name = controlUserName,
+        Scopes = new List<UserScopeEntity>
+        {
+          new UserScopeEntity
+          {
+            Name = controlUserScopeName,
+          },
+        },
       };
 
       var claimCollection = await _userStore.GetClaimsAsync(userEntity, _cancellationToken);
@@ -213,13 +222,13 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity.Test
       Assert.AreEqual(3, claimCollection.Count);
 
       Assert.AreEqual(JwtClaimTypes.PreferredUserName, claimCollection[0].Type);
-      Assert.AreEqual(controlName, claimCollection[0].Value);
+      Assert.AreEqual(controlUserName, claimCollection[0].Value);
 
       Assert.AreEqual(JwtClaimTypes.EmailVerified, claimCollection[1].Type);
       Assert.AreEqual("true", claimCollection[1].Value);
 
       Assert.AreEqual(JwtClaimTypes.Scope, claimCollection[2].Type);
-      Assert.AreEqual("identity-server-sample-api-scope", claimCollection[2].Value);
+      Assert.AreEqual(controlUserScopeName, claimCollection[2].Value);
 
       _userServiceMock.VerifyNoOtherCalls();
     }
