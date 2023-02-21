@@ -48,5 +48,35 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
 
       _userScopeRepositoryMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task GetScopesAsync_Should_Return_User_Whith_Scopes()
+    {
+      var controlUserEntity = new UserEntity();
+
+      _userRepositoryMock.Setup(repository => repository.GetUserAsync(It.IsAny<IUserIdentity>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(controlUserEntity)
+                         .Verifiable();
+
+      var controlUserScopeEntityCollection = new List<UserScopeEntity>();
+
+      _userScopeRepositoryMock.Setup(repository => repository.GetUserScopesAsync(It.IsAny<IUserIdentity>(), It.IsAny<CancellationToken>()))
+                              .ReturnsAsync(controlUserScopeEntityCollection)
+                              .Verifiable();
+
+      var identity = Guid.NewGuid().ToUserIdentity();
+
+      var actualUserEntity = await _userService.GetUserAsync(identity, _cancellationToken);
+
+      Assert.IsNotNull(actualUserEntity);
+      Assert.AreEqual(controlUserEntity, actualUserEntity);
+      Assert.AreEqual(controlUserScopeEntityCollection, actualUserEntity.Scopes);
+
+      _userRepositoryMock.Verify(repository => repository.GetUserAsync(identity, _cancellationToken));
+      _userRepositoryMock.VerifyNoOtherCalls();
+
+      _userScopeRepositoryMock.Verify(repository => repository.GetUserScopesAsync(identity, _cancellationToken));
+      _userScopeRepositoryMock.VerifyNoOtherCalls();
+    }
   }
 }
