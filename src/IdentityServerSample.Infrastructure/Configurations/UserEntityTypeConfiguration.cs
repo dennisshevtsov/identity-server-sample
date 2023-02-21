@@ -30,11 +30,6 @@ namespace IdentityServerSample.Infrastructure.Configurations
     {
       builder.ToContainer(_containerName);
 
-      //builder.HasKey(entity => entity.UserId);
-      //builder.HasPartitionKey(entity => entity.UserId);
-
-      //builder.HasNoDiscriminator();
-
       builder.HasKey(entity => entity.UserId);
       builder.HasPartitionKey(entity => entity.UserId);
 
