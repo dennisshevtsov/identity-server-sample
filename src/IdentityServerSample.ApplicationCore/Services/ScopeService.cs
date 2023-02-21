@@ -15,7 +15,7 @@ namespace IdentityServerSample.ApplicationCore.Services
     private readonly IScopeRepository _scopeRepository;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.ApplicationCore.Services.ScopeService"/> class.</summary>
-    /// <param name="dbContext">An object that represents a session with the database and can be used to query and save instances of your entities.</param>
+    /// <param name="scopeRepository">An object that provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.ScopeEntity"/> class.</param>
     public ScopeService(IScopeRepository scopeRepository)
     {
       _scopeRepository = scopeRepository ?? throw new ArgumentNullException(nameof(scopeRepository));
