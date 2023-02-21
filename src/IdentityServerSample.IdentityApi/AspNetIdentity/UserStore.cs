@@ -335,13 +335,22 @@ namespace IdentityServerSample.IdentityApi.AspNetIdentity
     /// </returns>
     public Task<IList<Claim>> GetClaimsAsync(UserEntity user, CancellationToken cancellationToken)
     {
-      IList<Claim> claims = new List<Claim>();
+      var claimCollection = new List<Claim>
+      {
+        new Claim(JwtClaimTypes.PreferredUserName, user.Name!),
+        new Claim(JwtClaimTypes.EmailVerified, "true"),
+      };
 
-      claims.Add(new Claim(JwtClaimTypes.PreferredUserName, user.Name!));
-      claims.Add(new Claim(JwtClaimTypes.EmailVerified, "true"));
-      claims.Add(new Claim(JwtClaimTypes.Scope, "identity-server-sample-api-scope"));
+      if (user.Scopes != null)
+      {
+        var scopeClaimCollection =
+          user.Scopes.Select(entity => new Claim(JwtClaimTypes.Scope, entity.Name!))
+                     .ToList();
 
-      return Task.FromResult(claims);
+        claimCollection.AddRange(scopeClaimCollection);
+      }
+
+      return Task.FromResult<IList<Claim>>(claimCollection);
     }
 
     /// <summary>
