@@ -97,5 +97,38 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
 
       _userScopeRepositoryMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task GetUserAsync_Should_Return_User_Whith_Scopes_For_Correct_User_Email()
+    {
+      var controlUserEntity = new UserEntity
+      {
+        UserId = Guid.NewGuid(),
+      };
+
+      _userRepositoryMock.Setup(repository => repository.GetUserAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                         .ReturnsAsync(controlUserEntity)
+                         .Verifiable();
+
+      var controlUserScopeEntityCollection = new List<UserScopeEntity>();
+
+      _userScopeRepositoryMock.Setup(repository => repository.GetUserScopesAsync(It.IsAny<IUserIdentity>(), It.IsAny<CancellationToken>()))
+                              .ReturnsAsync(controlUserScopeEntityCollection)
+                              .Verifiable();
+
+      var userEmail = Guid.NewGuid().ToString();
+
+      var actualUserEntity = await _userService.GetUserAsync(userEmail, _cancellationToken);
+
+      Assert.IsNotNull(actualUserEntity);
+      Assert.AreEqual(controlUserEntity, actualUserEntity);
+      Assert.AreEqual(controlUserScopeEntityCollection, actualUserEntity.Scopes);
+
+      _userRepositoryMock.Verify(repository => repository.GetUserAsync(userEmail, _cancellationToken));
+      _userRepositoryMock.VerifyNoOtherCalls();
+
+      _userScopeRepositoryMock.Verify(repository => repository.GetUserScopesAsync(controlUserEntity, _cancellationToken));
+      _userScopeRepositoryMock.VerifyNoOtherCalls();
+    }
   }
 }
