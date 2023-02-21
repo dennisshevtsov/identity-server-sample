@@ -46,10 +46,11 @@ namespace Microsoft.Extensions.DependencyInjection
           builder.UseCosmos(options.AccountEndpoint, options.AccountKey, options.DatabaseName);
         });
 
-      services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IAudienceRepository, AudienceRepository>();
       services.AddScoped<IClientRepository, ClientRepository>();
       services.AddScoped<IScopeRepository, ScopeRepository>();
+      services.AddScoped<IUserRepository, UserRepository>();
+      services.AddScoped<IUserScopeRepository, UserScopeRepository>();
 
       return services;
     }
