@@ -5,6 +5,7 @@
 namespace IdentityServerSample.Infrastructure.Configurations
 {
   using Microsoft.EntityFrameworkCore;
+  using Microsoft.EntityFrameworkCore.ValueGeneration;
   using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
   using IdentityServerSample.ApplicationCore.Entities;
@@ -12,6 +13,8 @@ namespace IdentityServerSample.Infrastructure.Configurations
   /// <summary>Allows configuration for an entity type.</summary>
   public sealed class UserEntityTypeConfiguration : IEntityTypeConfiguration<UserEntity>
   {
+    private const string DescriminatorPropertyName = "_type";
+
     private readonly string _containerName;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.Infrastructure.Configurations.UserEntityTypeConfiguration"/> class.</summary>
@@ -27,10 +30,19 @@ namespace IdentityServerSample.Infrastructure.Configurations
     {
       builder.ToContainer(_containerName);
 
+      //builder.HasKey(entity => entity.UserId);
+      //builder.HasPartitionKey(entity => entity.UserId);
+
+      //builder.HasNoDiscriminator();
+
       builder.HasKey(entity => entity.UserId);
       builder.HasPartitionKey(entity => entity.UserId);
 
-      builder.HasNoDiscriminator();
+      builder.Property(typeof(string), UserEntityTypeConfiguration.DescriminatorPropertyName);
+      builder.HasDiscriminator(UserEntityTypeConfiguration.DescriminatorPropertyName, typeof(string));
+
+      builder.Property(entity => entity.UserId).ToJsonProperty("id").HasValueGenerator<GuidValueGenerator>();
+      builder.Property(entity => entity.UserId).ToJsonProperty("userId");
 
       builder.Property(entity => entity.UserId).ToJsonProperty("userId");
       builder.Property(entity => entity.Name).ToJsonProperty("name");
