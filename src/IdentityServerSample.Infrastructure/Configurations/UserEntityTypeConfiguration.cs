@@ -36,10 +36,7 @@ namespace IdentityServerSample.Infrastructure.Configurations
       builder.Property(typeof(string), UserEntityTypeConfiguration.DescriminatorPropertyName);
       builder.HasDiscriminator(UserEntityTypeConfiguration.DescriminatorPropertyName, typeof(string));
 
-      builder.Property(entity => entity.UserId).ToJsonProperty("id").HasValueGenerator<GuidValueGenerator>();
-      builder.Property(entity => entity.UserId).ToJsonProperty("userId");
-
-      builder.Property(entity => entity.UserId).ToJsonProperty("userId");
+      builder.Property(entity => entity.UserId).ToJsonProperty("userId").HasValueGenerator<GuidValueGenerator>();
       builder.Property(entity => entity.Name).ToJsonProperty("name");
       builder.Property(entity => entity.Email).ToJsonProperty("email");
       builder.Property(entity => entity.PasswordHash).ToJsonProperty("passwordHash");
