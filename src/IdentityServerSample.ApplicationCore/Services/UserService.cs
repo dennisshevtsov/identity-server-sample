@@ -33,7 +33,25 @@ namespace IdentityServerSample.ApplicationCore.Services
 
       if (userEntity != null)
       {
-        userEntity.Scopes = await _userScopeRepository.GetUserScopesAsync(identity, cancellationToken);
+        userEntity.Scopes =
+          await _userScopeRepository.GetUserScopesAsync(identity, cancellationToken);
+      }
+
+      return userEntity;
+    }
+
+    /// <summary>Gets a user by a user ID.</summary>
+    /// <param name="email">An object that represents an email of a user.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public async Task<UserEntity?> GetUserAsync(string email, CancellationToken cancellationToken)
+    {
+      var userEntity = await _userRepository.GetUserAsync(email, cancellationToken);
+
+      if (userEntity != null)
+      {
+        userEntity.Scopes =
+          await _userScopeRepository.GetUserScopesAsync(userEntity, cancellationToken);
       }
 
       return userEntity;
