@@ -4,6 +4,8 @@
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+  using IdentityServer4.Configuration;
+
   using IdentityServerSample.IdentityServer.Services;
   using IdentityServerSample.IdentityServer.Stores;
 
@@ -12,23 +14,12 @@ namespace Microsoft.Extensions.DependencyInjection
   {
     /// <summary>Sets up the Identity Server.</summary>
     /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
-    /// <param name="configuration">An object that represents a set of key/value application configuration properties.</param>
+    /// <param name="setupAction">An object that represents a action to configure the Identity Server.</param>
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
     public static IServiceCollection SetUpIdentityServer(
-      this IServiceCollection services,
-      IConfiguration configuration)
+      this IServiceCollection services, Action<IdentityServerOptions> setupAction)
     {
-      services.AddIdentityServer(options =>
-              {
-                options.UserInteraction.ErrorUrl = $"{configuration["IdentityApp_Url"]}/error";
-                options.UserInteraction.ErrorIdParameter = "errorId";
-
-                options.UserInteraction.LoginUrl = $"{configuration["IdentityApp_Url"]}/signin";
-                options.UserInteraction.LoginReturnUrlParameter = "returnUrl";
-
-                options.UserInteraction.LogoutUrl = "/api/account/signout";
-                options.UserInteraction.LogoutIdParameter = "signoutId";
-              })
+      services.AddIdentityServer(setupAction)
               .AddClientStore<ClientStore>()
               .AddResourceStore<ResourceStore>()
               .AddCorsPolicyService<CorsPolicyService>()
