@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.AspNetIdentity
+namespace IdentityServerSample.AspNetIdentity
 {
   using System.Security.Claims;
 
