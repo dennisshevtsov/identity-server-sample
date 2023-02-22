@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
+namespace IdentityServerSample.IdentityServer.Test
 {
+  using System.Linq;
+
   using IdentityServer4;
   using IdentityServer4.Models;
   using Moq;
-  using System.Linq;
 
   [TestClass]
   public sealed class ResourceStoreTest

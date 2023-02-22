@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
+namespace IdentityServerSample.IdentityServer.Test
 {
-  using IdentityServer4.Models;
   using System.Threading;
+
+  using IdentityServer4.Models;
 
   [TestClass]
   public sealed class ClientStoreTest
