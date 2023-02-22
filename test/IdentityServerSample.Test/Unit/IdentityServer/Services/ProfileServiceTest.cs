@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.IdenittyServer.Test
+namespace IdentityServerSample.IdentityServer.Services.Test
 {
   using System.Security.Claims;
 
