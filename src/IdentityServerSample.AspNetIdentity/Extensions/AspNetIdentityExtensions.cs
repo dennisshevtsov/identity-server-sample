@@ -4,14 +4,14 @@
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-  using global::IdentityModel;
+  using IdentityModel;
   using Microsoft.AspNetCore.Identity;
 
   using IdentityServerSample.ApplicationCore.Entities;
-  using IdentityServerSample.IdentityApi.AspNetIdentity;
+  using IdentityServerSample.AspNetIdentity;
 
   /// <summary>Provides a simple API to configure a pipeline.</summary>
-  public static class IdentityExtensions
+  public static class AspNetIdentityExtensions
   {
     /// <summary>Sets up the Identity.</summary>
     /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
