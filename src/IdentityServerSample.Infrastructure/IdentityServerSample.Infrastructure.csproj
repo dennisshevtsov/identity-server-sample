@@ -13,7 +13,7 @@ See LICENSE in the project root for license information.]]>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
