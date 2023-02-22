@@ -4,7 +4,8 @@
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-  using IdentityServerSample.IdentityServer;
+  using IdentityServerSample.IdentityServer.Services;
+  using IdentityServerSample.IdentityServer.Stores;
 
   /// <summary>Provides a simple API to configure a pipeline.</summary>
   public static class IdentityServerExtensions
