@@ -10,7 +10,7 @@ namespace IdentityServerSample.ApplicationCore.Entities
   public sealed class ClientEntity : IClientIdentity
   {
     /// <summary>Gets/sets an object that represents a name of a client.</summary>
-    public string? Name { get; set; }
+    public string? ClientName { get; set; }
 
     /// <summary>Gets/sets an object that represents a display name of a client.</summary>
     public string? DisplayName { get; set; }

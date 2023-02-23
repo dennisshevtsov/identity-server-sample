@@ -10,7 +10,7 @@ namespace IdentityServerSample.ApplicationCore.Entities
   public sealed class ScopeEntity : IScopeIdentity
   {
     /// <summary>Gets/sets an object that represents a name of a scope.</summary>
-    public string? Name { get; set; }
+    public string? ScopeName { get; set; }
 
     /// <summary>Gets/sets an object that represents a display name of a scope.</summary>
     public string? DisplayName { get; set; }

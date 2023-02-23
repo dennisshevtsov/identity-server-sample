@@ -211,7 +211,7 @@ namespace IdentityServerSample.AspNetIdentity.Test
         {
           new UserScopeEntity
           {
-            Name = controlUserScopeName,
+            ScopeName = controlUserScopeName,
           },
         },
       };

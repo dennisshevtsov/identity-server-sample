@@ -39,11 +39,11 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
       Assert.IsNotNull(actualScopeEntityCollection);
       Assert.AreEqual(5, actualScopeEntityCollection.Count);
 
-      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.Name == "openid"));
-      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.Name == "profile"));
-      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.Name == "email"));
-      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.Name == "address"));
-      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.Name == "phone"));
+      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.ScopeName == "openid"));
+      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.ScopeName == "profile"));
+      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.ScopeName == "email"));
+      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.ScopeName == "address"));
+      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.ScopeName == "phone"));
 
       _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(_cancellationToken));
       _scopeRepositoryMock.VerifyNoOtherCalls();

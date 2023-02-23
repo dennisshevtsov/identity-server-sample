@@ -30,7 +30,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     {
       return _dbContext.Set<AudienceEntity>()
                        .AsNoTracking()
-                       .OrderBy(entity => entity.Name)
+                       .OrderBy(entity => entity.AudienceName)
                        .ToArrayAsync(cancellationToken);
     }
 
@@ -45,10 +45,10 @@ namespace IdentityServerSample.Infrastructure.Repositories
 
       if (audiences != null && audiences.Length > 0)
       {
-        query = query.Where(entity => audiences.Contains(entity.Name));
+        query = query.Where(entity => audiences.Contains(entity.AudienceName));
       }
 
-      return query.OrderBy(entity => entity.Name)
+      return query.OrderBy(entity => entity.AudienceName)
                   .ToArrayAsync(cancellationToken);
     }
 
@@ -62,7 +62,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
       var audienceEntityCollection =
         await _dbContext.Set<AudienceEntity>()
                         .AsNoTracking()
-                        .OrderBy(entity => entity.Name)
+                        .OrderBy(entity => entity.AudienceName)
                         .ToListAsync(cancellationToken);
 
       if (scopes != null && scopes.Any())

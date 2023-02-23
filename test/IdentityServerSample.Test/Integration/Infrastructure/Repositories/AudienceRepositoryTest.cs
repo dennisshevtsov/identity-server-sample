@@ -48,7 +48,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
                                    .ToArray();
 
       var audienceNameCollection =
-        controlAudienceEntityCollection.Select(entity => entity.Name!)
+        controlAudienceEntityCollection.Select(entity => entity.AudienceName!)
                                        .ToArray();
 
       var testAudienceEntityCollection =
@@ -129,7 +129,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     {
       var audienceEntity = new AudienceEntity
       {
-        Name = Guid.NewGuid().ToString(),
+        AudienceName = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
         Scopes = new[]
@@ -157,13 +157,13 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         audienceEntityCollection.Add(await CreateNewAudienceAsync());
       }
 
-      return audienceEntityCollection.OrderBy(entity => entity.Name)
+      return audienceEntityCollection.OrderBy(entity => entity.AudienceName)
                                      .ToArray();
     }
 
     private void AreEqual(AudienceEntity control, AudienceEntity test)
     {
-      Assert.AreEqual(control.Name, test.Name);
+      Assert.AreEqual(control.AudienceName, test.AudienceName);
       Assert.AreEqual(control.DisplayName, test.DisplayName);
       Assert.AreEqual(control.Description, test.Description);
 

@@ -38,17 +38,17 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
       {
         new ScopeEntity
         {
-          Name = Guid.NewGuid().ToString(),
+          ScopeName = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
         new ScopeEntity
         {
-          Name = Guid.NewGuid().ToString(),
+          ScopeName = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
         new ScopeEntity
         {
-          Name = Guid.NewGuid().ToString(),
+          ScopeName = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
       };
@@ -62,13 +62,13 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
 
       var scopeDtoCollection = getScopesResponseDto.Scopes.ToArray();
 
-      Assert.AreEqual(scopeEntityCollection[0].Name, scopeDtoCollection[0].Name);
+      Assert.AreEqual(scopeEntityCollection[0].ScopeName, scopeDtoCollection[0].ScopeName);
       Assert.AreEqual(scopeEntityCollection[0].DisplayName, scopeDtoCollection[0].DisplayName);
 
-      Assert.AreEqual(scopeEntityCollection[1].Name, scopeDtoCollection[1].Name);
+      Assert.AreEqual(scopeEntityCollection[1].ScopeName, scopeDtoCollection[1].ScopeName);
       Assert.AreEqual(scopeEntityCollection[1].DisplayName, scopeDtoCollection[1].DisplayName);
 
-      Assert.AreEqual(scopeEntityCollection[2].Name, scopeDtoCollection[2].Name);
+      Assert.AreEqual(scopeEntityCollection[2].ScopeName, scopeDtoCollection[2].ScopeName);
       Assert.AreEqual(scopeEntityCollection[2].DisplayName, scopeDtoCollection[2].DisplayName);
     }
   }

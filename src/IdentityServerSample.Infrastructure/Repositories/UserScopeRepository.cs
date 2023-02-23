@@ -32,7 +32,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
         await _dbContext.Set<UserScopeEntity>()
                         .AsNoTracking()
                         .WithPartitionKey(identity.UserId.ToString())
-                        .OrderBy(entity => entity.Name)
+                        .OrderBy(entity => entity.ScopeName)
                         .ToListAsync(cancellationToken);
 
       return userScopeEntityCollection;

@@ -30,7 +30,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     {
       return _dbContext.Set<ScopeEntity>()
                        .AsNoTracking()
-                       .OrderBy(entity => entity.Name)
+                       .OrderBy(entity => entity.ScopeName)
                        .ToListAsync(cancellationToken);
     }
 
@@ -45,10 +45,10 @@ namespace IdentityServerSample.Infrastructure.Repositories
 
       if (scopes != null && scopes.Length != 0)
       {
-        dbScopeSet = dbScopeSet.Where(entity => scopes.Contains(entity.Name));
+        dbScopeSet = dbScopeSet.Where(entity => scopes.Contains(entity.ScopeName));
       }
 
-      return dbScopeSet.OrderBy(entity => entity.Name)
+      return dbScopeSet.OrderBy(entity => entity.ScopeName)
                        .ToListAsync(cancellationToken);
     }
   }

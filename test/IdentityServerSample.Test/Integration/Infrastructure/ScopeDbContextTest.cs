@@ -23,12 +23,12 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var createdScopeEntity =
         await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.Name == scopeName)
+                        .Where(entity => entity.ScopeName == scopeName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdScopeEntity);
 
-      Assert.AreEqual(scopeName, createdScopeEntity.Name);
+      Assert.AreEqual(scopeName, createdScopeEntity.ScopeName);
       Assert.AreEqual(creatingScopeEntity.DisplayName, createdScopeEntity.DisplayName);
       Assert.AreEqual(creatingScopeEntity.Description, createdScopeEntity.Description);
     }
@@ -57,12 +57,12 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var updatedScopeEntity =
         await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.Name == creatingScopeEntity.Name)
+                        .Where(entity => entity.ScopeName == creatingScopeEntity.ScopeName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(updatedScopeEntity);
 
-      Assert.AreEqual(scopeName, updatedScopeEntity.Name);
+      Assert.AreEqual(scopeName, updatedScopeEntity.ScopeName);
       Assert.AreEqual(updatingScopeEntity.DisplayName, updatedScopeEntity.DisplayName);
       Assert.AreEqual(updatingScopeEntity.Description, updatedScopeEntity.Description);
     }
@@ -81,7 +81,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var createdScopeEntity =
         await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.Name == scopeName)
+                        .Where(entity => entity.ScopeName == scopeName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdScopeEntity);
@@ -92,7 +92,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var deletedScopeEntity =
         await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.Name == scopeName)
+                        .Where(entity => entity.ScopeName == scopeName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNull(deletedScopeEntity);
@@ -115,12 +115,12 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var createdScopeEntity =
         await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.Name == scopeName)
+                        .Where(entity => entity.ScopeName == scopeName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdScopeEntity);
 
-      Assert.AreEqual(scopeName, createdScopeEntity!.Name);
+      Assert.AreEqual(scopeName, createdScopeEntity!.ScopeName);
       Assert.AreEqual(creatingScopeEntity.DisplayName, createdScopeEntity.DisplayName);
       Assert.AreEqual(creatingScopeEntity.Description, createdScopeEntity.Description);
       Assert.AreNotEqual(creatingScopeStandard, createdScopeEntity.Standard);
@@ -128,7 +128,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
     private static ScopeEntity GenerateTestScope(string scopeName) => new ScopeEntity
     {
-      Name = scopeName,
+      ScopeName = scopeName,
       DisplayName = Guid.NewGuid().ToString(),
       Description = Guid.NewGuid().ToString(),
     };

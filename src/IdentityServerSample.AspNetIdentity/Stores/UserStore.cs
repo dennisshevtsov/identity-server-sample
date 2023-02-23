@@ -344,7 +344,7 @@ namespace IdentityServerSample.AspNetIdentity
       if (user.Scopes != null)
       {
         var scopeClaimCollection =
-          user.Scopes.Select(entity => new Claim(JwtClaimTypes.Scope, entity.Name!))
+          user.Scopes.Select(entity => new Claim(JwtClaimTypes.Scope, entity.ScopeName!))
                      .ToList();
 
         claimCollection.AddRange(scopeClaimCollection);

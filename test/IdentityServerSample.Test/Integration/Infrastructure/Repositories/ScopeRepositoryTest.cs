@@ -48,7 +48,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
                                 .ToArray();
 
       var scopeNameCollection =
-        controlScopeEntityCollection.Select(entity => entity.Name!)
+        controlScopeEntityCollection.Select(entity => entity.ScopeName!)
                                     .ToArray();
 
       var testScopeEntityCollection =
@@ -86,7 +86,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     {
       var scopeEntity = new ScopeEntity
       {
-        Name = Guid.NewGuid().ToString(),
+        ScopeName = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
       };
@@ -109,13 +109,13 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         scopeEntityCollection.Add(await CreateNewScopeAsync());
       }
 
-      return scopeEntityCollection.OrderBy(entity => entity.Name)
+      return scopeEntityCollection.OrderBy(entity => entity.ScopeName)
                                   .ToArray();
     }
 
     private void AreEqual(ScopeEntity control, ScopeEntity test)
     {
-      Assert.AreEqual(control.Name, test.Name);
+      Assert.AreEqual(control.ScopeName, test.ScopeName);
       Assert.AreEqual(control.DisplayName, test.DisplayName);
       Assert.AreEqual(control.Description, test.Description);
     }

@@ -28,11 +28,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
       var audiences = dbContext.Set<AudienceEntity>();
 
-      if (audiences.FirstOrDefault(entity => entity.Name == "identity-server-sample-api") == null)
+      if (audiences.FirstOrDefault(entity => entity.AudienceName == "identity-server-sample-api") == null)
       {
         var audienceEntity = new AudienceEntity
         {
-          Name = "identity-server-sample-api",
+          AudienceName = "identity-server-sample-api",
           DisplayName = "Identity Server Sample API",
           Scopes = new List<string>
           {
@@ -45,11 +45,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
       var clients = dbContext.Set<ClientEntity>();
 
-      if (clients.FirstOrDefault(entity => entity.Name == "identity-server-sample-api-client-id-1") == null)
+      if (clients.FirstOrDefault(entity => entity.ClientName == "identity-server-sample-api-client-id-1") == null)
       {
         var clientEntity = new ClientEntity
         {
-          Name = "identity-server-sample-api-client-id-1",
+          ClientName = "identity-server-sample-api-client-id-1",
           DisplayName = "Identity Sample API Client ID for Code Flow",
           Description = "Default client",
           Scopes = new List<string>
@@ -74,11 +74,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
       var scopes = dbContext.Set<ScopeEntity>();
 
-      if (scopes.FirstOrDefault(entity => entity.Name == "identity-server-sample-api-scope") == null)
+      if (scopes.FirstOrDefault(entity => entity.ScopeName == "identity-server-sample-api-scope") == null)
       {
         var scopeEntity = new ScopeEntity
         {
-          Name = "identity-server-sample-api-scope",
+          ScopeName = "identity-server-sample-api-scope",
           DisplayName = "Identity Sample API Scope",
           Description = "Default scope"
         };

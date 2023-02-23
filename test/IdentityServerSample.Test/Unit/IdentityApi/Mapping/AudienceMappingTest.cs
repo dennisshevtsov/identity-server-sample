@@ -14,7 +14,7 @@ namespace IdentityServerSample.IdentityApi.Mapping.Test
     {
       var audienceEntity = new AudienceEntity
       {
-        Name = Guid.NewGuid().ToString(),
+        AudienceName = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
       };
 
@@ -22,7 +22,7 @@ namespace IdentityServerSample.IdentityApi.Mapping.Test
 
       Assert.IsNotNull(apiResource);
 
-      Assert.AreEqual(audienceEntity.Name, apiResource.Name);
+      Assert.AreEqual(audienceEntity.AudienceName, apiResource.Name);
       Assert.AreEqual(audienceEntity.DisplayName, apiResource.DisplayName);
     }
   }

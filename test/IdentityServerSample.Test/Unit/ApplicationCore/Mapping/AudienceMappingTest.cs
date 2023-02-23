@@ -38,17 +38,17 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
       {
         new AudienceEntity
         {
-          Name = Guid.NewGuid().ToString(),
+          AudienceName = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
         new AudienceEntity
         {
-          Name = Guid.NewGuid().ToString(),
+          AudienceName = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
         new AudienceEntity
         {
-          Name = Guid.NewGuid().ToString(),
+          AudienceName = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
       };
@@ -62,13 +62,13 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
 
       var audienceDtoCollection = getAudiencesResponseDto.Audiences.ToArray();
 
-      Assert.AreEqual(audienceEntityCollection[0].Name, audienceDtoCollection[0].Name);
+      Assert.AreEqual(audienceEntityCollection[0].AudienceName, audienceDtoCollection[0].AudienceName);
       Assert.AreEqual(audienceEntityCollection[0].DisplayName, audienceDtoCollection[0].DisplayName);
 
-      Assert.AreEqual(audienceEntityCollection[1].Name, audienceDtoCollection[1].Name);
+      Assert.AreEqual(audienceEntityCollection[1].AudienceName, audienceDtoCollection[1].AudienceName);
       Assert.AreEqual(audienceEntityCollection[1].DisplayName, audienceDtoCollection[1].DisplayName);
 
-      Assert.AreEqual(audienceEntityCollection[2].Name, audienceDtoCollection[2].Name);
+      Assert.AreEqual(audienceEntityCollection[2].AudienceName, audienceDtoCollection[2].AudienceName);
       Assert.AreEqual(audienceEntityCollection[2].DisplayName, audienceDtoCollection[2].DisplayName);
     }
   }

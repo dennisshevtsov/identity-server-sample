@@ -44,7 +44,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var userScopeEntity = new UserScopeEntity
       {
         UserId = userId,
-        Name = Guid.NewGuid().ToString(),
+        ScopeName = Guid.NewGuid().ToString(),
       };
 
       var useScoperEntityEntry = DbContext.Add(userScopeEntity);
@@ -65,13 +65,13 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         userScopeEntityCollection.Add(await CreateNewUserScopeAsync(userId));
       }
 
-      return userScopeEntityCollection.OrderBy(entity => entity.Name)
+      return userScopeEntityCollection.OrderBy(entity => entity.ScopeName)
                                       .ToList();
     }
 
     private void AreEqual(UserScopeEntity control, UserScopeEntity test)
     {
-      Assert.AreEqual(control.Name, test.Name);
+      Assert.AreEqual(control.ScopeName, test.ScopeName);
       Assert.AreEqual(control.UserId, test.UserId);
     }
 

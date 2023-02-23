@@ -29,13 +29,13 @@ namespace IdentityServerSample.Infrastructure.Configurations
     {
       builder.ToContainer(_containerName);
 
-      builder.HasKey(entity => entity.Name);
+      builder.HasKey(entity => entity.ScopeName);
       builder.HasPartitionKey(entity => entity.UserId);
 
       builder.Property(typeof(string), UserScopeEntityTypeConfiguration.DescriminatorPropertyName);
       builder.HasDiscriminator(UserScopeEntityTypeConfiguration.DescriminatorPropertyName, typeof(string));
 
-      builder.Property(entity => entity.Name).ToJsonProperty("id");
+      builder.Property(entity => entity.ScopeName).ToJsonProperty("id");
       builder.Property(entity => entity.UserId).ToJsonProperty("userId");
     }
   }

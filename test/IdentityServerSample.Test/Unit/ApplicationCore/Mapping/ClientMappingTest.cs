@@ -38,17 +38,17 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
       {
         new ClientEntity
         {
-          Name = Guid.NewGuid().ToString(),
+          ClientName = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
         new ClientEntity
         {
-          Name = Guid.NewGuid().ToString(),
+          ClientName = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
         new ClientEntity
         {
-          Name = Guid.NewGuid().ToString(),
+          ClientName = Guid.NewGuid().ToString(),
           DisplayName = Guid.NewGuid().ToString(),
         },
       };
@@ -62,13 +62,13 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
 
       var clientDtoCollection = getClientsResponseDto.Clients.ToArray();
 
-      Assert.AreEqual(clientEntityCollection[0].Name, clientDtoCollection[0].Name);
+      Assert.AreEqual(clientEntityCollection[0].ClientName, clientDtoCollection[0].ClientName);
       Assert.AreEqual(clientEntityCollection[0].DisplayName, clientDtoCollection[0].DisplayName);
 
-      Assert.AreEqual(clientEntityCollection[1].Name, clientDtoCollection[1].Name);
+      Assert.AreEqual(clientEntityCollection[1].ClientName, clientDtoCollection[1].ClientName);
       Assert.AreEqual(clientEntityCollection[1].DisplayName, clientDtoCollection[1].DisplayName);
 
-      Assert.AreEqual(clientEntityCollection[2].Name, clientDtoCollection[2].Name);
+      Assert.AreEqual(clientEntityCollection[2].ClientName, clientDtoCollection[2].ClientName);
       Assert.AreEqual(clientEntityCollection[2].DisplayName, clientDtoCollection[2].DisplayName);
     }
   }

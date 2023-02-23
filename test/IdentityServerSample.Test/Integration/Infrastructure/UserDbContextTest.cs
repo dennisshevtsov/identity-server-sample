@@ -108,7 +108,7 @@ namespace IdentityServerSample.Infrastructure.Test
       {
         new UserScopeEntity
         {
-          Name = Guid.NewGuid().ToString(),
+          ScopeName = Guid.NewGuid().ToString(),
           UserId = Guid.NewGuid(),
         },
       };

@@ -16,7 +16,7 @@ namespace IdentityServerSample.ApplicationCore.Dtos
     public sealed class AudienceDto : IAudienceIdentity
     {
       /// <summary>Gets/sets an object that reprsents a name of an audience.</summary>
-      public string? Name { get; set; }
+      public string? AudienceName { get; set; }
 
       /// <summary>Gets/sets an object that repesents a display name of an audience.</summary>
       public string? DisplayName { get; set; }
