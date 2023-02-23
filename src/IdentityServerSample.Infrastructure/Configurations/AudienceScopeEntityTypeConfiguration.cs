@@ -8,12 +8,11 @@ namespace IdentityServerSample.Infrastructure.Configurations
   using Microsoft.EntityFrameworkCore;
 
   using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.Infrastructure.Defaults;
 
   /// <summary>Allows configuration for an entity type.</summary>
   public sealed class AudienceScopeEntityTypeConfiguration : IEntityTypeConfiguration<AudienceScopeEntity>
   {
-    private const string DescriminatorPropertyName = "_type";
-
     private readonly string _containerName;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.Infrastructure.Configurations.AudienceScopeEntityTypeConfiguration"/> class.</summary>
@@ -32,8 +31,8 @@ namespace IdentityServerSample.Infrastructure.Configurations
       builder.HasKey(entity => entity.ScopeName);
       builder.HasPartitionKey(entity => entity.AudienceName);
 
-      builder.Property(typeof(string), AudienceScopeEntityTypeConfiguration.DescriminatorPropertyName);
-      builder.HasDiscriminator(AudienceScopeEntityTypeConfiguration.DescriminatorPropertyName, typeof(string));
+      builder.Property(typeof(string), EntityScheme.DescriminatorPropertyName);
+      builder.HasDiscriminator(EntityScheme.DescriminatorPropertyName, typeof(string));
 
       builder.Property(entity => entity.ScopeName).ToJsonProperty("id");
       builder.Property(entity => entity.AudienceName).ToJsonProperty("audienceName");
