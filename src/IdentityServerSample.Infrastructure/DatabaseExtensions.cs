@@ -47,8 +47,12 @@ namespace Microsoft.Extensions.DependencyInjection
         });
 
       services.AddScoped<IAudienceRepository, AudienceRepository>();
+      services.AddScoped<IAudienceScopeRepository, AudienceScopeRepository>();
+
       services.AddScoped<IClientRepository, ClientRepository>();
+      
       services.AddScoped<IScopeRepository, ScopeRepository>();
+      
       services.AddScoped<IUserRepository, UserRepository>();
       services.AddScoped<IUserScopeRepository, UserScopeRepository>();
 
