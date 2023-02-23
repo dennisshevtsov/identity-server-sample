@@ -9,6 +9,7 @@ namespace IdentityServerSample.ApplicationCore.Services
   using AutoMapper;
 
   using IdentityServerSample.ApplicationCore.Dtos;
+  using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Repositories;
 
   /// <summary>Provides a simple API to execute audience queries and commands.</summary>
@@ -39,6 +40,16 @@ namespace IdentityServerSample.ApplicationCore.Services
       var getAudiencesResponseDto = _mapper.Map<GetAudiencesResponseDto>(audienceEntityCollection);
 
       return getAudiencesResponseDto;
+    }
+
+    /// <summary>Gets a collection of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceEntity"/> that have non-empty intersection with a defined collection of scope names.</summary>
+    /// <param name="scopes">An object that represents a collection of scope names.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task<List<AudienceEntity>> GetAudiencesAsync(
+      IEnumerable<string> scopes, CancellationToken cancellationToken)
+    {
+      return Task.FromResult(new List<AudienceEntity>());
     }
   }
 }
