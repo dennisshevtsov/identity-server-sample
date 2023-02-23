@@ -29,9 +29,9 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesAsync(CancellationToken);
 
-      Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Length);
+      Assert.AreEqual(controlAudienceEntityCollection.Count, testAudienceEntityCollection.Count);
 
-      for (int i = 0; i < controlAudienceEntityCollection.Length; i++)
+      for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
         AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
@@ -45,18 +45,18 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var allAudienceEntityCollection = await CreateNewAudienciesAsync(10);
       var controlAudienceEntityCollection =
         allAudienceEntityCollection.Where((entity, index) => index % 2 == 0)
-                                   .ToArray();
+                                   .ToList();
 
       var audienceNameCollection =
         controlAudienceEntityCollection.Select(entity => entity.AudienceName!)
-                                       .ToArray();
+                                       .ToList();
 
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesByNamesAsync(audienceNameCollection, CancellationToken);
 
-      Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Length);
+      Assert.AreEqual(controlAudienceEntityCollection.Count, testAudienceEntityCollection.Count);
 
-      for (int i = 0; i < controlAudienceEntityCollection.Length; i++)
+      for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
         AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
@@ -72,9 +72,9 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesByNamesAsync(null, CancellationToken);
 
-      Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Length);
+      Assert.AreEqual(controlAudienceEntityCollection.Count, testAudienceEntityCollection.Count);
 
-      for (int i = 0; i < controlAudienceEntityCollection.Length; i++)
+      for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
         AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
@@ -115,9 +115,9 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesByScopesAsync(null, CancellationToken);
 
-      Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Count);
+      Assert.AreEqual(controlAudienceEntityCollection.Count, testAudienceEntityCollection.Count);
 
-      for (int i = 0; i < controlAudienceEntityCollection.Length; i++)
+      for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
         AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
@@ -148,7 +148,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       return audienceEntity;
     }
 
-    private async Task<AudienceEntity[]> CreateNewAudienciesAsync(int audiences)
+    private async Task<List<AudienceEntity>> CreateNewAudienciesAsync(int audiences)
     {
       var audienceEntityCollection = new List<AudienceEntity>();
 
@@ -158,7 +158,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       }
 
       return audienceEntityCollection.OrderBy(entity => entity.AudienceName)
-                                     .ToArray();
+                                     .ToList();
     }
 
     private void AreEqual(AudienceEntity control, AudienceEntity test)
@@ -179,7 +179,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     private void IsDetached(AudienceEntity audienceEntity)
       => Assert.AreEqual(EntityState.Detached, DbContext.Entry(audienceEntity).State);
 
-    private void AreDetached(IEnumerable<AudienceEntity> audienceEntityCollection)
+    private void AreDetached(List<AudienceEntity> audienceEntityCollection)
     {
       foreach (var audienceEntity in audienceEntityCollection)
       {

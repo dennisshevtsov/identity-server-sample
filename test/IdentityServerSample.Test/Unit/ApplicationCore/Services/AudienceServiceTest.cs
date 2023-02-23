@@ -11,7 +11,9 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
 
 #pragma warning disable CS8618
     private Mock<IMapper> _mapperMock;
+
     private Mock<IAudienceRepository> _audienceRepositoryMock;
+    private Mock<IAudienceScopeRepository> _audienceScopeRepositoryMock;
 
     private AudienceService _audienceService;
 #pragma warning restore CS8618
@@ -22,16 +24,20 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
       _cancellationToken = CancellationToken.None;
 
       _mapperMock = new Mock<IMapper>();
+
       _audienceRepositoryMock= new Mock<IAudienceRepository>();
+      _audienceScopeRepositoryMock = new Mock<IAudienceScopeRepository>();
 
       _audienceService = new AudienceService(
-        _mapperMock.Object, _audienceRepositoryMock.Object);
+        _mapperMock.Object,
+        _audienceRepositoryMock.Object,
+        _audienceScopeRepositoryMock.Object);
     }
 
     [TestMethod]
     public async Task GetAudiencesAsync_Should_Return_Mapped_Dtos()
     {
-      var audienceEntityCollection = new AudienceEntity[0];
+      var audienceEntityCollection = new List<AudienceEntity>();
 
       _audienceRepositoryMock.Setup(repository => repository.GetAudiencesAsync(It.IsAny<CancellationToken>()))
                              .ReturnsAsync(audienceEntityCollection)
@@ -39,7 +45,7 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
 
       var getAudiencesResponseDto = new GetAudiencesResponseDto();
 
-      _mapperMock.Setup(mapper => mapper.Map<GetAudiencesResponseDto>(It.IsAny<AudienceEntity[]>()))
+      _mapperMock.Setup(mapper => mapper.Map<GetAudiencesResponseDto>(It.IsAny<List<AudienceEntity>>()))
                  .Returns(getAudiencesResponseDto);
 
       var getAudiencesRequestDto = new GetAudiencesRequestDto();

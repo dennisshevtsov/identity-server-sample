@@ -142,7 +142,7 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
     [TestMethod]
     public async Task FindApiResourcesByNameAsync_Should_Return_Resources()
     {
-      var controlAudienceEntityCollection = new AudienceEntity[0];
+      var controlAudienceEntityCollection = new List<AudienceEntity>();
 
       _audienceRepositoryMock.Setup(repository => repository.GetAudiencesByNamesAsync(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
                              .ReturnsAsync(controlAudienceEntityCollection)
@@ -150,7 +150,7 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
 
       var controlResourceCollection = new ApiResource[0];
 
-      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<AudienceEntity[]>()))
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<List<AudienceEntity>>()))
                  .Returns(controlResourceCollection)
                  .Verifiable();
 
@@ -192,7 +192,7 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
                  .Returns(controlScopeCollection)
                  .Verifiable();
 
-      var controlAudienceEntityCollection = new AudienceEntity[0];
+      var controlAudienceEntityCollection = new List<AudienceEntity>();
 
       _audienceRepositoryMock.Setup(repository => repository.GetAudiencesAsync(It.IsAny<CancellationToken>()))
                              .ReturnsAsync(controlAudienceEntityCollection)
