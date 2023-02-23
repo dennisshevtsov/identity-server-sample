@@ -68,6 +68,8 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
 
       _audienceRepositoryMock.VerifyNoOtherCalls();
       _scopeRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -100,6 +102,8 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _scopeRepositoryMock.VerifyNoOtherCalls();
 
       _audienceRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -107,13 +111,13 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
     {
       var controlAudienceEntityCollection = new List<AudienceEntity>();
 
-      _audienceRepositoryMock.Setup(repository => repository.GetAudiencesByScopesAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
-                             .ReturnsAsync(controlAudienceEntityCollection)
-                             .Verifiable();
+      _audienceServiceMock.Setup(repository => repository.GetAudiencesAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
+                          .ReturnsAsync(controlAudienceEntityCollection)
+                          .Verifiable();
 
-      var controlResourceCollection = new ApiResource[0];
+      var controlResourceCollection = new List<ApiResource>();
 
-      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<AudienceEntity[]>()))
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<List<AudienceEntity>>()))
                  .Returns(controlResourceCollection)
                  .Verifiable();
 
@@ -128,10 +132,11 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiResource>>(controlAudienceEntityCollection));
       _mapperMock.VerifyNoOtherCalls();
 
-      _audienceRepositoryMock.Verify(repository => repository.GetAudiencesByScopesAsync(scopeNames, CancellationToken.None));
       _audienceRepositoryMock.VerifyNoOtherCalls();
-
       _scopeRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceServiceMock.Verify(repository => repository.GetAudiencesAsync(scopeNames, CancellationToken.None));
+      _audienceServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -164,6 +169,8 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _audienceRepositoryMock.VerifyNoOtherCalls();
 
       _scopeRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -220,6 +227,8 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
 
       _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(CancellationToken.None));
       _scopeRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceServiceMock.VerifyNoOtherCalls();
     }
 
     private static void AreEqual(
