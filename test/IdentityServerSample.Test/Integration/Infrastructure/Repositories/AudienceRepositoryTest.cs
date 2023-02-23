@@ -88,18 +88,18 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var allAudienceEntityCollection = await CreateNewAudienciesAsync(10);
       var controlAudienceEntityCollection =
         allAudienceEntityCollection.Where((entity, index) => index % 2 == 0)
-                                   .ToArray();
+                                   .ToList();
 
       var scopeNameCollection =
         controlAudienceEntityCollection.Select(entity => entity.Scopes!.First())
-                                       .ToArray();
+                                       .ToList();
 
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesByScopesAsync(scopeNameCollection, CancellationToken);
 
-      Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Length);
+      Assert.AreEqual(controlAudienceEntityCollection.Count, testAudienceEntityCollection.Count);
 
-      for (int i = 0; i < controlAudienceEntityCollection.Length; i++)
+      for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
         AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
@@ -115,7 +115,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesByScopesAsync(null, CancellationToken);
 
-      Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Length);
+      Assert.AreEqual(controlAudienceEntityCollection.Length, testAudienceEntityCollection.Count);
 
       for (int i = 0; i < controlAudienceEntityCollection.Length; i++)
       {
@@ -179,7 +179,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     private void IsDetached(AudienceEntity audienceEntity)
       => Assert.AreEqual(EntityState.Detached, DbContext.Entry(audienceEntity).State);
 
-    private void AreDetached(AudienceEntity[] audienceEntityCollection)
+    private void AreDetached(IEnumerable<AudienceEntity> audienceEntityCollection)
     {
       foreach (var audienceEntity in audienceEntityCollection)
       {

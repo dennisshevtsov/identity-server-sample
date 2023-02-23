@@ -56,7 +56,8 @@ namespace IdentityServerSample.Infrastructure.Repositories
     /// <param name="scopes">An object that represents a collection of scope names that relate to audiencies.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public async Task<List<AudienceEntity>> GetAudiencesByScopesAsync(IEnumerable<string> scopes, CancellationToken cancellationToken)
+    public async Task<List<AudienceEntity>> GetAudiencesByScopesAsync(
+      IEnumerable<string>? scopes, CancellationToken cancellationToken)
     {
       var audienceEntityCollection =
         await _dbContext.Set<AudienceEntity>()

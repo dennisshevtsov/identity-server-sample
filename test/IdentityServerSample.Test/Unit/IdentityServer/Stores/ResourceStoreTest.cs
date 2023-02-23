@@ -19,6 +19,8 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
     private Mock<IAudienceRepository> _audienceRepositoryMock;
     private Mock<IScopeRepository> _scopeRepositoryMock;
 
+    private Mock<IAudienceService> _audienceServiceMock;
+
     private ResourceStore _resourceStore;
 #pragma warning restore CS8618
 
@@ -30,10 +32,13 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _audienceRepositoryMock = new Mock<IAudienceRepository>();
       _scopeRepositoryMock = new Mock<IScopeRepository>();
 
+      _audienceServiceMock = new Mock<IAudienceService>();
+
       _resourceStore = new ResourceStore(
         _mapperMock.Object,
         _scopeRepositoryMock.Object,
-        _audienceRepositoryMock.Object);
+        _audienceRepositoryMock.Object,
+        _audienceServiceMock.Object);
     }
 
     [TestMethod]
@@ -100,9 +105,9 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
     [TestMethod]
     public async Task FindApiResourcesByScopeNameAsync_Should_Return_Resources()
     {
-      var controlAudienceEntityCollection = new AudienceEntity[0];
+      var controlAudienceEntityCollection = new List<AudienceEntity>();
 
-      _audienceRepositoryMock.Setup(repository => repository.GetAudiencesByScopesAsync(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
+      _audienceRepositoryMock.Setup(repository => repository.GetAudiencesByScopesAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
                              .ReturnsAsync(controlAudienceEntityCollection)
                              .Verifiable();
 
