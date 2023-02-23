@@ -62,13 +62,13 @@ namespace IdentityServerSample.Infrastructure.Repositories
         await _dbContext.Set<AudienceEntity>()
                         .AsNoTracking()
                         .OrderBy(entity => entity.Name)
-                        .ToArrayAsync();
+                        .ToListAsync(cancellationToken);
 
-      if (scopes != null && scopes.Length > 0)
+      if (scopes != null && scopes.Any())
       {
         audienceEntityCollection =
           audienceEntityCollection.Where(entity => entity.Scopes != null && entity.Scopes.Any(scope => scopes.Contains(scope)))
-                                  .ToArray();
+                                  .ToList();
       }
 
       return audienceEntityCollection;
