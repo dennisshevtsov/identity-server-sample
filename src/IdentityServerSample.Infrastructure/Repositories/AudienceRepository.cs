@@ -64,7 +64,6 @@ namespace IdentityServerSample.Infrastructure.Repositories
                         .OrderBy(entity => entity.Name)
                         .ToArrayAsync();
 
-
       if (scopes != null && scopes.Length > 0)
       {
         audienceEntityCollection =
