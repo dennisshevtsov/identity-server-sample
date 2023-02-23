@@ -51,9 +51,9 @@ namespace IdentityServerSample.ApplicationCore.Services
     {
       var audienceEntityCollection =
         await _audienceRepository.GetAudiencesByScopesAsync(
-          scopes.ToArray(), CancellationToken.None);
+          scopes, CancellationToken.None);
 
-      return audienceEntityCollection.ToList();
+      return audienceEntityCollection;
     }
   }
 }
