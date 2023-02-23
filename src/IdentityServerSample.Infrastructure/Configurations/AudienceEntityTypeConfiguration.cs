@@ -8,6 +8,7 @@ namespace IdentityServerSample.Infrastructure.Configurations
   using Microsoft.EntityFrameworkCore;
 
   using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.Infrastructure.Defaults;
 
   /// <summary>Allows configuration for an entity type.</summary>
   public sealed class AudienceEntityTypeConfiguration : IEntityTypeConfiguration<AudienceEntity>
@@ -30,7 +31,8 @@ namespace IdentityServerSample.Infrastructure.Configurations
       builder.HasKey(entity => entity.AudienceName);
       builder.HasPartitionKey(entity => entity.AudienceName);
 
-      builder.HasNoDiscriminator();
+      builder.Property(typeof(string), EntityScheme.DescriminatorPropertyName);
+      builder.HasDiscriminator(EntityScheme.DescriminatorPropertyName, typeof(string));
 
       builder.Property(entity => entity.AudienceName).ToJsonProperty("name");
       builder.Property(entity => entity.DisplayName).ToJsonProperty("displayName");
