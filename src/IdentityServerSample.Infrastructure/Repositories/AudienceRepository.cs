@@ -26,30 +26,31 @@ namespace IdentityServerSample.Infrastructure.Repositories
     /// <summary>Gets a collection of all audiences.</summary>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public Task<AudienceEntity[]> GetAudiencesAsync(CancellationToken cancellationToken)
+    public Task<List<AudienceEntity>> GetAudiencesAsync(CancellationToken cancellationToken)
     {
       return _dbContext.Set<AudienceEntity>()
                        .AsNoTracking()
                        .OrderBy(entity => entity.AudienceName)
-                       .ToArrayAsync(cancellationToken);
+                       .ToListAsync(cancellationToken);
     }
 
     /// <summary>Gets a collection of audiences by audience names.</summary>
     /// <param name="audiences">An object that represents a collection of audience names.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public Task<AudienceEntity[]> GetAudiencesByNamesAsync(string[]? audiences, CancellationToken cancellationToken)
+    public Task<List<AudienceEntity>> GetAudiencesByNamesAsync(
+      IEnumerable<string>? audiences, CancellationToken cancellationToken)
     {
       var query = _dbContext.Set<AudienceEntity>()
                             .AsNoTracking();
 
-      if (audiences != null && audiences.Length > 0)
+      if (audiences != null && audiences.Any())
       {
         query = query.Where(entity => audiences.Contains(entity.AudienceName));
       }
 
       return query.OrderBy(entity => entity.AudienceName)
-                  .ToArrayAsync(cancellationToken);
+                  .ToListAsync(cancellationToken);
     }
 
     /// <summary>Gets a collection of all audiences by scope names.</summary>
