@@ -16,17 +16,25 @@ namespace IdentityServerSample.ApplicationCore.Services
   public sealed class AudienceService : IAudienceService
   {
     private readonly IMapper _mapper;
+
     private readonly IAudienceRepository _audienceRepository;
+    private readonly IAudienceScopeRepository _audienceScopeRepository;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.ApplicationCore.Services.AudienceService"/> class.</summary>
     /// <param name="mapper">An object that provides a simple API to map objects of different types.</param>
-    /// <param name="audienceRepository">An object that provides a simple API to query and save audiences.</param>
+    /// <param name="audienceRepository">An object that provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceEntity"/> class.</param>
+    /// <param name="audienceScopeRepository">An object that provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceScopeEntity"/> class.</param>
     public AudienceService(
       IMapper mapper,
-      IAudienceRepository audienceRepository)
+      IAudienceRepository audienceRepository,
+      IAudienceScopeRepository audienceScopeRepository)
     {
       _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-      _audienceRepository = audienceRepository ?? throw new ArgumentNullException(nameof(audienceRepository));
+
+      _audienceRepository = audienceRepository ??
+        throw new ArgumentNullException(nameof(audienceRepository));
+      _audienceScopeRepository = audienceScopeRepository ??
+        throw new ArgumentNullException(nameof(audienceScopeRepository));
     }
 
     /// <summary>Gets a collection of audiences that satisfy defined conditions.</summary>
@@ -49,9 +57,11 @@ namespace IdentityServerSample.ApplicationCore.Services
     public async Task<List<AudienceEntity>> GetAudiencesAsync(
       IEnumerable<string> scopes, CancellationToken cancellationToken)
     {
+      var audienceNameCollection =
+        await _audienceScopeRepository.GetAudiencesAsync(scopes, cancellationToken);
       var audienceEntityCollection =
-        await _audienceRepository.GetAudiencesByScopesAsync(
-          scopes, CancellationToken.None);
+        await _audienceRepository.GetAudiencesByNamesAsync(
+          audienceNameCollection, CancellationToken.None);
 
       return audienceEntityCollection;
     }
