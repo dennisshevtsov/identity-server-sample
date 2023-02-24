@@ -35,7 +35,7 @@ namespace IdentityServerSample.Infrastructure.Configurations
       builder.HasDiscriminator(EntityScheme.DescriminatorPropertyName, typeof(string));
 
       builder.Property(entity => entity.ScopeName).ToJsonProperty("id");
-      builder.Property(entity => entity.AudienceName).ToJsonProperty("audienceName");
+      builder.Property(entity => entity.AudienceName).ToJsonProperty("name");
     }
   }
 }
