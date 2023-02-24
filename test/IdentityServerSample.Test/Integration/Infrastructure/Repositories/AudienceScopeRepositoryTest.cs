@@ -24,7 +24,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
-    public async Task GetAudienceScopesAsync_Should_Return_Audience_Scope()
+    public async Task GetAudienceScopesAsync_Should_Return_Audience_Scopes()
     {
       await CreateNewAudienceScopesAsync(Guid.NewGuid().ToString(), 10);
 
@@ -36,6 +36,24 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       var testAudienceScopeEntityCollection =
         await _audienceScopeRepository.GetAudienceScopesAsync(identity, CancellationToken);
+
+      Assert.AreEqual(controlAudienceScopeEntityCollection.Count, testAudienceScopeEntityCollection.Count);
+
+      AudienceScopeRepositoryTest.AreEqual(
+        controlAudienceScopeEntityCollection, testAudienceScopeEntityCollection);
+
+      AreDetached(testAudienceScopeEntityCollection);
+    }
+
+    [TestMethod]
+    public async Task GetAudienceScopesAsync_Should_Return_All_Audience_Scopes()
+    {
+      var audienceName = Guid.NewGuid().ToString();
+      var controlAudienceScopeEntityCollection =
+        await CreateNewAudienceScopesAsync(audienceName, 10);
+
+      var testAudienceScopeEntityCollection =
+        await _audienceScopeRepository.GetAudienceScopesAsync(CancellationToken);
 
       Assert.AreEqual(controlAudienceScopeEntityCollection.Count, testAudienceScopeEntityCollection.Count);
 
