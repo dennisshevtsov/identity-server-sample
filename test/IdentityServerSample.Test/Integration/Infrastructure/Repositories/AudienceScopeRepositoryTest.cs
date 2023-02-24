@@ -88,6 +88,42 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       AreDetached(testAudienceScopeEntityCollection);
     }
 
+    [TestMethod]
+    public async Task GetAudienceScopesAsync_Should_Return_Audience_Scopes_For_Audiencies()
+    {
+      var audienceNames = new[]
+      {
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+      };
+
+      var controlAudienceScopeEntityCollection = new List<AudienceScopeEntity>();
+
+      controlAudienceScopeEntityCollection.AddRange(
+        await CreateNewAudienceScopesAsync(audienceNames[0], 5));
+      controlAudienceScopeEntityCollection.AddRange(
+        await CreateNewAudienceScopesAsync(audienceNames[1], 10));
+
+      controlAudienceScopeEntityCollection =
+        controlAudienceScopeEntityCollection.OrderBy(entity => entity.ScopeName)
+                                            .ToList();
+
+      await CreateNewAudienceScopesAsync(Guid.NewGuid().ToString(), 10);
+
+      var audienciesIdentities = audienceNames.ToAudienceIdentities();
+
+      var testAudienceScopeEntityCollection =
+        await _audienceScopeRepository.GetAudienceScopesAsync(
+          audienciesIdentities, CancellationToken);
+
+      Assert.AreEqual(controlAudienceScopeEntityCollection.Count, testAudienceScopeEntityCollection.Count);
+
+      AudienceScopeRepositoryTest.AreEqual(
+        controlAudienceScopeEntityCollection, testAudienceScopeEntityCollection);
+
+      AreDetached(testAudienceScopeEntityCollection);
+    }
+
     private async Task<AudienceScopeEntity> CreateNewAudienceScopeAsync(string audienceName)
     {
       var audienceScopeEntity = new AudienceScopeEntity
@@ -115,7 +151,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         audienceScopeEntityCollection.Add(await CreateNewAudienceScopeAsync(audienceName));
       }
 
-      return audienceScopeEntityCollection.OrderBy(entity => entity.AudienceName)
+      return audienceScopeEntityCollection.OrderBy(entity => entity.ScopeName)
                                           .ToList();
     }
 

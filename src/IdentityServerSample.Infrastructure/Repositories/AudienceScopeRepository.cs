@@ -34,6 +34,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
       => _dbContext.Set<AudienceScopeEntity>()
                    .AsNoTracking()
                    .WithPartitionKey(identity.AudienceName!)
+                   .OrderBy(entity => entity.ScopeName)
                    .ToListAsync(cancellationToken);
 
     /// <summary>Gets a collection of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceScopeEntity"/> that relate to defined scopes.</summary>
@@ -42,7 +43,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     public Task<List<AudienceScopeEntity>> GetAudienceScopesAsync(CancellationToken cancellationToken)
       => _dbContext.Set<AudienceScopeEntity>()
                    .AsNoTracking()
-                   .OrderBy(entity => entity.AudienceName)
+                   .OrderBy(entity => entity.ScopeName)
                    .ToListAsync(cancellationToken);
 
     /// <summary>Gets a collection of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceScopeEntity"/> that relate to defined scopes.</summary>
@@ -60,7 +61,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
         await _dbContext.Set<AudienceScopeEntity>()
                         .AsNoTracking()
                         .Where(entity => audienceNameCollection.Contains(entity.ScopeName!))
-                        .OrderBy(entity => entity.AudienceName)
+                        .OrderBy(entity => entity.ScopeName)
                         .ToListAsync(cancellationToken);
 
       return audienceScopeEntityCollection;
@@ -81,7 +82,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
         await _dbContext.Set<AudienceScopeEntity>()
                         .AsNoTracking()
                         .Where(entity => audienceNameCollection.Contains(entity.AudienceName!))
-                        .OrderBy(entity => entity.AudienceName)
+                        .OrderBy(entity => entity.ScopeName)
                         .ToListAsync(cancellationToken);
 
       return audienceScopeEntityCollection;
