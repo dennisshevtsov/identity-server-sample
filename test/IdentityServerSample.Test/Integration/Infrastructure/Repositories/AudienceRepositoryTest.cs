@@ -8,6 +8,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
   using Microsoft.Extensions.DependencyInjection;
 
   using IdentityServerSample.Infrastructure.Test;
+  using IdentityServerSample.ApplicationCore.Identities;
 
   [TestClass]
   public sealed class AudienceRepositoryTest : DbIntegrationTestBase
@@ -40,19 +41,19 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
-    public async Task GetAudiencesByNamesAsync_Should_Return_Audiences_With_Defined_Names()
+    public async Task GetAudiencesAsync_Should_Return_Audiences_With_Defined_Names()
     {
       var allAudienceEntityCollection = await CreateNewAudienciesAsync(10);
       var controlAudienceEntityCollection =
         allAudienceEntityCollection.Where((entity, index) => index % 2 == 0)
                                    .ToList();
 
-      var audienceNameCollection =
+      var audienceIdentities =
         controlAudienceEntityCollection.Select(entity => entity.AudienceName!)
-                                       .ToList();
+                                       .ToAudienceIdentities();
 
       var testAudienceEntityCollection =
-        await _audienceRepository.GetAudiencesByNamesAsync(audienceNameCollection, CancellationToken);
+        await _audienceRepository.GetAudiencesAsync(audienceIdentities, CancellationToken);
 
       Assert.AreEqual(controlAudienceEntityCollection.Count, testAudienceEntityCollection.Count);
 
@@ -65,55 +66,12 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
-    public async Task GetAudiencesByNamesAsync_Should_Return_All_Audiences()
+    public async Task GetAudiencesAsync_Should_Return_All_Audiences_For_Empty_Audience_Identities()
     {
       var controlAudienceEntityCollection = await CreateNewAudienciesAsync(10);
 
       var testAudienceEntityCollection =
-        await _audienceRepository.GetAudiencesByNamesAsync(null, CancellationToken);
-
-      Assert.AreEqual(controlAudienceEntityCollection.Count, testAudienceEntityCollection.Count);
-
-      for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
-      {
-        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
-      }
-
-      AreDetached(testAudienceEntityCollection);
-    }
-
-    [TestMethod]
-    public async Task GetAudiencesByScopesAsync_Should_Return_Audiences_That_Relate_To_At_Least_One_Defined_Scope()
-    {
-      var allAudienceEntityCollection = await CreateNewAudienciesAsync(10);
-      var controlAudienceEntityCollection =
-        allAudienceEntityCollection.Where((entity, index) => index % 2 == 0)
-                                   .ToList();
-
-      var scopeNameCollection =
-        controlAudienceEntityCollection.Select(entity => entity.Scopes!.First())
-                                       .ToList();
-
-      var testAudienceEntityCollection =
-        await _audienceRepository.GetAudiencesByScopesAsync(scopeNameCollection, CancellationToken);
-
-      Assert.AreEqual(controlAudienceEntityCollection.Count, testAudienceEntityCollection.Count);
-
-      for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
-      {
-        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
-      }
-
-      AreDetached(testAudienceEntityCollection);
-    }
-
-    [TestMethod]
-    public async Task GetAudiencesByScopesAsync_Should_Return_All_Audiences()
-    {
-      var controlAudienceEntityCollection = await CreateNewAudienciesAsync(10);
-
-      var testAudienceEntityCollection =
-        await _audienceRepository.GetAudiencesByScopesAsync(null, CancellationToken);
+        await _audienceRepository.GetAudiencesAsync(null, CancellationToken);
 
       Assert.AreEqual(controlAudienceEntityCollection.Count, testAudienceEntityCollection.Count);
 
@@ -132,11 +90,6 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         AudienceName = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
-        Scopes = new[]
-        {
-          Guid.NewGuid().ToString(),
-          Guid.NewGuid().ToString(),
-        },
       };
 
       var audienceEntityEntry = DbContext.Add(audienceEntity);
@@ -166,14 +119,6 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       Assert.AreEqual(control.AudienceName, test.AudienceName);
       Assert.AreEqual(control.DisplayName, test.DisplayName);
       Assert.AreEqual(control.Description, test.Description);
-
-      Assert.IsNotNull(test.Scopes);
-      Assert.AreEqual(control.Scopes!.Count, test.Scopes.Count);
-
-      for (int i = 0; i < control.Scopes.Count; i++)
-      {
-        Assert.AreEqual(control.Scopes[i], test.Scopes[i]);
-      }
     }
 
     private void IsDetached(AudienceEntity audienceEntity)
