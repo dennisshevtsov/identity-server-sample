@@ -57,11 +57,36 @@ namespace IdentityServerSample.ApplicationCore.Services
     public async Task<List<AudienceEntity>> GetAudiencesAsync(
       IEnumerable<string> scopes, CancellationToken cancellationToken)
     {
-      var audienceNameCollection =
+      var audienceScopeEntityCollection =
         await _audienceScopeRepository.GetAudiencesAsync(scopes, cancellationToken);
+
+      var scopesPerAudienceDictionary = new Dictionary<string, List<string>>();
+
+      foreach (var audienceScopeEntity in audienceScopeEntityCollection)
+      {
+        if (!scopesPerAudienceDictionary.TryGetValue(
+          audienceScopeEntity.AudienceName!, out var scopesPerAudience))
+        {
+          scopesPerAudience = new List<string>();
+          scopesPerAudienceDictionary.Add(
+            audienceScopeEntity.AudienceName!, scopesPerAudience);
+        }
+
+        scopesPerAudience.Add(audienceScopeEntity.ScopeName!);
+      }
+
       var audienceEntityCollection =
         await _audienceRepository.GetAudiencesByNamesAsync(
-          audienceNameCollection, CancellationToken.None);
+          scopesPerAudienceDictionary.Keys, CancellationToken.None);
+
+      foreach (var audienceEntity in audienceEntityCollection)
+      {
+        if (scopesPerAudienceDictionary.TryGetValue(
+          audienceEntity.AudienceName!, out var scopesPerAudience))
+        {
+          audienceEntity.Scopes = scopesPerAudience;
+        }
+      }
 
       return audienceEntityCollection;
     }
