@@ -15,6 +15,8 @@ namespace Microsoft.Extensions.DependencyInjection
     public static IServiceCollection SetUpServices(this IServiceCollection services)
     {
       services.AddScoped<IAudienceService, AudienceService>();
+      services.AddScoped<IAudienceScopeService, AudienceScopeService>();
+
       services.AddScoped<IClientService, ClientService>();
       services.AddScoped<IScopeService, ScopeService>();
       services.AddScoped<IUserService, UserService>();
