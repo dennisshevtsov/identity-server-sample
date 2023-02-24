@@ -29,8 +29,34 @@ namespace IdentityServerSample.Infrastructure.Test
       Assert.IsNotNull(createdAudienceEntity);
 
       Assert.AreEqual(audienceName, createdAudienceEntity!.AudienceName);
-      Assert.AreEqual(creatingAudienceEntity.DisplayName, createdAudienceEntity!.DisplayName);
-      Assert.AreEqual(creatingAudienceEntity.Description, createdAudienceEntity!.Description);
+      Assert.AreEqual(creatingAudienceEntity.DisplayName, createdAudienceEntity.DisplayName);
+      Assert.AreEqual(creatingAudienceEntity.Description, createdAudienceEntity.Description);
+    }
+
+    [TestMethod]
+    public async Task SaveChangesAsync_Should_Ignore_Scopes()
+    {
+      var audienceName = Guid.NewGuid().ToString();
+      var creatingAudienceEntity = AudienceDbContextTest.GenerateTestAudience(audienceName);
+      creatingAudienceEntity.Scopes = new List<string>
+      {
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+      };
+
+      var creatingAudienceEntityEntry = DbContext.Add(creatingAudienceEntity);
+
+      await DbContext.SaveChangesAsync(CancellationToken);
+
+      creatingAudienceEntityEntry.State = EntityState.Detached;
+
+      var createdAudienceEntity =
+        await DbContext.Set<AudienceEntity>()
+                        .Where(entity => entity.AudienceName == audienceName)
+                        .FirstOrDefaultAsync(CancellationToken);
+
+      Assert.IsNotNull(createdAudienceEntity);
+      Assert.IsNull(createdAudienceEntity.Scopes);
     }
 
     [TestMethod]
@@ -62,9 +88,9 @@ namespace IdentityServerSample.Infrastructure.Test
 
       Assert.IsNotNull(updatedAudienceEntity);
 
-      Assert.AreEqual(audienceName, updatedAudienceEntity!.AudienceName);
-      Assert.AreEqual(updatingAudienceEntity.DisplayName, updatedAudienceEntity!.DisplayName);
-      Assert.AreEqual(updatingAudienceEntity.Description, updatedAudienceEntity!.Description);
+      Assert.AreEqual(audienceName, updatedAudienceEntity.AudienceName);
+      Assert.AreEqual(updatingAudienceEntity.DisplayName, updatedAudienceEntity.DisplayName);
+      Assert.AreEqual(updatingAudienceEntity.Description, updatedAudienceEntity.Description);
     }
 
     [TestMethod]
