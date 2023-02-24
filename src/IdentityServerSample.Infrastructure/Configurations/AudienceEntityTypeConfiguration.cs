@@ -37,7 +37,8 @@ namespace IdentityServerSample.Infrastructure.Configurations
       builder.Property(entity => entity.AudienceName).ToJsonProperty("name");
       builder.Property(entity => entity.DisplayName).ToJsonProperty("displayName");
       builder.Property(entity => entity.Description).ToJsonProperty("description");
-      builder.Property(entity => entity.Scopes).ToJsonProperty("scopes");
+
+      builder.Ignore(entity => entity.Scopes);
     }
   }
 }
