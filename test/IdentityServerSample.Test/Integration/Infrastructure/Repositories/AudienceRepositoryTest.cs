@@ -25,7 +25,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetAudiencesAsync_Should_Return_All_Audiences()
     {
-      var controlAudienceEntityCollection = await CreateNewAudienciesAsync(10);
+      var controlAudienceEntityCollection = await CreateNewAudiencesAsync(10);
 
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesAsync(CancellationToken);
@@ -43,7 +43,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetAudiencesAsync_Should_Return_Audiences_With_Defined_Names()
     {
-      var allAudienceEntityCollection = await CreateNewAudienciesAsync(10);
+      var allAudienceEntityCollection = await CreateNewAudiencesAsync(10);
       var controlAudienceEntityCollection =
         allAudienceEntityCollection.Where((entity, index) => index % 2 == 0)
                                    .ToList();
@@ -68,7 +68,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetAudiencesAsync_Should_Return_All_Audiences_For_Empty_Audience_Identities()
     {
-      var controlAudienceEntityCollection = await CreateNewAudienciesAsync(10);
+      var controlAudienceEntityCollection = await CreateNewAudiencesAsync(10);
 
       var testAudienceEntityCollection =
         await _audienceRepository.GetAudiencesAsync(null, CancellationToken);
@@ -101,7 +101,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       return audienceEntity;
     }
 
-    private async Task<List<AudienceEntity>> CreateNewAudienciesAsync(int audiences)
+    private async Task<List<AudienceEntity>> CreateNewAudiencesAsync(int audiences)
     {
       var audienceEntityCollection = new List<AudienceEntity>();
 

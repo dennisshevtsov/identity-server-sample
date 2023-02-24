@@ -5,16 +5,14 @@
 namespace IdentityServerSample.Infrastructure.Repositories
 {
   using System;
+  using System.Linq;
 
   using Microsoft.EntityFrameworkCore;
 
   using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Identities;
   using IdentityServerSample.ApplicationCore.Repositories;
-  using System.Security.Principal;
-  using static System.Formats.Asn1.AsnWriter;
-  using System.Linq;
-
+  
   /// <summary>Provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceScopeEntity"/> class.</summary>
   public sealed class AudienceScopeRepository : IAudienceScopeRepository
   {
