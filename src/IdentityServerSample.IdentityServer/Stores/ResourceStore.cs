@@ -20,20 +20,17 @@ namespace IdentityServerSample.IdentityServer.Stores
 
     private readonly IMapper _mapper;
 
-    private readonly IAudienceRepository _audienceRepository;
     private readonly IScopeRepository _scopeRepository;
 
     private readonly IAudienceService _audienceService;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApp.Stores.ResourceStore"/> class.</summary>
     /// <param name="mapper">An object that provides a simple API to map objects of different types.</param>
-    /// <param name="audienceRepository">An object that provides a simple API to query and save audiences.</param>
     /// <param name="scopeRepository">An object that provides a simple API to query and save audiences.</param>
     /// <param name="audienceService">An object that provides a simple API to execute audience queries and commands.</param>
     public ResourceStore(
       IMapper mapper,
       IScopeRepository scopeRepository,
-      IAudienceRepository audienceRepository,
       IAudienceService audienceService)
     {
       _identityResources = new IdentityResource[]
@@ -49,8 +46,6 @@ namespace IdentityServerSample.IdentityServer.Stores
       
       _scopeRepository = scopeRepository ??
         throw new ArgumentNullException(nameof(scopeRepository));
-      _audienceRepository = audienceRepository ??
-        throw new ArgumentNullException(nameof(audienceRepository));
 
       _audienceService = audienceService ??
         throw new ArgumentNullException(nameof(audienceService));
@@ -88,7 +83,7 @@ namespace IdentityServerSample.IdentityServer.Stores
       IEnumerable<string> scopeNames)
     {
       var audienceEntityCollection =
-        await _audienceService.GetAudiencesAsync(
+        await _audienceService.GetAudiencesByScopesAsync(
           scopeNames.ToArray(), CancellationToken.None);
 
       var apiResourceCollection =
@@ -104,7 +99,8 @@ namespace IdentityServerSample.IdentityServer.Stores
       IEnumerable<string> apiResourceNames)
     {
       var audienceEntityCollection =
-        await _audienceRepository.GetAudiencesByNamesAsync(apiResourceNames.ToArray(), CancellationToken.None);
+        await _audienceService.GetAudiencesByNamesAsync(
+          apiResourceNames, CancellationToken.None);
 
       var apiResourceCollection =
         _mapper.Map<IEnumerable<ApiResource>>(audienceEntityCollection);
@@ -118,13 +114,11 @@ namespace IdentityServerSample.IdentityServer.Stores
     {
       var scopeEntityCollection =
         await _scopeRepository.GetScopesAsync(CancellationToken.None);
-
       var apiScopeCollection =
         _mapper.Map<IEnumerable<ApiScope>>(scopeEntityCollection);
 
       var audienceEntityCollection =
-        await _audienceRepository.GetAudiencesAsync(CancellationToken.None);
-
+        await _audienceService.GetAudiencesAsync(CancellationToken.None);
       var apiResourceCollection =
         _mapper.Map<IEnumerable<ApiResource>>(audienceEntityCollection);
 
