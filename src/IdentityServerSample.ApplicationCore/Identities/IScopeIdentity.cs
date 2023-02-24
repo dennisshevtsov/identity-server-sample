@@ -8,6 +8,6 @@ namespace IdentityServerSample.ApplicationCore.Identities
   public interface IScopeIdentity
   {
     /// <summary>Gets/sets an object that represents a name of a scope.</summary>
-    public string? Name { get; set; }
+    public string? ScopeName { get; set; }
   }
 }

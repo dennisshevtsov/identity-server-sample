@@ -31,7 +31,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     {
       return _dbContext.Set<ClientEntity>()
                        .AsNoTracking()
-                       .Where(entity => entity.Name == name)
+                       .Where(entity => entity.ClientName == name)
                        .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -42,7 +42,7 @@ namespace IdentityServerSample.Infrastructure.Repositories
     {
       return _dbContext.Set<ClientEntity>()
                        .AsNoTracking()
-                       .OrderBy(entity => entity.Name)
+                       .OrderBy(entity => entity.ClientName)
                        .ToArrayAsync(cancellationToken);
     }
 

@@ -16,7 +16,7 @@ namespace IdentityServerSample.IdentityApi.Mapping.Test
     {
       var clientEntity = new ClientEntity
       {
-        Name = Guid.NewGuid().ToString(),
+        ClientName = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
         Scopes = new List<string>
         {
@@ -39,7 +39,7 @@ namespace IdentityServerSample.IdentityApi.Mapping.Test
 
       Assert.IsNotNull(client);
 
-      Assert.AreEqual(clientEntity.Name, client.ClientId);
+      Assert.AreEqual(clientEntity.ClientName, client.ClientId);
       Assert.AreEqual(clientEntity.DisplayName, client.ClientName);
       Assert.AreEqual(false, client.RequireClientSecret);
 

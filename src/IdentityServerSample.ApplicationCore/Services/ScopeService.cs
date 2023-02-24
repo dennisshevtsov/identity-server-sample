@@ -30,35 +30,35 @@ namespace IdentityServerSample.ApplicationCore.Services
 
       scopeEntityCollection.Add(new ScopeEntity
       {
-        Name = "openid",
+        ScopeName = "openid",
         DisplayName = "OpenID Scope",
         Description = "The required OpenID scope.",
         Standard = true,
       });
       scopeEntityCollection.Add(new ScopeEntity
       {
-        Name = "profile",
+        ScopeName = "profile",
         DisplayName = "Profile scope.",
         Description = "This scope value requests access to the End-User's default profile Claims, which are: name, family_name, given_name, middle_name, nickname, preferred_username, profile, picture, website, gender, birthdate, zoneinfo, locale, and updated_at.",
         Standard = true,
       });
       scopeEntityCollection.Add(new ScopeEntity
       {
-        Name = "email",
+        ScopeName = "email",
         DisplayName = "Email Scope",
         Description = "This scope value requests access to the email and email_verified Claims.",
         Standard = true,
       });
       scopeEntityCollection.Add(new ScopeEntity
       {
-        Name = "address",
+        ScopeName = "address",
         DisplayName = "Address Scope",
         Description = "This scope value requests access to the address Claim.",
         Standard = true,
       });
       scopeEntityCollection.Add(new ScopeEntity
       {
-        Name = "phone",
+        ScopeName = "phone",
         DisplayName = "Phone Scope",
         Description = "This scope value requests access to the phone_number and phone_number_verified Claims. ",
         Standard = true,

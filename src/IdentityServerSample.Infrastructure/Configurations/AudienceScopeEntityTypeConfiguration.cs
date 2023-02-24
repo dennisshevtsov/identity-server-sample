@@ -4,38 +4,38 @@
 
 namespace IdentityServerSample.Infrastructure.Configurations
 {
-  using Microsoft.EntityFrameworkCore;
   using Microsoft.EntityFrameworkCore.Metadata.Builders;
+  using Microsoft.EntityFrameworkCore;
 
   using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.Infrastructure.Defaults;
 
   /// <summary>Allows configuration for an entity type.</summary>
-  public sealed class UserScopeEntityTypeConfiguration : IEntityTypeConfiguration<UserScopeEntity>
+  public sealed class AudienceScopeEntityTypeConfiguration : IEntityTypeConfiguration<AudienceScopeEntity>
   {
     private readonly string _containerName;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.Infrastructure.Configurations.UserScopeEntityTypeConfiguration"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.Infrastructure.Configurations.AudienceScopeEntityTypeConfiguration"/> class.</summary>
     /// <param name="containerName">An object that represents a name of a container.</param>
-    public UserScopeEntityTypeConfiguration(string containerName)
+    public AudienceScopeEntityTypeConfiguration(string containerName)
     {
       _containerName = containerName ?? throw new ArgumentNullException(nameof(containerName));
     }
 
-    /// <summary>Configures the entity of the <see cref="IdentityServerSample.ApplicationCore.Entities.UserScopeEntity"/> type.</summary>
+    /// <summary>Configures the entity of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceScopeEntity"/> type.</summary>
     /// <param name="builder">An object that provides a simple API to configure the entity type.</param>
-    public void Configure(EntityTypeBuilder<UserScopeEntity> builder)
+    public void Configure(EntityTypeBuilder<AudienceScopeEntity> builder)
     {
       builder.ToContainer(_containerName);
 
       builder.HasKey(entity => entity.ScopeName);
-      builder.HasPartitionKey(entity => entity.UserId);
+      builder.HasPartitionKey(entity => entity.AudienceName);
 
       builder.Property(typeof(string), EntityScheme.DescriminatorPropertyName);
       builder.HasDiscriminator(EntityScheme.DescriminatorPropertyName, typeof(string));
 
       builder.Property(entity => entity.ScopeName).ToJsonProperty("id");
-      builder.Property(entity => entity.UserId).ToJsonProperty("userId");
+      builder.Property(entity => entity.AudienceName).ToJsonProperty("name");
     }
   }
 }

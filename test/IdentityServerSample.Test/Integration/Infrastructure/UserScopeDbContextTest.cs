@@ -23,12 +23,12 @@ namespace IdentityServerSample.Infrastructure.Test
       var createdUserScopeEntity =
         await DbContext.Set<UserScopeEntity>()
                        .WithPartitionKey(creatingUserScopeEntity.UserId.ToString())
-                       .Where(entity => entity.Name == creatingUserScopeEntity.Name)
+                       .Where(entity => entity.ScopeName == creatingUserScopeEntity.ScopeName)
                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdUserScopeEntity);
 
-      Assert.AreEqual(creatingUserScopeEntity.Name, createdUserScopeEntity.Name);
+      Assert.AreEqual(creatingUserScopeEntity.ScopeName, createdUserScopeEntity.ScopeName);
       Assert.AreEqual(creatingUserScopeEntity.UserId, createdUserScopeEntity.UserId);
     }
 
@@ -45,7 +45,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var deletingUserScopeEntity = new UserScopeEntity
       {
-        Name = creatingUserScopeEntity.Name,
+        ScopeName = creatingUserScopeEntity.ScopeName,
         UserId= creatingUserScopeEntity.UserId,
       };
 
@@ -58,7 +58,7 @@ namespace IdentityServerSample.Infrastructure.Test
       var deletedUserScopeEntity =
         await DbContext.Set<UserScopeEntity>()
                        .WithPartitionKey(creatingUserScopeEntity.UserId.ToString())
-                       .Where(entity => entity.Name == creatingUserScopeEntity.Name)
+                       .Where(entity => entity.ScopeName == creatingUserScopeEntity.ScopeName)
                        .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNull(deletedUserScopeEntity);
@@ -66,7 +66,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
     private static UserScopeEntity GenerateTestUserScope() => new UserScopeEntity
     {
-      Name = Guid.NewGuid().ToString(),
+      ScopeName = Guid.NewGuid().ToString(),
       UserId = Guid.NewGuid(),
     };
   }

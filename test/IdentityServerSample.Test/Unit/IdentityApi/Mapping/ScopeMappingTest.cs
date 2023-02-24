@@ -16,7 +16,7 @@ namespace IdentityServerSample.IdentityApi.Mapping.Test
     {
       var scopeEntity = new ScopeEntity
       {
-        Name = Guid.NewGuid().ToString(),
+        ScopeName = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
       };
 
@@ -24,7 +24,7 @@ namespace IdentityServerSample.IdentityApi.Mapping.Test
 
       Assert.IsNotNull(scope);
 
-      Assert.AreEqual(scopeEntity.Name, scope.Name);
+      Assert.AreEqual(scopeEntity.ScopeName, scope.Name);
       Assert.AreEqual(scopeEntity.DisplayName, scope.DisplayName);
     }
   }

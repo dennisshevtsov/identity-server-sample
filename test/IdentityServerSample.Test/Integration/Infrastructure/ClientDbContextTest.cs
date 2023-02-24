@@ -22,7 +22,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var creatingAudienceEntity = new ClientEntity
       {
-        Name = clientName,
+        ClientName = clientName,
         DisplayName = creatingCleintDisplayName,
         Description = creatingClientDesciption,
         Scopes = new[] { creatingScopeName },
@@ -39,12 +39,12 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var createdClientEntity =
         await DbContext.Set<ClientEntity>()
-                        .Where(entity => entity.Name == clientName)
+                        .Where(entity => entity.ClientName == clientName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdClientEntity);
 
-      Assert.AreEqual(clientName, createdClientEntity!.Name);
+      Assert.AreEqual(clientName, createdClientEntity!.ClientName);
       Assert.AreEqual(creatingCleintDisplayName, createdClientEntity!.DisplayName);
       Assert.AreEqual(creatingClientDesciption, createdClientEntity!.Description);
 
@@ -76,7 +76,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var creatingAudienceEntity = new ClientEntity
       {
-        Name = clientName,
+        ClientName = clientName,
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
         Scopes = new[] { scopeName0 },
@@ -100,7 +100,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var updatingClientEntity = new ClientEntity
       {
-        Name = clientName,
+        ClientName = clientName,
         DisplayName = updatingCleintDisplayName,
         Description = updatingClientDesciption,
         Scopes = new[] { scopeName0, scopeName1 },
@@ -119,11 +119,11 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var updatedClientEntity =
         await DbContext.Set<ClientEntity>()
-                        .Where(entity => entity.Name == clientName)
+                        .Where(entity => entity.ClientName == clientName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(updatedClientEntity);
-      Assert.AreEqual(clientName, updatedClientEntity!.Name);
+      Assert.AreEqual(clientName, updatedClientEntity!.ClientName);
       Assert.AreEqual(updatingCleintDisplayName, updatedClientEntity!.DisplayName);
       Assert.AreEqual(updatingClientDesciption, updatedClientEntity!.Description);
 
@@ -165,7 +165,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var creatingClientEntity = new ClientEntity
       {
-        Name = clientName,
+        ClientName = clientName,
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
         Scopes = new string[] { Guid.NewGuid().ToString() },
@@ -181,7 +181,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var createdClientEntity =
         await DbContext.Set<ClientEntity>()
-                        .Where(entity => entity.Name == clientName)
+                        .Where(entity => entity.ClientName == clientName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdClientEntity);
@@ -192,7 +192,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var deletedClientEntity =
         await DbContext.Set<ClientEntity>()
-                        .Where(entity => entity.Name == clientName)
+                        .Where(entity => entity.ClientName == clientName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNull(deletedClientEntity);

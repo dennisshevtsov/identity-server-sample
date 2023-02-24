@@ -16,7 +16,7 @@ namespace IdentityServerSample.ApplicationCore.Dtos
     public sealed class ScopeDto : IScopeIdentity
     {
       /// <summary>Gets/sets an object that represents a name of a scope.</summary>
-      public string? Name { get; set; }
+      public string? ScopeName { get; set; }
 
       /// <summary>Gets/sets an object that represents a diaplay name of a scope.</summary>
       public string? DisplayName { get; set; }

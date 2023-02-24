@@ -20,7 +20,8 @@ namespace IdentityServerSample.IdentityApi.Mapping
 
     private static void ConfigureMapping(IProfileExpression expression)
     {
-      expression.CreateMap<AudienceEntity, ApiResource>();
+      expression.CreateMap<AudienceEntity, ApiResource>()
+                .ForMember(resource => resource.Name, options => options.MapFrom(entity => entity.AudienceName));
     }
   }
 }

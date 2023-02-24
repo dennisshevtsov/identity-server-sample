@@ -10,7 +10,7 @@ namespace IdentityServerSample.ApplicationCore.Entities
   public sealed class AudienceEntity : IAudienceIdentity
   {
     /// <summary>Gets/sets an object that represents a name of an audience.</summary>
-    public string? Name { get; set; }
+    public string? AudienceName { get; set; }
 
     /// <summary>Gets/sets an object that represents a display name of an audience.</summary>
     public string? DisplayName { get; set; }

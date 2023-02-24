@@ -23,14 +23,40 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var createdAudienceEntity =
         await DbContext.Set<AudienceEntity>()
-                        .Where(entity => entity.Name == audienceName)
+                        .Where(entity => entity.AudienceName == audienceName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdAudienceEntity);
 
-      Assert.AreEqual(audienceName, createdAudienceEntity!.Name);
-      Assert.AreEqual(creatingAudienceEntity.DisplayName, createdAudienceEntity!.DisplayName);
-      Assert.AreEqual(creatingAudienceEntity.Description, createdAudienceEntity!.Description);
+      Assert.AreEqual(audienceName, createdAudienceEntity!.AudienceName);
+      Assert.AreEqual(creatingAudienceEntity.DisplayName, createdAudienceEntity.DisplayName);
+      Assert.AreEqual(creatingAudienceEntity.Description, createdAudienceEntity.Description);
+    }
+
+    [TestMethod]
+    public async Task SaveChangesAsync_Should_Ignore_Scopes()
+    {
+      var audienceName = Guid.NewGuid().ToString();
+      var creatingAudienceEntity = AudienceDbContextTest.GenerateTestAudience(audienceName);
+      creatingAudienceEntity.Scopes = new List<string>
+      {
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+      };
+
+      var creatingAudienceEntityEntry = DbContext.Add(creatingAudienceEntity);
+
+      await DbContext.SaveChangesAsync(CancellationToken);
+
+      creatingAudienceEntityEntry.State = EntityState.Detached;
+
+      var createdAudienceEntity =
+        await DbContext.Set<AudienceEntity>()
+                        .Where(entity => entity.AudienceName == audienceName)
+                        .FirstOrDefaultAsync(CancellationToken);
+
+      Assert.IsNotNull(createdAudienceEntity);
+      Assert.IsNull(createdAudienceEntity.Scopes);
     }
 
     [TestMethod]
@@ -57,14 +83,14 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var updatedAudienceEntity =
         await DbContext.Set<AudienceEntity>()
-                        .Where(entity => entity.Name == audienceName)
+                        .Where(entity => entity.AudienceName == audienceName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(updatedAudienceEntity);
 
-      Assert.AreEqual(audienceName, updatedAudienceEntity!.Name);
-      Assert.AreEqual(updatingAudienceEntity.DisplayName, updatedAudienceEntity!.DisplayName);
-      Assert.AreEqual(updatingAudienceEntity.Description, updatedAudienceEntity!.Description);
+      Assert.AreEqual(audienceName, updatedAudienceEntity.AudienceName);
+      Assert.AreEqual(updatingAudienceEntity.DisplayName, updatedAudienceEntity.DisplayName);
+      Assert.AreEqual(updatingAudienceEntity.Description, updatedAudienceEntity.Description);
     }
 
     [TestMethod]
@@ -81,7 +107,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var createdAudienceEntity =
         await DbContext.Set<AudienceEntity>()
-                        .Where(entity => entity.Name == audienceName)
+                        .Where(entity => entity.AudienceName == audienceName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNotNull(createdAudienceEntity);
@@ -92,7 +118,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
       var deletedAudienceEntity =
         await DbContext.Set<AudienceEntity>()
-                        .Where(entity => entity.Name == audienceName)
+                        .Where(entity => entity.AudienceName == audienceName)
                         .FirstOrDefaultAsync(CancellationToken);
 
       Assert.IsNull(deletedAudienceEntity);
@@ -100,7 +126,7 @@ namespace IdentityServerSample.Infrastructure.Test
 
     private static AudienceEntity GenerateTestAudience(string audienceName) => new AudienceEntity
     {
-      Name = audienceName,
+      AudienceName = audienceName,
       DisplayName = Guid.NewGuid().ToString(),
       Description = Guid.NewGuid().ToString(),
     };

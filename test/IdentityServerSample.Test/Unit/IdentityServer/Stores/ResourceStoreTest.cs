@@ -16,8 +16,9 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
 #pragma warning disable CS8618
     private Mock<IMapper> _mapperMock;
 
-    private Mock<IAudienceRepository> _audienceRepositoryMock;
     private Mock<IScopeRepository> _scopeRepositoryMock;
+
+    private Mock<IAudienceService> _audienceServiceMock;
 
     private ResourceStore _resourceStore;
 #pragma warning restore CS8618
@@ -27,13 +28,14 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
     {
       _mapperMock = new Mock<IMapper>();
 
-      _audienceRepositoryMock = new Mock<IAudienceRepository>();
       _scopeRepositoryMock = new Mock<IScopeRepository>();
+
+      _audienceServiceMock = new Mock<IAudienceService>();
 
       _resourceStore = new ResourceStore(
         _mapperMock.Object,
         _scopeRepositoryMock.Object,
-        _audienceRepositoryMock.Object);
+        _audienceServiceMock.Object);
     }
 
     [TestMethod]
@@ -61,8 +63,9 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
 
       _mapperMock.VerifyNoOtherCalls();
 
-      _audienceRepositoryMock.VerifyNoOtherCalls();
       _scopeRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -94,21 +97,21 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(scopeNames, CancellationToken.None));
       _scopeRepositoryMock.VerifyNoOtherCalls();
 
-      _audienceRepositoryMock.VerifyNoOtherCalls();
+      _audienceServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
     public async Task FindApiResourcesByScopeNameAsync_Should_Return_Resources()
     {
-      var controlAudienceEntityCollection = new AudienceEntity[0];
+      var controlAudienceEntityCollection = new List<AudienceEntity>();
 
-      _audienceRepositoryMock.Setup(repository => repository.GetAudiencesByScopesAsync(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
-                             .ReturnsAsync(controlAudienceEntityCollection)
-                             .Verifiable();
+      _audienceServiceMock.Setup(repository => repository.GetAudiencesByScopesAsync(It.IsAny<IEnumerable<string>>(), It.IsAny<CancellationToken>()))
+                          .ReturnsAsync(controlAudienceEntityCollection)
+                          .Verifiable();
 
-      var controlResourceCollection = new ApiResource[0];
+      var controlResourceCollection = new List<ApiResource>();
 
-      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<AudienceEntity[]>()))
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<List<AudienceEntity>>()))
                  .Returns(controlResourceCollection)
                  .Verifiable();
 
@@ -123,24 +126,24 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiResource>>(controlAudienceEntityCollection));
       _mapperMock.VerifyNoOtherCalls();
 
-      _audienceRepositoryMock.Verify(repository => repository.GetAudiencesByScopesAsync(scopeNames, CancellationToken.None));
-      _audienceRepositoryMock.VerifyNoOtherCalls();
-
       _scopeRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceServiceMock.Verify(repository => repository.GetAudiencesByScopesAsync(scopeNames, CancellationToken.None));
+      _audienceServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
     public async Task FindApiResourcesByNameAsync_Should_Return_Resources()
     {
-      var controlAudienceEntityCollection = new AudienceEntity[0];
+      var controlAudienceEntityCollection = new List<AudienceEntity>();
 
-      _audienceRepositoryMock.Setup(repository => repository.GetAudiencesByNamesAsync(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
-                             .ReturnsAsync(controlAudienceEntityCollection)
-                             .Verifiable();
+      _audienceServiceMock.Setup(repository => repository.GetAudiencesByNamesAsync(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
+                          .ReturnsAsync(controlAudienceEntityCollection)
+                          .Verifiable();
 
       var controlResourceCollection = new ApiResource[0];
 
-      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<AudienceEntity[]>()))
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<List<AudienceEntity>>()))
                  .Returns(controlResourceCollection)
                  .Verifiable();
 
@@ -155,10 +158,10 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiResource>>(controlAudienceEntityCollection));
       _mapperMock.VerifyNoOtherCalls();
 
-      _audienceRepositoryMock.Verify(repository => repository.GetAudiencesByNamesAsync(scopeNames, CancellationToken.None));
-      _audienceRepositoryMock.VerifyNoOtherCalls();
-
       _scopeRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceServiceMock.Verify(repository => repository.GetAudiencesByNamesAsync(scopeNames, CancellationToken.None));
+      _audienceServiceMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
@@ -180,11 +183,11 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
                  .Returns(controlScopeCollection)
                  .Verifiable();
 
-      var controlAudienceEntityCollection = new AudienceEntity[0];
+      var controlAudienceEntityCollection = new List<AudienceEntity>();
 
-      _audienceRepositoryMock.Setup(repository => repository.GetAudiencesAsync(It.IsAny<CancellationToken>()))
-                             .ReturnsAsync(controlAudienceEntityCollection)
-                             .Verifiable();
+      _audienceServiceMock.Setup(repository => repository.GetAudiencesAsync(It.IsAny<CancellationToken>()))
+                          .ReturnsAsync(controlAudienceEntityCollection)
+                          .Verifiable();
 
       var controlResourceCollection = new[]
       {
@@ -192,7 +195,7 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
         new ApiResource { Name = Guid.NewGuid().ToString(), },
       };
 
-      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<AudienceEntity[]>()))
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<ApiResource>>(It.IsAny<List<AudienceEntity>>()))
                  .Returns(controlResourceCollection)
                  .Verifiable();
 
@@ -210,11 +213,11 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiResource>>(controlAudienceEntityCollection));
       _mapperMock.VerifyNoOtherCalls();
 
-      _audienceRepositoryMock.Verify(repository => repository.GetAudiencesAsync(CancellationToken.None));
-      _audienceRepositoryMock.VerifyNoOtherCalls();
-
       _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(CancellationToken.None));
       _scopeRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceServiceMock.Verify(repository => repository.GetAudiencesAsync(CancellationToken.None));
+      _audienceServiceMock.VerifyNoOtherCalls();
     }
 
     private static void AreEqual(

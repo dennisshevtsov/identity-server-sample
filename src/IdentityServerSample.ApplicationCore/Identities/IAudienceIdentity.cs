@@ -8,6 +8,6 @@ namespace IdentityServerSample.ApplicationCore.Identities
   public interface IAudienceIdentity
   {
     /// <summary>Gets/sets an object that represents an ID of an audience.</summary>
-    public string? Name { get; set; }
+    public string? AudienceName { get; set; }
   }
 }

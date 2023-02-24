@@ -27,7 +27,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var allClientEntityCollection = await CreateNewClientsAsync(10);
       var controlClientEntity = allClientEntityCollection[2];
 
-      var clientName = controlClientEntity.Name!;
+      var clientName = controlClientEntity.ClientName!;
 
       var clientEntity =
         await _clientRepository.GetClientAsync(clientName, CancellationToken);
@@ -103,7 +103,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     {
       var clientEntity = new ClientEntity
       {
-        Name = Guid.NewGuid().ToString(),
+        ClientName = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
         Scopes = new[]
@@ -146,13 +146,13 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         clientEntityCollection.Add(await CreateNewClientAsync());
       }
 
-      return clientEntityCollection.OrderBy(entity => entity.Name)
+      return clientEntityCollection.OrderBy(entity => entity.ClientName)
                                    .ToArray();
     }
 
     private void AreEqual(ClientEntity control, ClientEntity test)
     {
-      Assert.AreEqual(control.Name, test.Name);
+      Assert.AreEqual(control.ClientName, test.ClientName);
       Assert.AreEqual(control.DisplayName, test.DisplayName);
       Assert.AreEqual(control.Description, test.Description);
 

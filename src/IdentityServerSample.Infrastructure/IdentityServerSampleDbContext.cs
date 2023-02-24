@@ -9,6 +9,7 @@ namespace IdentityServerSample.Infrastructure
 
   using IdentityServerSample.Infrastructure.Configurations;
 
+  /// <summary>Represents a session with the database and can be used to query and save instances of your entities.</summary>
   public sealed class IdentityServerSampleDbContext : DbContext
   {
     private readonly IOptions<DatabaseOptions> _databaseOptions;
@@ -27,8 +28,12 @@ namespace IdentityServerSample.Infrastructure
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.ApplyConfiguration(new AudienceEntityTypeConfiguration(_databaseOptions.Value.AudienceContainerName));
+      modelBuilder.ApplyConfiguration(new AudienceScopeEntityTypeConfiguration(_databaseOptions.Value.AudienceContainerName));
+
       modelBuilder.ApplyConfiguration(new ClientEntityTypeConfiguration(_databaseOptions.Value.ClientContainerName));
+      
       modelBuilder.ApplyConfiguration(new ScopeEntityTypeConfiguration(_databaseOptions.Value.ScopeContainerName));
+      
       modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration(_databaseOptions.Value.UserContainerName));
       modelBuilder.ApplyConfiguration(new UserScopeEntityTypeConfiguration(_databaseOptions.Value.UserContainerName));
     }
