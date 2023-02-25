@@ -7,6 +7,7 @@ namespace IdentityServerSample.ApplicationCore.Services
   using System;
 
   using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.ApplicationCore.Identities;
   using IdentityServerSample.ApplicationCore.Repositories;
 
   /// <summary>Provides a simple API to query and save scopes.</summary>
@@ -25,7 +26,7 @@ namespace IdentityServerSample.ApplicationCore.Services
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     public Task<List<ScopeEntity>> GetScopesAsync(CancellationToken cancellationToken)
-      => _scopeRepository.GetScopesAsync(cancellationToken)
+      => _scopeRepository.GetScopesAsync(null, false, cancellationToken);
 
     /// <summary>Gets a collection of scopes with names.</summary>
     /// <param name="scopes">An object that represents a collection of scope names.</param>
@@ -33,17 +34,13 @@ namespace IdentityServerSample.ApplicationCore.Services
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     public Task<List<ScopeEntity>> GetScopesAsync(
       IEnumerable<string> scopes, CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
+      => _scopeRepository.GetScopesAsync(scopes.ToScopeIdentities(), false, cancellationToken);
 
     /// <summary>Gets a collection of standard scopes.</summary>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     public Task<List<ScopeEntity>> GetStandardScopesAsync(CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
+      => _scopeRepository.GetScopesAsync(null, true, cancellationToken);
 
     /// <summary>Gets a collection of standard scopes with names.</summary>
     /// <param name="scopes">An object that represents a collection of scope names.</param>
@@ -51,8 +48,6 @@ namespace IdentityServerSample.ApplicationCore.Services
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     public Task<List<ScopeEntity>> GetStandardScopesAsync(
       IEnumerable<string> scopes, CancellationToken cancellationToken)
-    {
-      throw new NotImplementedException();
-    }
+      => _scopeRepository.GetScopesAsync(scopes.ToScopeIdentities(), true, cancellationToken);
   }
 }
