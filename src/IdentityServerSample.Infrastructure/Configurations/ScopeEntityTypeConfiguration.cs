@@ -32,11 +32,10 @@ namespace IdentityServerSample.Infrastructure.Configurations
 
       builder.HasNoDiscriminator();
 
-      builder.Property(entity => entity.ScopeName).ToJsonProperty("name");
+      builder.Property(entity => entity.ScopeName).ToJsonProperty("id");
       builder.Property(entity => entity.DisplayName).ToJsonProperty("displayName");
       builder.Property(entity => entity.Description).ToJsonProperty("description");
-
-      builder.Ignore(entity => entity.Standard);
+      builder.Property(entity => entity.Standard).ToJsonProperty("standard");
     }
   }
 }

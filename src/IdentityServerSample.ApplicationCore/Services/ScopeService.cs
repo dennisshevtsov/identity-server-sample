@@ -7,6 +7,7 @@ namespace IdentityServerSample.ApplicationCore.Services
   using System;
 
   using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.ApplicationCore.Identities;
   using IdentityServerSample.ApplicationCore.Repositories;
 
   /// <summary>Provides a simple API to query and save scopes.</summary>
@@ -24,47 +25,29 @@ namespace IdentityServerSample.ApplicationCore.Services
     /// <summary>Gets a collection of available scopes.</summary>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public async Task<List<ScopeEntity>> GetScopesAsync(CancellationToken cancellationToken)
-    {
-      var scopeEntityCollection = await _scopeRepository.GetScopesAsync(cancellationToken);
+    public Task<List<ScopeEntity>> GetScopesAsync(CancellationToken cancellationToken)
+      => _scopeRepository.GetScopesAsync(null, false, cancellationToken);
 
-      scopeEntityCollection.Add(new ScopeEntity
-      {
-        ScopeName = "openid",
-        DisplayName = "OpenID Scope",
-        Description = "The required OpenID scope.",
-        Standard = true,
-      });
-      scopeEntityCollection.Add(new ScopeEntity
-      {
-        ScopeName = "profile",
-        DisplayName = "Profile scope.",
-        Description = "This scope value requests access to the End-User's default profile Claims, which are: name, family_name, given_name, middle_name, nickname, preferred_username, profile, picture, website, gender, birthdate, zoneinfo, locale, and updated_at.",
-        Standard = true,
-      });
-      scopeEntityCollection.Add(new ScopeEntity
-      {
-        ScopeName = "email",
-        DisplayName = "Email Scope",
-        Description = "This scope value requests access to the email and email_verified Claims.",
-        Standard = true,
-      });
-      scopeEntityCollection.Add(new ScopeEntity
-      {
-        ScopeName = "address",
-        DisplayName = "Address Scope",
-        Description = "This scope value requests access to the address Claim.",
-        Standard = true,
-      });
-      scopeEntityCollection.Add(new ScopeEntity
-      {
-        ScopeName = "phone",
-        DisplayName = "Phone Scope",
-        Description = "This scope value requests access to the phone_number and phone_number_verified Claims. ",
-        Standard = true,
-      });
+    /// <summary>Gets a collection of scopes with names.</summary>
+    /// <param name="scopes">An object that represents a collection of scope names.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task<List<ScopeEntity>> GetScopesAsync(
+      IEnumerable<string> scopes, CancellationToken cancellationToken)
+      => _scopeRepository.GetScopesAsync(scopes.ToScopeIdentities(), false, cancellationToken);
 
-      return scopeEntityCollection;
-    }
+    /// <summary>Gets a collection of standard scopes.</summary>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task<List<ScopeEntity>> GetStandardScopesAsync(CancellationToken cancellationToken)
+      => _scopeRepository.GetScopesAsync(null, true, cancellationToken);
+
+    /// <summary>Gets a collection of standard scopes with names.</summary>
+    /// <param name="scopes">An object that represents a collection of scope names.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task<List<ScopeEntity>> GetStandardScopesAsync(
+      IEnumerable<string> scopes, CancellationToken cancellationToken)
+      => _scopeRepository.GetScopesAsync(scopes.ToScopeIdentities(), true, cancellationToken);
   }
 }

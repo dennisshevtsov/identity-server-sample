@@ -31,6 +31,7 @@ namespace IdentityServerSample.Infrastructure.Test
       Assert.AreEqual(scopeName, createdScopeEntity.ScopeName);
       Assert.AreEqual(creatingScopeEntity.DisplayName, createdScopeEntity.DisplayName);
       Assert.AreEqual(creatingScopeEntity.Description, createdScopeEntity.Description);
+      Assert.AreEqual(creatingScopeEntity.Standard, createdScopeEntity.Standard);
     }
 
     [TestMethod]
@@ -46,6 +47,7 @@ namespace IdentityServerSample.Infrastructure.Test
       creatingScopeEntityEntry.State = EntityState.Detached;
 
       var updatingScopeEntity = ScopeDbContextTest.GenerateTestScope(scopeName);
+      updatingScopeEntity.Standard = false;
 
       var updatingScopeEntityEntry = DbContext.Attach(updatingScopeEntity);
 
@@ -65,6 +67,7 @@ namespace IdentityServerSample.Infrastructure.Test
       Assert.AreEqual(scopeName, updatedScopeEntity.ScopeName);
       Assert.AreEqual(updatingScopeEntity.DisplayName, updatedScopeEntity.DisplayName);
       Assert.AreEqual(updatingScopeEntity.Description, updatedScopeEntity.Description);
+      Assert.AreEqual(updatingScopeEntity.Standard, updatedScopeEntity.Standard);
     }
 
     [TestMethod]
@@ -98,39 +101,12 @@ namespace IdentityServerSample.Infrastructure.Test
       Assert.IsNull(deletedScopeEntity);
     }
 
-    [TestMethod]
-    public async Task SaveChangesAsync_Should_Ignore_Standard()
-    {
-      var scopeName = Guid.NewGuid().ToString();
-      var creatingScopeStandard = true;
-
-      var creatingScopeEntity = ScopeDbContextTest.GenerateTestScope(scopeName);
-      creatingScopeEntity.Standard = creatingScopeStandard;
-
-      var creatingScopeEntityEntry = DbContext.Add(creatingScopeEntity);
-
-      await DbContext.SaveChangesAsync(CancellationToken);
-
-      creatingScopeEntityEntry.State = EntityState.Detached;
-
-      var createdScopeEntity =
-        await DbContext.Set<ScopeEntity>()
-                        .Where(entity => entity.ScopeName == scopeName)
-                        .FirstOrDefaultAsync(CancellationToken);
-
-      Assert.IsNotNull(createdScopeEntity);
-
-      Assert.AreEqual(scopeName, createdScopeEntity!.ScopeName);
-      Assert.AreEqual(creatingScopeEntity.DisplayName, createdScopeEntity.DisplayName);
-      Assert.AreEqual(creatingScopeEntity.Description, createdScopeEntity.Description);
-      Assert.AreNotEqual(creatingScopeStandard, createdScopeEntity.Standard);
-    }
-
     private static ScopeEntity GenerateTestScope(string scopeName) => new ScopeEntity
     {
       ScopeName = scopeName,
       DisplayName = Guid.NewGuid().ToString(),
       Description = Guid.NewGuid().ToString(),
+      Standard = true,
     };
   }
 }

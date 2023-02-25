@@ -5,6 +5,7 @@
 namespace IdentityServerSample.IdentityApi.Mapping
 {
   using AutoMapper;
+  using IdentityServer4;
   using IdentityServer4.Models;
 
   using IdentityServerSample.ApplicationCore.Entities;
@@ -22,6 +23,20 @@ namespace IdentityServerSample.IdentityApi.Mapping
     {
       expression.CreateMap<ScopeEntity, ApiScope>()
                 .ForMember(resource => resource.Name, options => options.MapFrom(entity => entity.ScopeName));
+
+      expression.CreateMap<ScopeEntity, IdentityResource>()
+                .ConstructUsing(ScopeMappingProfile.ConstructIdentityResource);
     }
+
+    private static IdentityResource ConstructIdentityResource(ScopeEntity scopeEntity, ResolutionContext context)
+      => scopeEntity.ScopeName switch
+      {
+        IdentityServerConstants.StandardScopes.OpenId => new IdentityResources.OpenId(),
+        IdentityServerConstants.StandardScopes.Profile => new IdentityResources.Profile(),
+        IdentityServerConstants.StandardScopes.Email => new IdentityResources.Email(),
+        IdentityServerConstants.StandardScopes.Phone => new IdentityResources.Phone(),
+        IdentityServerConstants.StandardScopes.Address => new IdentityResources.Address(),
+        _ => throw new InvalidOperationException(),
+      };
   }
 }
