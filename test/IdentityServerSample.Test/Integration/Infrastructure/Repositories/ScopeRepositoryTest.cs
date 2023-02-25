@@ -69,6 +69,53 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       AreDetached(testScopeEntityCollection);
     }
 
+    [TestMethod]
+    public async Task GetScopesAsync_Should_Return_All_Standard_Scopes()
+    {
+      await CreateNewScopesAsync(10, false);
+
+      var controlScopeEntityCollection = await CreateNewScopesAsync(10, true);
+
+      var testScopeEntityCollection =
+        await _scopeRepository.GetScopesAsync(null, true, CancellationToken);
+
+      Assert.AreEqual(controlScopeEntityCollection.Length, testScopeEntityCollection.Count);
+
+      for (int i = 0; i < controlScopeEntityCollection.Length; i++)
+      {
+        AreEqual(controlScopeEntityCollection[i], testScopeEntityCollection[i]);
+      }
+
+      AreDetached(testScopeEntityCollection);
+    }
+
+    [TestMethod]
+    public async Task GetScopesAsync_Should_Return_Standard_Scopes_With_Defined_Names()
+    {
+      await CreateNewScopesAsync(10, false);
+
+      var allScopeEntityCollection = await CreateNewScopesAsync(10, true);
+      var controlScopeEntityCollection =
+        allScopeEntityCollection.Where((entity, index) => index % 2 == 0)
+                                .ToArray();
+
+      var scopeIdentityCollection =
+        controlScopeEntityCollection.Select(entity => entity.ScopeName!)
+                                    .ToScopeIdentities();
+
+      var testScopeEntityCollection =
+        await _scopeRepository.GetScopesAsync(scopeIdentityCollection, true, CancellationToken);
+
+      Assert.AreEqual(controlScopeEntityCollection.Length, testScopeEntityCollection.Count);
+
+      for (int i = 0; i < controlScopeEntityCollection.Length; i++)
+      {
+        AreEqual(controlScopeEntityCollection[i], testScopeEntityCollection[i]);
+      }
+
+      AreDetached(testScopeEntityCollection);
+    }
+
     private async Task<ScopeEntity> CreateNewScopeAsync(bool standard)
     {
       var scopeEntity = new ScopeEntity
