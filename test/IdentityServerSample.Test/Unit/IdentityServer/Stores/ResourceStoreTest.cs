@@ -16,8 +16,7 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
 #pragma warning disable CS8618
     private Mock<IMapper> _mapperMock;
 
-    private Mock<IScopeRepository> _scopeRepositoryMock;
-
+    private Mock<IScopeService> _scopeServiceMock;
     private Mock<IAudienceService> _audienceServiceMock;
 
     private ResourceStore _resourceStore;
@@ -28,42 +27,46 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
     {
       _mapperMock = new Mock<IMapper>();
 
-      _scopeRepositoryMock = new Mock<IScopeRepository>();
-
+      _scopeServiceMock = new Mock<IScopeService>();
       _audienceServiceMock = new Mock<IAudienceService>();
 
       _resourceStore = new ResourceStore(
         _mapperMock.Object,
-        _scopeRepositoryMock.Object,
-        _audienceServiceMock.Object);
+        _audienceServiceMock.Object,
+        _scopeServiceMock.Object);
     }
 
     [TestMethod]
     public async Task FindIdentityResourcesByScopeNameAsync_Should_Return_Resources()
     {
+      var controlScopeEntityCollection = new List<ScopeEntity>();
+
+      _scopeServiceMock.Setup(service => service.GetStandardScopesAsync(It.IsAny<CancellationToken>()))
+                       .ReturnsAsync(controlScopeEntityCollection)
+                       .Verifiable();
+
+      var controlIndentityResourceCollection = new List<IdentityResource>();
+
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<IdentityResource>>(It.IsAny<List<ScopeEntity>>()))
+                 .Returns(controlIndentityResourceCollection)
+                 .Verifiable();
+
       var scopeNames = new[]
       {
-        IdentityServerConstants.StandardScopes.OpenId,
-        IdentityServerConstants.StandardScopes.Profile,
+        Guid.NewGuid().ToString(),
       };
 
-      var identityResourceCollection =
+      var actualIdentityResourceCollection =
         await _resourceStore.FindIdentityResourcesByScopeNameAsync(scopeNames);
 
-      Assert.IsNotNull(identityResourceCollection);
+      Assert.IsNotNull(actualIdentityResourceCollection);
+      Assert.AreEqual(controlIndentityResourceCollection, actualIdentityResourceCollection);
 
-      var identityResourceArray = identityResourceCollection.ToArray();
-
-      Assert.AreEqual(scopeNames.Length, identityResourceArray.Length);
-
-      for (int i = 0; i < identityResourceArray.Length; i++)
-      {
-        Assert.IsTrue(scopeNames.Contains(identityResourceArray[i].Name));
-      }
-
+      _mapperMock.Verify(mapper => mapper.Map<IEnumerable<IdentityResource>>(controlScopeEntityCollection));
       _mapperMock.VerifyNoOtherCalls();
 
-      _scopeRepositoryMock.VerifyNoOtherCalls();
+      _scopeServiceMock.Verify(service => service.GetStandardScopesAsync(CancellationToken.None));
+      _scopeServiceMock.VerifyNoOtherCalls();
 
       _audienceServiceMock.VerifyNoOtherCalls();
     }
@@ -73,7 +76,7 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
     {
       var controlScopeEntityCollection = new List<ScopeEntity>();
 
-      _scopeRepositoryMock.Setup(repository => repository.GetScopesAsync(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
+      _scopeServiceMock.Setup(repository => repository.GetScopesAsync(It.IsAny<string[]>(), It.IsAny<CancellationToken>()))
                           .ReturnsAsync(controlScopeEntityCollection)
                           .Verifiable();
 
@@ -94,8 +97,8 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiScope>>(controlScopeEntityCollection));
       _mapperMock.VerifyNoOtherCalls();
 
-      _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(scopeNames, CancellationToken.None));
-      _scopeRepositoryMock.VerifyNoOtherCalls();
+      _scopeServiceMock.Verify(repository => repository.GetScopesAsync(scopeNames, CancellationToken.None));
+      _scopeServiceMock.VerifyNoOtherCalls();
 
       _audienceServiceMock.VerifyNoOtherCalls();
     }
@@ -126,7 +129,7 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiResource>>(controlAudienceEntityCollection));
       _mapperMock.VerifyNoOtherCalls();
 
-      _scopeRepositoryMock.VerifyNoOtherCalls();
+      _scopeServiceMock.VerifyNoOtherCalls();
 
       _audienceServiceMock.Verify(repository => repository.GetAudiencesByScopesAsync(scopeNames, CancellationToken.None));
       _audienceServiceMock.VerifyNoOtherCalls();
@@ -158,7 +161,7 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiResource>>(controlAudienceEntityCollection));
       _mapperMock.VerifyNoOtherCalls();
 
-      _scopeRepositoryMock.VerifyNoOtherCalls();
+      _scopeServiceMock.VerifyNoOtherCalls();
 
       _audienceServiceMock.Verify(repository => repository.GetAudiencesByNamesAsync(scopeNames, CancellationToken.None));
       _audienceServiceMock.VerifyNoOtherCalls();
@@ -167,9 +170,25 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
     [TestMethod]
     public async Task GetAllResourcesAsync_Should_Return_Resources()
     {
+      var controlStandardScopeEntityCollection = new List<ScopeEntity>();
+
+      _scopeServiceMock.Setup(service => service.GetStandardScopesAsync(It.IsAny<CancellationToken>()))
+                       .ReturnsAsync(controlStandardScopeEntityCollection)
+                       .Verifiable();
+
+      var controlIdentityResources = new List<IdentityResource>
+      {
+        new IdentityResources.OpenId(),
+        new IdentityResources.Profile(),
+      };
+
+      _mapperMock.Setup(mapper => mapper.Map<IEnumerable<IdentityResource>>(It.IsAny<List<ScopeEntity>>()))
+                 .Returns(controlIdentityResources)
+                 .Verifiable();
+
       var controlScopeEntityCollection = new List<ScopeEntity>();
 
-      _scopeRepositoryMock.Setup(repository => repository.GetScopesAsync(It.IsAny<CancellationToken>()))
+      _scopeServiceMock.Setup(repository => repository.GetScopesAsync(It.IsAny<CancellationToken>()))
                           .ReturnsAsync(controlScopeEntityCollection)
                           .Verifiable();
 
@@ -207,14 +226,16 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
 
       AreEqual(controlScopeCollection, testResources.ApiScopes);
       AreEqual(controlResourceCollection, testResources.ApiResources);
-      AreEqual(testResources.IdentityResources);
+      AreEqual(controlIdentityResources, testResources.IdentityResources);
 
+      _mapperMock.Verify(mapper => mapper.Map<IEnumerable<IdentityResource>>(controlStandardScopeEntityCollection));
       _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiScope>>(controlAudienceEntityCollection));
       _mapperMock.Verify(mapper => mapper.Map<IEnumerable<ApiResource>>(controlAudienceEntityCollection));
       _mapperMock.VerifyNoOtherCalls();
 
-      _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(CancellationToken.None));
-      _scopeRepositoryMock.VerifyNoOtherCalls();
+      _scopeServiceMock.Verify(repository => repository.GetStandardScopesAsync(CancellationToken.None));
+      _scopeServiceMock.Verify(repository => repository.GetScopesAsync(CancellationToken.None));
+      _scopeServiceMock.VerifyNoOtherCalls();
 
       _audienceServiceMock.Verify(repository => repository.GetAudiencesAsync(CancellationToken.None));
       _audienceServiceMock.VerifyNoOtherCalls();
@@ -252,21 +273,20 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
       }
     }
 
-    private void AreEqual(ICollection<IdentityResource> testIdentityResources)
+    private void AreEqual(List<IdentityResource> controlIdentityResources, ICollection<IdentityResource> testIdentityResources)
     {
       Assert.IsNotNull(testIdentityResources);
+
+      Assert.AreEqual(controlIdentityResources.Count, testIdentityResources.Count);
 
       var identityResourceSet =
         testIdentityResources.Select(resource => resource.Name)
                              .ToHashSet();
 
-      Assert.AreEqual(5, identityResourceSet.Count);
-
-      Assert.IsTrue(identityResourceSet.Contains(IdentityServerConstants.StandardScopes.OpenId));
-      Assert.IsTrue(identityResourceSet.Contains(IdentityServerConstants.StandardScopes.Profile));
-      Assert.IsTrue(identityResourceSet.Contains(IdentityServerConstants.StandardScopes.Email));
-      Assert.IsTrue(identityResourceSet.Contains(IdentityServerConstants.StandardScopes.Phone));
-      Assert.IsTrue(identityResourceSet.Contains(IdentityServerConstants.StandardScopes.Address));
+      for (int i = 0; i < controlIdentityResources.Count; i++)
+      {
+        Assert.IsTrue(identityResourceSet.Contains(controlIdentityResources[i].Name));
+      }
     }
   }
 }
