@@ -4,6 +4,8 @@
 
 namespace IdentityServerSample.ApplicationCore.Services.Test
 {
+  using IdentityServerSample.ApplicationCore.Identities;
+
   [TestClass]
   public sealed class ScopeServiceTest
   {
@@ -26,26 +28,20 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
     }
 
     [TestMethod]
-    public async Task GetScopesAsync_Should_Return_Collection_That_Contains_Standard_Scopes()
+    public async Task GetScopesAsync_Should_Return_All_Custom_Scopes()
     {
-      var scopeEntityCollection = new List<ScopeEntity>();
+      var controlScopeEntityCollection = new List<ScopeEntity>();
 
-      _scopeRepositoryMock.Setup(repository => repository.GetScopesAsync(It.IsAny<CancellationToken>()))
-                          .ReturnsAsync(scopeEntityCollection)
+      _scopeRepositoryMock.Setup(repository => repository.GetScopesAsync(It.IsAny<IEnumerable<IScopeIdentity>>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+                          .ReturnsAsync(controlScopeEntityCollection)
                           .Verifiable();
 
       var actualScopeEntityCollection = await _scopeService.GetScopesAsync(_cancellationToken);
 
       Assert.IsNotNull(actualScopeEntityCollection);
-      Assert.AreEqual(5, actualScopeEntityCollection.Count);
+      Assert.AreEqual(controlScopeEntityCollection, actualScopeEntityCollection);
 
-      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.ScopeName == "openid"));
-      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.ScopeName == "profile"));
-      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.ScopeName == "email"));
-      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.ScopeName == "address"));
-      Assert.IsTrue(actualScopeEntityCollection.Any(entity => entity.ScopeName == "phone"));
-
-      _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(_cancellationToken));
+      _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(null, false, _cancellationToken));
       _scopeRepositoryMock.VerifyNoOtherCalls();
     }
   }
