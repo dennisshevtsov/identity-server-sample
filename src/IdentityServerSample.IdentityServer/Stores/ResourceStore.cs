@@ -29,15 +29,6 @@ namespace IdentityServerSample.IdentityServer.Stores
       IAudienceService audienceService,
       IScopeService scopeService)
     {
-      //_identityResources = new IdentityResource[]
-      //{
-      //  new IdentityResources.OpenId(),
-      //  new IdentityResources.Profile(),
-      //  new IdentityResources.Email(),
-      //  new IdentityResources.Phone(),
-      //  new IdentityResources.Address(),
-      //};
-
       _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 
       _audienceService = audienceService ??
@@ -122,7 +113,7 @@ namespace IdentityServerSample.IdentityServer.Stores
 
       var scopeEntityCollection = await _scopeService.GetScopesAsync(CancellationToken.None);
       var apiScopeCollection =
-        _mapper.Map<IEnumerable<ApiScope>>(standardScopeEntityCollection);
+        _mapper.Map<IEnumerable<ApiScope>>(scopeEntityCollection);
 
       return new Resources(identityResources, apiResourceCollection, apiScopeCollection);
     }
