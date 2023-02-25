@@ -68,5 +68,23 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
       _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(scopeNameCollection.ToScopeIdentities(), false, _cancellationToken));
       _scopeRepositoryMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task GetScopesAsync_Should_Return_All_Standard_Scopes()
+    {
+      var controlScopeEntityCollection = new List<ScopeEntity>();
+
+      _scopeRepositoryMock.Setup(repository => repository.GetScopesAsync(It.IsAny<IEnumerable<IScopeIdentity>>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()))
+                          .ReturnsAsync(controlScopeEntityCollection)
+                          .Verifiable();
+
+      var actualScopeEntityCollection = await _scopeService.GetStandardScopesAsync(_cancellationToken);
+
+      Assert.IsNotNull(actualScopeEntityCollection);
+      Assert.AreEqual(controlScopeEntityCollection, actualScopeEntityCollection);
+
+      _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(null, true, _cancellationToken));
+      _scopeRepositoryMock.VerifyNoOtherCalls();
+    }
   }
 }
