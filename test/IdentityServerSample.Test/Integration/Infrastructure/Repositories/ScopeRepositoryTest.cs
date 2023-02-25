@@ -8,6 +8,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
   using Microsoft.Extensions.DependencyInjection;
 
   using IdentityServerSample.Infrastructure.Test;
+  using IdentityServerSample.ApplicationCore.Identities;
 
   [TestClass]
   public sealed class ScopeRepositoryTest : DbIntegrationTestBase
@@ -24,10 +25,12 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetScopesAsync_Should_Return_All_Scopes()
     {
-      var controlScopeEntityCollection = await CreateNewScopesAsync(10);
+      await CreateNewScopesAsync(10, true);
+
+      var controlScopeEntityCollection = await CreateNewScopesAsync(10, false);
 
       var testScopeEntityCollection =
-        await _scopeRepository.GetScopesAsync(CancellationToken);
+        await _scopeRepository.GetScopesAsync(null, false, CancellationToken);
 
       Assert.AreEqual(controlScopeEntityCollection.Length, testScopeEntityCollection.Count);
 
@@ -42,17 +45,19 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetScopesAsync_Should_Return_Scopes_With_Defined_Names()
     {
-      var allScopeEntityCollection = await CreateNewScopesAsync(10);
+      await CreateNewScopesAsync(10, true);
+
+      var allScopeEntityCollection = await CreateNewScopesAsync(10, false);
       var controlScopeEntityCollection =
         allScopeEntityCollection.Where((entity, index) => index % 2 == 0)
                                 .ToArray();
 
-      var scopeNameCollection =
+      var scopeIdentityCollection =
         controlScopeEntityCollection.Select(entity => entity.ScopeName!)
-                                    .ToArray();
+                                    .ToScopeIdentities();
 
       var testScopeEntityCollection =
-        await _scopeRepository.GetScopesAsync(scopeNameCollection, CancellationToken);
+        await _scopeRepository.GetScopesAsync(scopeIdentityCollection, false, CancellationToken);
 
       Assert.AreEqual(controlScopeEntityCollection.Length, testScopeEntityCollection.Count);
 
@@ -64,31 +69,14 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       AreDetached(testScopeEntityCollection);
     }
 
-    [TestMethod]
-    public async Task GetScopesAsync_Should_Return_All_Scopes_For_Empty_Scope_Name_Collection()
-    {
-      var controlScopeEntityCollection = await CreateNewScopesAsync(10);
-
-      var testScopeEntityCollection =
-        await _scopeRepository.GetScopesAsync(null, CancellationToken);
-
-      Assert.AreEqual(controlScopeEntityCollection.Length, testScopeEntityCollection.Count);
-
-      for (int i = 0; i < controlScopeEntityCollection.Length; i++)
-      {
-        AreEqual(controlScopeEntityCollection[i], testScopeEntityCollection[i]);
-      }
-
-      AreDetached(testScopeEntityCollection);
-    }
-
-    private async Task<ScopeEntity> CreateNewScopeAsync()
+    private async Task<ScopeEntity> CreateNewScopeAsync(bool standard)
     {
       var scopeEntity = new ScopeEntity
       {
         ScopeName = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
+        Standard = standard,
       };
 
       var scopeEntityEntry = DbContext.Add(scopeEntity);
@@ -100,13 +88,13 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       return scopeEntity;
     }
 
-    private async Task<ScopeEntity[]> CreateNewScopesAsync(int scopes)
+    private async Task<ScopeEntity[]> CreateNewScopesAsync(int scopes, bool standard)
     {
       var scopeEntityCollection = new List<ScopeEntity>();
 
       for (int i = 0; i < scopes; i++)
       {
-        scopeEntityCollection.Add(await CreateNewScopeAsync());
+        scopeEntityCollection.Add(await CreateNewScopeAsync(standard));
       }
 
       return scopeEntityCollection.OrderBy(entity => entity.ScopeName)
@@ -118,6 +106,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       Assert.AreEqual(control.ScopeName, test.ScopeName);
       Assert.AreEqual(control.DisplayName, test.DisplayName);
       Assert.AreEqual(control.Description, test.Description);
+      Assert.AreEqual(control.Standard, test.Standard);
     }
 
     private void IsDetached(ScopeEntity scopeEntity)
