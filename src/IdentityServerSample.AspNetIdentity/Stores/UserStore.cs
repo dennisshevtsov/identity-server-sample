@@ -86,7 +86,7 @@ namespace IdentityServerSample.AspNetIdentity
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the <see cref="IdentityResult"/> of the creation operation.</returns>
     public Task<IdentityResult> CreateAsync(UserEntity user, CancellationToken cancellationToken)
     {
-      throw new NotImplementedException();
+      _userService.AddUserAsync(user, cancellationToken);
     }
 
     /// <summary>
