@@ -37,5 +37,31 @@ namespace IdentityServerSample.Infrastructure.Repositories
 
       return userScopeEntityCollection;
     }
+
+    /// <summary>Updates scopes for a user.</summary>
+    /// <param name="userEntity">An object that represents details of a user.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public async Task UpdateUserScopesAsync(UserEntity userEntity, CancellationToken cancellationToken)
+    {
+      var userScopeEntityCollection =
+        userEntity.Scopes.Select(entity => UserScopeRepository.CreateUserScope(userEntity, entity))
+                         .ToList();
+
+      await _dbContext.AddRangeAsync(userScopeEntityCollection);
+
+      for (int i = 0; i < userScopeEntityCollection.Count; i++)
+      {
+        _dbContext.Entry(userScopeEntityCollection[i]).State = EntityState.Detached;
+      }
+    }
+
+    private static UserScopeEntity CreateUserScope(
+      UserEntity userEntity, UserScopeEntity userScopeEntity)
+      => new UserScopeEntity
+      {
+        ScopeName = userScopeEntity.ScopeName,
+        UserId = userEntity.UserId,
+      };
   }
 }
