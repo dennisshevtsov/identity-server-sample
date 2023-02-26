@@ -40,22 +40,42 @@ namespace Microsoft.Extensions.DependencyInjection
 
   public sealed class DatabaseInitializer
   {
-    private UserManager<UserEntity> _userManager;
+    private readonly IConfiguration _configuration;
+    private readonly UserManager<UserEntity> _userManager;
 
-    public DatabaseInitializer(UserManager<UserEntity> userManager)
+    public DatabaseInitializer(
+      IConfiguration configuration,
+      UserManager<UserEntity> userManager)
     {
+      _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
       _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
     }
 
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-      var userEntity = new UserEntity
-      {
-        Email = "test@test.test",
-        Name = "Test User",
-      };
+      await AddTestUserAsync();
+    }
 
-      await _userManager.CreateAsync(userEntity, "test");
+    private async Task AddTestUserAsync()
+    {
+      var testUserEmail = _configuration["TestUser_Email"];
+      var testUserName = _configuration["TestUser_Name"];
+      var testUserPasword = _configuration["TestUser_Password"];
+
+      UserEntity? testUserEntity = null;
+
+      if (!string.IsNullOrWhiteSpace(testUserEmail) &&
+          !string.IsNullOrWhiteSpace(testUserPasword) &&
+          (testUserEntity = await _userManager.FindByNameAsync(testUserEmail)) == null)
+      {
+        testUserEntity = new UserEntity
+        {
+          Email = testUserEmail,
+          Name = testUserName,
+        };
+
+        await _userManager.CreateAsync(testUserEntity, testUserPasword);
+      }
     }
   }
 }
