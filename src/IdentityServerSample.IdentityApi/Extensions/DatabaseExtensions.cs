@@ -11,6 +11,16 @@ namespace Microsoft.Extensions.DependencyInjection
   /// <summary>Provides methods to extend the API of the <see cref="Microsoft.AspNetCore.Builder.IApplicationBuilder"/>.</summary>
   public static class DatabaseExtensions
   {
+    /// <summary>Registers the <see cref="Microsoft.Extensions.DependencyInjection.DatabaseInitializer"/>.</summary>
+    /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
+    /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
+    public static IServiceCollection AddDatabaseInitializer(this IServiceCollection services)
+    {
+      services.AddScoped<DatabaseInitializer>();
+
+      return services;
+    }
+
     /// <summary>Sets up the database with all required data.</summary>
     /// <param name="app">An object that defines a class that provides the mechanisms to configure an application's request pipeline.</param>
     /// <returns>An object that defines a class that provides the mechanisms to configure an application's request pipeline.</returns>

@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddDatabaseInitializer();
 
 builder.Services.SetUpAntiforgery();
 builder.Services.SetUpAspNetIdentity();
