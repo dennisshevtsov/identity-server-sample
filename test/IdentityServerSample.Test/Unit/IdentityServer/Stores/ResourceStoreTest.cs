@@ -6,7 +6,6 @@ namespace IdentityServerSample.IdentityServer.Stores.Test
 {
   using System.Linq;
 
-  using IdentityServer4;
   using IdentityServer4.Models;
   using Moq;
 
