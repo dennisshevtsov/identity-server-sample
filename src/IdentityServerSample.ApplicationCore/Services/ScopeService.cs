@@ -49,5 +49,20 @@ namespace IdentityServerSample.ApplicationCore.Services
     public Task<List<ScopeEntity>> GetStandardScopesAsync(
       IEnumerable<string> scopes, CancellationToken cancellationToken)
       => _scopeRepository.GetScopesAsync(scopes.ToScopeIdentities(), true, cancellationToken);
+
+    /// <summary>Gets a scope by its identity.</summary>
+    /// <param name="identity">An object that represents an identity of a scope.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task<ScopeEntity> GetScopeAsync(
+      IScopeIdentity identity, CancellationToken cancellationToken)
+      => _scopeRepository.GetScopeAsync(identity, cancellationToken);
+
+    /// <summary>Creates a new scope.</summary>
+    /// <param name="scopeEntity">An object that represents details of a scope.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task AddScopeAsync(ScopeEntity scopeEntity, CancellationToken cancellationToken)
+      => _scopeRepository.AddScopeAsync(scopeEntity, cancellationToken);
   }
 }
