@@ -84,9 +84,11 @@ namespace IdentityServerSample.AspNetIdentity
     /// <param name="user">The user to create.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the <see cref="IdentityResult"/> of the creation operation.</returns>
-    public Task<IdentityResult> CreateAsync(UserEntity user, CancellationToken cancellationToken)
+    public async Task<IdentityResult> CreateAsync(UserEntity user, CancellationToken cancellationToken)
     {
-      _userService.AddUserAsync(user, cancellationToken);
+      await _userService.AddUserAsync(user, cancellationToken);
+
+      return IdentityResult.Success;
     }
 
     /// <summary>
