@@ -9,8 +9,8 @@ namespace IdentityServerSample.Infrastructure.Repositories
   using Microsoft.EntityFrameworkCore;
 
   using IdentityServerSample.ApplicationCore.Entities;
-  using IdentityServerSample.ApplicationCore.Repositories;
   using IdentityServerSample.ApplicationCore.Identities;
+  using IdentityServerSample.ApplicationCore.Repositories;
 
   /// <summary>Provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.UserEntity"/> class.</summary>
   public sealed class UserRepository : IUserRepository
@@ -22,6 +22,19 @@ namespace IdentityServerSample.Infrastructure.Repositories
     public UserRepository(DbContext dbContext)
     {
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+    }
+
+    /// <summary>Creates a new user.</summary>
+    /// <param name="userEntity">An object that represents details of a user.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public async Task AddUserAsync(UserEntity userEntity, CancellationToken cancellationToken)
+    {
+      var userEntityEntry = _dbContext.Add(userEntity);
+
+      await _dbContext.SaveChangesAsync(cancellationToken);
+
+      userEntityEntry.State = EntityState.Detached;
     }
 
     /// <summary>Gets a user by a user identity.</summary>
