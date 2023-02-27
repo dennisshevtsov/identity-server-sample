@@ -15,8 +15,9 @@ namespace Microsoft.Extensions.DependencyInjection
   {
     /// <summary>Sets up the Identity.</summary>
     /// <param name="services">An object that specifies the contract for a collection of service descriptors.</param>
+    /// <param name="setupAction">An object that represents an action to configure the options.</param>
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
-    public static IServiceCollection SetUpAspNetIdentity(this IServiceCollection services)
+    public static IServiceCollection SetUpAspNetIdentity(this IServiceCollection services, Action<IdentityOptions> setupAction)
     {
       services.AddIdentity<UserEntity, RoleEntity>(options =>
               {
@@ -24,6 +25,8 @@ namespace Microsoft.Extensions.DependencyInjection
                 options.ClaimsIdentity.UserNameClaimType = JwtClaimTypes.Name;
                 options.ClaimsIdentity.EmailClaimType = JwtClaimTypes.Email;
                 options.ClaimsIdentity.RoleClaimType = JwtClaimTypes.Role;
+
+                setupAction.Invoke(options);
               })
               .AddUserStore<UserStore>()
               .AddRoleStore<RoleStore>();
