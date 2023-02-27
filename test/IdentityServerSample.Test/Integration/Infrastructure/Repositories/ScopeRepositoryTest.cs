@@ -36,6 +36,23 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
+    public async Task GetScopeAsync_Should_Return_Scope()
+    {
+      var allScopeEntityCollection = await CreateNewScopesAsync(10, false);
+      var controlScopeEntity = allScopeEntityCollection[2];
+
+      var scopeIdentity = controlScopeEntity.ScopeName!.ToScopeIdentity();
+
+      var testScopeEntity =
+        await _scopeRepository.GetScopeAsync(scopeIdentity, CancellationToken);
+
+      Assert.IsNotNull(testScopeEntity);
+
+      AreEqual(controlScopeEntity, testScopeEntity);
+      IsDetached(testScopeEntity);
+    }
+
+    [TestMethod]
     public async Task GetScopesAsync_Should_Return_All_Scopes()
     {
       await CreateNewScopesAsync(10, true);
