@@ -31,6 +31,28 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
     }
 
     [TestMethod]
+    public async Task AddUserAsync_Should_Add_User_With_Scopes()
+    {
+      _userRepositoryMock.Setup(repository => repository.AddUserAsync(It.IsAny<UserEntity>(), It.IsAny<CancellationToken>()))
+                         .Returns(Task.CompletedTask)
+                         .Verifiable();
+
+      _userScopeRepositoryMock.Setup(repository => repository.AddUserScopesAsync(It.IsAny<UserEntity>(), It.IsAny<CancellationToken>()))
+                              .Returns(Task.CompletedTask)
+                              .Verifiable();
+
+      var controlUserEntity = new UserEntity();
+
+      await _userService.AddUserAsync(controlUserEntity, _cancellationToken);
+
+      _userRepositoryMock.Verify(repository => repository.AddUserAsync(controlUserEntity, _cancellationToken));
+      _userRepositoryMock.VerifyNoOtherCalls();
+
+      _userScopeRepositoryMock.Verify(repository => repository.AddUserScopesAsync(controlUserEntity, _cancellationToken));
+      _userScopeRepositoryMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
     public async Task GetUserAsync_Should_Return_Null_For_Unknown_User_Id()
     {
       _userRepositoryMock.Setup(repository => repository.GetUserAsync(It.IsAny<IUserIdentity>(), It.IsAny<CancellationToken>()))
