@@ -9,6 +9,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
   using IdentityServerSample.Infrastructure.Test;
   using IdentityServerSample.ApplicationCore.Identities;
+  using IdentityServerSample.ApplicationCore.Repositories;
+  using IdentityServerSample.ApplicationCore.Entities;
 
   [TestClass]
   public sealed class UserRepositoryTest : DbIntegrationTestBase
@@ -20,6 +22,24 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     protected override void InitializeInternal()
     {
       _userRepository = ServiceProvider.GetRequiredService<IUserRepository>();
+    }
+
+    [TestMethod]
+    public async Task AddUserAsync_Should_Create_New_User()
+    {
+      var controlUserEntity = UserRepositoryTest.GenerateNewUser();
+
+      await _userRepository.AddUserAsync(controlUserEntity, CancellationToken);
+
+      IsDetached(controlUserEntity);
+
+      var actualUserEntity =
+        await DbContext.Set<UserEntity>()
+                       .WithPartitionKey(controlUserEntity.UserId.ToString())
+                       .FirstOrDefaultAsync();
+
+      Assert.IsNotNull(actualUserEntity);
+      UserRepositoryTest.AreEqual(controlUserEntity, actualUserEntity);
     }
 
     [TestMethod]
@@ -35,7 +55,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       Assert.IsNotNull(testUserEntity);
 
-      AreEqual(controlUserEntity, testUserEntity);
+      UserRepositoryTest.AreEqual(controlUserEntity, testUserEntity);
       IsDetached(testUserEntity);
     }
 
@@ -63,7 +83,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       Assert.IsNotNull(testUserEntity);
 
-      AreEqual(controlUserEntity, testUserEntity);
+      UserRepositoryTest.AreEqual(controlUserEntity, testUserEntity);
       IsDetached(testUserEntity);
     }
 
@@ -79,7 +99,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       Assert.IsNotNull(testUserEntity);
 
-      AreEqual(controlUserEntity, testUserEntity);
+      UserRepositoryTest.AreEqual(controlUserEntity, testUserEntity);
       IsDetached(testUserEntity);
     }
 
@@ -95,14 +115,16 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       Assert.IsNull(testUserEntity);
     }
 
+    private static UserEntity GenerateNewUser() => new UserEntity
+    {
+      Name = Guid.NewGuid().ToString(),
+      Email = $"{Guid.NewGuid()}@test.test",
+      PasswordHash = Guid.NewGuid().ToString(),
+    };
+
     private async Task<UserEntity> CreateNewUserAsync()
     {
-      var userEntity = new UserEntity
-      {
-        Name = Guid.NewGuid().ToString(),
-        Email = $"{Guid.NewGuid()}@test.test",
-        PasswordHash = Guid.NewGuid().ToString(),
-      };
+      var userEntity = UserRepositoryTest.GenerateNewUser();
 
       var userEntityEntry = DbContext.Add(userEntity);
 
@@ -126,7 +148,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
                                  .ToArray();
     }
 
-    private void AreEqual(UserEntity control, UserEntity test)
+    private static void AreEqual(UserEntity control, UserEntity test)
     {
       Assert.AreEqual(control.Name, test.Name);
       Assert.AreEqual(control.Email, test.Email);

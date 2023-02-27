@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-using IdentityServerSample.ApplicationCore.Identities;
-
 namespace IdentityServerSample.ApplicationCore.Services.Test
 {
+  using IdentityServerSample.ApplicationCore.Identities;
+
   [TestClass]
   public sealed class UserServiceTest
   {
@@ -28,6 +28,28 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
 
       _userService = new UserService(
         _userRepositoryMock.Object, _userScopeRepositoryMock.Object);
+    }
+
+    [TestMethod]
+    public async Task AddUserAsync_Should_Add_User_With_Scopes()
+    {
+      _userRepositoryMock.Setup(repository => repository.AddUserAsync(It.IsAny<UserEntity>(), It.IsAny<CancellationToken>()))
+                         .Returns(Task.CompletedTask)
+                         .Verifiable();
+
+      _userScopeRepositoryMock.Setup(repository => repository.AddUserScopesAsync(It.IsAny<UserEntity>(), It.IsAny<CancellationToken>()))
+                              .Returns(Task.CompletedTask)
+                              .Verifiable();
+
+      var controlUserEntity = new UserEntity();
+
+      await _userService.AddUserAsync(controlUserEntity, _cancellationToken);
+
+      _userRepositoryMock.Verify(repository => repository.AddUserAsync(controlUserEntity, _cancellationToken));
+      _userRepositoryMock.VerifyNoOtherCalls();
+
+      _userScopeRepositoryMock.Verify(repository => repository.AddUserScopesAsync(controlUserEntity, _cancellationToken));
+      _userScopeRepositoryMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]

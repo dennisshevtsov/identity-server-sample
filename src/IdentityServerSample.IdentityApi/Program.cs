@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddDatabaseInitializer();
+
 builder.Services.SetUpAntiforgery();
 builder.Services.SetUpAspNetIdentity();
 builder.Services.SetUpIdentityServer(builder.Configuration);
@@ -14,6 +16,8 @@ builder.Services.SetUpMapping();
 builder.Services.SetUpServices();
 
 var app = builder.Build();
+
+app.InitializeDatabase();
 
 app.UseSwagger();
 app.UseStaticFiles();

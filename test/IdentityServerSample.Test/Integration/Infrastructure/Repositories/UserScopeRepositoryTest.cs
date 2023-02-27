@@ -9,6 +9,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
   using IdentityServerSample.Infrastructure.Test;
   using IdentityServerSample.ApplicationCore.Identities;
+  using IdentityServerSample.ApplicationCore.Repositories;
+  using Microsoft.Azure.Cosmos;
 
   [TestClass]
   public sealed class UserScopeRepositoryTest : DbIntegrationTestBase
@@ -20,6 +22,32 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     protected override void InitializeInternal()
     {
       _userScopeRepository = ServiceProvider.GetRequiredService<IUserScopeRepository>();
+    }
+
+    [TestMethod]
+    public async Task AddUserScopesAsync_Should_Update_Scopes()
+    {
+      var userId = Guid.NewGuid();
+      var controlUserScopeEntityCollection =
+        UserScopeRepositoryTest.GenerateNewUserScopes(userId, 10);
+
+      var controlUserEntity = new UserEntity
+      {
+        UserId = userId,
+        Scopes = controlUserScopeEntityCollection,
+      };
+
+      await _userScopeRepository.AddUserScopesAsync(controlUserEntity, CancellationToken);
+
+      AreDetached(controlUserScopeEntityCollection);
+
+      var actualUserEntityCollection =
+        await DbContext.Set<UserScopeEntity>()
+                       .WithPartitionKey(userId.ToString())
+                       .OrderBy(entity => entity.ScopeName)
+                       .ToListAsync(CancellationToken);
+
+      UserScopeRepositoryTest.AreEqual(controlUserScopeEntityCollection, actualUserEntityCollection);
     }
 
     [TestMethod]
@@ -35,17 +63,35 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       Assert.IsNotNull(testUserScopeEntityCollection);
 
-      AreEqual(controlUserScopeEntityCollection, testUserScopeEntityCollection);
+      UserScopeRepositoryTest.AreEqual(controlUserScopeEntityCollection, testUserScopeEntityCollection);
       AreDetached(testUserScopeEntityCollection);
+    }
+
+    private static UserScopeEntity GenerateNewUserScope(Guid userId) => new UserScopeEntity
+    {
+      UserId = userId,
+      ScopeName = Guid.NewGuid().ToString(),
+    };
+
+    private static List<UserScopeEntity> GenerateNewUserScopes(Guid userId, int scopes)
+    {
+      var userScopeEntityCollection = new List<UserScopeEntity>();
+
+      for (int i = 0; i < scopes; i++)
+      {
+        userScopeEntityCollection.Add(UserScopeRepositoryTest.GenerateNewUserScope(userId));
+      }
+
+      userScopeEntityCollection =
+        userScopeEntityCollection.OrderBy(entity => entity.ScopeName)
+                                 .ToList();
+
+      return userScopeEntityCollection;
     }
 
     private async Task<UserScopeEntity> CreateNewUserScopeAsync(Guid userId)
     {
-      var userScopeEntity = new UserScopeEntity
-      {
-        UserId = userId,
-        ScopeName = Guid.NewGuid().ToString(),
-      };
+      var userScopeEntity = UserScopeRepositoryTest.GenerateNewUserScope(userId);
 
       var useScoperEntityEntry = DbContext.Add(userScopeEntity);
 
@@ -69,13 +115,13 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
                                       .ToList();
     }
 
-    private void AreEqual(UserScopeEntity control, UserScopeEntity test)
+    private static void AreEqual(UserScopeEntity control, UserScopeEntity test)
     {
       Assert.AreEqual(control.ScopeName, test.ScopeName);
       Assert.AreEqual(control.UserId, test.UserId);
     }
 
-    private void AreEqual(List<UserScopeEntity> control, List<UserScopeEntity> test)
+    private static void AreEqual(List<UserScopeEntity> control, List<UserScopeEntity> test)
     {
       Assert.AreEqual(control.Count, test.Count);
 

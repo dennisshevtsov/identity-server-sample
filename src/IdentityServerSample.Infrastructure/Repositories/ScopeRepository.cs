@@ -25,6 +25,29 @@ namespace IdentityServerSample.Infrastructure.Repositories
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
+    /// <summary>Creates a new scope.</summary>
+    /// <param name="scopeEntity">An object that represents details of a scope.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public async Task AddScopeAsync(ScopeEntity scopeEntity, CancellationToken cancellationToken)
+    {
+      var scopeEntityEntry = _dbContext.Add(scopeEntity);
+
+      await _dbContext.SaveChangesAsync(cancellationToken);
+
+      scopeEntityEntry.State = EntityState.Detached;
+    }
+
+    /// <summary>Gets a scope by its identity.</summary>
+    /// <param name="identity">An object that represents an identity of a scope.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task<ScopeEntity?> GetScopeAsync(IScopeIdentity identity, CancellationToken cancellationToken)
+      => _dbContext.Set<ScopeEntity>()
+                   .AsNoTracking()
+                   .WithPartitionKey(identity.ScopeName!.ToString())
+                   .FirstOrDefaultAsync();
+
     /// <summary>Gets a collection of scopes that satisfy defined conditions.</summary>
     /// <param name="identities">An object that represents a collection the <see cref="IdentityServerSample.ApplicationCore.Identities.IScopeIdentity"/>.</param>
     /// <param name="standard">An object that indicates if scopes are standard.</param>
