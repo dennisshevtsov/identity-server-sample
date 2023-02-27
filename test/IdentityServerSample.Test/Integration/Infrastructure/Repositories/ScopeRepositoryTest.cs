@@ -23,6 +23,19 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
+    public async Task GetScopeAsync_Should_Return_Null()
+    {
+      await CreateNewScopesAsync(10, false);
+
+      var scopeIdentity = Guid.NewGuid().ToString().ToScopeIdentity();
+
+      var testScopeEntity =
+        await _scopeRepository.GetScopeAsync(scopeIdentity, CancellationToken);
+
+      Assert.IsNull(testScopeEntity);
+    }
+
+    [TestMethod]
     public async Task GetScopesAsync_Should_Return_All_Scopes()
     {
       await CreateNewScopesAsync(10, true);
