@@ -131,5 +131,20 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
       _scopeRepositoryMock.Verify(repository => repository.GetScopeAsync(scopeIdentity, _cancellationToken));
       _scopeRepositoryMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task AddScopeAsync_Should_Add_Scope()
+    {
+      _scopeRepositoryMock.Setup(repository => repository.AddScopeAsync(It.IsAny<ScopeEntity>(), It.IsAny<CancellationToken>()))
+                          .Returns(Task.CompletedTask)
+                          .Verifiable();
+
+      var controlScopeEntity = new ScopeEntity();
+
+      await _scopeService.AddScopeAsync(controlScopeEntity, _cancellationToken);
+
+      _scopeRepositoryMock.Verify(repository => repository.AddScopeAsync(controlScopeEntity, _cancellationToken));
+      _scopeRepositoryMock.VerifyNoOtherCalls();
+    }
   }
 }
