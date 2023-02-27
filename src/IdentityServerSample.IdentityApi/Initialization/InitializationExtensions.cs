@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <summary>Sets up the database with all required data.</summary>
     /// <param name="app">An object that defines a class that provides the mechanisms to configure an application's request pipeline.</param>
     /// <returns>An object that defines a class that provides the mechanisms to configure an application's request pipeline.</returns>
-    public static IApplicationBuilder SetUpDatabase(this IApplicationBuilder app)
+    public static IApplicationBuilder InitializeDatabase(this IApplicationBuilder app)
     {
       using (var scope = app.ApplicationServices.CreateScope())
       {

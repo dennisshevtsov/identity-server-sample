@@ -17,7 +17,7 @@ builder.Services.SetUpServices();
 
 var app = builder.Build();
 
-app.SetUpDatabase();
+app.InitializeDatabase();
 
 app.UseSwagger();
 app.UseStaticFiles();

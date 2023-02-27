@@ -6,7 +6,9 @@ namespace IdentityServerSample.IdentityApi.Initialization
 {
   using Microsoft.AspNetCore.Identity;
 
+  using IdentityServerSample.ApplicationCore.Defaults;
   using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.ApplicationCore.Identities;
   using IdentityServerSample.ApplicationCore.Services;
 
   public sealed class DatabaseInitializer

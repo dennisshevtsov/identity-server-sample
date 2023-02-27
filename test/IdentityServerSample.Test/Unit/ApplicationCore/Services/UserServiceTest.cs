@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-using IdentityServerSample.ApplicationCore.Identities;
-
 namespace IdentityServerSample.ApplicationCore.Services.Test
 {
+  using IdentityServerSample.ApplicationCore.Identities;
+
   [TestClass]
   public sealed class UserServiceTest
   {
