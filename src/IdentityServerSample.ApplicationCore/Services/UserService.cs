@@ -30,7 +30,7 @@ namespace IdentityServerSample.ApplicationCore.Services
     public async Task AddUserAsync(UserEntity userEntity, CancellationToken cancellationToken)
     {
       await _userRepository.AddUserAsync(userEntity, cancellationToken);
-      await _userScopeRepository.UpdateUserScopesAsync(userEntity, cancellationToken);
+      await _userScopeRepository.AddUserScopesAsync(userEntity, cancellationToken);
     }
 
     /// <summary>Gets a user by a user ID.</summary>

@@ -25,7 +25,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
-    public async Task UpdateUserScopesAsync_Should_Update_Scopes()
+    public async Task AddUserScopesAsync_Should_Update_Scopes()
     {
       var userId = Guid.NewGuid();
       var controlUserScopeEntityCollection =
@@ -37,7 +37,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         Scopes = controlUserScopeEntityCollection,
       };
 
-      await _userScopeRepository.UpdateUserScopesAsync(controlUserEntity, CancellationToken);
+      await _userScopeRepository.AddUserScopesAsync(controlUserEntity, CancellationToken);
 
       AreDetached(controlUserScopeEntityCollection);
 
