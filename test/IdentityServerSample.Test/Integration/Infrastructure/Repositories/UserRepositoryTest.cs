@@ -35,7 +35,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       Assert.IsNotNull(testUserEntity);
 
-      AreEqual(controlUserEntity, testUserEntity);
+      UserRepositoryTest.AreEqual(controlUserEntity, testUserEntity);
       IsDetached(testUserEntity);
     }
 
@@ -63,7 +63,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       Assert.IsNotNull(testUserEntity);
 
-      AreEqual(controlUserEntity, testUserEntity);
+      UserRepositoryTest.AreEqual(controlUserEntity, testUserEntity);
       IsDetached(testUserEntity);
     }
 
@@ -79,7 +79,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       Assert.IsNotNull(testUserEntity);
 
-      AreEqual(controlUserEntity, testUserEntity);
+      UserRepositoryTest.AreEqual(controlUserEntity, testUserEntity);
       IsDetached(testUserEntity);
     }
 
@@ -126,7 +126,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
                                  .ToArray();
     }
 
-    private void AreEqual(UserEntity control, UserEntity test)
+    private static void AreEqual(UserEntity control, UserEntity test)
     {
       Assert.AreEqual(control.Name, test.Name);
       Assert.AreEqual(control.Email, test.Email);
