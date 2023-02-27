@@ -8,6 +8,6 @@ namespace IdentityServerSample.ApplicationCore.Defaults
   public static class Scope
   {
     /// <summary>A value that represents a default application scope.</summary>
-    public const string ApplicationScope = "identity-server-sample-scope";
+    public const string ApplicationScope = "identity-server-sample-api-scope";
   }
 }
