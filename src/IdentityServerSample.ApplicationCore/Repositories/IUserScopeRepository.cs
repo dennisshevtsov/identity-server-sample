@@ -16,10 +16,10 @@ namespace IdentityServerSample.ApplicationCore.Repositories
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     public Task<List<UserScopeEntity>> GetUserScopesAsync(IUserIdentity identity, CancellationToken cancellationToken);
 
-    /// <summary>Updates scopes for a user.</summary>
+    /// <summary>Creates scopes for a user.</summary>
     /// <param name="userEntity">An object that represents details of a user.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public Task UpdateUserScopesAsync(UserEntity userEntity, CancellationToken cancellationToken);
+    public Task AddUserScopesAsync(UserEntity userEntity, CancellationToken cancellationToken);
   }
 }
