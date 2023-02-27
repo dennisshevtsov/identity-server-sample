@@ -48,7 +48,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       Assert.IsNotNull(testScopeEntity);
 
-      AreEqual(controlScopeEntity, testScopeEntity);
+      ScopeRepositoryTest.AreEqual(controlScopeEntity, testScopeEntity);
       IsDetached(testScopeEntity);
     }
 
@@ -62,13 +62,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var testScopeEntityCollection =
         await _scopeRepository.GetScopesAsync(null, false, CancellationToken);
 
-      Assert.AreEqual(controlScopeEntityCollection.Length, testScopeEntityCollection.Count);
-
-      for (int i = 0; i < controlScopeEntityCollection.Length; i++)
-      {
-        AreEqual(controlScopeEntityCollection[i], testScopeEntityCollection[i]);
-      }
-
+      ScopeRepositoryTest.AreEqual(controlScopeEntityCollection, testScopeEntityCollection);
       AreDetached(testScopeEntityCollection);
     }
 
@@ -80,7 +74,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var allScopeEntityCollection = await CreateNewScopesAsync(10, false);
       var controlScopeEntityCollection =
         allScopeEntityCollection.Where((entity, index) => index % 2 == 0)
-                                .ToArray();
+                                .ToList();
 
       var scopeIdentityCollection =
         controlScopeEntityCollection.Select(entity => entity.ScopeName!)
@@ -89,13 +83,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var testScopeEntityCollection =
         await _scopeRepository.GetScopesAsync(scopeIdentityCollection, false, CancellationToken);
 
-      Assert.AreEqual(controlScopeEntityCollection.Length, testScopeEntityCollection.Count);
-
-      for (int i = 0; i < controlScopeEntityCollection.Length; i++)
-      {
-        AreEqual(controlScopeEntityCollection[i], testScopeEntityCollection[i]);
-      }
-
+      ScopeRepositoryTest.AreEqual(controlScopeEntityCollection, testScopeEntityCollection);
       AreDetached(testScopeEntityCollection);
     }
 
@@ -109,12 +97,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var testScopeEntityCollection =
         await _scopeRepository.GetScopesAsync(null, true, CancellationToken);
 
-      Assert.AreEqual(controlScopeEntityCollection.Length, testScopeEntityCollection.Count);
-
-      for (int i = 0; i < controlScopeEntityCollection.Length; i++)
-      {
-        AreEqual(controlScopeEntityCollection[i], testScopeEntityCollection[i]);
-      }
+      ScopeRepositoryTest.AreEqual(controlScopeEntityCollection, testScopeEntityCollection);
 
       AreDetached(testScopeEntityCollection);
     }
@@ -127,7 +110,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var allScopeEntityCollection = await CreateNewScopesAsync(10, true);
       var controlScopeEntityCollection =
         allScopeEntityCollection.Where((entity, index) => index % 2 == 0)
-                                .ToArray();
+                                .ToList();
 
       var scopeIdentityCollection =
         controlScopeEntityCollection.Select(entity => entity.ScopeName!)
@@ -136,13 +119,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       var testScopeEntityCollection =
         await _scopeRepository.GetScopesAsync(scopeIdentityCollection, true, CancellationToken);
 
-      Assert.AreEqual(controlScopeEntityCollection.Length, testScopeEntityCollection.Count);
-
-      for (int i = 0; i < controlScopeEntityCollection.Length; i++)
-      {
-        AreEqual(controlScopeEntityCollection[i], testScopeEntityCollection[i]);
-      }
-
+      ScopeRepositoryTest.AreEqual(controlScopeEntityCollection, testScopeEntityCollection);
       AreDetached(testScopeEntityCollection);
     }
 
@@ -165,7 +142,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       return scopeEntity;
     }
 
-    private async Task<ScopeEntity[]> CreateNewScopesAsync(int scopes, bool standard)
+    private async Task<List<ScopeEntity>> CreateNewScopesAsync(int scopes, bool standard)
     {
       var scopeEntityCollection = new List<ScopeEntity>();
 
@@ -175,15 +152,25 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       }
 
       return scopeEntityCollection.OrderBy(entity => entity.ScopeName)
-                                  .ToArray();
+                                  .ToList();
     }
 
-    private void AreEqual(ScopeEntity control, ScopeEntity test)
+    private static void AreEqual(ScopeEntity control, ScopeEntity test)
     {
       Assert.AreEqual(control.ScopeName, test.ScopeName);
       Assert.AreEqual(control.DisplayName, test.DisplayName);
       Assert.AreEqual(control.Description, test.Description);
       Assert.AreEqual(control.Standard, test.Standard);
+    }
+
+    private static void AreEqual(List<ScopeEntity> control, List<ScopeEntity> test)
+    {
+      Assert.AreEqual(control.Count, test.Count);
+
+      for (int i = 0; i < control.Count; i++)
+      {
+        ScopeRepositoryTest.AreEqual(control[i], test[i]);
+      }
     }
 
     private void IsDetached(ScopeEntity scopeEntity)
