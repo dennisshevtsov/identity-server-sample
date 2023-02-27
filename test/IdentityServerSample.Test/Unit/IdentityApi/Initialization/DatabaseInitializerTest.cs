@@ -13,6 +13,7 @@ namespace IdentityServerSample.IdentityApi.Initialization.Test
 
   using IdentityServerSample.ApplicationCore.Defaults;
   using IdentityServerSample.ApplicationCore.Identities;
+  using IdentityServerSample.ApplicationCore.Entities;
 
   [TestClass]
   public sealed class DatabaseInitializerTest
@@ -93,6 +94,43 @@ namespace IdentityServerSample.IdentityApi.Initialization.Test
       _configurationMock.VerifyGet(configuration => configuration["TestUser_Email"]);
       _configurationMock.VerifyGet(configuration => configuration["TestUser_Name"]);
       _configurationMock.VerifyGet(configuration => configuration["TestUser_Password"]);
+      _configurationMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task ExecuteAsync_Should_Add_User_And_Scopes()
+    {
+      _scopeServiceMock.Setup(service => service.GetScopeAsync(It.IsAny<IScopeIdentity>(), It.IsAny<CancellationToken>()))
+                       .ReturnsAsync(default(ScopeEntity))
+                       .Verifiable();
+
+      _scopeServiceMock.Setup(service => service.AddScopeAsync(It.IsAny<ScopeEntity>(), It.IsAny<CancellationToken>()))
+                       .Returns(Task.CompletedTask)
+                       .Verifiable();
+
+      _userManagerMock.Setup(manager => manager.FindByNameAsync(It.IsAny<string>()))
+                      .ReturnsAsync(default(UserEntity))
+                      .Verifiable();
+
+      _userManagerMock.Setup(manager => manager.CreateAsync(It.IsAny<UserEntity>(), It.IsAny<string>()))
+                      .Returns(Task.FromResult(IdentityResult.Success))
+                      .Verifiable();
+
+      var controlToken = Guid.NewGuid().ToString();
+
+      _configurationMock.SetupGet(configuration => configuration[It.IsAny<string>()])
+                        .Returns(controlToken)
+                        .Verifiable();
+
+      await _databaseInitializer.ExecuteAsync(_cancellationToken);
+
+      _scopeServiceMock.Verify();
+      _scopeServiceMock.VerifyNoOtherCalls();
+
+      _userManagerMock.Verify();
+      _userManagerMock.VerifyNoOtherCalls();
+
+      _configurationMock.Verify();
       _configurationMock.VerifyNoOtherCalls();
     }
   }
