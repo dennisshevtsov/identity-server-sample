@@ -23,6 +23,24 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
+    public async Task AddScopeAsync_Should_Create_New_Scope()
+    {
+      var controlScopeEntity = ScopeRepositoryTest.GenerateNewScope();
+
+      await _scopeRepository.AddScopeAsync(controlScopeEntity, CancellationToken);
+
+      IsDetached(controlScopeEntity);
+
+      var actualScopeEntity =
+        await DbContext.Set<ScopeEntity>()
+                       .WithPartitionKey(controlScopeEntity.ScopeName!)
+                       .FirstOrDefaultAsync();
+
+      Assert.IsNotNull(actualScopeEntity);
+      ScopeRepositoryTest.AreEqual(controlScopeEntity, actualScopeEntity);
+    }
+
+    [TestMethod]
     public async Task GetScopeAsync_Should_Return_Null()
     {
       await CreateNewScopesAsync(10, false);
@@ -123,15 +141,17 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       AreDetached(testScopeEntityCollection);
     }
 
+    private static ScopeEntity GenerateNewScope(bool standard = false) => new ScopeEntity
+    {
+      ScopeName = Guid.NewGuid().ToString(),
+      DisplayName = Guid.NewGuid().ToString(),
+      Description = Guid.NewGuid().ToString(),
+      Standard = standard,
+    };
+
     private async Task<ScopeEntity> CreateNewScopeAsync(bool standard)
     {
-      var scopeEntity = new ScopeEntity
-      {
-        ScopeName = Guid.NewGuid().ToString(),
-        DisplayName = Guid.NewGuid().ToString(),
-        Description = Guid.NewGuid().ToString(),
-        Standard = standard,
-      };
+      var scopeEntity = ScopeRepositoryTest.GenerateNewScope(standard);
 
       var scopeEntityEntry = DbContext.Add(scopeEntity);
 
