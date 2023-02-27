@@ -321,7 +321,11 @@ namespace IdentityServerSample.AspNetIdentity
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     public Task SetNormalizedEmailAsync(UserEntity user, string? normalizedEmail, CancellationToken cancellationToken)
-      => throw new NotImplementedException();
+    {
+      user.Email = normalizedEmail;
+
+      return Task.CompletedTask;
+    }
 
     #endregion
 
