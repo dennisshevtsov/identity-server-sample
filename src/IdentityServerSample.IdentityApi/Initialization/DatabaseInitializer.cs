@@ -39,7 +39,7 @@ namespace IdentityServerSample.IdentityApi.Initialization
         await _scopeService.GetScopeAsync(
           Scope.ApplicationScope.ToScopeIdentity(), cancellationToken);
 
-      if (scopeEntity != null)
+      if (scopeEntity == null)
       {
         scopeEntity = new ScopeEntity
         {
