@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthorizationModule } from './authorization';
 import { AppComponent        } from './app.component';
 import { AppRoutingModule    } from './app-routing.module';
-import { userManagerProvider } from './authorization/providers';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,10 +12,9 @@ import { userManagerProvider } from './authorization/providers';
     BrowserModule,
     HttpClientModule,
 
-    AuthorizationModule,
+    AuthorizationModule.forRoot(),
     AppRoutingModule,
   ],
-  providers: [userManagerProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
