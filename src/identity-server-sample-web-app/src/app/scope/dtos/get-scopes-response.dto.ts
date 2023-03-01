@@ -1,6 +1,6 @@
 export class ScopeDto {
   public constructor(
-    public readonly name       : string,
+    public readonly scopeName  : string,
     public readonly displayName: string,
   ) { }
 }

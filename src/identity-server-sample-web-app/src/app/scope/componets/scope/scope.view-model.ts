@@ -1,6 +1,6 @@
 export class ScopeViewModel {
   public constructor(
-    public name       : string = '',
+    public scopeName  : string = '',
     public displayName: string = '',
   ) { }
 }

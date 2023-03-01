@@ -1,6 +1,6 @@
 export class ClientDto {
   public constructor(
-    public readonly name       : string,
+    public readonly clientName : string,
     public readonly displayName: string,
   ) { }
 }

@@ -49,7 +49,7 @@ export class ScopeComponent implements OnInit {
 
   public ngOnInit(): void {
     this.form.valueChanges.subscribe(value => {
-      this.scope.name        = value.name ?? '';
+      this.scope.scopeName   = value.scopeName ?? '';
       this.scope.displayName = value.displayName ?? '';
     });
   }
@@ -62,7 +62,7 @@ export class ScopeComponent implements OnInit {
 
   public buildForm(): FormGroup<ScopeFormScheme> {
     return this.fb.group({
-      name       : this.fb.control('', Validators.required),
+      scopeName  : this.fb.control('', Validators.required),
       displayName: this.fb.control(''),
     });
   }
