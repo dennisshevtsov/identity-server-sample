@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthorizationModule } from './authorization';
 import { AppComponent        } from './app.component';
 import { AppRoutingModule    } from './app-routing.module';
+import { environment         } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,10 +14,10 @@ import { AppRoutingModule    } from './app-routing.module';
     HttpClientModule,
 
     AuthorizationModule.forRoot(
-      'http://localhost:5188',
-      'http://localhost:4202',
-      'identity-server-sample-api-client-id-1',
-      'identity-server-sample-api-scope'),
+      environment.identityApiUrl,
+      environment.appUrl,
+      environment.clientId,
+      environment.scope),
 
     AppRoutingModule,
   ],
