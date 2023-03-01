@@ -12,9 +12,14 @@ import { AppRoutingModule    } from './app-routing.module';
     BrowserModule,
     HttpClientModule,
 
-    AuthorizationModule.forRoot(),
+    AuthorizationModule.forRoot(
+      'http://localhost:5188',
+      'http://localhost:4202',
+      'identity-server-sample-api-client-id-1',
+      'identity-server-sample-api-scope'),
+
     AppRoutingModule,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
