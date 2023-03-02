@@ -2,10 +2,6 @@
   &__group {
     @extend .form-floating;
     @extend .mb-3;
-
-    &_check {
-      @extend .form-check;
-    }
   }
 
   &__button {
