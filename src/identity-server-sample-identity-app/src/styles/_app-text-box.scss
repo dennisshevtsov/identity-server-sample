@@ -1,0 +1,13 @@
+.app-text-box {
+  &__control {
+    @extend .form-control;
+  }
+
+  &__lable {
+
+  }
+
+  &__error {
+    @extend .invalid-feedback;
+  }
+}
