@@ -1,17 +1,24 @@
 .app-signin {
-  &__content {
+  @extend .card;
+  @extend .app-signin;
+  @extend .mt-3;
 
+  width: 350px;
+
+  &__content {
+    @extend .card-body;
   }
 
   &__title {
-
+    @extend .card-title;
+    @extend .text-center;
   }
 
   &__info {
-
+    @extend .card-text;
+    @extend .text-center;
   }
 
   &__form {
-
   }
 }
