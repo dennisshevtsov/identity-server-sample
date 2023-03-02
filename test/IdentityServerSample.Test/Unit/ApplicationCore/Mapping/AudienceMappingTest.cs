@@ -4,34 +4,9 @@
 
 namespace IdentityServerSample.ApplicationCore.Mapping.Test
 {
-  using Microsoft.Extensions.DependencyInjection;
-
   [TestClass]
-  public sealed class AudienceMappingTest
+  public sealed class AudienceMappingTest : MappingTestBase
   {
-#pragma warning disable CS8618
-    private IDisposable _disposable;
-    private IMapper _mapper;
-#pragma warning restore CS8618
-
-    [TestInitialize]
-    public void Initialize()
-    {
-      var serviceScope = new ServiceCollection().SetUpApplicationCoreMapping()
-                                                .AddAutoMapper(_ => { })
-                                                .BuildServiceProvider()
-                                                .CreateScope();
-
-      _disposable = serviceScope;
-      _mapper = serviceScope.ServiceProvider.GetRequiredService<IMapper>();
-    }
-
-    [TestCleanup]
-    public void Cleanup()
-    {
-      _disposable?.Dispose();
-    }
-
     [TestMethod]
     public void Map_Should_Create_GetClientsResponseDto()
     {
@@ -54,7 +29,7 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
         },
       };
 
-      var getAudiencesResponseDto = _mapper.Map<GetAudiencesResponseDto>(audienceEntityCollection);
+      var getAudiencesResponseDto = Mapper.Map<GetAudiencesResponseDto>(audienceEntityCollection);
 
       Assert.IsNotNull(getAudiencesResponseDto);
 
