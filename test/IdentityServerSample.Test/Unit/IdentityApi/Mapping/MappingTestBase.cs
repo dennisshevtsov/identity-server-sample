@@ -17,6 +17,7 @@ namespace IdentityServerSample.IdentityApi.Mapping.Test
     public void Initialize()
     {
       var serviceScope = new ServiceCollection().SetUpIdentityServerMapping()
+                                                .AddAutoMapper(_ => { })
                                                 .BuildServiceProvider()
                                                 .CreateScope();
 
