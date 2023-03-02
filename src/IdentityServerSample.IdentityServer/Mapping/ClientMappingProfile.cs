@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.Mapping
+namespace IdentityServerSample.IdentityServer.Mapping
 {
   using AutoMapper;
   using IdentityServer4.Models;
