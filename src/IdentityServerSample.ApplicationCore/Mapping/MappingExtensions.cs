@@ -5,6 +5,7 @@
 namespace Microsoft.Extensions.DependencyInjection
 {
   using AutoMapper;
+
   using IdentityServerSample.ApplicationCore.Mapping;
 
   /// <summary>Provides a simple API to register application services.</summary>
@@ -15,22 +16,12 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
     public static IServiceCollection SetUpApplicationCoreMapping(this IServiceCollection services)
     {
-      //services.AddAutoMapper(config =>
-      //{
-      //  config.AddProfile(new AudienceMappingProfile());
-      //  config.AddProfile(new ClientMappingProfile());
-      //  config.AddProfile(new ScopeMappingProfile());
-      //});
-
       services.Configure<MapperConfigurationExpression>(options =>
       {
         options.AddProfile(new AudienceMappingProfile());
         options.AddProfile(new ClientMappingProfile());
         options.AddProfile(new ScopeMappingProfile());
       });
-
-      //services.AddOptions<MapperConfigurationExpression>()
-      //        .Configure(options => )
 
       return services;
     }
