@@ -1,10 +1,11 @@
 .app-text-box {
+  @extend .form-floating;
+
   &__control {
     @extend .form-control;
   }
 
-  &__lable {
-
+  &__label {
   }
 
   &__error {

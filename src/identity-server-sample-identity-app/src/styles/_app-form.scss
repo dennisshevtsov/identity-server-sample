@@ -1,6 +1,5 @@
 .app-form {
   &__group {
-    @extend .form-floating;
     @extend .mb-3;
   }
 
