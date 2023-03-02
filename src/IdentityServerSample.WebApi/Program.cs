@@ -7,9 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSwaggerGen();
 builder.Services.SetUpControllers(builder.Configuration);
 builder.Services.SetUpAuthentication(builder.Configuration);
-builder.Services.SetUpServices();
-builder.Services.AddMapping();
 builder.Services.SetUpDatabase(builder.Configuration);
+builder.Services.SetUpServices();
+builder.Services.SetUpMapping();
 
 var app = builder.Build();
 

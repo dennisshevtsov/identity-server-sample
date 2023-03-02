@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.IdentityApi.Mapping.Test
+namespace IdentityServerSample.ApplicationCore.Mapping.Test
 {
   using Microsoft.Extensions.DependencyInjection;
 
@@ -16,7 +16,7 @@ namespace IdentityServerSample.IdentityApi.Mapping.Test
     [TestInitialize]
     public void Initialize()
     {
-      var serviceScope = new ServiceCollection().SetUpIdentityServerMapping()
+      var serviceScope = new ServiceCollection().SetUpApplicationCoreMapping()
                                                 .AddAutoMapper(_ => { })
                                                 .BuildServiceProvider()
                                                 .CreateScope();

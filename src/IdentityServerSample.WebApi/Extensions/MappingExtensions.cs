@@ -4,8 +4,6 @@
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-  using IdentityServerSample.IdentityApi.Mapping;
-
   /// <summary>Provides methods to extend the API of the <see cref="Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.</summary>
   public static class MappingExtensions
   {
@@ -14,12 +12,8 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <returns>An object that specifies the contract for a collection of service descriptors.</returns>
     public static IServiceCollection SetUpMapping(this IServiceCollection services)
     {
-      services.AddAutoMapper(config =>
-      {
-        config.AddProfile(new AudienceMappingProfile());
-        config.AddProfile(new ClientMappingProfile());
-        config.AddProfile(new ScopeMappingProfile());
-      });
+      services.SetUpApplicationCoreMapping();
+      services.AddAutoMapper(_ => { });
 
       return services;
     }
