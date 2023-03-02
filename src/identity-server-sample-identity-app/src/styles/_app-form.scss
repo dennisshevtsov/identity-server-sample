@@ -1,9 +1,17 @@
 .app-form {
   &__group {
-    
+    @extend .form-floating;
+    @extend .mb-3;
+
+    &_check {
+      @extend .form-check;
+    }
   }
 
   &__button {
-
+    @extend .btn;
+    @extend .btn-lg;
+    @extend .btn-primary;
+    @extend .w-100;
   }
 }

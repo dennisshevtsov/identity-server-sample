@@ -3,7 +3,7 @@
     <h3 class="app-signin__title">Identity Server Sample</h3>
     <p class="app-signin__info">Please sign in</p>
     <form class="app-signin__form app-form" method="post" [formGroup]="form">
-      <div class="app-form__group form-floating mb-3">
+      <div class="app-form__group">
         <input id="email"
                type="email"
                class="form-control"
@@ -12,7 +12,7 @@
         <label for="email">Email</label>
         <span class="invalid-feedback">The email is required.</span>
       </div>
-      <div class="app-form__group form-floating mb-3">
+      <div class="app-form__group">
         <input id="password"
                type="password"
                class="form-control"
@@ -21,11 +21,11 @@
         <label for="password">Password</label>
         <span class="invalid-feedback">The password is required.</span>
       </div>
-      <div class="app-form__group form-check mb-3">
+      <div class="app-form__group">
         <input id="rememberMe" type="checkbox" class="form-check-input" />
         <label for="rememberMe" class="form-check-label">Remember me</label>
       </div>
-      <button class="app-form__button btn btn-lg btn-primary w-100"
+      <button class="app-form__button"
               (click)="signin()">
         <span>Sign In</span>
       </button>
