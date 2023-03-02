@@ -1,0 +1,22 @@
+.app-text-box {
+  @extend .form-floating;
+
+  &__control {
+    @extend .form-control;
+  }
+
+  &__label {
+  }
+
+  &__error {
+    @extend .invalid-feedback;
+  }
+}
+
+.ng-touched.ng-invalid, .ng-dirty.ng-invalid {
+  @extend .is-invalid;
+}
+
+.ng-dirty.ng-valid {
+  @extend .is-valid;
+}

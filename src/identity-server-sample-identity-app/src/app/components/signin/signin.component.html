@@ -1,31 +1,31 @@
-<div style="width: 350px;" class="card m-auto mt-3">
-  <div class="card-body">
-    <h3 class="card-title text-center">Identity Server Sample</h3>
-    <p class="card-text text-center">Please sign in</p>
-    <form method="post" [formGroup]="form">
-      <div class="form-floating mb-3">
+<div class="app-signin">
+  <div class="app-signin__content">
+    <h3 class="app-signin__title">Identity Server Sample</h3>
+    <p class="app-signin__info">Please sign in</p>
+    <form class="app-signin__form app-form" method="post" [formGroup]="form">
+      <div class="app-form__group app-text-box">
         <input id="email"
                type="email"
-               class="form-control"
+               class="app-text-box__control"
                placeholder=""
                formControlName="email" />
-        <label for="email">Email</label>
-        <span class="invalid-feedback">The email is required.</span>
+        <label class="app-text-box__label" for="email">Email</label>
+        <span class="app-text-box__error">The email is required.</span>
       </div>
-      <div class="form-floating mb-3">
+      <div class="app-form__group app-text-box">
         <input id="password"
                type="password"
-               class="form-control"
+               class="app-text-box__control"
                placeholder=""
                formControlName="password" />
-        <label for="password">Password</label>
-        <span class="invalid-feedback">The password is required.</span>
+        <label class="app-text-box__label" for="password">Password</label>
+        <span class="app-text-box__error">The password is required.</span>
       </div>
-      <div class="form-check mb-3">
-        <input id="rememberMe" type="checkbox" class="form-check-input" />
-        <label for="rememberMe" class="form-check-label">Remember me</label>
+      <div class="app-form__group app-check-box">
+        <input id="rememberMe" type="checkbox" class="app-check-box__control" />
+        <label for="rememberMe" class="app-check-box__label">Remember me</label>
       </div>
-      <button class="btn btn-lg btn-primary w-100"
+      <button class="app-form__button"
               (click)="signin()">
         <span>Sign In</span>
       </button>

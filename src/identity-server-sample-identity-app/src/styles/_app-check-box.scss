@@ -1,0 +1,11 @@
+.app-check-box {
+  @extend .form-check;
+
+  &__control {
+    @extend .form-check-input;
+  }
+
+  &__label {
+    @extend .form-check-label;
+  }
+}
