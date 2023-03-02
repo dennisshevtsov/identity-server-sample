@@ -1,0 +1,15 @@
+.app-error {
+  @extend .alert;
+  @extend .alert-danger;
+  @extend .m-auto;
+  @extend .mt-3;
+
+  width: 350px;
+
+  &__title {
+    @extend .alert-heading;
+  }
+
+  &__message {
+  }
+}
