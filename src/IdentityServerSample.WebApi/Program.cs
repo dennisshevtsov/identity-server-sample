@@ -8,7 +8,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.SetUpControllers(builder.Configuration);
 builder.Services.SetUpAuthentication(builder.Configuration);
 builder.Services.SetUpServices();
-builder.Services.AddMapping();
+
+builder.Services.SetUpApplicationCoreMapping();
+builder.Services.AddAutoMapper(_ => { });
+
 builder.Services.SetUpDatabase(builder.Configuration);
 
 var app = builder.Build();

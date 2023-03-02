@@ -16,7 +16,7 @@ namespace IdentityServerSample.IdentityApi.Mapping.Test
     [TestInitialize]
     public void Initialize()
     {
-      var serviceScope = new ServiceCollection().SetUpMapping()
+      var serviceScope = new ServiceCollection().SetUpIdentityServerMapping()
                                                 .BuildServiceProvider()
                                                 .CreateScope();
 

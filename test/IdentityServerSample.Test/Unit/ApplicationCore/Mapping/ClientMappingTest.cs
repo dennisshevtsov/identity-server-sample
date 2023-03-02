@@ -17,7 +17,7 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
     [TestInitialize]
     public void Initialize()
     {
-      var serviceScope = new ServiceCollection().AddMapping()
+      var serviceScope = new ServiceCollection().SetUpApplicationCoreMapping()
                                                 .BuildServiceProvider()
                                                 .CreateScope();
 
