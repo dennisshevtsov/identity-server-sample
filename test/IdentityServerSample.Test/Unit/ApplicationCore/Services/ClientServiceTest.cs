@@ -29,6 +29,23 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
     }
 
     [TestMethod]
+    public async Task AddClientAsync_Should_Return_Add_Client()
+    {
+      _clientRepositoryMock.Setup(repository => repository.AddClientAsync(It.IsAny<ClientEntity>(), It.IsAny<CancellationToken>()))
+                           .Returns(Task.CompletedTask)
+                           .Verifiable();
+
+      var clientEntity = new ClientEntity();
+
+      await _clientService.AddClientAsync(clientEntity, _cancellationToken);
+
+      _clientRepositoryMock.Verify(repository => repository.AddClientAsync(clientEntity, _cancellationToken));
+      _clientRepositoryMock.VerifyNoOtherCalls();
+
+      _mapperMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
     public async Task GetClientsAsync_Should_Return_Mapped_Dtos()
     {
       var clientEntityCollection = new ClientEntity[0];
