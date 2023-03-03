@@ -22,6 +22,27 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
+    public async Task AddClientAsync_Should_Create_New_Client()
+    {
+      var clientName = Guid.NewGuid().ToString();
+      var controlClientEntity = ClientRepositoryTest.GenerateNewClient(clientName);
+
+      await _clientRepository.AddClientAsync(controlClientEntity, CancellationToken);
+
+      var actualClientEntity =
+        await DbContext.Set<ClientEntity>()
+                       .AsNoTracking()
+                       .WithPartitionKey(clientName)
+                       .Where(entity => entity.ClientName == clientName)
+                       .SingleOrDefaultAsync();
+
+      Assert.IsNotNull(actualClientEntity);
+
+      AreEqual(actualClientEntity, controlClientEntity);
+      IsDetached(controlClientEntity);
+    }
+
+    [TestMethod]
     public async Task GetClientAsync_Should_Return_With_Defined_Name()
     {
       var allClientEntityCollection = await CreateNewClientsAsync(10);
@@ -41,7 +62,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetClientAsync_Should_Return_Null()
     {
-      var allClientEntityCollection = await CreateNewClientsAsync(10);
+      await CreateNewClientsAsync(10);
 
       var clientName = Guid.NewGuid().ToString();
 
@@ -72,7 +93,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     [TestMethod]
     public async Task GetFirstClientWithOriginAsync_Should_Return_Null()
     {
-      var allClientEntityCollection = await CreateNewClientsAsync(10);
+      await CreateNewClientsAsync(10);
 
       var origin = Guid.NewGuid().ToString();
 
@@ -99,35 +120,36 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       IsDetached(testClientEntityCollection);
     }
 
+    private static ClientEntity GenerateNewClient(string clientName) => new ClientEntity
+    {
+      ClientName = clientName,
+      DisplayName = Guid.NewGuid().ToString(),
+      Description = Guid.NewGuid().ToString(),
+      Scopes = new[]
+      {
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+      },
+      RedirectUris = new[]
+      {
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+      },
+      PostRedirectUris = new[]
+      {
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+      },
+      CorsOrigins = new[]
+      {
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+      },
+    };
+
     private async Task<ClientEntity> CreateNewClientAsync()
     {
-      var clientEntity = new ClientEntity
-      {
-        ClientName = Guid.NewGuid().ToString(),
-        DisplayName = Guid.NewGuid().ToString(),
-        Description = Guid.NewGuid().ToString(),
-        Scopes = new[]
-        {
-          Guid.NewGuid().ToString(),
-          Guid.NewGuid().ToString(),
-        },
-        RedirectUris = new[]
-        {
-          Guid.NewGuid().ToString(),
-          Guid.NewGuid().ToString(),
-        },
-        PostRedirectUris = new[]
-        {
-          Guid.NewGuid().ToString(),
-          Guid.NewGuid().ToString(),
-        },
-        CorsOrigins = new[]
-        {
-          Guid.NewGuid().ToString(),
-          Guid.NewGuid().ToString(),
-        },
-      };
-
+      var clientEntity = ClientRepositoryTest.GenerateNewClient(Guid.NewGuid().ToString());
       var clientEntityEntry = DbContext.Add(clientEntity);
 
       await DbContext.SaveChangesAsync(CancellationToken);
