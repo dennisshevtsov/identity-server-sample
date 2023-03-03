@@ -72,8 +72,12 @@ namespace IdentityServerSample.IdentityApi.Initialization.Test
     }
 
     [TestMethod]
-    public async Task ExecuteAsync_Should_Not_Add_User_And_Scopes()
+    public async Task ExecuteAsync_Should_Not_Client_Scope_And_User()
     {
+      _clientServiceMock.Setup(service => service.GetClientAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                        .ReturnsAsync(new ClientEntity())
+                        .Verifiable();
+
       _scopeServiceMock.Setup(service => service.GetScopeAsync(It.IsAny<IScopeIdentity>(), It.IsAny<CancellationToken>()))
                        .ReturnsAsync(new ScopeEntity())
                        .Verifiable();
@@ -90,12 +94,16 @@ namespace IdentityServerSample.IdentityApi.Initialization.Test
 
       await _databaseInitializer.ExecuteAsync(_cancellationToken);
 
+      _clientServiceMock.Verify(service => service.GetClientAsync(Clients.ApplicationClient, _cancellationToken));
+      _clientServiceMock.VerifyNoOtherCalls();
+
       _scopeServiceMock.Verify(service => service.GetScopeAsync(Scopes.ApplicationScope.ToScopeIdentity(), _cancellationToken));
       _scopeServiceMock.VerifyNoOtherCalls();
 
       _userManagerMock.Verify(manager => manager.FindByNameAsync(controlToken));
       _userManagerMock.VerifyNoOtherCalls();
 
+      _configurationMock.VerifyGet(configuration => configuration["WebApp_Url"]);
       _configurationMock.VerifyGet(configuration => configuration["TestUser_Email"]);
       _configurationMock.VerifyGet(configuration => configuration["TestUser_Name"]);
       _configurationMock.VerifyGet(configuration => configuration["TestUser_Password"]);
@@ -103,8 +111,16 @@ namespace IdentityServerSample.IdentityApi.Initialization.Test
     }
 
     [TestMethod]
-    public async Task ExecuteAsync_Should_Add_User_And_Scopes()
+    public async Task ExecuteAsync_Should_Add_Client_Scope_And_User()
     {
+      _clientServiceMock.Setup(service => service.GetClientAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+                        .ReturnsAsync(default(ClientEntity))
+                        .Verifiable();
+
+      _clientServiceMock.Setup(service => service.AddClientAsync(It.IsAny<ClientEntity>(), It.IsAny<CancellationToken>()))
+                        .Returns(Task.CompletedTask)
+                        .Verifiable();
+
       _scopeServiceMock.Setup(service => service.GetScopeAsync(It.IsAny<IScopeIdentity>(), It.IsAny<CancellationToken>()))
                        .ReturnsAsync(default(ScopeEntity))
                        .Verifiable();
@@ -128,6 +144,9 @@ namespace IdentityServerSample.IdentityApi.Initialization.Test
                         .Verifiable();
 
       await _databaseInitializer.ExecuteAsync(_cancellationToken);
+
+      _clientServiceMock.Verify();
+      _clientServiceMock.VerifyNoOtherCalls();
 
       _scopeServiceMock.Verify();
       _scopeServiceMock.VerifyNoOtherCalls();
