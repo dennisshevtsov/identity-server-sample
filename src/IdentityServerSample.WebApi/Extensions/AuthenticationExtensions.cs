@@ -6,6 +6,8 @@ namespace Microsoft.Extensions.DependencyInjection
 {
   using Microsoft.AspNetCore.Authentication.JwtBearer;
 
+  using IdentityServerSample.ApplicationCore.Defaults;
+
   /// <summary>Provides a simple API to configure a pipeline.</summary>
   public static class AuthenticationExtensions
   {
@@ -21,7 +23,7 @@ namespace Microsoft.Extensions.DependencyInjection
               .AddJwtBearer(options =>
               {
                 options.Authority = configuration["IdentityApi_Url"];
-                options.Audience = configuration["ApiResource_Name"];
+                options.Audience = Audiences.ApplicationAudience;
                 options.RequireHttpsMetadata = false;
               });
 

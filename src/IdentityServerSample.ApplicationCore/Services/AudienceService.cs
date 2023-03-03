@@ -43,7 +43,7 @@ namespace IdentityServerSample.ApplicationCore.Services
     /// <summary>Gets a collection of audiences that satisfy defined conditions.</summary>
     /// <param name="query">An object that represents conditions to query audiencies.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
-    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
     public async Task<GetAudiencesResponseDto> GetAudiencesAsync(
       GetAudiencesRequestDto query, CancellationToken cancellationToken)
     {

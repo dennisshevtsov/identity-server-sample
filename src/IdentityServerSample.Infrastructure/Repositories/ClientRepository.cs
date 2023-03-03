@@ -23,6 +23,19 @@ namespace IdentityServerSample.Infrastructure.Repositories
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
+    /// <summary>Adds a new client.</summary>
+    /// <param name="clientEntity">An object that represents details of a client.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation.</returns>
+    public async Task AddClientAsync(ClientEntity clientEntity, CancellationToken cancellationToken)
+    {
+      var clientEntityEntry = _dbContext.Add(clientEntity);
+
+      await _dbContext.SaveChangesAsync(cancellationToken);
+
+      clientEntityEntry.State = EntityState.Detached;
+    }
+
     /// <summary>Gets a client by its name.</summary>
     /// <param name="name">An object that represents a name of a client.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
