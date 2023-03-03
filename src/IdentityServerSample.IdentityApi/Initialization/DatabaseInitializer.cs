@@ -99,17 +99,19 @@ namespace IdentityServerSample.IdentityApi.Initialization
 
       if (scopeEntity == null)
       {
-        scopeEntity = new ScopeEntity
-        {
-          ScopeName = Scopes.ApplicationScope,
-          Description = "Default Application Scope",
-          DisplayName = "Default Application Scope",
-          Standard = false,
-        };
+        scopeEntity = DatabaseInitializer.CreateDefaultScope();
 
         await _scopeService.AddScopeAsync(scopeEntity, cancellationToken);
       }
     }
+
+    private static ScopeEntity CreateDefaultScope() => new ScopeEntity
+    {
+      ScopeName = Scopes.ApplicationScope,
+      Description = "Default Application Scope",
+      DisplayName = "Default Application Scope",
+      Standard = false,
+    };
 
     private async Task AddTestUserAsync()
     {
