@@ -59,35 +59,37 @@ namespace IdentityServerSample.IdentityApi.Initialization
       if (!string.IsNullOrWhiteSpace(webAppUrl) &&
           (clientEntity = await _clientService.GetClientAsync(Clients.ApplicationClient, cancellationToken)) == null)
       {
-        clientEntity = new ClientEntity
-        {
-          ClientName = Clients.ApplicationClient,
-          Description = "Default client",
-          DisplayName = "Identity Sample API Client ID for Code Flow",
-          PostRedirectUris = new List<string>
-          {
-            webAppUrl,
-          },
-          RedirectUris = new List<string>
-          {
-            $"{webAppUrl}/signin-callback",
-            $"{webAppUrl}/silent-callback",
-          },
-          Scopes = new List<string>
-          {
-            IdentityServerConstants.StandardScopes.OpenId,
-            IdentityServerConstants.StandardScopes.Profile,
-            Scopes.ApplicationScope,
-          },
-          CorsOrigins = new List<string>
-          {
-            webAppUrl,
-          },
-        };
+        clientEntity = CreateDefaultClient(webAppUrl);
 
         await _clientService.AddClientAsync(clientEntity, cancellationToken);
       }
     }
+
+    private ClientEntity CreateDefaultClient(string webAppUrl) => new ClientEntity
+    {
+      ClientName = Clients.ApplicationClient,
+      Description = "Default client",
+      DisplayName = "Identity Sample API Client ID for Code Flow",
+      PostRedirectUris = new List<string>
+      {
+        webAppUrl,
+      },
+      RedirectUris = new List<string>
+      {
+        $"{webAppUrl}/signin-callback",
+        $"{webAppUrl}/silent-callback",
+      },
+      Scopes = new List<string>
+      {
+        IdentityServerConstants.StandardScopes.OpenId,
+        IdentityServerConstants.StandardScopes.Profile,
+        Scopes.ApplicationScope,
+      },
+      CorsOrigins = new List<string>
+      {
+        webAppUrl,
+      },
+    };
 
     private async Task AddApplicationScopeAsync(CancellationToken cancellationToken)
     {
