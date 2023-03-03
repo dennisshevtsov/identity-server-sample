@@ -4,6 +4,7 @@
 
 namespace IdentityServerSample.IdentityApi.Initialization
 {
+  using IdentityServer4;
   using Microsoft.AspNetCore.Identity;
 
   using IdentityServerSample.ApplicationCore.Defaults;
@@ -15,20 +16,28 @@ namespace IdentityServerSample.IdentityApi.Initialization
   public sealed class DatabaseInitializer
   {
     private readonly IConfiguration _configuration;
+
     private readonly UserManager<UserEntity> _userManager;
+
+    private readonly IClientService _clientService;
     private readonly IScopeService _scopeService;
 
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApi.Initialization.DatabaseInitializer"/> class.</summary>
     /// <param name="configuration">An object that represents a set of key/value application configuration properties.</param>
     /// <param name="userManager">An object that provides the APIs for managing user in a persistence store.</param>
+    /// <param name="clientService">An object that provides a simple API to execute queries and commands with clients.</param>
     /// <param name="scopeService">An object that provides a simple API to query and save scopes.</param>
     public DatabaseInitializer(
       IConfiguration configuration,
       UserManager<UserEntity> userManager,
+      IClientService clientService,
       IScopeService scopeService)
     {
       _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+
       _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
+
+      _clientService = clientService ?? throw new ArgumentNullException(nameof(clientService));
       _scopeService = scopeService ?? throw new ArgumentNullException(nameof(scopeService));
     }
 
@@ -37,8 +46,47 @@ namespace IdentityServerSample.IdentityApi.Initialization
     /// <returns>An object that represents an asynchronous operation.</returns>
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
+      await AddApplicationClientAsync(cancellationToken);
       await AddApplicationScopeAsync(cancellationToken);
       await AddTestUserAsync();
+    }
+
+    private async Task AddApplicationClientAsync(CancellationToken cancellationToken)
+    {
+      var webAppUrl = _configuration["WebApp_Url"];
+      ClientEntity? clientEntity;
+
+      if (!string.IsNullOrWhiteSpace(webAppUrl) &&
+          (clientEntity = await _clientService.GetClientAsync(Clients.ApplicationClient, cancellationToken)) == null)
+      {
+        clientEntity = new ClientEntity
+        {
+          ClientName = Clients.ApplicationClient,
+          Description = "Default client",
+          DisplayName = "Identity Sample API Client ID for Code Flow",
+          PostRedirectUris = new List<string>
+          {
+            webAppUrl,
+          },
+          RedirectUris = new List<string>
+          {
+            $"{webAppUrl}/signin-callback",
+            $"{webAppUrl}/silent-callback",
+          },
+          Scopes = new List<string>
+          {
+            IdentityServerConstants.StandardScopes.OpenId,
+            IdentityServerConstants.StandardScopes.Profile,
+            Scopes.ApplicationScope,
+          },
+          CorsOrigins = new List<string>
+          {
+            webAppUrl,
+          },
+        };
+
+        await _clientService.AddClientAsync(clientEntity, cancellationToken);
+      }
     }
 
     private async Task AddApplicationScopeAsync(CancellationToken cancellationToken)
@@ -79,7 +127,7 @@ namespace IdentityServerSample.IdentityApi.Initialization
       }
     }
 
-    private static UserEntity CreateDefaultUser(string email, string? name) => new UserEntity
+    private static UserEntity CreateDefaultUser(string email, string? name) => new()
     {
       Email = email,
       Name = name,
