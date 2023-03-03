@@ -9,6 +9,12 @@ namespace IdentityServerSample.ApplicationCore.Repositories
   /// <summary>Provides a simple API to query and save instances of the <see cref="IdentityServerSample.ApplicationCore.Entities.ClientEntity"/> class.</summary>
   public interface IClientRepository
   {
+    /// <summary>Adds a new client.</summary>
+    /// <param name="clientEntity">An object that represents details of a client.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation.</returns>
+    public Task AddClientAsync(ClientEntity clientEntity, CancellationToken cancellationToken);
+
     /// <summary>Gets a client by its name.</summary>
     /// <param name="name">An object that represents a name of a client.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
