@@ -85,7 +85,7 @@ namespace IdentityServerSample.IdentityApi.Initialization.Test
 
       await _databaseInitializer.ExecuteAsync(_cancellationToken);
 
-      _scopeServiceMock.Verify(service => service.GetScopeAsync(Scope.ApplicationScope.ToScopeIdentity(), _cancellationToken));
+      _scopeServiceMock.Verify(service => service.GetScopeAsync(Scopes.ApplicationScope.ToScopeIdentity(), _cancellationToken));
       _scopeServiceMock.VerifyNoOtherCalls();
 
       _userManagerMock.Verify(manager => manager.FindByNameAsync(controlToken));

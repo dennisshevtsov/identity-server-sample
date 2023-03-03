@@ -37,13 +37,13 @@ namespace IdentityServerSample.IdentityApi.Initialization
     {
       var scopeEntity =
         await _scopeService.GetScopeAsync(
-          Scope.ApplicationScope.ToScopeIdentity(), cancellationToken);
+          Scopes.ApplicationScope.ToScopeIdentity(), cancellationToken);
 
       if (scopeEntity == null)
       {
         scopeEntity = new ScopeEntity
         {
-          ScopeName = Scope.ApplicationScope,
+          ScopeName = Scopes.ApplicationScope,
           Description = "Default Application Scope",
           DisplayName = "Default Application Scope",
           Standard = false,
@@ -73,7 +73,7 @@ namespace IdentityServerSample.IdentityApi.Initialization
           {
             new UserScopeEntity
             {
-              ScopeName = Scope.ApplicationScope,
+              ScopeName = Scopes.ApplicationScope,
             },
           },
         };
