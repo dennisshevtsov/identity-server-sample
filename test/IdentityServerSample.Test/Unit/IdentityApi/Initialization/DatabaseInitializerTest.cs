@@ -22,7 +22,10 @@ namespace IdentityServerSample.IdentityApi.Initialization.Test
 
 #pragma warning disable CS8618
     private Mock<IConfiguration> _configurationMock;
+
     private Mock<UserManager<UserEntity>> _userManagerMock;
+
+    private Mock<IClientService> _clientServiceMock;
     private Mock<IScopeService> _scopeServiceMock;
 
     private DatabaseInitializer _databaseInitializer;
@@ -56,11 +59,13 @@ namespace IdentityServerSample.IdentityApi.Initialization.Test
         servicesMock.Object,
         userManagerLoggerMock.Object);
 
+      _clientServiceMock = new Mock<IClientService>();
       _scopeServiceMock = new Mock<IScopeService>();
 
       _databaseInitializer = new DatabaseInitializer(
         _configurationMock.Object,
         _userManagerMock.Object,
+        _clientServiceMock.Object,
         _scopeServiceMock.Object);
 
       _userManagerMock.Reset();
