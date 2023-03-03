@@ -11,12 +11,17 @@ namespace IdentityServerSample.IdentityApi.Initialization
   using IdentityServerSample.ApplicationCore.Identities;
   using IdentityServerSample.ApplicationCore.Services;
 
+  /// <summary>Provides a simple API to initialize the database.</summary>
   public sealed class DatabaseInitializer
   {
     private readonly IConfiguration _configuration;
     private readonly UserManager<UserEntity> _userManager;
     private readonly IScopeService _scopeService;
 
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.IdentityApi.Initialization.DatabaseInitializer"/> class.</summary>
+    /// <param name="configuration">An object that represents a set of key/value application configuration properties.</param>
+    /// <param name="userManager">An object that provides the APIs for managing user in a persistence store.</param>
+    /// <param name="scopeService">An object that provides a simple API to query and save scopes.</param>
     public DatabaseInitializer(
       IConfiguration configuration,
       UserManager<UserEntity> userManager,
@@ -27,6 +32,9 @@ namespace IdentityServerSample.IdentityApi.Initialization
       _scopeService = scopeService ?? throw new ArgumentNullException(nameof(scopeService));
     }
 
+    /// <summary>Initializes the database.</summary>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an asynchronous operation.</returns>
     public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
       await AddApplicationScopeAsync(cancellationToken);
