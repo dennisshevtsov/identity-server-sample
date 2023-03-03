@@ -9,6 +9,7 @@ namespace IdentityServerSample.ApplicationCore.Services
   using AutoMapper;
 
   using IdentityServerSample.ApplicationCore.Dtos;
+  using IdentityServerSample.ApplicationCore.Entities;
   using IdentityServerSample.ApplicationCore.Repositories;
 
   /// <summary>Provides a simple API to execute queries and commands with clients.</summary>
@@ -25,6 +26,13 @@ namespace IdentityServerSample.ApplicationCore.Services
       _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
       _clientRepository = clientRepository ?? throw new ArgumentNullException(nameof(clientRepository));
     }
+
+    /// <summary>Adds a new client.</summary>
+    /// <param name="clientEntity">An object that represents details of a client.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation.</returns>
+    public Task AddClientAsync(ClientEntity clientEntity, CancellationToken cancellationToken)
+      => _clientRepository.AddClientAsync(clientEntity, cancellationToken);
 
     /// <summary>Gets clients that satisfied defined conditions.</summary>
     /// <param name="query">An object that represents conditions to query clients.</param>
