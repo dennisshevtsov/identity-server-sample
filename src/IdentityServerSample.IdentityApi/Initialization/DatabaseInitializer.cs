@@ -73,21 +73,23 @@ namespace IdentityServerSample.IdentityApi.Initialization
           !string.IsNullOrWhiteSpace(testUserPasword) &&
           (testUserEntity = await _userManager.FindByNameAsync(testUserEmail)) == null)
       {
-        testUserEntity = new UserEntity
-        {
-          Email = testUserEmail,
-          Name = testUserName,
-          Scopes = new List<UserScopeEntity>
-          {
-            new UserScopeEntity
-            {
-              ScopeName = Scopes.ApplicationScope,
-            },
-          },
-        };
+        testUserEntity = DatabaseInitializer.CreateDefaultUser(testUserEmail, testUserName);
 
         await _userManager.CreateAsync(testUserEntity, testUserPasword);
       }
     }
+
+    private static UserEntity CreateDefaultUser(string email, string? name) => new UserEntity
+    {
+      Email = email,
+      Name = name,
+      Scopes = new List<UserScopeEntity>
+      {
+        new UserScopeEntity
+        {
+          ScopeName = Scopes.ApplicationScope,
+        },
+      },
+    };
   }
 }
