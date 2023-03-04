@@ -1,6 +1,6 @@
 export class AddScopeRequestDto {
   public constructor(
-    public scopeName  : string,
-    public desplayName: string,
+    public readonly scopeName: string,
+    public readonly desplayName: string,
   ) { }
 }
