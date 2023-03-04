@@ -8,6 +8,10 @@
              type="text"
              placeholder="">
       <label for="txtName">Name</label>
+      <span class="app-form__error"
+            *ngIf="hasErrors('scopeName')">
+        <span *ngIf="hasError('scopeName', 'required')">Please enter a scope name.</span>
+      </span>
     </div>
     <div class="app-form__control-group">
       <input formControlName="displayName"

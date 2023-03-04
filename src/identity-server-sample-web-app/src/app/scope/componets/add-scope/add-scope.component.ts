@@ -13,7 +13,7 @@ import { AddScopeViewModel } from './add-scope.view-model';
     {
       provide: Subscription,
       useFactory: () => new Subscription(),
-    }
+    },
   ],
 })
 export class AddScopeComponent implements OnDestroy {
@@ -30,6 +30,6 @@ export class AddScopeComponent implements OnDestroy {
 
   public ok(): void {
     this.subscription.add(
-      this.vm.add().subscribe(() => this.router.navigate(['../'])));
+      this.vm.add().subscribe(() => this.router.navigate(['./'])));
   }
 }
