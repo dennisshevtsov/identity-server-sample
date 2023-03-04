@@ -8,10 +8,22 @@
     @extend .form-control;
   }
 
+  &__error {
+    @extend .invalid-feedback;
+  }
+
   &__button-group {
     @extend .d-grid;
     @extend .gap-2;
     @extend .d-md-flex;
     @extend .justify-content-md-end;
   }
+}
+
+.ng-touched.ng-invalid, .ng-dirty.ng-invalid {
+  @extend .is-invalid;
+}
+
+.ng-dirty.ng-valid {
+  @extend .is-valid;
 }

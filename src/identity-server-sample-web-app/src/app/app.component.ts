@@ -5,9 +5,6 @@ import { UserManager } from 'oidc-client';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: [
-    './app.component.scss',
-  ],
 })
 export class AppComponent {
   public constructor(private readonly userManager: UserManager) { }

@@ -5,9 +5,11 @@ import { UserManager } from 'oidc-client';
 
 import { from       } from 'rxjs';
 import { Observable } from 'rxjs';
+import { of         } from 'rxjs';
 import { switchMap  } from 'rxjs';
 
-import { GetScopesResponseDto } from '../dtos/get-scopes-response.dto';
+import { AddScopeRequestDto   } from '../dtos';
+import { GetScopesResponseDto } from '../dtos';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +19,10 @@ export class ScopeService {
     private readonly um  : UserManager,
     private readonly http: HttpClient,
   ) { }
+
+  public addScope(requestDto: AddScopeRequestDto): Observable<void> {
+    return of(void 0);
+  }
 
   public getScopes(): Observable<GetScopesResponseDto> {
     return from(this.um.getUser()).pipe(switchMap(user => {
