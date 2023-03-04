@@ -8,7 +8,13 @@ import { AddScopeViewModel } from './add-scope.view-model';
 
 @Component({
   templateUrl: './add-scope.component.html',
-  providers: [AddScopeViewModel, Subscription],
+  providers: [
+    AddScopeViewModel,
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    }
+  ],
 })
 export class AddScopeComponent implements OnDestroy {
   public constructor(
@@ -24,10 +30,6 @@ export class AddScopeComponent implements OnDestroy {
 
   public ok(): void {
     this.subscription.add(
-      this.vm.add().subscribe(this.back));
-  }
-
-  private back(): void {
-    this.router.navigate(['../']);
+      this.vm.add().subscribe(() => this.router.navigate(['../'])));
   }
 }
