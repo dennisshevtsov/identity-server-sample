@@ -1,12 +1,20 @@
-<form class="app-form">
+<form class="app-form" [formGroup]="form">
   <fieldset>
     <legend>New Scope</legend>
     <div class="app-form__control-group">
-      <input id="txtName" class="app-form__control" type="text" placeholder="">
+      <input formControlName="scopeName"
+             id="txtName"
+             class="app-form__control"
+             type="text"
+             placeholder="">
       <label for="txtName">Name</label>
     </div>
     <div class="app-form__control-group">
-      <input id="txtDisplayName" class="app-form__control" type="text" placeholder="">
+      <input formControlName="displayName"
+             id="txtDisplayName"
+             class="app-form__control"
+             type="text"
+             placeholder="">
       <label for="txtDisplayName">Display Name</label>
     </div>
     <div class="app-form__button-group button-group">
