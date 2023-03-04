@@ -23,7 +23,11 @@ export class AddScopeComponent implements OnDestroy {
   }
 
   public ok(): void {
-    this.vm.add();
+    this.subscription.add(
+      this.vm.add().subscribe(this.back));
+  }
+
+  private back(): void {
     this.router.navigate(['../']);
   }
 }
