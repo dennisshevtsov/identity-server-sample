@@ -11,5 +11,11 @@ namespace IdentityServerSample.ApplicationCore.Dtos
   {
     /// <summary>Gets/sets an object that represents a name of a scope.</summary>
     public string? ScopeName { get; set; }
+
+    /// <summary>Gets/sets an object that represents a display name of a scope.</summary>
+    public string? DisplayName { get; set; }
+
+    /// <summary>Gets/sets an object that represents a description of a scope.</summary>
+    public string? Description { get; set; }
   }
 }
