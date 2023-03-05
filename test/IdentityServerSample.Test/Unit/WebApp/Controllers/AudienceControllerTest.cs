@@ -28,7 +28,7 @@ namespace IdentityServerSample.WebApp.Controllers.Test
     }
 
     [TestMethod]
-    public async Task GetAudiences_Should_Collection_Of_Audiences()
+    public async Task GetAudiences_Should_Return_Collection_Of_Audiences()
     {
       var getAudiencesResponseDto = new GetAudiencesResponseDto();
 

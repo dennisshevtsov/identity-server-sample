@@ -16,6 +16,8 @@ namespace IdentityServerSample.ApplicationCore.Mapping
     public ScopeMappingProfile()
     {
       ScopeMappingProfile.ConfigureGetScopesMapping(this);
+      ScopeMappingProfile.ConfigureGetScopeMapping(this);
+      ScopeMappingProfile.ConfigureAddScopeMapping(this);
     }
 
     private static void ConfigureGetScopesMapping(IProfileExpression expression)
@@ -23,6 +25,16 @@ namespace IdentityServerSample.ApplicationCore.Mapping
       expression.CreateMap<IEnumerable<ScopeEntity>, GetScopesResponseDto>()
                 .ForMember(dto => dto.Scopes, opt => opt.MapFrom(entities => entities));
       expression.CreateMap<ScopeEntity, GetScopesResponseDto.ScopeDto>();
+    }
+
+    private static void ConfigureGetScopeMapping(IProfileExpression expression)
+    {
+      expression.CreateMap<ScopeEntity, GetScopeResponseDto>();
+    }
+
+    private static void ConfigureAddScopeMapping(IProfileExpression expression)
+    {
+      expression.CreateMap<AddScopeRequestDto, ScopeEntity>();
     }
   }
 }

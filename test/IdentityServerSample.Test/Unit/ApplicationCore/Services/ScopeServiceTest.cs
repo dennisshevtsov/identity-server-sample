@@ -12,6 +12,7 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
     private CancellationToken _cancellationToken;
 
 #pragma warning disable CS8618
+    private Mock<IMapper> _mapper;
     private Mock<IScopeRepository> _scopeRepositoryMock;
 
     private ScopeService _scopeService;
@@ -22,9 +23,10 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
     {
       _cancellationToken = CancellationToken.None;
 
+      _mapper = new Mock<IMapper>();
       _scopeRepositoryMock = new Mock<IScopeRepository>();
 
-      _scopeService = new ScopeService(_scopeRepositoryMock.Object);
+      _scopeService = new ScopeService(_mapper.Object, _scopeRepositoryMock.Object);
     }
 
     [TestMethod]
@@ -40,6 +42,8 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
 
       Assert.IsNotNull(actualScopeEntityCollection);
       Assert.AreEqual(controlScopeEntityCollection, actualScopeEntityCollection);
+
+      _mapper.VerifyNoOtherCalls();
 
       _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(null, false, _cancellationToken));
       _scopeRepositoryMock.VerifyNoOtherCalls();
@@ -65,6 +69,8 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
       Assert.IsNotNull(actualScopeEntityCollection);
       Assert.AreEqual(controlScopeEntityCollection, actualScopeEntityCollection);
 
+      _mapper.VerifyNoOtherCalls();
+
       _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(scopeNameCollection.ToScopeIdentities(), false, _cancellationToken));
       _scopeRepositoryMock.VerifyNoOtherCalls();
     }
@@ -82,6 +88,8 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
 
       Assert.IsNotNull(actualScopeEntityCollection);
       Assert.AreEqual(controlScopeEntityCollection, actualScopeEntityCollection);
+
+      _mapper.VerifyNoOtherCalls();
 
       _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(null, true, _cancellationToken));
       _scopeRepositoryMock.VerifyNoOtherCalls();
@@ -107,6 +115,8 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
       Assert.IsNotNull(actualScopeEntityCollection);
       Assert.AreEqual(controlScopeEntityCollection, actualScopeEntityCollection);
 
+      _mapper.VerifyNoOtherCalls();
+
       _scopeRepositoryMock.Verify(repository => repository.GetScopesAsync(scopeNameCollection.ToScopeIdentities(), true, _cancellationToken));
       _scopeRepositoryMock.VerifyNoOtherCalls();
     }
@@ -128,12 +138,14 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
       Assert.IsNotNull(actualScopeEntity);
       Assert.AreEqual(controlScopeEntity, actualScopeEntity);
 
+      _mapper.VerifyNoOtherCalls();
+
       _scopeRepositoryMock.Verify(repository => repository.GetScopeAsync(scopeIdentity, _cancellationToken));
       _scopeRepositoryMock.VerifyNoOtherCalls();
     }
 
     [TestMethod]
-    public async Task AddScopeAsync_Should_Add_Scope()
+    public async Task AddScopeAsync_Should_Add_Scope_Entity()
     {
       _scopeRepositoryMock.Setup(repository => repository.AddScopeAsync(It.IsAny<ScopeEntity>(), It.IsAny<CancellationToken>()))
                           .Returns(Task.CompletedTask)
@@ -142,6 +154,32 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
       var controlScopeEntity = new ScopeEntity();
 
       await _scopeService.AddScopeAsync(controlScopeEntity, _cancellationToken);
+
+      _mapper.VerifyNoOtherCalls();
+
+      _scopeRepositoryMock.Verify(repository => repository.AddScopeAsync(controlScopeEntity, _cancellationToken));
+      _scopeRepositoryMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task AddScopeAsync_Should_Add_Scope_From_Dto()
+    {
+      _scopeRepositoryMock.Setup(mapper => mapper.AddScopeAsync(It.IsAny<ScopeEntity>(), It.IsAny<CancellationToken>()))
+                          .Returns(Task.CompletedTask)
+                          .Verifiable();
+
+      var controlScopeEntity = new ScopeEntity();
+
+      _mapper.Setup(repository => repository.Map<ScopeEntity>(It.IsAny<AddScopeRequestDto>()))
+             .Returns(controlScopeEntity)
+             .Verifiable();
+
+      var addScopeRequestDto = new AddScopeRequestDto();
+
+      await _scopeService.AddScopeAsync(addScopeRequestDto, _cancellationToken);
+
+      _mapper.Verify(mapper => mapper.Map<ScopeEntity>(addScopeRequestDto));
+      _mapper.VerifyNoOtherCalls();
 
       _scopeRepositoryMock.Verify(repository => repository.AddScopeAsync(controlScopeEntity, _cancellationToken));
       _scopeRepositoryMock.VerifyNoOtherCalls();
