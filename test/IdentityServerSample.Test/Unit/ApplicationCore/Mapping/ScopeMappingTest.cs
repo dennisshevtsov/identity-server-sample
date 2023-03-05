@@ -66,5 +66,24 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
       Assert.AreEqual(controlScopeEntity.DisplayName, getScopeResponseDto.DisplayName);
       Assert.AreEqual(controlScopeEntity.Description, getScopeResponseDto.Description);
     }
+
+    [TestMethod]
+    public void Map_Should_Create_ScopeEntity()
+    {
+      var controlRequestDto = new AddScopeRequestDto
+      {
+        ScopeName = Guid.NewGuid().ToString(),
+        DisplayName = Guid.NewGuid().ToString(),
+        Description = Guid.NewGuid().ToString(),
+      };
+
+      var actualScopeEntity = Mapper.Map<ScopeEntity>(controlRequestDto);
+
+      Assert.IsNotNull(actualScopeEntity);
+
+      Assert.AreEqual(controlRequestDto.ScopeName, actualScopeEntity.ScopeName);
+      Assert.AreEqual(controlRequestDto.DisplayName, actualScopeEntity.DisplayName);
+      Assert.AreEqual(controlRequestDto.Description, actualScopeEntity.Description);
+    }
   }
 }
