@@ -45,6 +45,20 @@ namespace IdentityServerSample.WebApp.Controllers
       return Ok(getScopesResponseDto);
     }
 
+    /// <summary>Handles the GET request.</summary>
+    /// <param name="requestDto">An object that represents conditions to query a scope.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    [HttpGet(Name = nameof(ScopeController.GetScope))]
+    [ProducesResponseType(typeof(GetScopeResponseDto), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetScope([FromRoute] GetScopeRequestDto requestDto, CancellationToken cancellationToken)
+    {
+      var scopeEntityCollection = await _scopeService.GetScopeAsync(requestDto, cancellationToken);
+      var getScopeResponseDto = _mapper.Map<GetScopeResponseDto>(scopeEntityCollection);
+
+      return Ok(getScopeResponseDto);
+    }
+
     /// <summary>Handles the POST request.</summary>
     /// <param name="command">An object that represents data to create a new scope.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
@@ -55,7 +69,9 @@ namespace IdentityServerSample.WebApp.Controllers
     {
       await _scopeService.AddScopeAsync(command, cancellationToken);
 
-      return CreatedAtAction(null, new { scopeName = command.ScopeName });
+      return CreatedAtAction(
+        nameof(ScopeController.GetScope),
+        new GetScopeRequestDto { ScopeName = command.ScopeName });
     }
   }
 }
