@@ -31,9 +31,13 @@ namespace IdentityServerSample.WebApp.Controllers
       _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
+    /// <summary>Handles the GET request.</summary>
+    /// <param name="requestDto">An object that represents conditions to query scopes.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     [HttpGet(Name = nameof(ScopeController.GetScopes))]
     [ProducesResponseType(typeof(GetScopesResponseDto), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetScopes([FromRoute] GetScopesRequestDto query, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetScopes([FromRoute] GetScopesRequestDto requestDto, CancellationToken cancellationToken)
     {
       var scopeEntityCollection = await _scopeService.GetScopesAsync(cancellationToken);
       var getScopesResponseDto = _mapper.Map<GetScopesResponseDto>(scopeEntityCollection);
@@ -41,6 +45,10 @@ namespace IdentityServerSample.WebApp.Controllers
       return Ok(getScopesResponseDto);
     }
 
+    /// <summary>Handles the POST request.</summary>
+    /// <param name="command">An object that represents data to create a new scope.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     [HttpPost(Name = nameof(ScopeController.AddScope))]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> AddScope([FromRoute] AddScopeRequestDto command, CancellationToken cancellationToken)
