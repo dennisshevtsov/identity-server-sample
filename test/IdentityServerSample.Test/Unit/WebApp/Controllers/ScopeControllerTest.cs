@@ -93,5 +93,38 @@ namespace IdentityServerSample.WebApp.Controllers.Test
       _mapperMock.Verify(mapper => mapper.Map<GetScopeResponseDto>(controlScopeEntity), Times.Once());
       _mapperMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task AddScope_Should_Return_Scope()
+    {
+      _scopeServiceMock.Setup(service => service.AddScopeAsync(It.IsAny<AddScopeRequestDto>(), It.IsAny<CancellationToken>()))
+                       .Returns(Task.CompletedTask)
+                       .Verifiable();
+
+      var scopeName = Guid.NewGuid().ToString();
+      var addScopeRequestDto = new AddScopeRequestDto
+      {
+        ScopeName = scopeName,
+      };
+      var actionResult = await _scopeController.AddScope(addScopeRequestDto, _cancellationToken);
+
+      Assert.IsNotNull(actionResult);
+
+      var createdResult = actionResult as CreatedAtActionResult;
+
+      Assert.IsNotNull(createdResult);
+      Assert.AreEqual(nameof(ScopeController.GetScope), createdResult.ActionName);
+      Assert.IsNotNull(createdResult.Value);
+
+      var getScopeRequestDto = createdResult.Value as GetScopeRequestDto;
+
+      Assert.IsNotNull(getScopeRequestDto);
+      Assert.AreEqual(scopeName, getScopeRequestDto.ScopeName);
+
+      _scopeServiceMock.Verify(service => service.AddScopeAsync(addScopeRequestDto, _cancellationToken), Times.Once());
+      _scopeServiceMock.VerifyNoOtherCalls();
+
+      _mapperMock.VerifyNoOtherCalls();
+    }
   }
 }
