@@ -40,5 +40,14 @@ namespace IdentityServerSample.WebApp.Controllers
 
       return Ok(getScopesResponseDto);
     }
+
+    [HttpPost(Name = nameof(ScopeController.AddScope))]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<IActionResult> AddScope([FromRoute] AddScopeRequestDto command, CancellationToken cancellationToken)
+    {
+      await _scopeService.AddScopeAsync(command, cancellationToken);
+
+      return CreatedAtAction(null, new { scopeName = command.ScopeName });
+    }
   }
 }
