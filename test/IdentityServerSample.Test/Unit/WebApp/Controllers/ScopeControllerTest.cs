@@ -6,6 +6,8 @@ namespace IdentityServerSample.WebApp.Controllers.Test
 {
   using Microsoft.AspNetCore.Mvc;
 
+  using IdentityServerSample.ApplicationCore.Identities;
+
   [TestClass]
   public sealed class ScopeControllerTest
   {
@@ -31,7 +33,7 @@ namespace IdentityServerSample.WebApp.Controllers.Test
     }
 
     [TestMethod]
-    public async Task GetClients_Should_Collection_Of_Audiences()
+    public async Task GetScopes_Should_Return_Collection_Of_Scopes()
     {
       var scopeEntityCollection = new List<ScopeEntity>();
 
@@ -58,6 +60,37 @@ namespace IdentityServerSample.WebApp.Controllers.Test
       _scopeServiceMock.VerifyNoOtherCalls();
 
       _mapperMock.Verify(mapper => mapper.Map<GetScopesResponseDto>(scopeEntityCollection), Times.Once());
+      _mapperMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task GetScope_Should_Return_Scope()
+    {
+      var controlScopeEntity = new ScopeEntity();
+
+      _scopeServiceMock.Setup(service => service.GetScopeAsync(It.IsAny<IScopeIdentity>(), It.IsAny<CancellationToken>()))
+                       .ReturnsAsync(controlScopeEntity)
+                       .Verifiable();
+
+      var getScopeResponseDto = new GetScopeResponseDto();
+
+      _mapperMock.Setup(mapper => mapper.Map<GetScopeResponseDto>(It.IsAny<ScopeEntity>()))
+                 .Returns(getScopeResponseDto);
+
+      var getScopeRequestDto = new GetScopeRequestDto();
+      var actionResult = await _scopeController.GetScope(getScopeRequestDto, _cancellationToken);
+
+      Assert.IsNotNull(actionResult);
+
+      var okObjectResult = actionResult as OkObjectResult;
+
+      Assert.IsNotNull(okObjectResult);
+      Assert.AreEqual(getScopeResponseDto, okObjectResult!.Value);
+
+      _scopeServiceMock.Verify(service => service.GetScopeAsync(getScopeRequestDto, _cancellationToken), Times.Once());
+      _scopeServiceMock.VerifyNoOtherCalls();
+
+      _mapperMock.Verify(mapper => mapper.Map<GetScopeResponseDto>(controlScopeEntity), Times.Once());
       _mapperMock.VerifyNoOtherCalls();
     }
   }
