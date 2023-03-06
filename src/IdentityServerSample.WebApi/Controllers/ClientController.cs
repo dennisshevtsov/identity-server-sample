@@ -68,7 +68,7 @@ namespace IdentityServerSample.WebApi.Controllers
     /// <param name="requestDto">An oject that represents conditions to query client.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
-    [HttpGet(Name = nameof(ClientController.AddClient))]
+    [HttpPost(Name = nameof(ClientController.AddClient))]
     [ProducesResponseType(StatusCodes.Status201Created)]
     public async Task<IActionResult> AddClient([FromBody] AddClientRequestDto requestDto, CancellationToken cancellationToken)
     {
