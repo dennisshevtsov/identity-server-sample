@@ -29,6 +29,30 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
     }
 
     [TestMethod]
+    public async Task AddClientAsync_Should_Return_Add_Client_From_Dto()
+    {
+      var controlClientEntity = new ClientEntity();
+
+      _mapperMock.Setup(mapper => mapper.Map<ClientEntity>(It.IsAny<AddClientRequestDto>()))
+                 .Returns(controlClientEntity)
+                 .Verifiable();
+
+      _clientRepositoryMock.Setup(repository => repository.AddClientAsync(It.IsAny<ClientEntity>(), It.IsAny<CancellationToken>()))
+                           .Returns(Task.CompletedTask)
+                           .Verifiable();
+
+      var addClientRequestDto = new AddClientRequestDto();
+
+      await _clientService.AddClientAsync(addClientRequestDto, _cancellationToken);
+
+      _clientRepositoryMock.Verify(repository => repository.AddClientAsync(controlClientEntity, _cancellationToken));
+      _clientRepositoryMock.VerifyNoOtherCalls();
+
+      _mapperMock.Verify(mapper => mapper.Map<ClientEntity>(addClientRequestDto));
+      _mapperMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
     public async Task AddClientAsync_Should_Return_Add_Client()
     {
       _clientRepositoryMock.Setup(repository => repository.AddClientAsync(It.IsAny<ClientEntity>(), It.IsAny<CancellationToken>()))
@@ -46,7 +70,33 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
     }
 
     [TestMethod]
-    public async Task GetClientAsync_Should_Return_Add_Client()
+    public async Task GetClientAsync_Should_Return_Client_For_Dto()
+    {
+      var controlClientEntity = new ClientEntity();
+
+      _clientRepositoryMock.Setup(repository => repository.GetClientAsync(It.IsAny<GetClientRequestDto>(), It.IsAny<CancellationToken>()))
+                           .ReturnsAsync(controlClientEntity)
+                           .Verifiable();
+
+      var getClientRequestDto = new GetClientRequestDto
+      {
+        ClientName = Guid.NewGuid().ToString(),
+      };
+
+      var actualClientEntity =
+        await _clientService.GetClientAsync(getClientRequestDto, _cancellationToken);
+
+      Assert.IsNotNull(controlClientEntity);
+      Assert.AreEqual(controlClientEntity, actualClientEntity);
+
+      _clientRepositoryMock.Verify(repository => repository.GetClientAsync(getClientRequestDto, _cancellationToken));
+      _clientRepositoryMock.VerifyNoOtherCalls();
+
+      _mapperMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task GetClientAsync_Should_Return_Client_For_Client_Name()
     {
       var controlClientEntity = new ClientEntity();
 

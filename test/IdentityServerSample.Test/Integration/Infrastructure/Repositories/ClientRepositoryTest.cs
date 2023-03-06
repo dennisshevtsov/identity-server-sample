@@ -4,10 +4,10 @@
 
 namespace IdentityServerSample.Infrastructure.Repositories.Test
 {
+  using IdentityServerSample.ApplicationCore.Identities;
+  using IdentityServerSample.Infrastructure.Test;
   using Microsoft.EntityFrameworkCore;
   using Microsoft.Extensions.DependencyInjection;
-
-  using IdentityServerSample.Infrastructure.Test;
 
   [TestClass]
   public sealed class ClientRepositoryTest : DbIntegrationTestBase
@@ -43,6 +43,36 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
+    public async Task GetClientAsync_Should_Return_With_Defined_Identity()
+    {
+      var allClientEntityCollection = await CreateNewClientsAsync(10);
+      var controlClientEntity = allClientEntityCollection[2];
+
+      var identity = (IClientIdentity)controlClientEntity;
+
+      var clientEntity =
+        await _clientRepository.GetClientAsync(identity, CancellationToken);
+
+      Assert.IsNotNull(clientEntity);
+
+      AreEqual(controlClientEntity, clientEntity);
+      IsDetached(clientEntity);
+    }
+
+    [TestMethod]
+    public async Task GetClientAsync_Should_Return_Null_For_Unknown_Identity()
+    {
+      await CreateNewClientsAsync(10);
+
+      var identity = Guid.NewGuid().ToString().ToClientIdentity();
+
+      var clientEntity =
+        await _clientRepository.GetClientAsync(identity, CancellationToken);
+
+      Assert.IsNull(clientEntity);
+    }
+
+    [TestMethod]
     public async Task GetClientAsync_Should_Return_With_Defined_Name()
     {
       var allClientEntityCollection = await CreateNewClientsAsync(10);
@@ -60,7 +90,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
-    public async Task GetClientAsync_Should_Return_Null()
+    public async Task GetClientAsync_Should_Return_Null_For_Unknown_Name()
     {
       await CreateNewClientsAsync(10);
 

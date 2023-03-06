@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.WebApp.Controllers
+namespace IdentityServerSample.WebApi.Controllers
 {
   using System;
 
@@ -10,7 +10,7 @@ namespace IdentityServerSample.WebApp.Controllers
 
   using IdentityServerSample.ApplicationCore.Dtos;
   using IdentityServerSample.ApplicationCore.Services;
-  using IdentityServerSample.WebApp.Defaults;
+  using IdentityServerSample.WebApi.Defaults;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
   [ApiController]
@@ -20,7 +20,7 @@ namespace IdentityServerSample.WebApp.Controllers
   {
     private readonly IAudienceService _audienceService;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApp.Controllers.AudienceController"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApi.Controllers.AudienceController"/> class.</summary>
     /// <param name="audienceService">An object that provides a simple API to execute audience queries and commands.</param>
     public AudienceController(IAudienceService audienceService)
     {

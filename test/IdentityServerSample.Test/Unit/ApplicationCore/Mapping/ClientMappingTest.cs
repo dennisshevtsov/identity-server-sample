@@ -47,5 +47,96 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
       Assert.AreEqual(clientEntityCollection[2].ClientName, clientDtoCollection[2].ClientName);
       Assert.AreEqual(clientEntityCollection[2].DisplayName, clientDtoCollection[2].DisplayName);
     }
+
+    [TestMethod]
+    public void Map_Should_Create_GetClientResponseDto()
+    {
+      var controlClientEntity = new ClientEntity
+      {
+        ClientName = Guid.NewGuid().ToString(),
+        DisplayName = Guid.NewGuid().ToString(),
+        Description = Guid.NewGuid().ToString(),
+        Scopes = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+        RedirectUris = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+        PostRedirectUris = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+        CorsOrigins = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+      };
+
+      var actualGetClientResponseDto = Mapper.Map<GetClientResponseDto>(controlClientEntity);
+
+      Assert.IsNotNull(actualGetClientResponseDto);
+
+      Assert.AreEqual(controlClientEntity.ClientName, actualGetClientResponseDto.ClientName);
+      Assert.AreEqual(controlClientEntity.DisplayName, actualGetClientResponseDto.DisplayName);
+      Assert.AreEqual(controlClientEntity.Description, actualGetClientResponseDto.Description);
+
+      ClientMappingTest.AreEqual(controlClientEntity.Scopes, actualGetClientResponseDto.Scopes);
+      ClientMappingTest.AreEqual(controlClientEntity.RedirectUris, actualGetClientResponseDto.RedirectUris);
+      ClientMappingTest.AreEqual(controlClientEntity.PostRedirectUris, actualGetClientResponseDto.PostRedirectUris);
+      ClientMappingTest.AreEqual(controlClientEntity.CorsOrigins, actualGetClientResponseDto.CorsOrigins);
+    }
+
+    [TestMethod]
+    public void Map_Should_Create_AddClientResponseDto()
+    {
+      var controlAddClientRequestDto = new AddClientRequestDto
+      {
+        ClientName = Guid.NewGuid().ToString(),
+        DisplayName = Guid.NewGuid().ToString(),
+        Description = Guid.NewGuid().ToString(),
+        Scopes = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+        RedirectUris = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+        PostRedirectUris = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+        CorsOrigins = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+      };
+
+      var actualClientEntity = Mapper.Map<ClientEntity>(controlAddClientRequestDto);
+
+      Assert.IsNotNull(actualClientEntity);
+
+      Assert.AreEqual(controlAddClientRequestDto.ClientName, actualClientEntity.ClientName);
+      Assert.AreEqual(controlAddClientRequestDto.DisplayName, actualClientEntity.DisplayName);
+      Assert.AreEqual(controlAddClientRequestDto.Description, actualClientEntity.Description);
+
+      ClientMappingTest.AreEqual(controlAddClientRequestDto.Scopes, actualClientEntity.Scopes);
+      ClientMappingTest.AreEqual(controlAddClientRequestDto.RedirectUris, actualClientEntity.RedirectUris);
+      ClientMappingTest.AreEqual(controlAddClientRequestDto.PostRedirectUris, actualClientEntity.PostRedirectUris);
+      ClientMappingTest.AreEqual(controlAddClientRequestDto.CorsOrigins, actualClientEntity.CorsOrigins);
+    }
+
+    private static void AreEqual(IReadOnlyList<string> control, IReadOnlyList<string>? actual)
+    {
+      Assert.IsNotNull(actual);
+      Assert.AreEqual(control.Count, actual.Count);
+
+      for (var i = 0; i < control.Count; i++)
+      {
+        Assert.AreEqual(control[i], actual[i]);
+      }
+    }
   }
 }

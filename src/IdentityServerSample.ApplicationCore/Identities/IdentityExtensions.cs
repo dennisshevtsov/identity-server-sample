@@ -27,17 +27,23 @@ namespace IdentityServerSample.ApplicationCore.Identities
     }
 
     /// <summary>Converts an instance of <see cref="string"/> to an instance of the <see cref="IdentityServerSample.ApplicationCore.Identities.IAudienceIdentity"/>.</summary>
-    /// <param name="audienceName">An object that represents a name of a scope.<param>
+    /// <param name="audienceName">An object that represents a name of an audience.<param>
     /// <returns>An object that represents an identity of a user.</returns>
     public static IAudienceIdentity ToAudienceIdentity(this string audienceName)
       => new AudienceIdentity(audienceName);
 
     /// <summary>Converts a collection of <see cref="string"/> to a collection of the <see cref="IdentityServerSample.ApplicationCore.Identities.IAudienceIdentity"/>.</summary>
-    /// <param name="audienceNameCollection">An object that represents a collection scope names.<param>
+    /// <param name="audienceNameCollection">An object that represents a collection audience names.<param>
     /// <returns>An object that represents an identity of a user.</returns>
     public static IEnumerable<IAudienceIdentity> ToAudienceIdentities(
       this IEnumerable<string> audienceNameCollection)
       => audienceNameCollection.Select(audienceName => audienceName.ToAudienceIdentity());
+
+    /// <summary>Converts an instance of <see cref="string"/> to an instance of the <see cref="IdentityServerSample.ApplicationCore.Identities.IClientIdentity"/>.</summary>
+    /// <param name="clientName">An object that represents a name of a client.<param>
+    /// <returns>An object that represents an identity of a user.</returns>
+    public static IClientIdentity ToClientIdentity(this string clientName)
+      => new ClientIdentity(clientName);
 
     /// <summary>Converts an instance of <see cref="string"/> to an instance of the <see cref="IdentityServerSample.ApplicationCore.Identities.IScopeIdentity"/>.</summary>
     /// <param name="scopeName">An object that represents a name of a scope.<param>
@@ -52,18 +58,25 @@ namespace IdentityServerSample.ApplicationCore.Identities
       this IEnumerable<string> scopeNameCollection)
       => scopeNameCollection.Select(scopeName => scopeName.ToScopeIdentity());
 
-    private struct UserIdentity : IUserIdentity
-    {
-      public UserIdentity(Guid userId) => UserId = userId;
-
-      public Guid UserId { get; set; }
-    }
-
     private struct AudienceIdentity : IAudienceIdentity
     {
       public AudienceIdentity(string audienceName) => AudienceName = audienceName;
 
       public string? AudienceName { get; set; }
+    }
+
+    private struct ClientIdentity : IClientIdentity
+    {
+      public ClientIdentity(string clientName) => ClientName = clientName;
+
+      public string? ClientName { get; set; }
+    }
+
+    private struct UserIdentity : IUserIdentity
+    {
+      public UserIdentity(Guid userId) => UserId = userId;
+
+      public Guid UserId { get; set; }
     }
 
     private struct ScopeIdentity : IScopeIdentity
