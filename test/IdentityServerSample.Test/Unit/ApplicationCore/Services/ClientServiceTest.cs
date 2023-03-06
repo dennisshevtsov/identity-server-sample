@@ -46,7 +46,33 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
     }
 
     [TestMethod]
-    public async Task GetClientAsync_Should_Return_Add_Client()
+    public async Task GetClientAsync_Should_Return_Client_For_Dto()
+    {
+      var controlClientEntity = new ClientEntity();
+
+      _clientRepositoryMock.Setup(repository => repository.GetClientAsync(It.IsAny<GetClientRequestDto>(), It.IsAny<CancellationToken>()))
+                           .ReturnsAsync(controlClientEntity)
+                           .Verifiable();
+
+      var getClientRequestDto = new GetClientRequestDto
+      {
+        ClientName = Guid.NewGuid().ToString(),
+      };
+
+      var actualClientEntity =
+        await _clientService.GetClientAsync(getClientRequestDto, _cancellationToken);
+
+      Assert.IsNotNull(controlClientEntity);
+      Assert.AreEqual(controlClientEntity, actualClientEntity);
+
+      _clientRepositoryMock.Verify(repository => repository.GetClientAsync(getClientRequestDto, _cancellationToken));
+      _clientRepositoryMock.VerifyNoOtherCalls();
+
+      _mapperMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task GetClientAsync_Should_Return_Client_For_Client_Name()
     {
       var controlClientEntity = new ClientEntity();
 
