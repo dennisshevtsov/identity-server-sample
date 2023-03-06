@@ -86,5 +86,36 @@ namespace IdentityServerSample.WebApi.Controllers.Test
       _mapperMock.Verify(mapper => mapper.Map<GetClientResponseDto>(controlClientEntity), Times.Once());
       _mapperMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task AddClient_Should_Return_Client()
+    {
+      _clientServiceMock.Setup(service => service.AddClientAsync(It.IsAny<AddClientRequestDto>(), It.IsAny<CancellationToken>()))
+                        .Returns(Task.CompletedTask)
+                        .Verifiable();
+
+      var clientName = Guid.NewGuid().ToString();
+      var addClientRequestDto = new AddClientRequestDto
+      {
+        ClientName = clientName,
+      };
+      var actionResult = await _clientController.AddClient(addClientRequestDto, _cancellationToken);
+
+      Assert.IsNotNull(actionResult);
+
+      var createdResult = actionResult as CreatedAtRouteResult;
+
+      Assert.IsNotNull(createdResult);
+      Assert.AreEqual(nameof(ClientController.GetClient), createdResult.RouteName);
+      Assert.IsNotNull(createdResult.RouteValues);
+
+      Assert.IsTrue(createdResult.RouteValues.ContainsKey(nameof(GetClientRequestDto.ClientName)));
+      Assert.AreEqual(clientName, createdResult.RouteValues[nameof(GetClientRequestDto.ClientName)]);
+
+      _clientServiceMock.Verify(service => service.AddClientAsync(addClientRequestDto, _cancellationToken), Times.Once());
+      _clientServiceMock.VerifyNoOtherCalls();
+
+      _mapperMock.VerifyNoOtherCalls();
+    }
   }
 }
