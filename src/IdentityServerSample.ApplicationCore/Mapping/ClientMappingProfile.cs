@@ -16,6 +16,8 @@ namespace IdentityServerSample.ApplicationCore.Mapping
     public ClientMappingProfile()
     {
       ClientMappingProfile.ConfigureGetClientsMapping(this);
+      ClientMappingProfile.ConfigureGetClientMapping(this);
+      ClientMappingProfile.ConfigureAddClientMapping(this);
     }
 
     private static void ConfigureGetClientsMapping(IProfileExpression expression)
@@ -23,6 +25,16 @@ namespace IdentityServerSample.ApplicationCore.Mapping
       expression.CreateMap<IEnumerable<ClientEntity>, GetClientsResponseDto>()
                 .ForMember(dto => dto.Clients, options => options.MapFrom(entities => entities));
       expression.CreateMap<ClientEntity, GetClientsResponseDto.ClientDto>();
+    }
+
+    private static void ConfigureGetClientMapping(IProfileExpression expression)
+    {
+      expression.CreateMap<ClientEntity, GetClientResponseDto>();
+    }
+
+    private static void ConfigureAddClientMapping(IProfileExpression expression)
+    {
+      expression.CreateMap<AddClientRequestDto, ClientEntity>();
     }
   }
 }
