@@ -110,16 +110,14 @@ namespace IdentityServerSample.WebApp.Controllers.Test
 
       Assert.IsNotNull(actionResult);
 
-      var createdResult = actionResult as CreatedAtActionResult;
+      var createdResult = actionResult as CreatedAtRouteResult;
 
       Assert.IsNotNull(createdResult);
-      Assert.AreEqual(nameof(ScopeController.GetScope), createdResult.ActionName);
-      Assert.IsNotNull(createdResult.Value);
+      Assert.AreEqual(nameof(ScopeController.GetScope), createdResult.RouteName);
+      Assert.IsNotNull(createdResult.RouteValues);
 
-      var getScopeRequestDto = createdResult.Value as GetScopeRequestDto;
-
-      Assert.IsNotNull(getScopeRequestDto);
-      Assert.AreEqual(scopeName, getScopeRequestDto.ScopeName);
+      Assert.IsTrue(createdResult.RouteValues.ContainsKey(nameof(GetScopeRequestDto.ScopeName)));
+      Assert.AreEqual(scopeName, createdResult.RouteValues[nameof(GetScopeRequestDto.ScopeName)]);
 
       _scopeServiceMock.Verify(service => service.AddScopeAsync(addScopeRequestDto, _cancellationToken), Times.Once());
       _scopeServiceMock.VerifyNoOtherCalls();
