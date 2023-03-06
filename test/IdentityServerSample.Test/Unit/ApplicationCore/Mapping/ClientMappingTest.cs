@@ -88,6 +88,46 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
       ClientMappingTest.AreEqual(controlClientEntity.CorsOrigins, actualGetClientResponseDto.CorsOrigins);
     }
 
+    [TestMethod]
+    public void Map_Should_Create_AddClientResponseDto()
+    {
+      var controlAddClientRequestDto = new AddClientRequestDto
+      {
+        ClientName = Guid.NewGuid().ToString(),
+        DisplayName = Guid.NewGuid().ToString(),
+        Description = Guid.NewGuid().ToString(),
+        Scopes = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+        RedirectUris = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+        PostRedirectUris = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+        CorsOrigins = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+        },
+      };
+
+      var actualClientEntity = Mapper.Map<ClientEntity>(controlAddClientRequestDto);
+
+      Assert.IsNotNull(actualClientEntity);
+
+      Assert.AreEqual(controlAddClientRequestDto.ClientName, actualClientEntity.ClientName);
+      Assert.AreEqual(controlAddClientRequestDto.DisplayName, actualClientEntity.DisplayName);
+      Assert.AreEqual(controlAddClientRequestDto.Description, actualClientEntity.Description);
+
+      ClientMappingTest.AreEqual(controlAddClientRequestDto.Scopes, actualClientEntity.Scopes);
+      ClientMappingTest.AreEqual(controlAddClientRequestDto.RedirectUris, actualClientEntity.RedirectUris);
+      ClientMappingTest.AreEqual(controlAddClientRequestDto.PostRedirectUris, actualClientEntity.PostRedirectUris);
+      ClientMappingTest.AreEqual(controlAddClientRequestDto.CorsOrigins, actualClientEntity.CorsOrigins);
+    }
+
     private static void AreEqual(IReadOnlyList<string> control, IReadOnlyList<string>? actual)
     {
       Assert.IsNotNull(actual);
