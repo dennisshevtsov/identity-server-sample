@@ -8,13 +8,25 @@ namespace IdentityServerSample.ApplicationCore.Dtos
 
   public sealed class GetClientResponseDto : IClientIdentity
   {
-    /// <summary>Gets/sets an object that reprsents a name of a client.</summary>
+    /// <summary>Gets/sets an object that represents a name of a client.</summary>
     public string? ClientName { get; set; }
 
-    /// <summary>Gets/sets an object that repesents a display name of a client.</summary>
+    /// <summary>Gets/sets an object that represents a display name of a client.</summary>
     public string? DisplayName { get; set; }
 
-    /// <summary>Gets/sets an object that repesents a desciption of a client.</summary>
-    public string? Desciption { get; set; }
+    /// <summary>Gets/sets an object that represents a description of a client.</summary>
+    public string? Description { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of allowed scopes.</summary>
+    public IReadOnlyList<string>? Scopes { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of redirect URIs.</summary>
+    public IReadOnlyList<string>? RedirectUris { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of post-redirect URIs.</summary>
+    public IReadOnlyList<string>? PostRedirectUris { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of CORS origins.</summary>
+    public IReadOnlyList<string>? CorsOrigins { get; set; }
   }
 }

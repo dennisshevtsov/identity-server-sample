@@ -13,6 +13,7 @@ namespace IdentityServerSample.WebApp.Controllers.Test
 
 #pragma warning disable CS8618
     private Mock<IClientService> _clientServiceMock;
+    private Mock<IMapper> _mapper;
 
     private ClientController _clientController;
 #pragma warning restore CS8618
@@ -23,8 +24,9 @@ namespace IdentityServerSample.WebApp.Controllers.Test
       _cancellationToken = CancellationToken.None;
 
       _clientServiceMock = new Mock<IClientService>();
+      _mapper = new Mock<IMapper>();
 
-      _clientController = new ClientController(_clientServiceMock.Object);
+      _clientController = new ClientController(_clientServiceMock.Object, _mapper.Object);
     }
 
     [TestMethod]
