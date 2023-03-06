@@ -6,6 +6,7 @@ namespace IdentityServerSample.ApplicationCore.Services
 {
   using IdentityServerSample.ApplicationCore.Dtos;
   using IdentityServerSample.ApplicationCore.Entities;
+  using IdentityServerSample.ApplicationCore.Identities;
 
   /// <summary>Provides a simple API to execute queries and commands with clients.</summary>
   public interface IClientService
@@ -23,10 +24,10 @@ namespace IdentityServerSample.ApplicationCore.Services
     public Task AddClientAsync(AddClientRequestDto requestDto, CancellationToken cancellationToken);
 
     /// <summary>Gets a client that satisfy defined conditions.</summary>
-    /// <param name="requestDto">An object that represents conditions to query a client.</param>
+    /// <param name="identity">An object that represents an identity of a client.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
-    public Task<ClientEntity?> GetClientAsync(GetClientRequestDto requestDto, CancellationToken cancellationToken);
+    public Task<ClientEntity?> GetClientAsync(IClientIdentity identity, CancellationToken cancellationToken);
 
     /// <summary>Gets a client by its name.</summary>
     /// <param name="clientName">An object that represents a name of a client.</param>
