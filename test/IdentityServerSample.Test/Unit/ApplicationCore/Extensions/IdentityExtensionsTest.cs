@@ -79,5 +79,15 @@ namespace IdentityServerSample.ApplicationCore.Identities.Test
 
       Assert.IsNull(test);
     }
+
+    [TestMethod]
+    public void ToScopeIdentity_Should_Return_Scope_Identity()
+    {
+      var control = Guid.NewGuid().ToString();
+      var test = control.ToScopeIdentity();
+
+      Assert.IsNotNull(test);
+      Assert.AreEqual(control, test.ScopeName);
+    }
   }
 }
