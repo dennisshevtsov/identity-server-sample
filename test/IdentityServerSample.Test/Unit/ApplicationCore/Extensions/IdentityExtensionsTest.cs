@@ -89,5 +89,29 @@ namespace IdentityServerSample.ApplicationCore.Identities.Test
       Assert.IsNotNull(test);
       Assert.AreEqual(control, test.ScopeName);
     }
+
+    [TestMethod]
+    public void ToScopeIdentities_Should_Return_Collection_Of_Scope_Identity()
+    {
+      var control = new List<string>
+      {
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+      };
+
+      var test = control.ToScopeIdentities();
+
+      Assert.IsNotNull(test);
+
+      var testScopeIdentityCollection = test.ToList();
+
+      Assert.AreEqual(control.Count, testScopeIdentityCollection.Count);
+
+      for (int i = 0; i < control.Count; i++)
+      {
+        Assert.AreEqual(control[i], testScopeIdentityCollection[i].ScopeName);
+      }
+    }
   }
 }
