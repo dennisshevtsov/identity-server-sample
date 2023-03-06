@@ -48,7 +48,7 @@ namespace IdentityServerSample.WebApp.Controllers
     /// <param name="requestDto">An oject that represents conditions to query client.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
-    [HttpGet("{clientName", Name = nameof(ClientController.GetClient))]
+    [HttpGet("{clientName}", Name = nameof(ClientController.GetClient))]
     [ProducesResponseType(typeof(GetClientResponseDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetClient([FromRoute] GetClientRequestDto requestDto, CancellationToken cancellationToken)
     {
@@ -62,6 +62,22 @@ namespace IdentityServerSample.WebApp.Controllers
       var getClientResponseDto = _mapper.Map<GetClientResponseDto>(clientEntity);
 
       return Ok(getClientResponseDto);
+    }
+
+    /// <summary>Handles the add client command request.</summary>
+    /// <param name="requestDto">An oject that represents conditions to query client.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
+    [HttpGet(Name = nameof(ClientController.AddClient))]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<IActionResult> AddClient([FromBody] AddClientRequestDto requestDto, CancellationToken cancellationToken)
+    {
+      await _clientService.AddClientAsync(requestDto, cancellationToken);
+
+      return CreatedAtRoute(
+        nameof(ClientController.GetClient),
+        new GetClientRequestDto { ClientName = requestDto.ClientName },
+        requestDto);
     }
   }
 }
