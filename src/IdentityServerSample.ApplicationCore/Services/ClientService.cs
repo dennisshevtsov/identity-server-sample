@@ -34,6 +34,17 @@ namespace IdentityServerSample.ApplicationCore.Services
     public Task AddClientAsync(ClientEntity clientEntity, CancellationToken cancellationToken)
       => _clientRepository.AddClientAsync(clientEntity, cancellationToken);
 
+    /// <summary>Adds a new client.</summary>
+    /// <param name="requestDto">An object that represents data to create a new client.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation.</returns>
+    public Task AddClientAsync(AddClientRequestDto requestDto, CancellationToken cancellationToken)
+    {
+      var clientEntity = _mapper.Map<ClientEntity>(requestDto);
+
+      return AddClientAsync(clientEntity, cancellationToken);
+    }
+
     /// <summary>Gets a client that satisfy defined conditions.</summary>
     /// <param name="requestDto">An object that represents conditions to query a client.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
