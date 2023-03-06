@@ -18,6 +18,30 @@ namespace IdentityServerSample.ApplicationCore.Identities.Test
     }
 
     [TestMethod]
+    public void ToAudienceIdentities_Should_Return_Collection_Of_Audience_Identity()
+    {
+      var control = new List<string>
+      {
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+        Guid.NewGuid().ToString(),
+      };
+
+      var test = control.ToAudienceIdentities();
+
+      Assert.IsNotNull(test);
+
+      var testAudienceIdentityCollection = test.ToList();
+
+      Assert.AreEqual(control.Count, testAudienceIdentityCollection.Count);
+
+      for (int i = 0; i < control.Count; i++)
+      {
+        Assert.AreEqual(control[i], testAudienceIdentityCollection[i].AudienceName);
+      }
+    }
+
+    [TestMethod]
     public void ToClientIdentity_Should_Return_Client_Identity()
     {
       var control = Guid.NewGuid().ToString();
