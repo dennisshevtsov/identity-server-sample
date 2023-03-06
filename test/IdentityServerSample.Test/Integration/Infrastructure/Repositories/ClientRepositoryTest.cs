@@ -60,6 +60,19 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
     }
 
     [TestMethod]
+    public async Task GetClientAsync_Should_Return_Null_For_Unknown_Identity()
+    {
+      await CreateNewClientsAsync(10);
+
+      var identity = Guid.NewGuid().ToString().ToClientIdentity();
+
+      var clientEntity =
+        await _clientRepository.GetClientAsync(identity, CancellationToken);
+
+      Assert.IsNull(clientEntity);
+    }
+
+    [TestMethod]
     public async Task GetClientAsync_Should_Return_With_Defined_Name()
     {
       var allClientEntityCollection = await CreateNewClientsAsync(10);
