@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.WebApp.Defaults
+namespace IdentityServerSample.WebApi.Defaults
 {
   /// <summary>Provides values of routes.</summary>
   public static class Routing

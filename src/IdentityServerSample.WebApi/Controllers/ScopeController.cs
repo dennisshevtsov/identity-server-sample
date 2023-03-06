@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.WebApp.Controllers
+namespace IdentityServerSample.WebApi.Controllers
 {
   using System;
 
@@ -11,7 +11,7 @@ namespace IdentityServerSample.WebApp.Controllers
 
   using IdentityServerSample.ApplicationCore.Dtos;
   using IdentityServerSample.ApplicationCore.Services;
-  using IdentityServerSample.WebApp.Defaults;
+  using IdentityServerSample.WebApi.Defaults;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
   [ApiController]
@@ -22,7 +22,7 @@ namespace IdentityServerSample.WebApp.Controllers
     private readonly IScopeService _scopeService;
     private readonly IMapper _mapper;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApp.Controllers.ScopeController"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApi.Controllers.ScopeController"/> class.</summary>
     /// <param name="scopeService">An object that provides a simple API to query and save scopes.</param>
     /// <param name="mapper">An object that provides a simple API to map objects of different types.</param>
     public ScopeController(IScopeService scopeService, IMapper mapper)

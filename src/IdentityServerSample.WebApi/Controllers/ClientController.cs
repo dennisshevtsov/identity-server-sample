@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 // See LICENSE in the project root for license information.
 
-namespace IdentityServerSample.WebApp.Controllers
+namespace IdentityServerSample.WebApi.Controllers
 {
   using System;
   using System.Threading;
@@ -12,7 +12,7 @@ namespace IdentityServerSample.WebApp.Controllers
 
   using IdentityServerSample.ApplicationCore.Dtos;
   using IdentityServerSample.ApplicationCore.Services;
-  using IdentityServerSample.WebApp.Defaults;
+  using IdentityServerSample.WebApi.Defaults;
 
   /// <summary>Provides a simple API to handle HTTP requests.</summary>
   [ApiController]
@@ -24,7 +24,7 @@ namespace IdentityServerSample.WebApp.Controllers
 
     private readonly IMapper _mapper;
 
-    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApp.Controllers.ClientController"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApi.Controllers.ClientController"/> class.</summary>
     /// <param name="clientService">An object that provides a simple API to execute queries and commands with clients.</param>
     /// <param name="mapper">An object that provides a simple API to map objects of different types.</param>
     public ClientController(IClientService clientService, IMapper mapper)
