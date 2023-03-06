@@ -8,6 +8,16 @@ namespace IdentityServerSample.ApplicationCore.Identities.Test
   public sealed class IdentityExtensionsTest
   {
     [TestMethod]
+    public void ToAudienceIdentity_Should_Return_Audience_Identity()
+    {
+      var control = Guid.NewGuid().ToString();
+      var test = control.ToAudienceIdentity();
+
+      Assert.IsNotNull(test);
+      Assert.AreEqual(control, test.AudienceName);
+    }
+
+    [TestMethod]
     public void ToClientIdentity_Should_Return_Client_Identity()
     {
       var control = Guid.NewGuid().ToString();
