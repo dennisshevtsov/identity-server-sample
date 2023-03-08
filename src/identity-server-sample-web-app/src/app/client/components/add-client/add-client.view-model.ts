@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 import { AddClientRequestDto } from '../../dtos';
-import { ClientService       } from '../../services/client.service';
+import { ClientService       } from '../../services';
 import { ClientViewModel     } from '../client/client.view-model';
 
 export class AddClientViewModel {

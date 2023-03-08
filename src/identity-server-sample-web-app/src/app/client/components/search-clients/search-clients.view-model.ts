@@ -4,7 +4,7 @@ import { map        } from 'rxjs';
 import { Observable } from 'rxjs';
 
 import { ClientDto     } from '../../dtos';
-import { ClientService } from '../../services/client.service';
+import { ClientService } from '../../services';
 
 @Injectable()
 export class SearchClientsViewModel {
