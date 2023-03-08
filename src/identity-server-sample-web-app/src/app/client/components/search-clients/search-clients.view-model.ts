@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map        } from 'rxjs';
 import { Observable } from 'rxjs';
 
-import { ClientDto     } from '../../dtos/get-clients-response.dto';
+import { ClientDto     } from '../../dtos';
 import { ClientService } from '../../services/client.service';
 
 @Injectable()
