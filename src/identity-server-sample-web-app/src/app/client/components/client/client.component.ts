@@ -66,6 +66,20 @@ export class ClientComponent implements OnInit {
     return this.formValue ?? (this.formValue = this.buildForm());
   }
 
+  public ok(): void { }
+
+  public hasErrors(controlName: string): boolean {
+    const control = this.form.get(controlName);
+
+    return control != null && (!control.pristine || control.touched || control.dirty) && control.errors != null;
+  }
+
+  public hasError(controlName: string, errorCode: string): boolean {
+    const control = this.form.get(controlName);
+
+    return control != null && control.hasError(errorCode);
+  }
+
   private buildForm(): FormGroup<ClientFormScheme> {
     return this.fb.group({
       clientName      : this.fb.control('', [Validators.required]),
