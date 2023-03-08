@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { map        } from 'rxjs';
 import { Observable } from 'rxjs';
 
-import { ClientDto     } from '../../dtos/get-clients-response.dto';
-import { ClientService } from '../../services/client.service';
+import { ClientDto     } from '../../dtos';
+import { ClientService } from '../../services';
 
 @Injectable()
 export class SearchClientsViewModel {

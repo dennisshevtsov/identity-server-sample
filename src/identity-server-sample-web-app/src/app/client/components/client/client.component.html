@@ -1,0 +1,43 @@
+<form class="app-form" [formGroup]="form">
+  <fieldset>
+    <legend>New Client</legend>
+
+    <div class="app-form__control-group">
+      <input formControlName="clientName"
+             id="txtName"
+             class="app-form__control"
+             type="text"
+             placeholder="">
+      <label for="txtName">Name</label>
+      <span class="app-form__error"
+            *ngIf="hasErrors('clientName')">
+        <span *ngIf="hasError('clientName', 'required')">Please enter a client name.</span>
+      </span>
+    </div>
+
+    <div class="app-form__control-group">
+      <input formControlName="displayName"
+             id="txtDisplayName"
+             class="app-form__control"
+             type="text"
+             placeholder="">
+      <label for="txtDisplayName">Display Name</label>
+    </div>
+
+    <div class="app-form__control-group">
+      <input formControlName="description"
+             id="txtDescription"
+             class="app-form__control"
+             type="text"
+             placeholder="">
+      <label for="txtDescription">Description</label>
+    </div>
+
+    <div class="app-form__button-group button-group">
+      <button class="button-group__ok"
+              type="button"
+              (click)="save()"><span>Ok</span></button>
+      <a class="button-group__cancel" routerLink="../"><span>Cancel</span></a>
+    </div>
+  </fieldset>
+</form>
