@@ -1,1 +1,3 @@
-<app-client></app-client>
+<app-client [client]="vm.client"
+            (ok)="vm.add()">
+</app-client>
