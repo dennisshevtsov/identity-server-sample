@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs';
+import { of         } from 'rxjs';
+
 import { ClientViewModel } from '../client/client.view-model';
 
 export class AddClientViewModel {
@@ -7,5 +10,7 @@ export class AddClientViewModel {
     return this.clientValue ?? (this.clientValue = new ClientViewModel());
   }
 
-  public add(): void { }
+  public add(): Observable<void> {
+    return of(void 0);
+  }
 }
