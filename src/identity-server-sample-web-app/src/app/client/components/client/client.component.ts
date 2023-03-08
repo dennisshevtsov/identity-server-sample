@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Input     } from '@angular/core';
 
 import { FormArray   } from '@angular/forms';
@@ -19,15 +19,47 @@ type ClientFormScheme = {
   selector: 'app-client',
   templateUrl: './client.component.html',
 })
-export class ClientComponent {
+export class ClientComponent implements OnInit {
   private clientValue: undefined | ClientViewModel;
   private formValue  : undefined | FormGroup<ClientFormScheme>;
 
   public constructor(private readonly fb: FormBuilder) {}
 
+  public ngOnInit(): void {
+    this.form.valueChanges.subscribe(value => {
+      this.client.clientName = value.clientName ?? '';
+      this.client.displayName = value.displayName ?? '';
+      this.client.description = value.description ?? '';
+
+      if (value.scopes) {
+        this.client.scopes = value.scopes.filter(scope => scope)
+                                         .map(scope => scope!);
+      }
+
+      if (value.redirectUris) {
+        this.client.redirectUris = value.redirectUris.filter(redirectUri => redirectUri)
+                                         .map(redirectUri => redirectUri!);
+      }
+
+      if (value.postRedirectUris) {
+        this.client.postRedirectUris = value.postRedirectUris.filter(postRedirectUri => postRedirectUri)
+                                                             .map(postRedirectUri => postRedirectUri!);
+      }
+
+      if (value.corsOrigins) {
+        this.client.corsOrigins = value.corsOrigins.filter(corsOrigin => corsOrigin)
+                                                   .map(corsOrigin => corsOrigin!);
+      }
+    });
+  }
+
   @Input()
   public set client(value: ClientViewModel) {
     this.clientValue = value;
+  }
+
+  public get client(): ClientViewModel {
+    return this.clientValue ?? (this.clientValue = new ClientViewModel());
   }
 
   public get form(): FormGroup<ClientFormScheme> {
