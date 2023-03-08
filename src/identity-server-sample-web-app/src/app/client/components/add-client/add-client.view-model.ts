@@ -1,9 +1,13 @@
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AddClientRequestDto } from '../../dtos';
 import { ClientService       } from '../../services';
 import { ClientViewModel     } from '../client/client.view-model';
 
+@Injectable({
+  providedIn: 'any',
+})
 export class AddClientViewModel {
   private clientValue: undefined | ClientViewModel;
 
