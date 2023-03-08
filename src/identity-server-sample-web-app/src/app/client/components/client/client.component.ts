@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Input     } from '@angular/core';
+import { Component, Output    } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import { OnInit       } from '@angular/core';
+import { Input        } from '@angular/core';
 
 import { FormArray   } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
@@ -20,10 +22,14 @@ type ClientFormScheme = {
   templateUrl: './client.component.html',
 })
 export class ClientComponent implements OnInit {
+  private readonly okValue: EventEmitter<void>;
+
   private clientValue: undefined | ClientViewModel;
   private formValue  : undefined | FormGroup<ClientFormScheme>;
 
-  public constructor(private readonly fb: FormBuilder) {}
+  public constructor(private readonly fb: FormBuilder) {
+    this.okValue = new EventEmitter<void>();
+  }
 
   public ngOnInit(): void {
     this.form.valueChanges.subscribe(value => {
@@ -58,6 +64,11 @@ export class ClientComponent implements OnInit {
     this.clientValue = value;
   }
 
+  @Output()
+  public get ok(): EventEmitter<void> {
+    return this.okValue;
+  }
+
   public get client(): ClientViewModel {
     return this.clientValue ?? (this.clientValue = new ClientViewModel());
   }
@@ -66,7 +77,11 @@ export class ClientComponent implements OnInit {
     return this.formValue ?? (this.formValue = this.buildForm());
   }
 
-  public ok(): void { }
+  public save(): void {
+    if (this.form.valid) {
+      this.okValue.emit();
+    }
+  }
 
   public hasErrors(controlName: string): boolean {
     const control = this.form.get(controlName);
