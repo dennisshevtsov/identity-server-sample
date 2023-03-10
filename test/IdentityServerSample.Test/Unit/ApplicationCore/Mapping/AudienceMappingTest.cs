@@ -8,9 +8,9 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
   public sealed class AudienceMappingTest : MappingTestBase
   {
     [TestMethod]
-    public void Map_Should_Create_GetClientsResponseDto()
+    public void Map_Should_Create_GetAudiencesResponseDto()
     {
-      var audienceEntityCollection = new[]
+      var controlAudienceEntityCollection = new[]
       {
         new AudienceEntity
         {
@@ -29,23 +29,60 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
         },
       };
 
-      var getAudiencesResponseDto = Mapper.Map<GetAudiencesResponseDto>(audienceEntityCollection);
+      var actualGetAudiencesResponseDto = Mapper.Map<GetAudiencesResponseDto>(controlAudienceEntityCollection);
 
-      Assert.IsNotNull(getAudiencesResponseDto);
+      Assert.IsNotNull(actualGetAudiencesResponseDto);
+      AudienceMappingTest.AreEqual(controlAudienceEntityCollection, actualGetAudiencesResponseDto.Audiences);
+    }
 
-      Assert.IsNotNull(getAudiencesResponseDto.Audiences);
-      Assert.AreEqual(audienceEntityCollection.Length, getAudiencesResponseDto.Audiences!.Length);
+    [TestMethod]
+    public void Map_Should_Create_GetAudienceResponseDto()
+    {
+      var controlAudienceEntity = new AudienceEntity
+      {
+        AudienceName = Guid.NewGuid().ToString(),
+        DisplayName = Guid.NewGuid().ToString(),
+        Description = Guid.NewGuid().ToString(),
+        Scopes = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+          Guid.NewGuid().ToString(),
+          Guid.NewGuid().ToString(),
+        },
+      };
 
-      var audienceDtoCollection = getAudiencesResponseDto.Audiences.ToArray();
+      var actualGetAudienceResponseDto = Mapper.Map<GetAudienceResponseDto>(controlAudienceEntity);
 
-      Assert.AreEqual(audienceEntityCollection[0].AudienceName, audienceDtoCollection[0].AudienceName);
-      Assert.AreEqual(audienceEntityCollection[0].DisplayName, audienceDtoCollection[0].DisplayName);
+      Assert.IsNotNull(actualGetAudienceResponseDto);
 
-      Assert.AreEqual(audienceEntityCollection[1].AudienceName, audienceDtoCollection[1].AudienceName);
-      Assert.AreEqual(audienceEntityCollection[1].DisplayName, audienceDtoCollection[1].DisplayName);
+      Assert.AreEqual(controlAudienceEntity.AudienceName, actualGetAudienceResponseDto.AudienceName);
+      Assert.AreEqual(controlAudienceEntity.DisplayName, actualGetAudienceResponseDto.DisplayName);
+      Assert.AreEqual(controlAudienceEntity.Description, actualGetAudienceResponseDto.Description);
 
-      Assert.AreEqual(audienceEntityCollection[2].AudienceName, audienceDtoCollection[2].AudienceName);
-      Assert.AreEqual(audienceEntityCollection[2].DisplayName, audienceDtoCollection[2].DisplayName);
+      AudienceMappingTest.AreEqual(controlAudienceEntity.Scopes, actualGetAudienceResponseDto.Scopes);
+    }
+
+    private static void AreEqual(AudienceEntity[] control, GetAudiencesResponseDto.AudienceDto[]? actual)
+    {
+      Assert.IsNotNull(actual);
+      Assert.AreEqual(control.Length, actual!.Length);
+
+      for (int i = 0; i < control.Length; i++)
+      {
+        Assert.AreEqual(control[i].AudienceName, actual[i].AudienceName);
+        Assert.AreEqual(control[i].DisplayName, actual[i].DisplayName);
+      }
+    }
+
+    private static void AreEqual(IReadOnlyList<string> control, IReadOnlyList<string>? actual)
+    {
+      Assert.IsNotNull(actual);
+      Assert.AreEqual(control.Count, actual.Count);
+
+      for (int i = 0; i < control.Count; i++)
+      {
+        Assert.AreEqual(control[i], actual[i]);
+      }
     }
   }
 }
