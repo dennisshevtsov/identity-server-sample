@@ -16,6 +16,7 @@ namespace IdentityServerSample.ApplicationCore.Mapping
     public AudienceMappingProfile()
     {
       AudienceMappingProfile.ConfigureGetAudiencesMapping(this);
+      AudienceMappingProfile.ConfigureGetAudienceMapping(this);
     }
 
     private static void ConfigureGetAudiencesMapping(IProfileExpression expression)
@@ -23,6 +24,11 @@ namespace IdentityServerSample.ApplicationCore.Mapping
       expression.CreateMap<IEnumerable<AudienceEntity>, GetAudiencesResponseDto>()
                 .ForMember(dto => dto.Audiences, options => options.MapFrom(entity => entity));
       expression.CreateMap<AudienceEntity, GetAudiencesResponseDto.AudienceDto>();
+    }
+
+    private static void ConfigureGetAudienceMapping(IProfileExpression expression)
+    {
+      expression.CreateMap<AudienceEntity, GetAudienceResponseDto>();
     }
   }
 }
