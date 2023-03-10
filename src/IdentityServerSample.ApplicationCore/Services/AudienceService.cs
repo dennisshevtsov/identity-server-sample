@@ -41,11 +41,11 @@ namespace IdentityServerSample.ApplicationCore.Services
     }
 
     /// <summary>Gets a collection of audiences that satisfy defined conditions.</summary>
-    /// <param name="query">An object that represents conditions to query audiencies.</param>
+    /// <param name="requestDto">An object that represents conditions to query audiencies.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
     public async Task<GetAudiencesResponseDto> GetAudiencesAsync(
-      GetAudiencesRequestDto query, CancellationToken cancellationToken)
+      GetAudiencesRequestDto requestDto, CancellationToken cancellationToken)
     {
       var audienceEntityCollection = await GetAudiencesAsync(cancellationToken);
       
@@ -110,6 +110,13 @@ namespace IdentityServerSample.ApplicationCore.Services
 
       return audienceEntityCollection;
     }
+
+    /// <summary>Gets an instance of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceEntity"/> with a defined name.</summary>
+    /// <param name="identity">An object that represents an identity of an audience.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task<AudienceEntity?> GetAudienceAsync(IAudienceIdentity identity, CancellationToken cancellationToken)
+      => _audienceRepository.GetAudienceAsync(identity, cancellationToken);
 
     private static void AddScopes(
       AudienceEntity audienceEntity,
