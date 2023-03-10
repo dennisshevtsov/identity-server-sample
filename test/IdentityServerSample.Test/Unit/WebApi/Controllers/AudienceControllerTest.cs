@@ -13,6 +13,7 @@ namespace IdentityServerSample.WebApi.Controllers.Test
 
 #pragma warning disable CS8618
     private Mock<IAudienceService> _audienceServiceMock;
+    private Mock<IMapper> _mapperMock;
 
     private AudienceController _audienceController;
 #pragma warning restore CS8618
@@ -23,8 +24,10 @@ namespace IdentityServerSample.WebApi.Controllers.Test
       _cancellationToken = CancellationToken.None;
 
       _audienceServiceMock = new Mock<IAudienceService>();
+      _mapperMock = new Mock<IMapper>();
 
-      _audienceController = new AudienceController(_audienceServiceMock.Object);
+      _audienceController = new AudienceController(
+        _audienceServiceMock.Object, _mapperMock.Object);
     }
 
     [TestMethod]
