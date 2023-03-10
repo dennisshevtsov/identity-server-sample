@@ -60,7 +60,7 @@ namespace IdentityServerSample.WebApi.Controllers
 
       var responseDto = _mapper.Map<GetAudienceResponseDto>(audienceEntity);
 
-      return Ok();
+      return Ok(responseDto);
     }
   }
 }
