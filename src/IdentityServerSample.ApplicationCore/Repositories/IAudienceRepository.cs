@@ -21,5 +21,11 @@ namespace IdentityServerSample.ApplicationCore.Repositories
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     public Task<List<AudienceEntity>> GetAudiencesAsync(
       IEnumerable<IAudienceIdentity>? identities, CancellationToken cancellationToken);
+
+    /// <summary>Gets an instance of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceEntity"/> with a defined name.</summary>
+    /// <param name="identity">An object that represents an identity of an audience.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task<AudienceEntity?> GetAudienceAsync(IAudienceIdentity identity, CancellationToken cancellationToken);
   }
 }
