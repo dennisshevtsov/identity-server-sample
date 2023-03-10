@@ -6,6 +6,7 @@ namespace IdentityServerSample.WebApi.Controllers
 {
   using System;
 
+  using AutoMapper;
   using Microsoft.AspNetCore.Mvc;
 
   using IdentityServerSample.ApplicationCore.Dtos;
@@ -20,11 +21,15 @@ namespace IdentityServerSample.WebApi.Controllers
   {
     private readonly IAudienceService _audienceService;
 
+    private readonly IMapper _mapper;
+
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApi.Controllers.AudienceController"/> class.</summary>
     /// <param name="audienceService">An object that provides a simple API to execute audience queries and commands.</param>
-    public AudienceController(IAudienceService audienceService)
+    /// <param name="mapper">An object that provides a simple API to map objects of different types.</param>
+    public AudienceController(IAudienceService audienceService, IMapper mapper)
     {
       _audienceService = audienceService ?? throw new ArgumentNullException(nameof(audienceService));
+      _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     /// <summary>Handles the get audiences query request.</summary>
@@ -46,7 +51,16 @@ namespace IdentityServerSample.WebApi.Controllers
     [ProducesResponseType(typeof(GetAudienceResponseDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAudience([FromRoute] GetAudienceRequestDto query, CancellationToken cancellationToken)
     {
-      return Ok(await _audienceService.GetAudienceAsync(query, cancellationToken));
+      var audienceEntity = await _audienceService.GetAudienceAsync(query, cancellationToken);
+
+      if (audienceEntity == null)
+      {
+        return NotFound();
+      }
+
+      var responseDto = _mapper.Map<GetAudienceResponseDto>(audienceEntity);
+
+      return Ok();
     }
   }
 }
