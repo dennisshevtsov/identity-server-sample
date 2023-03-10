@@ -13,5 +13,11 @@ namespace IdentityServerSample.ApplicationCore.Dtos
 
     /// <summary>Gets/sets an object that repesents a display name of an audience.</summary>
     public string? DisplayName { get; set; }
+
+    /// <summary>Gets/sets an object that represents a description of an audience.</summary>
+    public string? Description { get; set; }
+
+    /// <summary>Gets/sets an object that represents a collection of allowed scopes.</summary>
+    public IReadOnlyList<string>? Scopes { get; set; }
   }
 }
