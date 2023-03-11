@@ -65,7 +65,7 @@ namespace IdentityServerSample.WebApi.Controllers
     }
 
     /// <summary>Handles the add client command request.</summary>
-    /// <param name="requestDto">An oject that represents conditions to query client.</param>
+    /// <param name="requestDto">An oject that represents data to create a new client.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
     [HttpPost(Name = nameof(ClientController.AddClient))]

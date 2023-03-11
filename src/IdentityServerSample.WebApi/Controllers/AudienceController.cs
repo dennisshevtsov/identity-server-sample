@@ -62,5 +62,21 @@ namespace IdentityServerSample.WebApi.Controllers
 
       return Ok(responseDto);
     }
+
+    /// <summary>Handles the add audience command request.</summary>
+    /// <param name="requestDto">An oject that epresents data to create a new audience.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
+    [HttpPost(Name = nameof(AudienceController.AddAudience))]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<IActionResult> AddAudience([FromBody] AddAudienceRequestDto requestDto, CancellationToken cancellationToken)
+    {
+      await _audienceService.AddAudienceAsync(requestDto, cancellationToken);
+
+      return CreatedAtRoute(
+        nameof(AudienceController.GetAudience),
+        new GetAudienceRequestDto { AudienceName = requestDto.AudienceName },
+        requestDto);
+    }
   }
 }
