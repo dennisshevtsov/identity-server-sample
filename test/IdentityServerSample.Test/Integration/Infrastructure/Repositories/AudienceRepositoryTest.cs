@@ -83,6 +83,22 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       AreDetached(testAudienceEntityCollection);
     }
 
+    [TestMethod]
+    public async Task GetAudienceAsync_Should_Return_Audience()
+    {
+      var allAudienceEntityCollection = await CreateNewAudiencesAsync(10);
+      var controlAudienceEntity = allAudienceEntityCollection[3];
+
+      IAudienceIdentity identity = controlAudienceEntity;
+
+      var testAudienceEntity =
+        await _audienceRepository.GetAudienceAsync(identity, CancellationToken);
+
+      Assert.IsNotNull(testAudienceEntity);
+      AreEqual(controlAudienceEntity, testAudienceEntity);
+      IsDetached(testAudienceEntity);
+    }
+
     private async Task<AudienceEntity> CreateNewAudienceAsync()
     {
       var audienceEntity = new AudienceEntity
