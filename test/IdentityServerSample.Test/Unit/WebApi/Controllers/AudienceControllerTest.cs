@@ -55,7 +55,7 @@ namespace IdentityServerSample.WebApi.Controllers.Test
     }
 
     [TestMethod]
-    public async Task GetClient_Should_Return_Client()
+    public async Task GetAudience_Should_Return_Audience()
     {
       var controlAudienceEntity = new AudienceEntity();
 
@@ -82,6 +82,37 @@ namespace IdentityServerSample.WebApi.Controllers.Test
       _audienceServiceMock.VerifyNoOtherCalls();
 
       _mapperMock.Verify(mapper => mapper.Map<GetAudienceResponseDto>(controlAudienceEntity), Times.Once());
+      _mapperMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task AddAudience_Should_Return_Audience()
+    {
+      _audienceServiceMock.Setup(service => service.AddAudienceAsync(It.IsAny<AddAudienceRequestDto>(), It.IsAny<CancellationToken>()))
+                        .Returns(Task.CompletedTask)
+                        .Verifiable();
+
+      var audienceName = Guid.NewGuid().ToString();
+      var addAudienceRequestDto = new AddAudienceRequestDto
+      {
+        AudienceName = audienceName,
+      };
+      var actionResult = await _audienceController.AddAudience(addAudienceRequestDto, _cancellationToken);
+
+      Assert.IsNotNull(actionResult);
+
+      var createdResult = actionResult as CreatedAtRouteResult;
+
+      Assert.IsNotNull(createdResult);
+      Assert.AreEqual(nameof(AudienceController.GetAudience), createdResult.RouteName);
+      Assert.IsNotNull(createdResult.RouteValues);
+
+      Assert.IsTrue(createdResult.RouteValues.ContainsKey(nameof(GetAudienceRequestDto.AudienceName)));
+      Assert.AreEqual(audienceName, createdResult.RouteValues[nameof(GetAudienceRequestDto.AudienceName)]);
+
+      _audienceServiceMock.Verify(service => service.AddAudienceAsync(addAudienceRequestDto, _cancellationToken), Times.Once());
+      _audienceServiceMock.VerifyNoOtherCalls();
+
       _mapperMock.VerifyNoOtherCalls();
     }
   }
