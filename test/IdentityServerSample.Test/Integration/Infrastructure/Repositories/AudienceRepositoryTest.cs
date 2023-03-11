@@ -34,7 +34,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
-        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
+        AudienceRepositoryTest.AreEqual(
+          controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
 
       AreDetached(testAudienceEntityCollection);
@@ -59,7 +60,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
-        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
+        AudienceRepositoryTest.AreEqual(
+          controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
 
       AreDetached(testAudienceEntityCollection);
@@ -77,7 +79,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
-        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
+        AudienceRepositoryTest.AreEqual(
+          controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
 
       AreDetached(testAudienceEntityCollection);
@@ -95,8 +98,21 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
         await _audienceRepository.GetAudienceAsync(identity, CancellationToken);
 
       Assert.IsNotNull(testAudienceEntity);
-      AreEqual(controlAudienceEntity, testAudienceEntity);
+      AudienceRepositoryTest.AreEqual(controlAudienceEntity, testAudienceEntity);
       IsDetached(testAudienceEntity);
+    }
+
+    [TestMethod]
+    public async Task GetAudienceAsync_Should_Return_Null()
+    {
+      await CreateNewAudiencesAsync(10);
+
+      var identity = Guid.NewGuid().ToString().ToAudienceIdentity();
+
+      var testAudienceEntity =
+        await _audienceRepository.GetAudienceAsync(identity, CancellationToken);
+
+      Assert.IsNull(testAudienceEntity);
     }
 
     private async Task<AudienceEntity> CreateNewAudienceAsync()
@@ -130,7 +146,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
                                      .ToList();
     }
 
-    private void AreEqual(AudienceEntity control, AudienceEntity test)
+    private static void AreEqual(AudienceEntity control, AudienceEntity test)
     {
       Assert.AreEqual(control.AudienceName, test.AudienceName);
       Assert.AreEqual(control.DisplayName, test.DisplayName);
