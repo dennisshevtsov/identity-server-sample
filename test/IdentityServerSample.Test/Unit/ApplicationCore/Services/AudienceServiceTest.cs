@@ -223,5 +223,32 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
 
       _mapperMock.VerifyNoOtherCalls();
     }
+
+    [TestMethod]
+    public async Task AddAudienceAsync_Should_Add_Audience()
+    {
+      _audienceRepositoryMock.Setup(repository => repository.AddAudienceAsync(It.IsAny<AudienceEntity>(), It.IsAny<CancellationToken>()))
+                             .Returns(Task.CompletedTask)
+                             .Verifiable();
+
+      var controlAudienceEntity = new AudienceEntity();
+
+      _mapperMock.Setup(mapper => mapper.Map<AudienceEntity>(It.IsAny<AddAudienceRequestDto>()))
+                 .Returns(controlAudienceEntity)
+                 .Verifiable();
+
+      var controlAddAudienceRequestDto = new AddAudienceRequestDto();
+
+      await _audienceService.AddAudienceAsync(
+          controlAddAudienceRequestDto, _cancellationToken);
+
+      _audienceRepositoryMock.Verify(repository => repository.AddAudienceAsync(controlAudienceEntity, _cancellationToken));
+      _audienceRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceScopeServiceMock.VerifyNoOtherCalls();
+
+      _mapperMock.Verify(mapper => mapper.Map<AudienceEntity>(controlAddAudienceRequestDto));
+      _mapperMock.VerifyNoOtherCalls();
+    }
   }
 }
