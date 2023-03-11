@@ -44,14 +44,14 @@ namespace IdentityServerSample.WebApi.Controllers
     }
 
     /// <summary>Handles the get audience query request.</summary>
-    /// <param name="query">An oject that represents conditions to query audiences.</param>
+    /// <param name="requestDto">An oject that represents conditions to query audiences.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
     [HttpGet("{audienceName}", Name = nameof(AudienceController.GetAudience))]
     [ProducesResponseType(typeof(GetAudienceResponseDto), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetAudience([FromRoute] GetAudienceRequestDto query, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetAudience([FromRoute] GetAudienceRequestDto requestDto, CancellationToken cancellationToken)
     {
-      var audienceEntity = await _audienceService.GetAudienceAsync(query, cancellationToken);
+      var audienceEntity = await _audienceService.GetAudienceAsync(requestDto, cancellationToken);
 
       if (audienceEntity == null)
       {

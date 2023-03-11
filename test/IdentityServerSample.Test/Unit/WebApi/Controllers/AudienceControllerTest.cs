@@ -4,6 +4,7 @@
 
 namespace IdentityServerSample.WebApi.Controllers.Test
 {
+  using IdentityServerSample.ApplicationCore.Identities;
   using Microsoft.AspNetCore.Mvc;
 
   [TestClass]
@@ -51,6 +52,37 @@ namespace IdentityServerSample.WebApi.Controllers.Test
 
       _audienceServiceMock.Verify(service => service.GetAudiencesAsync(getAudiencesRequestDto, _cancellationToken), Times.Once());
       _audienceServiceMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task GetClient_Should_Return_Client()
+    {
+      var controlAudienceEntity = new AudienceEntity();
+
+      _audienceServiceMock.Setup(service => service.GetAudienceAsync(It.IsAny<IAudienceIdentity>(), It.IsAny<CancellationToken>()))
+                          .ReturnsAsync(controlAudienceEntity)
+                          .Verifiable();
+
+      var controlGetAudienceResponseDto = new GetAudienceResponseDto();
+
+      _mapperMock.Setup(mapper => mapper.Map<GetAudienceResponseDto>(It.IsAny<AudienceEntity>()))
+                 .Returns(controlGetAudienceResponseDto);
+
+      var getAudienceRequestDto = new GetAudienceRequestDto();
+      var actionResult = await _audienceController.GetAudience(getAudienceRequestDto, _cancellationToken);
+
+      Assert.IsNotNull(actionResult);
+
+      var okObjectResult = actionResult as OkObjectResult;
+
+      Assert.IsNotNull(okObjectResult);
+      Assert.AreEqual(controlGetAudienceResponseDto, okObjectResult!.Value);
+
+      _audienceServiceMock.Verify(service => service.GetAudienceAsync(getAudienceRequestDto, _cancellationToken), Times.Once());
+      _audienceServiceMock.VerifyNoOtherCalls();
+
+      _mapperMock.Verify(mapper => mapper.Map<GetAudienceResponseDto>(controlAudienceEntity), Times.Once());
+      _mapperMock.VerifyNoOtherCalls();
     }
   }
 }
