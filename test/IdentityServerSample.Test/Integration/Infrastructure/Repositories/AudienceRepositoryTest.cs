@@ -34,7 +34,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
-        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
+        AudienceRepositoryTest.AreEqual(
+          controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
 
       AreDetached(testAudienceEntityCollection);
@@ -59,7 +60,8 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
-        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
+        AudienceRepositoryTest.AreEqual(
+          controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
 
       AreDetached(testAudienceEntityCollection);
@@ -77,20 +79,73 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       for (int i = 0; i < controlAudienceEntityCollection.Count; i++)
       {
-        AreEqual(controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
+        AudienceRepositoryTest.AreEqual(
+          controlAudienceEntityCollection[i], testAudienceEntityCollection[i]);
       }
 
       AreDetached(testAudienceEntityCollection);
     }
 
-    private async Task<AudienceEntity> CreateNewAudienceAsync()
+    [TestMethod]
+    public async Task GetAudienceAsync_Should_Return_Audience()
     {
-      var audienceEntity = new AudienceEntity
+      var allAudienceEntityCollection = await CreateNewAudiencesAsync(10);
+      var controlAudienceEntity = allAudienceEntityCollection[3];
+
+      IAudienceIdentity identity = controlAudienceEntity;
+
+      var testAudienceEntity =
+        await _audienceRepository.GetAudienceAsync(identity, CancellationToken);
+
+      Assert.IsNotNull(testAudienceEntity);
+      AudienceRepositoryTest.AreEqual(controlAudienceEntity, testAudienceEntity);
+      IsDetached(testAudienceEntity);
+    }
+
+    [TestMethod]
+    public async Task GetAudienceAsync_Should_Return_Null()
+    {
+      await CreateNewAudiencesAsync(10);
+
+      var identity = Guid.NewGuid().ToString().ToAudienceIdentity();
+
+      var testAudienceEntity =
+        await _audienceRepository.GetAudienceAsync(identity, CancellationToken);
+
+      Assert.IsNull(testAudienceEntity);
+    }
+
+    [TestMethod]
+    public async Task AddAudienceAsync_Should_Add_New_Audience()
+    {
+      await CreateNewAudiencesAsync(10);
+
+      var controlAudienceEntity = AudienceRepositoryTest.GenerateNewAudience();
+
+      await _audienceRepository.AddAudienceAsync(controlAudienceEntity, CancellationToken);
+
+      var actualAudienceEntity =
+         await DbContext.Set<AudienceEntity>()
+                        .AsNoTracking()
+                        .WithPartitionKey(controlAudienceEntity.AudienceName!)
+                        .SingleOrDefaultAsync(CancellationToken);
+
+      Assert.IsNotNull(actualAudienceEntity);
+      AudienceRepositoryTest.AreEqual(controlAudienceEntity, actualAudienceEntity);
+      IsDetached(controlAudienceEntity);
+    }
+
+    private static AudienceEntity GenerateNewAudience()
+      => new AudienceEntity
       {
         AudienceName = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
       };
+
+    private async Task<AudienceEntity> CreateNewAudienceAsync()
+    {
+      var audienceEntity = AudienceRepositoryTest.GenerateNewAudience();
 
       var audienceEntityEntry = DbContext.Add(audienceEntity);
 
@@ -114,7 +169,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
                                      .ToList();
     }
 
-    private void AreEqual(AudienceEntity control, AudienceEntity test)
+    private static void AreEqual(AudienceEntity control, AudienceEntity test)
     {
       Assert.AreEqual(control.AudienceName, test.AudienceName);
       Assert.AreEqual(control.DisplayName, test.DisplayName);

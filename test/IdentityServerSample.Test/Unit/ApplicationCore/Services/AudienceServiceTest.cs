@@ -148,7 +148,7 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
     }
 
     [TestMethod]
-    public async Task GetAudiencesByScopesAsync_Should_Return_Audiences_Audiences()
+    public async Task GetAudiencesByScopesAsync_Should_Return_Audiences()
     {
       var audienceName = Guid.NewGuid().ToString();
 
@@ -190,6 +190,64 @@ namespace IdentityServerSample.ApplicationCore.Services.Test
       _audienceScopeServiceMock.Verify(service => service.GetAudienceScopesAsync(controlAudienceEntityCollection, _cancellationToken));
       _audienceScopeServiceMock.VerifyNoOtherCalls();
 
+      _mapperMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task GetAudienceAsync_Should_Return_Audiences()
+    {
+      var audienceName = Guid.NewGuid().ToString();
+
+      var controlAudienceEntity = new AudienceEntity
+      {
+        AudienceName = audienceName,
+      };
+
+      _audienceRepositoryMock.Setup(repository => repository.GetAudienceAsync(It.IsAny<IAudienceIdentity>(), It.IsAny<CancellationToken>()))
+                             .ReturnsAsync(controlAudienceEntity)
+                             .Verifiable();
+
+      var identity = Guid.NewGuid().ToString().ToAudienceIdentity();
+
+      var actualAudienceEntity =
+        await _audienceService.GetAudienceAsync(
+          identity, _cancellationToken);
+
+      Assert.IsNotNull(actualAudienceEntity);
+      Assert.AreEqual(controlAudienceEntity, actualAudienceEntity);
+
+      _audienceRepositoryMock.Verify(repository => repository.GetAudienceAsync(identity, _cancellationToken));
+      _audienceRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceScopeServiceMock.VerifyNoOtherCalls();
+
+      _mapperMock.VerifyNoOtherCalls();
+    }
+
+    [TestMethod]
+    public async Task AddAudienceAsync_Should_Add_Audience()
+    {
+      _audienceRepositoryMock.Setup(repository => repository.AddAudienceAsync(It.IsAny<AudienceEntity>(), It.IsAny<CancellationToken>()))
+                             .Returns(Task.CompletedTask)
+                             .Verifiable();
+
+      var controlAudienceEntity = new AudienceEntity();
+
+      _mapperMock.Setup(mapper => mapper.Map<AudienceEntity>(It.IsAny<AddAudienceRequestDto>()))
+                 .Returns(controlAudienceEntity)
+                 .Verifiable();
+
+      var controlAddAudienceRequestDto = new AddAudienceRequestDto();
+
+      await _audienceService.AddAudienceAsync(
+          controlAddAudienceRequestDto, _cancellationToken);
+
+      _audienceRepositoryMock.Verify(repository => repository.AddAudienceAsync(controlAudienceEntity, _cancellationToken));
+      _audienceRepositoryMock.VerifyNoOtherCalls();
+
+      _audienceScopeServiceMock.VerifyNoOtherCalls();
+
+      _mapperMock.Verify(mapper => mapper.Map<AudienceEntity>(controlAddAudienceRequestDto));
       _mapperMock.VerifyNoOtherCalls();
     }
   }

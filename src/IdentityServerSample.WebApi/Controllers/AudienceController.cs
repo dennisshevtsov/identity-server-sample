@@ -6,6 +6,7 @@ namespace IdentityServerSample.WebApi.Controllers
 {
   using System;
 
+  using AutoMapper;
   using Microsoft.AspNetCore.Mvc;
 
   using IdentityServerSample.ApplicationCore.Dtos;
@@ -20,11 +21,15 @@ namespace IdentityServerSample.WebApi.Controllers
   {
     private readonly IAudienceService _audienceService;
 
+    private readonly IMapper _mapper;
+
     /// <summary>Initializes a new instance of the <see cref="IdentityServerSample.WebApi.Controllers.AudienceController"/> class.</summary>
     /// <param name="audienceService">An object that provides a simple API to execute audience queries and commands.</param>
-    public AudienceController(IAudienceService audienceService)
+    /// <param name="mapper">An object that provides a simple API to map objects of different types.</param>
+    public AudienceController(IAudienceService audienceService, IMapper mapper)
     {
       _audienceService = audienceService ?? throw new ArgumentNullException(nameof(audienceService));
+      _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
     }
 
     /// <summary>Handles the get audiences query request.</summary>
@@ -36,6 +41,42 @@ namespace IdentityServerSample.WebApi.Controllers
     public async Task<IActionResult> GetAudiences([FromRoute] GetAudiencesRequestDto query, CancellationToken cancellationToken)
     {
       return Ok(await _audienceService.GetAudiencesAsync(query, cancellationToken));
+    }
+
+    /// <summary>Handles the get audience query request.</summary>
+    /// <param name="requestDto">An oject that represents conditions to query audiences.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
+    [HttpGet("{audienceName}", Name = nameof(AudienceController.GetAudience))]
+    [ProducesResponseType(typeof(GetAudienceResponseDto), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAudience([FromRoute] GetAudienceRequestDto requestDto, CancellationToken cancellationToken)
+    {
+      var audienceEntity = await _audienceService.GetAudienceAsync(requestDto, cancellationToken);
+
+      if (audienceEntity == null)
+      {
+        return NotFound();
+      }
+
+      var responseDto = _mapper.Map<GetAudienceResponseDto>(audienceEntity);
+
+      return Ok(responseDto);
+    }
+
+    /// <summary>Handles the add audience command request.</summary>
+    /// <param name="requestDto">An oject that epresents data to create a new audience.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that represents an asynchronous operation that produces a result at some time in the future.</returns>
+    [HttpPost(Name = nameof(AudienceController.AddAudience))]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    public async Task<IActionResult> AddAudience([FromBody] AddAudienceRequestDto requestDto, CancellationToken cancellationToken)
+    {
+      await _audienceService.AddAudienceAsync(requestDto, cancellationToken);
+
+      return CreatedAtRoute(
+        nameof(AudienceController.GetAudience),
+        new GetAudienceRequestDto { AudienceName = requestDto.AudienceName },
+        requestDto);
     }
   }
 }
