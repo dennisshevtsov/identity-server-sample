@@ -62,6 +62,33 @@ namespace IdentityServerSample.ApplicationCore.Mapping.Test
       AudienceMappingTest.AreEqual(controlAudienceEntity.Scopes, actualGetAudienceResponseDto.Scopes);
     }
 
+    [TestMethod]
+    public void Map_Should_Create_AddAudienceRequestDto()
+    {
+      var controlAddAudienceRequestDto = new AddAudienceRequestDto
+      {
+        AudienceName = Guid.NewGuid().ToString(),
+        DisplayName = Guid.NewGuid().ToString(),
+        Description = Guid.NewGuid().ToString(),
+        Scopes = new List<string>
+        {
+          Guid.NewGuid().ToString(),
+          Guid.NewGuid().ToString(),
+          Guid.NewGuid().ToString(),
+        },
+      };
+
+      var actualAudienceEntity = Mapper.Map<AudienceEntity>(controlAddAudienceRequestDto);
+
+      Assert.IsNotNull(actualAudienceEntity);
+
+      Assert.AreEqual(controlAddAudienceRequestDto.AudienceName, actualAudienceEntity.AudienceName);
+      Assert.AreEqual(controlAddAudienceRequestDto.DisplayName, actualAudienceEntity.DisplayName);
+      Assert.AreEqual(controlAddAudienceRequestDto.Description, actualAudienceEntity.Description);
+
+      AudienceMappingTest.AreEqual(controlAddAudienceRequestDto.Scopes, actualAudienceEntity.Scopes);
+    }
+
     private static void AreEqual(AudienceEntity[] control, GetAudiencesResponseDto.AudienceDto[]? actual)
     {
       Assert.IsNotNull(actual);
