@@ -115,14 +115,36 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
       Assert.IsNull(testAudienceEntity);
     }
 
-    private async Task<AudienceEntity> CreateNewAudienceAsync()
+    [TestMethod]
+    public async Task AddAudienceAsync_Should_Add_New_Audience()
     {
-      var audienceEntity = new AudienceEntity
+      await CreateNewAudiencesAsync(10);
+
+      var controlAudienceEntity = AudienceRepositoryTest.GenerateNewAudience();
+
+      await _audienceRepository.AddAudienceAsync(controlAudienceEntity, CancellationToken);
+
+      var actualAudienceEntity =
+         await DbContext.Set<AudienceEntity>()
+                        .AsNoTracking()
+                        .WithPartitionKey(controlAudienceEntity.AudienceName!)
+                        .SingleOrDefaultAsync(CancellationToken);
+
+      Assert.IsNotNull(actualAudienceEntity);
+      AudienceRepositoryTest.AreEqual(controlAudienceEntity, actualAudienceEntity);
+    }
+
+    private static AudienceEntity GenerateNewAudience()
+      => new AudienceEntity
       {
         AudienceName = Guid.NewGuid().ToString(),
         DisplayName = Guid.NewGuid().ToString(),
         Description = Guid.NewGuid().ToString(),
       };
+
+    private async Task<AudienceEntity> CreateNewAudienceAsync()
+    {
+      var audienceEntity = AudienceRepositoryTest.GenerateNewAudience();
 
       var audienceEntityEntry = DbContext.Add(audienceEntity);
 
