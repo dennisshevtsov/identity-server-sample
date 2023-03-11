@@ -132,6 +132,7 @@ namespace IdentityServerSample.Infrastructure.Repositories.Test
 
       Assert.IsNotNull(actualAudienceEntity);
       AudienceRepositoryTest.AreEqual(controlAudienceEntity, actualAudienceEntity);
+      IsDetached(controlAudienceEntity);
     }
 
     private static AudienceEntity GenerateNewAudience()
