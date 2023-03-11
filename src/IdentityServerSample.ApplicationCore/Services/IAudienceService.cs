@@ -42,5 +42,11 @@ namespace IdentityServerSample.ApplicationCore.Services
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
     public Task<AudienceEntity?> GetAudienceAsync(IAudienceIdentity identity, CancellationToken cancellationToken);
+
+    /// <summary>Adds a new audience.</summary>
+    /// <param name="requestDto">An object that represents data to add new audience.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation.</returns>
+    public Task AddAudienceAsync(AddAudienceRequestDto requestDto, CancellationToken cancellationToken);
   }
 }

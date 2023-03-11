@@ -118,6 +118,17 @@ namespace IdentityServerSample.ApplicationCore.Services
     public Task<AudienceEntity?> GetAudienceAsync(IAudienceIdentity identity, CancellationToken cancellationToken)
       => _audienceRepository.GetAudienceAsync(identity, cancellationToken);
 
+    /// <summary>Adds a new audience.</summary>
+    /// <param name="requestDto">An object that represents data to add new audience.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation.</returns>
+    public Task AddAudienceAsync(AddAudienceRequestDto requestDto, CancellationToken cancellationToken)
+    {
+      var audienceEntity = _mapper.Map<AudienceEntity>(requestDto);
+
+      return _audienceRepository.AddAudienceAsync(audienceEntity, cancellationToken);
+    }
+
     private static void AddScopes(
       AudienceEntity audienceEntity,
       Dictionary<string, List<string>> audienceScopeDictionary)
