@@ -49,8 +49,22 @@ export class AudienceComponent {
     return this.formValue ?? (this.formValue = this.buildForm());
   }
 
+  public hasErrors(controlName: string): boolean {
+    const control = this.form.get(controlName);
+
+    return control != null && (!control.pristine || control.touched || control.dirty) && control.errors != null;
+  }
+
+  public hasError(controlName: string, errorCode: string): boolean {
+    const control = this.form.get(controlName);
+
+    return control != null && control.hasError(errorCode);
+  }
+
   public save(): void {
-    this.okValue.emit();
+    if (this.form.valid) {
+      this.okValue.emit();
+    }
   }
 
   private buildForm(): FormGroup<AudienceFormScheme> {
