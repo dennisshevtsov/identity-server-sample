@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
@@ -9,11 +10,15 @@ import { AddAudienceViewModel } from './add-audience.view-model';
   templateUrl: './add-audience.component.html',
   providers: [AddAudienceComponent]
 })
-export class AddAudienceComponent {
+export class AddAudienceComponent implements OnDestroy {
   private readonly sub: Subscription;
 
   public constructor(private readonly vm: AddAudienceViewModel) {
     this.sub = new Subscription();
+  }
+
+  public ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   public get audience(): AudienceViewModel {
@@ -21,6 +26,6 @@ export class AddAudienceComponent {
   }
 
   public ok(): void {
-    this.sub.add(this.vm.add());
+    this.sub.add(this.vm.add().subscribe());
   }
 }
