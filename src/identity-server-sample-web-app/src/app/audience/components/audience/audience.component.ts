@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { Input     } from '@angular/core';
+import { Component    } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import { Input        } from '@angular/core';
+import { Output       } from '@angular/core';
 
 import { FormArray    } from '@angular/forms';
 import { FormBuilder, } from '@angular/forms';
@@ -20,10 +22,19 @@ type AudienceFormScheme = {
   templateUrl: './audience.component.html',
 })
 export class AudienceComponent {
+  private readonly okValue: EventEmitter<void>;
+
   private audienceValue: undefined | AudienceViewModel;
   private formValue    : undefined | FormGroup<AudienceFormScheme>;
 
-  public constructor(private readonly fb: FormBuilder) {}
+  public constructor(private readonly fb: FormBuilder) {
+    this.okValue = new EventEmitter<void>();
+  }
+
+  @Output()
+  public get ok(): EventEmitter<void> {
+    return this.okValue;
+  }
 
   @Input()
   public set audience(value: AudienceViewModel) {
@@ -36,6 +47,10 @@ export class AudienceComponent {
 
   public get form(): FormGroup<AudienceFormScheme> {
     return this.formValue ?? (this.formValue = this.buildForm());
+  }
+
+  public save(): void {
+    this.okValue.emit();
   }
 
   private buildForm(): FormGroup<AudienceFormScheme> {
