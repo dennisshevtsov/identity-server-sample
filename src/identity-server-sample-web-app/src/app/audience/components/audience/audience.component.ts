@@ -1,4 +1,4 @@
-import { Component    } from '@angular/core';
+import { Component, OnInit    } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Input        } from '@angular/core';
 import { Output       } from '@angular/core';
@@ -21,7 +21,7 @@ type AudienceFormScheme = {
   selector: 'app-audience',
   templateUrl: './audience.component.html',
 })
-export class AudienceComponent {
+export class AudienceComponent implements OnInit {
   private readonly okValue: EventEmitter<void>;
 
   private audienceValue: undefined | AudienceViewModel;
@@ -39,6 +39,14 @@ export class AudienceComponent {
   @Input()
   public set audience(value: AudienceViewModel) {
     this.audienceValue = value;
+  }
+
+  public ngOnInit(): void {
+    this.form.valueChanges.subscribe(value => {
+      this.audience.audienceName = value.audienceName ?? '';
+      this.audience.displayName  = value.displayName ?? '';
+      this.audience.description  = value.description ?? '';
+    });
   }
 
   public get audience(): AudienceViewModel {
