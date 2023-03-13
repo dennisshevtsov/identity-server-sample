@@ -1,6 +1,7 @@
-import { Component, OnInit    } from '@angular/core';
+import { Component, OnDestroy    } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Input        } from '@angular/core';
+import { OnInit       } from '@angular/core';
 import { Output       } from '@angular/core';
 
 import { FormArray    } from '@angular/forms';
@@ -8,6 +9,7 @@ import { FormBuilder, } from '@angular/forms';
 import { FormControl, } from '@angular/forms';
 import { FormGroup,   } from '@angular/forms';
 import { Validators   } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { AudienceViewModel } from './audience.view-model';
 
@@ -21,14 +23,16 @@ type AudienceFormScheme = {
   selector: 'app-audience',
   templateUrl: './audience.component.html',
 })
-export class AudienceComponent implements OnInit {
-  private readonly okValue: EventEmitter<void>;
+export class AudienceComponent implements OnInit, OnDestroy {
+  private readonly subscription: Subscription;
+  private readonly okValue     : EventEmitter<void>;
 
   private audienceValue: undefined | AudienceViewModel;
   private formValue    : undefined | FormGroup<AudienceFormScheme>;
 
   public constructor(private readonly fb: FormBuilder) {
-    this.okValue = new EventEmitter<void>();
+    this.subscription = new Subscription();
+    this.okValue      = new EventEmitter<void>();
   }
 
   @Output()
@@ -47,6 +51,10 @@ export class AudienceComponent implements OnInit {
       this.audience.displayName  = value.displayName ?? '';
       this.audience.description  = value.description ?? '';
     });
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   public get audience(): AudienceViewModel {
