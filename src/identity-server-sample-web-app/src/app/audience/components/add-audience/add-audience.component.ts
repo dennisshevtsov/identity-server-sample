@@ -8,7 +8,7 @@ import { AddAudienceViewModel } from './add-audience.view-model';
 
 @Component({
   templateUrl: './add-audience.component.html',
-  providers: [AddAudienceComponent]
+  providers: [AddAudienceViewModel]
 })
 export class AddAudienceComponent implements OnDestroy {
   private readonly sub: Subscription;
