@@ -5,6 +5,7 @@ import { UserManager } from 'oidc-client';
 
 import { from       } from 'rxjs';
 import { Observable } from 'rxjs';
+import { of         } from 'rxjs';
 import { switchMap  } from 'rxjs';
 
 import { GetAudiencesResponseDto } from '../dtos';
@@ -30,5 +31,9 @@ export class AudienceService {
 
       return this.http.get<GetAudiencesResponseDto>(url, options);
     }));
+  }
+
+  public addAudience(): Observable<void> {
+    return of(void 0);
   }
 }
