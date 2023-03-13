@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { of         } from 'rxjs';
 import { switchMap  } from 'rxjs';
 
+import { AddAudienceRequestDto   } from '../dtos';
 import { GetAudiencesResponseDto } from '../dtos';
 
 @Injectable({
@@ -33,7 +34,7 @@ export class AudienceService {
     }));
   }
 
-  public addAudience(): Observable<void> {
+  public addAudience(requestDto: AddAudienceRequestDto): Observable<void> {
     return of(void 0);
   }
 }
