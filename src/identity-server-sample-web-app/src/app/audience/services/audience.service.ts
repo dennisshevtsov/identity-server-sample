@@ -5,7 +5,6 @@ import { UserManager } from 'oidc-client';
 
 import { from       } from 'rxjs';
 import { Observable } from 'rxjs';
-import { of         } from 'rxjs';
 import { switchMap  } from 'rxjs';
 
 import { AddAudienceRequestDto   } from '../dtos';
@@ -35,6 +34,17 @@ export class AudienceService {
   }
 
   public addAudience(requestDto: AddAudienceRequestDto): Observable<void> {
-    return of(void 0);
+    return from(this.um.getUser()).pipe(switchMap(user => {
+      const url = 'api/audience';
+      const body = JSON.stringify(requestDto);
+      const options = {
+        headers: {
+          'Content-Type' : 'application/json',
+          'Authorization': `Bearer ${user?.access_token}`,
+        },
+      };
+
+      return this.http.post<void>(url, body, options);
+    }));
   }
 }
