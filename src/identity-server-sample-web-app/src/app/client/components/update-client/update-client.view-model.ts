@@ -22,12 +22,14 @@ export class UpdateClientViewModel {
   public initialize(): Observable<void> {
     const requestDto = new GetClientRequestDto(this.client.clientName);
     const fillClient = (responseDto: GetClientResponseDto) => {
-      this.client.displayName      = responseDto.displayName;
-      this.client.description      = responseDto.description;
-      this.client.scopes           = [...responseDto.scopes          ];
-      this.client.redirectUris     = [...responseDto.redirectUris    ];
-      this.client.postRedirectUris = [...responseDto.postRedirectUris];
-      this.client.corsOrigins      = [...responseDto.corsOrigins     ];
+      this.clientValue = new ClientViewModel(
+        responseDto.clientName,
+        responseDto.displayName,
+        responseDto.description,
+        [...responseDto.scopes],
+        [...responseDto.redirectUris],
+        [...responseDto.postRedirectUris],
+        [...responseDto.corsOrigins]);
     }
 
     return this.service.getClient(requestDto)
