@@ -6,9 +6,11 @@ import { UserManager } from 'oidc-client';
 import { from       } from 'rxjs';
 import { Observable } from 'rxjs';
 import { switchMap  } from 'rxjs';
-import { AddClientRequestDto } from '../dtos/add-client-request.dto';
 
-import { GetClientsResponseDto } from '../dtos/get-clients-response.dto';
+import { AddClientRequestDto   } from '../dtos';
+import { GetClientRequestDto   } from '../dtos';
+import { GetClientResponseDto  } from '../dtos';
+import { GetClientsResponseDto } from '../dtos';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +32,20 @@ export class ClientService {
       };
 
       return this.http.get<GetClientsResponseDto>(url, options);
+    }));
+  }
+
+  public getClient(requestDto: GetClientRequestDto): Observable<GetClientResponseDto> {
+    return from(this.um.getUser()).pipe(switchMap(user => {
+      const url = `api/client/${requestDto.clientName}`;
+      const options = {
+        headers: {
+          'Content-Type' : 'application/json',
+          'Authorization': `Bearer ${user?.access_token}`,
+        },
+      };
+
+      return this.http.get<GetClientResponseDto>(url, options);
     }));
   }
 
