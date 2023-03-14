@@ -5,6 +5,7 @@ import { Routes       } from '@angular/router';
 
 import { AddClientComponent     } from './components';
 import { SearchClientsComponent } from './components';
+import { UpdateClientComponent  } from './components';
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'new',
     component: AddClientComponent,
+  },
+  {
+    path: ':clientName',
+    component: UpdateClientComponent,
   },
 ];
 

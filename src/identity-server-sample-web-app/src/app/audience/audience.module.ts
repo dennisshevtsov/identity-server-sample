@@ -8,7 +8,6 @@ import { SearchAudiencesComponent } from './components';
 import { AudienceRoutingModule } from './audience-routing.module';
 import { AddAudienceComponent } from './components/add-audience/add-audience.component';
 
-
 @NgModule({
   declarations: [
     AudienceComponent,

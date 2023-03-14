@@ -11,7 +11,6 @@ import { environment         } from '../environments/environment';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    HttpClientModule,
 
     AuthorizationModule.forRoot(
       environment.identityApiUrl,

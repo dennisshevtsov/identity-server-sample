@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AddClientComponent     } from './components';
 import { ClientComponent        } from './components';
 import { SearchClientsComponent } from './components';
+import { UpdateClientComponent  } from './components';
 
 import { ClientRoutingModule } from './client-routing.module';
 
@@ -13,6 +14,7 @@ import { ClientRoutingModule } from './client-routing.module';
     AddClientComponent,
     ClientComponent,
     SearchClientsComponent,
+    UpdateClientComponent,
   ],
   imports: [
     CommonModule,

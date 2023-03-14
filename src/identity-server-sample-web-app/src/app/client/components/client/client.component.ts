@@ -43,6 +43,15 @@ export class ClientComponent implements OnInit {
   @Input()
   public set client(value: ClientViewModel) {
     this.clientValue = value;
+    this.form.setValue({
+      clientName      : value.clientName,
+      displayName     : value.displayName,
+      description     : value.description,
+      scopes          : value.scopes,
+      redirectUris    : value.redirectUris,
+      postRedirectUris: value.postRedirectUris,
+      corsOrigins     : value.corsOrigins,
+    });
   }
 
   @Output()

@@ -1,50 +1,39 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { UserManager } from 'oidc-client';
-
-import { from       } from 'rxjs';
 import { Observable } from 'rxjs';
-import { switchMap  } from 'rxjs';
-import { AddClientRequestDto } from '../dtos/add-client-request.dto';
 
-import { GetClientsResponseDto } from '../dtos/get-clients-response.dto';
+import { AddClientRequestDto    } from '../dtos';
+import { GetClientRequestDto    } from '../dtos';
+import { GetClientResponseDto   } from '../dtos';
+import { GetClientsResponseDto  } from '../dtos';
+import { UpdateClientRequestDto } from '../dtos';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientService {
-  public constructor(
-    private readonly um  : UserManager,
-    private readonly http: HttpClient,
-  ) { }
+  public constructor(private readonly http: HttpClient) {}
 
   public getClients(): Observable<GetClientsResponseDto> {
-    return from(this.um.getUser()).pipe(switchMap(user => {
-      const url = 'api/client';
-      const options = {
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization': `Bearer ${user?.access_token}`,
-        },
-      };
+    return this.http.get<GetClientsResponseDto>('api/client');
+  }
 
-      return this.http.get<GetClientsResponseDto>(url, options);
-    }));
+  public getClient(requestDto: GetClientRequestDto): Observable<GetClientResponseDto> {
+    return this.http.get<GetClientResponseDto>(`api/client/${requestDto.clientName}`);
   }
 
   public addClient(requestDto: AddClientRequestDto): Observable<void> {
-    return from(this.um.getUser()).pipe(switchMap(user => {
-      const url = 'api/client';
-      const body = JSON.stringify(requestDto);
-      const options = {
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization': `Bearer ${user?.access_token}`,
-        },
-      };
+    const url = 'api/client';
+    const body = JSON.stringify(requestDto);
 
-      return this.http.post<void>(url, body, options);
-    }));
+    return this.http.post<void>(url, body);
+  }
+
+  public updateClient(requestDto: UpdateClientRequestDto): Observable<void> {
+    const url = `api/client/${requestDto.clientName}`;
+    const body = JSON.stringify(requestDto);
+
+    return this.http.put<void>(url, body);
   }
 }
