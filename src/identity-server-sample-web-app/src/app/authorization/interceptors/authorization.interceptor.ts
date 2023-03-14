@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 import { switchMap  } from 'rxjs';
 
 @Injectable()
-export class ClientInterceptor implements HttpInterceptor {
+export class AuthorizationInterceptor implements HttpInterceptor {
   public constructor(private readonly um : UserManager) { }
 
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

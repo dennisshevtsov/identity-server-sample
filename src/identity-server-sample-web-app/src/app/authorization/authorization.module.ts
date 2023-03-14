@@ -1,12 +1,14 @@
 import { ModuleWithProviders } from '@angular/core';
 import { NgModule            } from '@angular/core';
-import { CommonModule        } from '@angular/common';
+
+import { CommonModule      } from '@angular/common';
+import { HttpClientModule  } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { UserManager } from 'oidc-client';
 
 import { AuthorizationRoutingModule } from './authorization-routing.module';
-import { HttpClientModule } from '@angular/common/http';
-import { HTTP_INTERCEPTOR_PROVIDER } from '../client/interceptors';
+import { AuthorizationInterceptor   } from './interceptors';
 
 @NgModule({
   declarations: [],
@@ -23,7 +25,11 @@ export class AuthorizationModule {
     return {
       ngModule: AuthorizationModule,
       providers: [
-        HTTP_INTERCEPTOR_PROVIDER,
+        {
+          provide : HTTP_INTERCEPTORS,
+          useClass: AuthorizationInterceptor,
+          multi   : true,
+        },
         {
           provide: UserManager,
           useFactory: () => new UserManager({
