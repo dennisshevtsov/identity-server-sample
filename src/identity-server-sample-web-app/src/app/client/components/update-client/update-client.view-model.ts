@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { map        } from 'rxjs';
 import { Observable } from 'rxjs';
-import { of         } from 'rxjs';
 
-import { ClientViewModel      } from '../client';
-import { ClientService        } from '../../services';
-import { GetClientRequestDto  } from '../../dtos';
-import { GetClientResponseDto } from '../../dtos';
+import { ClientViewModel } from '../client';
+import { ClientService   } from '../../services';
+
+import { GetClientRequestDto    } from '../../dtos';
+import { GetClientResponseDto   } from '../../dtos';
+import { UpdateClientRequestDto } from '../../dtos';
 
 @Injectable()
 export class UpdateClientViewModel {
@@ -37,6 +38,15 @@ export class UpdateClientViewModel {
   }
 
   public update(): Observable<void> {
-    return of(void 0);
+    var requestDto = new UpdateClientRequestDto(
+      this.client.clientName,
+      this.client.displayName,
+      this.client.description,
+      [...this.client.scopes],
+      [...this.client.redirectUris],
+      [...this.client.postRedirectUris],
+      [...this.client.corsOrigins]);
+
+    return this.service.updateClient(requestDto);
   }
 }
