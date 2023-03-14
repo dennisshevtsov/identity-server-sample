@@ -16,6 +16,10 @@ export class UpdateClientViewModel {
     return this.clientValue ?? (this.clientValue = new ClientViewModel());
   }
 
+  public initialize(): Observable<void> {
+    return of(void 0);
+  }
+
   public update(): Observable<void> {
     return of(void 0);
   }
