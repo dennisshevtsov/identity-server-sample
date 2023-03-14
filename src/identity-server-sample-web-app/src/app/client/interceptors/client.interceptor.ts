@@ -4,6 +4,8 @@ import { HttpHeaders     } from '@angular/common/http';
 import { HttpInterceptor } from '@angular/common/http';
 import { HttpRequest     } from '@angular/common/http';
 
+import { Injectable } from '@angular/core';
+
 import { User        } from 'oidc-client';
 import { UserManager } from 'oidc-client';
 
@@ -11,6 +13,7 @@ import { from       } from 'rxjs';
 import { Observable } from 'rxjs';
 import { switchMap  } from 'rxjs';
 
+@Injectable()
 export class ClientInterceptor implements HttpInterceptor {
   public constructor(private readonly um : UserManager) { }
 
@@ -27,6 +30,7 @@ export class ClientInterceptor implements HttpInterceptor {
 
       return next.handle(req);
     };
+
     return from(this.um.getUser()).pipe(switchMap(addBearerToken));
   }
 }

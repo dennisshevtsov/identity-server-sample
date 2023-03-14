@@ -23,17 +23,7 @@ export class ClientService {
   ) { }
 
   public getClients(): Observable<GetClientsResponseDto> {
-    return from(this.um.getUser()).pipe(switchMap(user => {
-      const url = 'api/client';
-      const options = {
-        headers: {
-          'Content-Type' : 'application/json',
-          'Authorization': `Bearer ${user?.access_token}`,
-        },
-      };
-
-      return this.http.get<GetClientsResponseDto>(url, options);
-    }));
+    return this.http.get<GetClientsResponseDto>('api/client');
   }
 
   public getClient(requestDto: GetClientRequestDto): Observable<GetClientResponseDto> {

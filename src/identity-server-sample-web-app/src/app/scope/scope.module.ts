@@ -1,5 +1,6 @@
 import { NgModule            } from '@angular/core';
 import { CommonModule        } from '@angular/common';
+import { HttpClientModule    } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { SearchScopesComponent } from './componets';
@@ -16,6 +17,7 @@ import { ScopeRoutingModule } from './scope-routing.module';
   ],
   imports: [
     CommonModule,
+    HttpClientModule,
     ReactiveFormsModule,
     ScopeRoutingModule,
   ],
