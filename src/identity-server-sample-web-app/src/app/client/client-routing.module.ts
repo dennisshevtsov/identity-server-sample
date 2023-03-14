@@ -17,7 +17,7 @@ const routes: Routes = [
     component: AddClientComponent,
   },
   {
-    path: '{clientName}',
+    path: ':clientName',
     component: UpdateClientComponent,
   },
 ];
