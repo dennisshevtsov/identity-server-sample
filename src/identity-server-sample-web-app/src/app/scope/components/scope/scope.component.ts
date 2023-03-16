@@ -40,6 +40,10 @@ export class ScopeComponent implements OnInit {
   @Input()
   public set scope(value: ScopeViewModel) {
     this.scopeValue = value;
+    this.form.setValue({
+      scopeName  : value.scopeName,
+      displayName: value.displayName,
+    });
   }
 
   @Output()
