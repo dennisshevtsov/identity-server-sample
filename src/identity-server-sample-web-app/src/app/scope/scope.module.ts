@@ -2,12 +2,12 @@ import { NgModule            } from '@angular/core';
 import { CommonModule        } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { SearchScopesComponent } from './components';
 import { AddScopeComponent     } from './components';
 import { ScopeComponent        } from './components';
+import { SearchScopesComponent } from './components';
+import { UpdateScopeComponent  } from './components';
 
 import { ScopeRoutingModule } from './scope-routing.module';
-import { UpdateScopeComponent } from './components/update-scope/update-scope.component';
 
 @NgModule({
   declarations: [
@@ -22,4 +22,4 @@ import { UpdateScopeComponent } from './components/update-scope/update-scope.com
     ScopeRoutingModule,
   ],
 })
-export class ScopeModule { }
+export class ScopeModule {}
