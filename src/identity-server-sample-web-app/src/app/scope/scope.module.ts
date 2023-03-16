@@ -2,9 +2,9 @@ import { NgModule            } from '@angular/core';
 import { CommonModule        } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { SearchScopesComponent } from './componets';
-import { AddScopeComponent     } from './componets';
-import { ScopeComponent        } from './componets';
+import { SearchScopesComponent } from './components';
+import { AddScopeComponent     } from './components';
+import { ScopeComponent        } from './components';
 
 import { ScopeRoutingModule } from './scope-routing.module';
 import { UpdateScopeComponent } from './components/update-scope/update-scope.component';

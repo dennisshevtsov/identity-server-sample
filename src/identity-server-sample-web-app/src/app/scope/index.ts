@@ -1,2 +1,2 @@
-export * from './componets';
+export * from './components';
 export * from './scope.module';
