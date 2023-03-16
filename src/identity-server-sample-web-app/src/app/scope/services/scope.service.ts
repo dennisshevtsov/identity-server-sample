@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AddScopeRequestDto   } from '../dtos';
+import { GetScopeResponseDto  } from '../dtos';
 import { GetScopesResponseDto } from '../dtos';
 
 @Injectable({
@@ -21,5 +22,9 @@ export class ScopeService {
 
   public getScopes(): Observable<GetScopesResponseDto> {
     return this.http.get<GetScopesResponseDto>('api/scope');
+  }
+
+  public getScope(scopeName: string) : Observable<GetScopeResponseDto> {
+    return this.http.get<GetScopeResponseDto>(`api/scope/${scopeName}`);
   }
 }
