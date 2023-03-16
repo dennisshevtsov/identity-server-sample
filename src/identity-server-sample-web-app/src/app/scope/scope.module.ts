@@ -7,12 +7,14 @@ import { AddScopeComponent     } from './componets';
 import { ScopeComponent        } from './componets';
 
 import { ScopeRoutingModule } from './scope-routing.module';
+import { UpdateScopeComponent } from './components/update-scope/update-scope.component';
 
 @NgModule({
   declarations: [
     SearchScopesComponent,
     AddScopeComponent,
     ScopeComponent,
+    UpdateScopeComponent,
   ],
   imports: [
     CommonModule,
