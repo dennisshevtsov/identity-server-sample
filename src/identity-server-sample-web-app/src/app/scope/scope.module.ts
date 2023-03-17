@@ -2,9 +2,10 @@ import { NgModule            } from '@angular/core';
 import { CommonModule        } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { SearchScopesComponent } from './componets';
-import { AddScopeComponent     } from './componets';
-import { ScopeComponent        } from './componets';
+import { AddScopeComponent     } from './components';
+import { ScopeComponent        } from './components';
+import { SearchScopesComponent } from './components';
+import { UpdateScopeComponent  } from './components';
 
 import { ScopeRoutingModule } from './scope-routing.module';
 
@@ -13,6 +14,7 @@ import { ScopeRoutingModule } from './scope-routing.module';
     SearchScopesComponent,
     AddScopeComponent,
     ScopeComponent,
+    UpdateScopeComponent,
   ],
   imports: [
     CommonModule,
@@ -20,4 +22,4 @@ import { ScopeRoutingModule } from './scope-routing.module';
     ScopeRoutingModule,
   ],
 })
-export class ScopeModule { }
+export class ScopeModule {}
