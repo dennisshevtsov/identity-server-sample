@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AddAudienceRequestDto   } from '../dtos';
+import { GetAudienceResponseDto  } from '../dtos';
 import { GetAudiencesResponseDto } from '../dtos';
 
 @Injectable({
@@ -13,9 +14,11 @@ export class AudienceService {
   public constructor(private readonly http: HttpClient) {}
 
   public getAudiences(): Observable<GetAudiencesResponseDto> {
-    const url = 'api/audience';
+    return this.http.get<GetAudiencesResponseDto>('api/audience');
+  }
 
-    return this.http.get<GetAudiencesResponseDto>(url);
+  public getAudience(audienceName: string): Observable<GetAudienceResponseDto> {
+    return this.http.get<GetAudienceResponseDto>(`api/audience/${audienceName}`);
   }
 
   public addAudience(requestDto: AddAudienceRequestDto): Observable<void> {

@@ -1,4 +1,4 @@
-export class GetAudienceRequestDto {
+export class GetAudienceResponseDto {
   public constructor(
     public readonly audienceName: string,
     public readonly displayName : string,
