@@ -47,7 +47,7 @@ export class AudienceComponent implements OnInit, OnDestroy {
     this.audienceValue = value;
     this.form.setValue({
       audienceName: value.audienceName,
-      displayName : value.description,
+      displayName : value.displayName,
       description : value.description,
       scopes      : [...value.scopes],
     });
