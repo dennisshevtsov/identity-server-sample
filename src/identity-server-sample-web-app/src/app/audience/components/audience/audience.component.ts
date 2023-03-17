@@ -1,4 +1,5 @@
-import { Component, OnDestroy    } from '@angular/core';
+import { Component    } from '@angular/core';
+import { OnDestroy    } from '@angular/core';
 import { EventEmitter } from '@angular/core';
 import { Input        } from '@angular/core';
 import { OnInit       } from '@angular/core';
@@ -9,6 +10,7 @@ import { FormBuilder, } from '@angular/forms';
 import { FormControl, } from '@angular/forms';
 import { FormGroup,   } from '@angular/forms';
 import { Validators   } from '@angular/forms';
+
 import { Subscription } from 'rxjs';
 
 import { AudienceViewModel } from './audience.view-model';
@@ -43,6 +45,12 @@ export class AudienceComponent implements OnInit, OnDestroy {
   @Input()
   public set audience(value: AudienceViewModel) {
     this.audienceValue = value;
+    this.form.setValue({
+      audienceName: value.audienceName,
+      displayName : value.description,
+      description : value.description,
+      scopes      : [...value.scopes],
+    });
   }
 
   public ngOnInit(): void {
