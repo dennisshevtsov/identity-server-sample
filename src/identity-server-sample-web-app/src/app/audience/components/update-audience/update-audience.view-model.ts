@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import { map, Observable } from 'rxjs';
+import { map        } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { UpdateAudienceRequestDto } from '../../dtos';
 import { AudienceService          } from '../../services';
@@ -14,6 +15,12 @@ export class UpdateAudienceViewModel {
 
   public get audience(): AudienceViewModel {
     return this.audienceValue ?? (this.audienceValue = new AudienceViewModel());
+  }
+
+  public setAudienceName(audienceName: string): UpdateAudienceViewModel {
+    this.audience.audienceName = audienceName;
+
+    return this;
   }
 
   public initialize(): Observable<void> {
