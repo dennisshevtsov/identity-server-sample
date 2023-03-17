@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { AddAudienceRequestDto   } from '../dtos';
-import { GetAudienceResponseDto  } from '../dtos';
-import { GetAudiencesResponseDto } from '../dtos';
+import { AddAudienceRequestDto    } from '../dtos';
+import { GetAudienceResponseDto   } from '../dtos';
+import { GetAudiencesResponseDto  } from '../dtos';
+import { UpdateAudienceRequestDto } from '../dtos';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,12 @@ export class AudienceService {
     const body = JSON.stringify(requestDto);
 
     return this.http.post<void>(url, body);
+  }
+
+  public updateAudience(requestDto: UpdateAudienceRequestDto): Observable<void> {
+    const url = 'api/audience';
+    const body = JSON.stringify(requestDto);
+
+    return this.http.put<void>(url, body);
   }
 }
