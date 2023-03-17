@@ -7,12 +7,14 @@ import { SearchAudiencesComponent } from './components';
 
 import { AudienceRoutingModule } from './audience-routing.module';
 import { AddAudienceComponent } from './components/add-audience/add-audience.component';
+import { UpdateAudienceComponent } from './components/update-audience/update-audience.component';
 
 @NgModule({
   declarations: [
     AudienceComponent,
     SearchAudiencesComponent,
     AddAudienceComponent,
+    UpdateAudienceComponent,
   ],
   imports: [
     CommonModule,
