@@ -2,18 +2,18 @@ import { NgModule            } from '@angular/core';
 import { CommonModule        } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
+import { AddAudienceComponent     } from './components';
 import { AudienceComponent        } from './components';
 import { SearchAudiencesComponent } from './components';
+import { UpdateAudienceComponent  } from './components';
 
 import { AudienceRoutingModule } from './audience-routing.module';
-import { AddAudienceComponent } from './components/add-audience/add-audience.component';
-import { UpdateAudienceComponent } from './components/update-audience/update-audience.component';
 
 @NgModule({
   declarations: [
+    AddAudienceComponent,
     AudienceComponent,
     SearchAudiencesComponent,
-    AddAudienceComponent,
     UpdateAudienceComponent,
   ],
   imports: [
@@ -22,4 +22,4 @@ import { UpdateAudienceComponent } from './components/update-audience/update-aud
     AudienceRoutingModule,
   ],
 })
-export class AudienceModule { }
+export class AudienceModule {}
