@@ -33,9 +33,9 @@
       <label for="txtDescription">Description</label>
     </div>
 
-    <div class="app-form__control-wrapper">
-      <div class="app-form__control-group"
-          *ngFor="let scope of this.form.controls.scopes.controls; let i = index">
+    <div class="app-form__control-wrapper"
+    *ngFor="let scope of this.form.controls.scopes.controls; let i = index">
+      <div class="app-form__control-group">
         <input formControlName="scope"
                [id]="'txtScope' + i"
                class="app-form__control"
