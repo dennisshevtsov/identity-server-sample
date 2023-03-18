@@ -36,7 +36,7 @@
     <div class="app-form__control-wrapper"
          *ngFor="let scope of this.form.controls.scopes.controls; let i = index">
       <div class="app-form__control-group">
-        <input formControlName="scope"
+        <input [formControl]="scope"
                [id]="'txtScope' + i"
                class="app-form__control"
                type="url"

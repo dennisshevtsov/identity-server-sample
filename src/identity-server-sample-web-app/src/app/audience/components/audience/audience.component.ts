@@ -58,6 +58,7 @@ export class AudienceComponent implements OnInit, OnDestroy {
       this.audience.audienceName = value.audienceName ?? '';
       this.audience.displayName  = value.displayName ?? '';
       this.audience.description  = value.description ?? '';
+      this.audience.scopes       = (value.scopes ?? []).map(scope => scope!);
     });
   }
 
