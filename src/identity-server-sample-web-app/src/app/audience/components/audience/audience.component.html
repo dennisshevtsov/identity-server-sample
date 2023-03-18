@@ -44,7 +44,10 @@
         <label [for]="'txtScope' + i">Scope #{{i}}</label>
       </div>
       <span class="app-form__control-action">
-        <button type="button" class="app-form__delete" aria-label="Close"></button>
+        <button class="app-form__delete"
+                type="button"
+                aria-label="Close"
+                (click)="deleteScope(i)"></button>
       </span>
     </div>
 

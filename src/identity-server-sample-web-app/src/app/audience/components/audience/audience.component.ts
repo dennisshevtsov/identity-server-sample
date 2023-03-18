@@ -77,6 +77,10 @@ export class AudienceComponent implements OnInit, OnDestroy {
     this.form.controls.scopes.push(this.fb.control(''));
   }
 
+  public deleteScope(i: number): void {
+    this.form.controls.scopes.removeAt(i);
+  }
+
   public hasErrors(controlName: string): boolean {
     const control = this.form.get(controlName);
 
