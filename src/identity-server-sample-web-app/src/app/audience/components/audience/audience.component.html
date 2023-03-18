@@ -34,7 +34,7 @@
     </div>
 
     <div class="app-form__control-wrapper"
-    *ngFor="let scope of this.form.controls.scopes.controls; let i = index">
+         *ngFor="let scope of this.form.controls.scopes.controls; let i = index">
       <div class="app-form__control-group">
         <input formControlName="scope"
                [id]="'txtScope' + i"
@@ -43,7 +43,8 @@
                placeholder="">
         <label [for]="'txtScope' + i">Scope #{{i}}</label>
       </div>
-      <span class="app-form__control-action">
+      <span class="app-form__control-action"
+            *ngIf="i > 0">
         <button class="app-form__delete"
                 type="button"
                 aria-label="Close"
