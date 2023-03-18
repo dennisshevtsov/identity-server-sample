@@ -25,6 +25,22 @@ namespace IdentityServerSample.Infrastructure.Repositories
       _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
     }
 
+    /// <summary>Adds scopes for an audience.</summary>
+    /// <param name="audienceScopeEntityCollection">An object that represents a collection of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceScopeEntity"/>.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public async Task AddAudienceScopesAsync(List<AudienceScopeEntity> audienceScopeEntityCollection, CancellationToken cancellationToken)
+    {
+      _dbContext.AddRange(audienceScopeEntityCollection);
+
+      await _dbContext.SaveChangesAsync(cancellationToken);
+
+      foreach (var audienceScopeEntity in audienceScopeEntityCollection)
+      {
+        _dbContext.Entry(audienceScopeEntity).State = EntityState.Detached;
+      }
+    }
+
     /// <summary>Gets a collection of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceScopeEntity"/> for the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceEntity"/>.</summary>
     /// <param name="identity">An object that represents an identity of an audience.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
