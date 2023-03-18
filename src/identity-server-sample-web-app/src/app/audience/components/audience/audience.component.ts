@@ -73,6 +73,10 @@ export class AudienceComponent implements OnInit, OnDestroy {
     return this.formValue ?? (this.formValue = this.buildForm());
   }
 
+  public addScope(): void {
+    this.form.controls.scopes.push(this.fb.control(''));
+  }
+
   public hasErrors(controlName: string): boolean {
     const control = this.form.get(controlName);
 
