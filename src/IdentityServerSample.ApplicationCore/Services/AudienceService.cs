@@ -122,11 +122,15 @@ namespace IdentityServerSample.ApplicationCore.Services
     /// <param name="requestDto">An object that represents data to add new audience.</param>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation.</returns>
-    public Task AddAudienceAsync(AddAudienceRequestDto requestDto, CancellationToken cancellationToken)
+    public async Task AddAudienceAsync(AddAudienceRequestDto requestDto, CancellationToken cancellationToken)
     {
       var audienceEntity = _mapper.Map<AudienceEntity>(requestDto);
 
-      return _audienceRepository.AddAudienceAsync(audienceEntity, cancellationToken);
+      await _audienceRepository.AddAudienceAsync(audienceEntity, cancellationToken);
+
+      var audienceScopeEntityCollection = _mapper.Map<List<AudienceScopeEntity>>(requestDto);
+
+      await _audienceScopeService.AddAudienceScopesAsync(audienceScopeEntityCollection, cancellationToken);
     }
 
     private static void AddScopes(
