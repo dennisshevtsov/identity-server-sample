@@ -96,7 +96,7 @@ export class AudienceComponent implements OnInit, OnDestroy {
       audienceName: this.fb.control('', [Validators.required]),
       displayName : this.fb.control(''),
       description : this.fb.control(''),
-      scopes      : this.fb.array(new Array<string>()),
+      scopes      : this.fb.array(['']),
     });
   }
 }

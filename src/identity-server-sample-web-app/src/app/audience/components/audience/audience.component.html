@@ -33,6 +33,16 @@
       <label for="txtDescription">Description</label>
     </div>
 
+    <div class="app-form__control-group"
+         *ngFor="let scope of this.form.controls.scopes.controls; let i = index">
+      <input formControlName="scope"
+             [id]="'txtScope' + i"
+             class="app-form__control"
+             type="url"
+             placeholder="">
+      <label [for]="'txtScope' + i">Scope #{{i}}</label>
+    </div>
+
     <div class="app-form__button-group button-group">
       <button class="button-group__ok"
               type="button"
