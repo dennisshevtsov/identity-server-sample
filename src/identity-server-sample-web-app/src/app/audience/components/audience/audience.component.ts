@@ -58,6 +58,7 @@ export class AudienceComponent implements OnInit, OnDestroy {
       this.audience.audienceName = value.audienceName ?? '';
       this.audience.displayName  = value.displayName ?? '';
       this.audience.description  = value.description ?? '';
+      this.audience.scopes       = (value.scopes ?? []).map(scope => scope!);
     });
   }
 
@@ -71,6 +72,14 @@ export class AudienceComponent implements OnInit, OnDestroy {
 
   public get form(): FormGroup<AudienceFormScheme> {
     return this.formValue ?? (this.formValue = this.buildForm());
+  }
+
+  public addScope(): void {
+    this.form.controls.scopes.push(this.fb.control(''));
+  }
+
+  public deleteScope(i: number): void {
+    this.form.controls.scopes.removeAt(i);
   }
 
   public hasErrors(controlName: string): boolean {
@@ -96,7 +105,7 @@ export class AudienceComponent implements OnInit, OnDestroy {
       audienceName: this.fb.control('', [Validators.required]),
       displayName : this.fb.control(''),
       description : this.fb.control(''),
-      scopes      : this.fb.array(new Array<string>()),
+      scopes      : this.fb.array(['']),
     });
   }
 }

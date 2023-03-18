@@ -33,7 +33,29 @@
       <label for="txtDescription">Description</label>
     </div>
 
+    <div class="app-form__control-wrapper"
+         *ngFor="let scope of this.form.controls.scopes.controls; let i = index">
+      <div class="app-form__control-group">
+        <input [formControl]="scope"
+               [id]="'txtScope' + i"
+               class="app-form__control"
+               type="url"
+               placeholder="">
+        <label [for]="'txtScope' + i">Scope #{{i}}</label>
+      </div>
+      <span class="app-form__control-action"
+            *ngIf="i > 0">
+        <button class="app-form__delete"
+                type="button"
+                aria-label="Close"
+                (click)="deleteScope(i)"></button>
+      </span>
+    </div>
+
     <div class="app-form__button-group button-group">
+      <button class="button-group__action"
+              type="button"
+              (click)="addScope()"><span>New Scope</span></button>
       <button class="button-group__ok"
               type="button"
               (click)="save()"><span>Ok</span></button>

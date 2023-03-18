@@ -35,6 +35,25 @@ namespace IdentityServerSample.ApplicationCore.Mapping
     private static void ConfigureAddAudienceMapping(IProfileExpression expression)
     {
       expression.CreateMap<AddAudienceRequestDto, AudienceEntity>();
+      expression.CreateMap<AddAudienceRequestDto, List<AudienceScopeEntity>>()
+                .ConstructUsing((requestDto, context) =>
+                {
+                  var audienceScopeEntityCollection = new List<AudienceScopeEntity>();
+
+                  if (requestDto.Scopes != null)
+                  {
+                    foreach (var scopeName in requestDto.Scopes)
+                    {
+                      audienceScopeEntityCollection.Add(new AudienceScopeEntity
+                      {
+                        AudienceName = requestDto.AudienceName,
+                        ScopeName = scopeName,
+                      });
+                    }
+                  }
+
+                  return audienceScopeEntityCollection;
+                });
     }
   }
 }

@@ -21,6 +21,13 @@ namespace IdentityServerSample.ApplicationCore.Services
         throw new ArgumentNullException(nameof(audienceScopeRepository));
     }
 
+    /// <summary>Adds scopes for an audience.</summary>
+    /// <param name="audienceScopeEntityCollection">An object that represents a collection of the <see cref="IdentityServerSample.ApplicationCore.Entities.AudienceScopeEntity"/>.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public Task AddAudienceScopesAsync(List<AudienceScopeEntity> audienceScopeEntityCollection, CancellationToken cancellationToken)
+      => _audienceScopeRepository.AddAudienceScopesAsync(audienceScopeEntityCollection, cancellationToken);
+
     /// <summary>Gets a dictionary that contains collections of scope names per an audience name.</summary>
     /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
     /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
@@ -70,6 +77,19 @@ namespace IdentityServerSample.ApplicationCore.Services
           audienceScopeEntityCollection);
 
       return audienceScopeDictionary;
+    }
+
+    /// <summary>Gets a collection of audience scopes.</summary>
+    /// <param name="identity">An object that represents an identity of an audience.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public async Task<List<string>> GetAudienceScopesAsync(
+      IAudienceIdentity identity, CancellationToken cancellationToken)
+    {
+      var audienceScopeEntityCollection =
+        await _audienceScopeRepository.GetAudienceScopesAsync(identity, cancellationToken);
+
+      return audienceScopeEntityCollection.Select(entity => entity.ScopeName!).ToList();
     }
 
     private static void AddAudienceScope(
