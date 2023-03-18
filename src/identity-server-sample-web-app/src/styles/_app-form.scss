@@ -1,7 +1,23 @@
 .app-form {
+  &__control-wrapper {
+    @extend .input-group;
+    @extend .my-3;
+  }
+
+  &__control-action {
+    @extend .input-group-text;
+  }
+
+  &__delete {
+    @extend .btn-close;
+  }
+
   &__control-group {
     @extend .form-floating;
-    @extend .mb-3;
+
+    & + & {
+      @extend .my-3;
+    }
   }
 
   &__control {
