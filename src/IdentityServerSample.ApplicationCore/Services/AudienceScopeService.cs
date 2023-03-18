@@ -79,6 +79,19 @@ namespace IdentityServerSample.ApplicationCore.Services
       return audienceScopeDictionary;
     }
 
+    /// <summary>Gets a collection of audience scopes.</summary>
+    /// <param name="identity">An object that represents an identity of an audience.</param>
+    /// <param name="cancellationToken">An object that propagates notification that operations should be canceled.</param>
+    /// <returns>An object that tepresents an asynchronous operation that produces a result at some time in the future.</returns>
+    public async Task<List<string>> GetAudienceScopesAsync(
+      IAudienceIdentity identity, CancellationToken cancellationToken)
+    {
+      var audienceScopeEntityCollection =
+        await _audienceScopeRepository.GetAudienceScopesAsync(identity, cancellationToken);
+
+      return audienceScopeEntityCollection.Select(entity => entity.ScopeName!).ToList();
+    }
+
     private static void AddAudienceScope(
       Dictionary<string, List<string>> audienceScopeDictionary,
       AudienceScopeEntity audienceScopeEntity)
